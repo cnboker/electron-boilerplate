@@ -27,7 +27,7 @@ function createMainWindow() {
 		height: 400
 	});
 
-	win.loadURL(`file://${__dirname}/index.html`);
+	win.loadURL(`file://${__dirname}/public/index.html`);
 	// Open the DevTools.
 	win.webContents.openDevTools()
 	win.on('closed', onClosed);

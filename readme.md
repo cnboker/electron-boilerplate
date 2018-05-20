@@ -27,3 +27,9 @@ Builds the app for macOS, Linux, and Windows, using [electron-packager](https://
 ## License
 
 MIT © [<%= name %>](<%= website %>)
+
+
+install webpack
+npm install --save-dev webpack webpack-dev-server babel-core babel-loader bebel-preset-env
+
+npm install -g webpack-cli --save-dev
