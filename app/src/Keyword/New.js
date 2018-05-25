@@ -9,12 +9,11 @@ import R from 'ramda'
 class New extends Component {
   constructor(){
     super()
-    console.log('new loading...')
   }
   onCommit(entity) {
     console.log('update entity', entity)
     var action
-    if (this.getId() === 0) {
+    if (this.getId() === 'new') {
       action = actions.create(entity,this.props.client)
     } else {
       action = actions.update(entity,this.props.client)
@@ -25,9 +24,7 @@ class New extends Component {
 
  
   getId() {
-    var id = this.props.match.params.id;
-    if (id === 'new') return 0
-    return parseInt(id,10)
+   return this.props.match.params.id;
   }
 
   getEntity() {
@@ -35,7 +32,7 @@ class New extends Component {
     if (id === 0) {
       return { id: 0, name: ''}
     } else {
-      return R.find(R.propEq('id', id))(this.props.keywords)
+      return R.find(R.propEq('_id', id))(this.props.keywords)
     }
   }
 

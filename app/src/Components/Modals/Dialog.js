@@ -1,6 +1,6 @@
 import React from 'react'
 import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
-
+import './dialog.css'
 /**
  * The modal dialog which can be altenative to `window.confirm` and `window.alert`.
  * @example <Dialog ref='dialog'/>

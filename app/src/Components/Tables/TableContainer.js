@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import '../Cards/card.css'
 
 const TableContainer = (props) => {
   const {

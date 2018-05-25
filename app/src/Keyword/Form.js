@@ -18,6 +18,7 @@ class Form extends Component {
 
   submit(values) {
     var entity = R.mergeAll([this.props.entity, values, this.state])
+    entity.user = 'scott';
     console.log('keywords.form.submit', entity)
     this.props.onCommit(entity)
   }
@@ -34,7 +35,7 @@ class Form extends Component {
         <Field name="engine" type="text" label="搜索引擎" component={renderField} validate={required} />
         <Field name="keyword" type="text" label="关键字" component={renderField} validate={required} />
         <Field name="link" type="text" label="匹配链接" component={renderField} validate={required} />
-        <Field name="page" type="text" label="排名页数" component={renderField} />
+        <Field name="manualPage" type="text" label="排名页数" component={renderField} />
         <button action="submit" className="btn btn-block btn-success">更新</button>
       </form>
     )

@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 exports.list = function (req, res) {
   Keyword.find({
     'user': 'scott'
-  }, function (err, data){
+  }, function (err, data) {
     if (err) {
       res.send(err)
     }
@@ -15,11 +15,19 @@ exports.list = function (req, res) {
 }
 
 exports.create = function (req, res) {
-  var newKeyword = new Keyword(req.body);
+  delete req.body._id;
+  var newKeyword = new Keyword({ ...req.body,
+    createDate: Date.now(),
+    systemPage: 0,
+    dynamicPage: 0,
+    todayPolished: false
+  });
   newKeyword.save(function (err, entity) {
     if (err) {
       res.send(err);
     }
+
+
     res.json(entity);
   });
 }
@@ -34,27 +42,27 @@ exports.read = function (req, res) {
 }
 
 exports.update = function (req, res) {
-    Task.findOneAndUpdate({
-        _id: req.params.id
-      }, req.body, {
-        new: true
-      }, function (err, entity) {
-        if (err) {
-          res.send(err);
-        }
-        res.json(entity);
-      });
+  Keyword.findOneAndUpdate({
+    _id: req.params.id
+  }, req.body, {
+    new: true
+  }, function (err, entity) {
+    if (err) {
+      res.send(err);
     }
+    res.json(entity);
+  });
+}
 
-    exports.delete = function (req, res) {
-      Keyword.remove({
-        _id: req.params.id
-      }, function (err, entity) {
-        if (err) {
-          res.send(err)
-        }
-        res.json({
-          message: 'delete success'
-        });
-      })
+exports.delete = function (req, res) {
+  Keyword.remove({
+    _id: req.params.id
+  }, function (err, entity) {
+    if (err) {
+      res.send(err)
     }
+    res.json({
+      message: 'delete success'
+    });
+  })
+}

@@ -3,9 +3,9 @@ import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
 //import mock from './mocks'
-import {Navbar} from "react-bootstrap"
+import {Navbar,Nav} from "react-bootstrap"
 import Dialog from "../Components/Modals/Dialog"
-import * as moment from "moment"
+import moment from "moment"
 
 class List extends Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ class List extends Component {
 
   onDelete(entity, event) {
     event.preventDefault()
-
+    this.refs.dialog.showAlert('Hello!')
     this
       .refs
       .dialog
@@ -53,22 +53,22 @@ class List extends Component {
       .keywords
       .map(item => {
         return (
-          <tr key={item.id}>
+          <tr key={item._id}>
             <td data-title="搜索引擎">
               {item.engine}
             </td>
             <td data-title="关键字">
-              {item.name}
+              {item.keyword}
             </td>
             <td data-title="匹配链接">{item.link}</td>
             <td data-title="排名页数">{item.page}</td>
 
             <td data-title="上次擦亮时间">
-              {moment(item.createDate).format("YYYY-MM-DD")}
+              {item.createDate==undefined?'':moment(item.createDate).format("YYYY-MM-DD")}
             </td>
 
             <td data-title="操作">
-              <Link to={`/keyword/${item.id}`} role="button" className="btn btn-success">
+              <Link to={`/keyword/${item._id}`} role="button" className="btn btn-success">
                 <i className="fa fa-pencil fa-lg"/>
               </Link>&nbsp;
 
@@ -86,17 +86,15 @@ class List extends Component {
   }
 
   render() {
+    
     return (
       <div className="animated fadeIn">
 
         <Dialog ref="dialog"/>
-        <Navbar>
-          <Link to={"/keyword/new"} role="button" className="btn btn-success">
+        <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
           </Link>
-
-        </Navbar>
-
+          <br/>
         <div className="table-responsive">
           <table className="table table-bordered table-striped">
             <thead>

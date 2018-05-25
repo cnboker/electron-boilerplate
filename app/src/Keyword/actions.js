@@ -4,7 +4,7 @@ import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
 
-var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey)
+var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
 var log = bows("keyword-actions")
 
 let actionCreators = {
@@ -16,7 +16,7 @@ let actionCreators = {
         dispatch(action)
 
         //const url = '/server'
-        const url = `${process.env.REACT_APP_API_URL}api/keyword`
+        const url = `${process.env.REACT_APP_API_URL}/keywords`
         
         const promise = axios(
           {
@@ -47,13 +47,13 @@ let actionCreators = {
   create(entity,client){
     return function(dispatch){
         //const cid = cuid()
-        //svr = r.merge(svr,{id:cid})
+        entity = r.merge(entity,{_id:''})
 
         const optimisticAction = baseActionCreators.createStart(entity)
         dispatch(optimisticAction)
 
         //const url ="/server"
-        const url = `${process.env.REACT_APP_API_URL}/api/keyword`
+        const url = `${process.env.REACT_APP_API_URL}/keywords`
         
         const promise = axios({
           url : url,
@@ -82,13 +82,14 @@ let actionCreators = {
   },
 
   update(entity,client){
+    log('update',entity)
     return function(dispatch){
       const optimisticAction = baseActionCreators.updateStart(entity)
       dispatch(optimisticAction)
 
       //const url = `/server/${entity.id}`
-      const url = `${process.env.REACT_APP_API_URL}/api/keyword/${entity.id}`
-      
+      const url = `${process.env.REACT_APP_API_URL}/keyword/${entity._id}`
+      console.log('url', url)
       const promise = axios({
         url : url,
         method:"put",
@@ -118,7 +119,7 @@ let actionCreators = {
       dispatch(optimisticAction);
 
       //const url = `/server/${svr.id}`;
-      const url = `${process.env.REACT_APP_API_URL}/api/keyword/${entity.id}`
+      const url = `${process.env.REACT_APP_API_URL}/keyword/${entity._id}`
       
       const promise = axios({
         url:url,

@@ -13,7 +13,8 @@ var keywordSckema =new Scheam({
   dynamicPage:Number, //当前页数
   todayPolished:Boolean, //今天数据是否擦亮
   lastPolishedDate:Date, //上次擦亮时间
-  isValid:Boolean, //如果前15页未找到则认为关键字设置无效
+  isValid:Boolean, //如果前15页未找到则认为关键字设置无效,
+  createDate:Date
 });
 
 module.exports = mongoose.model('Keyword', keywordSckema);
