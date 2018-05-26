@@ -1,9 +1,9 @@
-import {default as crudActions} from "./actions"
-import React, {Component} from "react"
-import {Link} from "react-router-dom"
-import {connect} from "react-redux"
+import { default as crudActions } from "./actions"
+import React, { Component } from "react"
+import { Link } from "react-router-dom"
+import { connect } from "react-redux"
 //import mock from './mocks'
-import {Navbar,Nav} from "react-bootstrap"
+import { Navbar, Nav } from "react-bootstrap"
 import Dialog from "../Components/Modals/Dialog"
 import moment from "moment"
 
@@ -64,20 +64,20 @@ class List extends Component {
             <td data-title="排名页数">{item.page}</td>
 
             <td data-title="上次擦亮时间">
-              {item.createDate==undefined?'':moment(item.createDate).format("YYYY-MM-DD")}
+              {item.createDate == undefined ? '' : moment(item.createDate).format("YYYY-MM-DD")}
             </td>
 
             <td data-title="操作">
               <Link to={`/keyword/${item._id}`} role="button" className="btn btn-success">
-                <i className="fa fa-pencil fa-lg"/>
+                <i className="fa fa-pencil fa-lg" />
               </Link>&nbsp;
 
               <button
                 className="btn btn-danger"
                 onClick={this
-                .onDelete
-                .bind(this, item)}>
-                <i className="fa fa-trash"/>
+                  .onDelete
+                  .bind(this, item)}>
+                <i className="fa fa-trash" />
               </button>
             </td>
           </tr>
@@ -86,15 +86,17 @@ class List extends Component {
   }
 
   render() {
-    
+
     return (
       <div className="animated fadeIn">
 
-        <Dialog ref="dialog"/>
-        <Link to={"/keyword/new"} role="button" className="btn btn-success">
+        <Dialog ref="dialog" />
+        <div className="mb-3">
+          <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
           </Link>
-          <br/>
+        </div>
+
         <div className="table-responsive">
           <table className="table table-bordered table-striped">
             <thead>
@@ -104,8 +106,7 @@ class List extends Component {
                 <th>匹配链接</th>
                 <th>排名页数</th>
                 <th>上次擦亮时间</th>
-
-                <th/>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -119,7 +120,7 @@ class List extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {keywords: state.keywords}
+  return { keywords: state.keywords }
 }
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(List)

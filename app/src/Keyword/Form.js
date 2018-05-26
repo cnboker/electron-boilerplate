@@ -1,6 +1,6 @@
 import R from 'ramda'
 import React, { Component } from 'react'
-import { required } from '../../utils/fieldLevelValidation'
+import { required } from '../utils/fieldLevelValidation'
 import { renderField } from '../Components/Forms/RenderField'
 import PropTypes from 'prop-types'
 import { reduxForm, Field } from 'redux-form'

@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux'
 import { reducer as form } from 'redux-form'
-//import signup from './views/Signup/reducer'
-//import client from './views/Client/reducer'
-//import login from './views/Login/reducer'
+import signup from './Signup/reducer'
+import client from './Client/reducer'
+import login from './Login/reducer'
 import keywordReducer from './Keyword/reducer'
 
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
-  //signup,
-  //client,
-  //login,
+  signup,
+  client,
+  login,
   keywords: keywordReducer,
 })
 

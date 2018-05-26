@@ -19,7 +19,7 @@ module.exports = {
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
 				options: {
-					presets: ['env']
+					presets: ['env','react',"stage-2"] //stage-2 用于支持箭头函数
 				}
 			},
 			{
