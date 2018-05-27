@@ -52,7 +52,7 @@ New.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   return {
     keywords: state.keywords,
-    //client:state.client
+    client:state.client
   }
 }
 //state表示reducer, combineReducer包含state和dispatch

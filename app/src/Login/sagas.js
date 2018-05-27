@@ -5,7 +5,7 @@ import { CLIENT_UNSET } from "../Client/constants";
 import { setClient, unsetClient } from "../Client/action";
 import Cookies from "js-cookie";
 
-const url = `${process.env.REACT_APP_AUTH_URL}/api/token`;
+const url = `${process.env.REACT_APP_AUTH_URL}/api/login`;
 const cookieDomain = `${process.env.REACT_APP_COOKIE_DOMAIN}`
 function callApi(action) {
   const { userName, password, returnUrl } = action;

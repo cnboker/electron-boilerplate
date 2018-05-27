@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
   Keyword = mongoose.model('Keyword');
 
 exports.list = function (req, res) {
+  console.log('user name:', req.user);
   Keyword.find({
     'user': 'scott'
   }, function (err, data) {
@@ -27,8 +28,9 @@ exports.create = function (req, res) {
       res.send(err);
     }
 
-
-    res.json(entity);
+    if (entity) {
+      res.json(entity);
+    }
   });
 }
 

@@ -12,18 +12,16 @@ let actionCreators = {
     log("fetch to keyword")
     return function (dispatch, getState) {
         const action = baseActionCreators.fetchStart()
-        log('action', action)
         dispatch(action)
 
-        //const url = '/server'
         const url = `${process.env.REACT_APP_API_URL}/keywords`
-        
+        console.log('client',client);
         const promise = axios(
           {
             url: url,
             method:'get',
             headers: {
-             // Authorization: `bearer ${client.token.access_token}`
+             Authorization: `Bearer ${client.token.access_token}`
             }
           }
         )
@@ -60,7 +58,7 @@ let actionCreators = {
           method:"post",
           data:entity,
           headers: {
-           // Authorization: `bearer ${client.token.access_token}`
+            Authorization: `Bearer ${client.token.access_token}`
           }
         })
 
@@ -95,7 +93,7 @@ let actionCreators = {
         method:"put",
         data : entity,
         headers: {
-         // Authorization: `bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.token.access_token}`
         }
       })
 
@@ -125,7 +123,7 @@ let actionCreators = {
         url:url,
         method:"delete",
         headers: {
-          //Authorization: `bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.token.access_token}`
         }
       })
 
