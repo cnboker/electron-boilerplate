@@ -14,7 +14,8 @@ var keywordSckema =new Scheam({
   todayPolished:Boolean, //今天数据是否擦亮
   lastPolishedDate:Date, //上次擦亮时间
   isValid:Boolean, //如果前15页未找到则认为关键字设置无效,
-  createDate:Date
+  createDate:Date,
+  polishedCount:Number //擦亮次数
 });
 
 module.exports = mongoose.model('Keyword', keywordSckema);

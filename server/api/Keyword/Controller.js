@@ -21,7 +21,8 @@ exports.create = function (req, res) {
     createDate: Date.now(),
     systemPage: 0,
     dynamicPage: 0,
-    todayPolished: false
+    todayPolished: false,
+    polishedCount:0
   });
   newKeyword.save(function (err, entity) {
     if (err) {

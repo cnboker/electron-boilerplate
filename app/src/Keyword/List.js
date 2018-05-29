@@ -46,6 +46,21 @@ class List extends Component {
         }
       })
   }
+  stringFormat(val) {
+    if (val == undefined) return '-';
+    if (val === true) return '是';
+    if (val === false) return '否';
+    if(Number.isInteger(val)) return val;
+    if (this.isValidDate(val)) {
+      return moment(val).format("YYYY-MM-DD")
+    }
+    return val;
+  }
+
+  isValidDate(value) {
+    var dateWrapper = new Date(value);
+    return !isNaN(dateWrapper.getDate());
+  }
 
   renderList() {
     return this
@@ -54,20 +69,25 @@ class List extends Component {
       .map(item => {
         return (
           <tr key={item._id}>
-            <td data-title="搜索引擎">
+            <td>
               {item.engine}
             </td>
-            <td data-title="关键字">
+            <td>
               {item.keyword}
             </td>
-            <td data-title="匹配链接">{item.link}</td>
-            <td data-title="排名页数">{item.page}</td>
-
-            <td data-title="上次擦亮时间">
-              {item.createDate == undefined ? '' : moment(item.createDate).format("YYYY-MM-DD")}
+            <td>{item.link}</td>
+            <td>{this.stringFormat(item.systemPage)}</td>
+            <td>{this.stringFormat(item.page)}</td>
+            <td>{this.stringFormat(item.polishedCount)}</td>
+            <td>{this.stringFormat(item.todayPolished)}</td>
+            <td>{this.stringFormat(item.isValid)}</td>
+            <td>
+              {this.stringFormat(item.lastPolishedDate)}
             </td>
-
-            <td data-title="操作">
+            <td>
+              {this.stringFormat(item.createDate)}
+            </td>
+            <td>
               <Link to={`/keyword/${item._id}`} role="button" className="btn btn-success">
                 <i className="fa fa-pencil fa-lg" />
               </Link>&nbsp;
@@ -104,8 +124,13 @@ class List extends Component {
                 <th>搜索引擎</th>
                 <th>关键字</th>
                 <th>匹配链接</th>
-                <th>排名页数</th>
+                <th>原始排名</th>
+                <th>最新排名</th>
+                <th>擦亮次数</th>
+                <th>今天是否擦亮</th>
+                <th>是否有效</th>
                 <th>上次擦亮时间</th>
+                <th>创建日期</th>
                 <th />
               </tr>
             </thead>
@@ -120,10 +145,10 @@ class List extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { 
+  return {
     keywords: state.keywords,
-    client:state.client
-   }
+    client: state.client
+  }
 }
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(List)

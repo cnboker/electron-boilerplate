@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const background = require('electron-process').background;
+      background.registerModule(require('../src/tasks/main'));
+    </script>
+  </head>
+  <body>
+    <h1>Background window</h1>
+  </body>
+</html>

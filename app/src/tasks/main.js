@@ -2,8 +2,20 @@
 var BaiduSEO = require('./baidu');
 var schedule = require('node-schedule');
 var moment = require('moment');
+const SCAN_MAX_PAGE = 30;
 
-async function main() {
+
+module.exports = {
+    doTask(cb){
+        main();
+        console.log('success!')
+        if(cb)cb('test');
+       // 
+    }
+}
+
+async function main(){
+   
     const puppeteer = require('puppeteer')
     const browser = await puppeteer.launch({
         headless: false,
@@ -31,6 +43,13 @@ async function main() {
     // schedule.scheduleJob('10 * * * * *', function () {
     //     bot(browser, 'ioliz.com', '数字标牌 软件定制', 10)
     // });
-};
+}
 
-module.exports = main;
+//扫描原始排名，前二十页面
+async function scan(){
+    //获取当前用户未扫描原始排名的关键字列表
+    
+    //扫描
+}
+
+//module.exports = main;

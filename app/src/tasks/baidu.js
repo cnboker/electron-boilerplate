@@ -27,8 +27,8 @@ class BaiduSEO {
 
             var pageIndex = 1;
             const nextpageSelector = '#page > a[href$="rsv_page=1"]'
-            var sleep = require('../util/sleep')
-            var scroll = require('../util/scroll')
+            var sleep = require('../utils/sleep')
+            var scroll = require('../utils/scroll')
             while (pageIndex < pageCount) {
                 sleep(1000)
                 if (await this.pageHasKeyword(page, keyword)) {
@@ -43,7 +43,7 @@ class BaiduSEO {
                     waitUntil: 'load'
                 });
 
-                var r = require('../util/random')
+                var r = require('../utils/random')
                 var seconds = r(10000, 30000);
                 console.log('sencods', seconds)
                 sleep(seconds)
