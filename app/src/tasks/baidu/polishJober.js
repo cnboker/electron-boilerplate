@@ -1,7 +1,13 @@
-class BaiduSEO {
+import { jobContext } from "./jobContext";
+
+export default class PolishJober {
     constructor(){
         //super();
         this.finished = true;
+    }
+    
+    async static execute(jobContext){
+
     }
     
     async  bot(page, matchUrl, input, pageCount = 10) {
@@ -86,5 +92,3 @@ class BaiduSEO {
 
     }
 }
-
-module.exports = BaiduSEO;
