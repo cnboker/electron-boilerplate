@@ -1,15 +1,13 @@
-import { jobContext } from "./jobContext";
-
 var sleep = require('/src/utils/sleep')
 var scroll = require('src/utils/scroll')
 var random = require('src/utils/random')
+var jobContext = require('./jobContext');
 
 const SCAN_MAX_ROW = 100;
 
-
 async function run() {
     try {
-      
+
         //await page.waitForSelector('#content_left');
 
         var keyword = matchUrl
@@ -17,7 +15,7 @@ async function run() {
 
         var pageIndex = 1;
         const nextpageSelector = '#page > a[href$="rsv_page=1"]'
-     
+
         while (pageIndex < pageCount) {
             sleep(1000)
             if (await this.pageHasKeyword(page, keyword)) {
@@ -32,14 +30,14 @@ async function run() {
                 waitUntil: 'load'
             });
 
-          
+
             var seconds = random(10000, 30000);
             console.log('sencods', seconds)
             sleep(seconds)
 
             pageIndex++
         }
-        
+
     } catch (e) {
         console.error(e)
     }
@@ -48,7 +46,7 @@ async function run() {
 
 
 //输入框模拟输入关键字
-async function inputKeyword(page, input){
+async function inputKeyword(page, input) {
     const pageUrl = 'http://www.baidu.com'
     await page.goto(pageUrl, {
         waitUtil: 'load'
@@ -86,3 +84,5 @@ async function findLinkClick(page, keyword) {
     }
 
 }
+
+module.exports = run;

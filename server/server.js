@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/keyword');
+mongoose.connect('mongodb://localhost/kwPolish');
 
 
 app.use(bodyParser.urlencoded({
@@ -77,8 +77,8 @@ app.get('/500', function (req, res) {
 require('./protected')(app);
 require('./api/Keyword/Route')(app);
 require('./api/User/Route')(app);
-app.listen(port)
+var server = app.listen(port)
 
 console.log('restfull api start...' + port)
 
-module.exports = app; //for testing
+module.exports = app;

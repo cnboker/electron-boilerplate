@@ -18,6 +18,11 @@ describe('Users', () => {
     })
   })
 
+  describe('/api/bonus',()=>{
+    it('add point',(down)=>{
+      
+    });
+  });
   //test /api/signup
   describe('/api/signup', () => {
     it('it should not signup without username and password', (done) => {

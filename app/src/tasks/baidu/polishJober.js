@@ -1,94 +1,51 @@
 import { jobContext } from "./jobContext";
+import jobAction from '../jobAction';
 
 export default class PolishJober {
-    constructor(){
-        //super();
-        this.finished = true;
-    }
     
     async static execute(jobContext){
-
+        const docs = await this._fetchData();
+        var doc = docs.shift();
+        while (doc) {
+            var task = {
+                doc,
+                action: jobAction.Polish
+                end:this.taskFinishedCallback
+            }
+            jobContext.addTask(task);
+            doc = docs.shift();
+        }
     }
     
-    async  bot(page, matchUrl, input, pageCount = 10) {
-        if(!this.finished)return
-        this.finished = false;
-        try {
-            const pageUrl = 'http://www.baidu.com'
-            await page.goto(pageUrl, {
-                waitUtil: 'load'
-            });
-
-
-            await page.focus('#kw')
-            await page.waitFor('#kw');
-
-            await page.$eval('#kw', (el, input) => el.value = input, input);
-
-            await page.click('#su');
-            //await page.waitForSelector('#content_left');
-
-            var keyword = matchUrl
-            const selector = '#content_left.result c-container'
-
-            var pageIndex = 1;
-            const nextpageSelector = '#page > a[href$="rsv_page=1"]'
-            var sleep = require('../utils/sleep')
-            var scroll = require('../utils/scroll')
-            while (pageIndex < pageCount) {
-                sleep(1000)
-                if (await this.pageHasKeyword(page, keyword)) {
-                    this.findLinkClick(page, keyword)
-                    console.log(' has found page index:' + pageIndex);
-                    break;
-                }
-                scroll(page);
-                page.click(nextpageSelector);
-                //wait load new page
-                await page.waitForNavigation({
-                    waitUntil: 'load'
-                });
-
-                var r = require('../utils/random')
-                var seconds = r(10000, 30000);
-                console.log('sencods', seconds)
-                sleep(seconds)
-
-                pageIndex++
+    //关键字已擦亮
+    //doc:已经擦亮的关键字
+    static taskFinishedCallback(doc){
+        const url = `${process.env.REACT_APP_API_URL}/polish`
+        const res = axios({
+            method:'post',
+            url,
+            data:doc,
+            headers:{
+                Authorization: `Bearer ${access_token}`
             }
-            
-        } catch (e) {
-            console.error(e)
-        }finally{
-            this.finished = true;
-        }
-
-
-        //console.log('page index:' + pageIndex);
-        //end
-    }
-
-
-    async  pageHasKeyword(page, keyword) {
-        const selector = '#content_left'
-        //await page.waitForSelector(selector);
-
-        var text = await page.$eval(selector, div => {
-            return div.innerText
+        }).then(function(response){
+            console.log(response)
+        }).then(function(err){
+            console.error(err)
         })
-        //console.log('div', text)
-        return text.indexOf(keyword) > 0;
     }
 
-    async  findLinkClick(page, keyword) {
-
-        var selector = '//a[contains(text(), "' + keyword + '")]'
-        const linkHandler = (await page.$x(selector))[0];
-        if (linkHandler) {
-            await linkHandler.click();
-        } else {
-            throw new Error(`Link not found`);
-        }
-
+    //获取待擦亮关键字列表
+    static async _fetchData(){
+        const url = `${process.env.REACT_APP_API_URL}/polish`;
+        const res = await axios({
+            method:'get,
+            url,
+            headers;{
+                Authorization:`Bearer ${access_token}`
+            }
+        });
+        return res.data;
     }
+
 }
