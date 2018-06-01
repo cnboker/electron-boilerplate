@@ -23,7 +23,7 @@ module.exports = function (app) {
   // Check for scope
   function requireScope(scope) {
     return function (req, res, next) {
-      console.log('user',req.user)
+      //console.log('user',req.user)
       var has_scopes = req.user.scope === scope;
       if (!has_scopes) {  
         res.sendStatus(401);
@@ -35,4 +35,7 @@ module.exports = function (app) {
 
   app.use('/api/keywords', jwtCheck, requireScope('full_access'));
   app.use('/api/keyword', jwtCheck, requireScope('full_access'));
+  app.use('/api/keyword/rank',jwtCheck,requireScope('full_access'));
+  app.use('/api/keyword/polish',jwtCheck, requireScope('full_access'));
+  app.use('/api/keyword/tasks',jwtCheck,requireScope('full_access'));
 }

@@ -11,4 +11,14 @@ module.exports = function(app){
   .get(ctl.read)
   .put(ctl.update)
   .delete(ctl.delete)
+
+  app.route('/api/task/rank')
+  .post(ctl.rank)
+
+  app.route('/api/task/polish')
+  .post(ctl.polish)
+
+  app.route('/api/tasks')
+  .get(ctl.tasks)
+
 }

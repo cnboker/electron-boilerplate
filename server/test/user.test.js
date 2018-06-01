@@ -19,8 +19,8 @@ describe('Users', () => {
   })
 
   describe('/api/bonus',()=>{
-    it('add point',(down)=>{
-      
+    it('add point',(done)=>{
+      done();
     });
   });
   //test /api/signup

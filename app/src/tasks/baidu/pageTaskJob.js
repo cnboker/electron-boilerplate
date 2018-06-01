@@ -1,40 +1,65 @@
-var sleep = require('/src/utils/sleep')
-var scroll = require('src/utils/scroll')
-var random = require('src/utils/random')
-var jobContext = require('./jobContext');
+var puppeteer = require('puppeteer')
+var sleep = require('../..//utils/sleep')
+var scroll = require('../../utils/scroll')
+var random = require('../../utils/random')
+//var jobContext = require('./jobContext');
+var jobAction = require('../jobAction')
 
 const SCAN_MAX_ROW = 100;
+const SCAN_MAX_PAGE = 10;
 
-async function run() {
+async function execute(jobContext) {
+    if (jobContext.busy) return;
+    jobContext.busy = true;
+    const browser = await puppeteer.launch({
+        headless: false,
+        //executablePath:'./resources/app/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe'
+    })
+    const page = await browser.newPage();
+    var task = jobContext.popTask();
+    await singleTaskProcess(page, task)
+        .then(() => {
+            task.end(task.doc)
+            jobContext.busy = false;
+            browser.close();
+        })
+}
+
+async function singleTaskProcess(page, task) {
+    if (task == undefined) return;
+
+    var pageIndex = 0;
+    var doc = task.doc;
+    var keyword = doc.keyword;
     try {
+        await inputKeyword(page, keyword);
+        sleep(1000)
 
-        //await page.waitForSelector('#content_left');
+        //const selector = '#content_left.result c-container'
 
-        var keyword = matchUrl
-        const selector = '#content_left.result c-container'
-
-        var pageIndex = 1;
         const nextpageSelector = '#page > a[href$="rsv_page=1"]'
 
-        while (pageIndex < pageCount) {
-            sleep(1000)
-            if (await this.pageHasKeyword(page, keyword)) {
-                this.findLinkClick(page, keyword)
-                console.log(' has found page index:' + pageIndex);
+        while (pageIndex < SCAN_MAX_PAGE) {
+            const rank = await pageRank(page, doc.link, pageIndex);
+            doc.rank = rank;
+            if (rank != -1) {
+                if (task.action == jobAction.Polish) {
+                    this.findLinkClick(page, doc.link)
+                }
                 break;
             }
+
             scroll(page);
             page.click(nextpageSelector);
             //wait load new page
             await page.waitForNavigation({
                 waitUntil: 'load'
             });
-
-
-            var seconds = random(10000, 30000);
-            console.log('sencods', seconds)
-            sleep(seconds)
-
+            if (task.action == jobAction.Polish) {
+                sleep(random(10000, 30000))
+            } else {
+                sleep(random(1000, 3000))
+            }
             pageIndex++
         }
 
@@ -42,8 +67,6 @@ async function run() {
         console.error(e)
     }
 }
-
-
 
 //输入框模拟输入关键字
 async function inputKeyword(page, input) {
@@ -64,12 +87,27 @@ async function inputKeyword(page, input) {
 async function pageHasKeyword(page, keyword) {
     const selector = '#content_left'
     //await page.waitForSelector(selector);
-
+    //#\31 > div.f13
     var text = await page.$eval(selector, div => {
         return div.innerText
     })
     //console.log('div', text)
     return text.indexOf(keyword) > 0;
+}
+
+//检查当前页是否包含特定链接
+//match:特定链接，比如ioliz.com,pageIndex:分页
+//return -1 表示为找到匹配链接
+async function pageRank(page, match, pageIndex) {
+    const selector = '#content_left div.f13'
+    var currentRank = await page.$$eval(selector, (links, match) => {
+        return links.findIndex(function (element) {
+            return element.innerText.indexOf(match) >= 0
+        });
+    }, match);
+    console.log('currentRank=', currentRank)
+    if (currentRank > 0) return pageIndex * 10 + currentRank + 1;
+    return -1;
 }
 
 //查找包含关键字的链接，并同时点击该链接
@@ -85,4 +123,5 @@ async function findLinkClick(page, keyword) {
 
 }
 
-module.exports = run;
+exports.execute = execute;
+exports.pageRank = pageRank;

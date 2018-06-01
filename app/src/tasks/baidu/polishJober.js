@@ -19,7 +19,7 @@ export default class PolishJober {
     
     //关键字已擦亮
     //doc:已经擦亮的关键字
-    static taskFinishedCallback(doc){
+    static async taskFinishedCallback(doc){
         const url = `${process.env.REACT_APP_API_URL}/polish`
         const res = axios({
             method:'post',

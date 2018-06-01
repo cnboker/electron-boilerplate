@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost/kwPolish');
 app.use(bodyParser.urlencoded({
   extended: true
 }))
+// Adding body-parser middleware to parser JSON data
 app.use(bodyParser.json());
 app.use(cors());
 

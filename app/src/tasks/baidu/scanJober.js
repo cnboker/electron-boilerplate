@@ -13,7 +13,7 @@ class ScanJober {
     //每5分钟执行一次
     static async  execute(jobContext) {
         const unScanItems = await this._fetchData();
-        console.log('unScanItems',unScanItems.length);
+        //console.log('unScanItems',unScanItems.length);
         var doc = unScanItems.shift();
         while (doc) {
             var task = {
@@ -25,13 +25,13 @@ class ScanJober {
             doc = unScanItems.shift();
         }
 
-        console.log('execute end...')
+       // console.log('execute end...')
     }
 
-    static taskFinishedCallback(doc){
-        const url = `${process.env.REACT_APP_API_URL}/keyword`
+    static async taskFinishedCallback(doc){
+        const url = `${process.env.REACT_APP_API_URL}/rank`
         const res = axios({
-            method:'put',
+            method:'post',
             url,
             data:doc,
             headers:{

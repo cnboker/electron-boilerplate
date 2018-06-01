@@ -35,14 +35,13 @@ describe('scanJober',()=>{
   })
 
   after((done)=>{
-   
     done();
   })
 
   describe('task execute',()=>{
       it('it should return 6 docs',(done)=>{
           var jobContextMock = {
-            tasks:[],
+             tasks:[],
             addTask:function(item){
               jobContextMock.tasks.push(item);
             }
@@ -55,9 +54,9 @@ describe('scanJober',()=>{
           })
         
       })
+
   })
 
-  
 
 
 })

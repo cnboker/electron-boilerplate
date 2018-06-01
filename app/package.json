@@ -13,7 +13,7 @@
 		"url": "http://www.ioliz.com"
 	},
 	"scripts": {
-		"test": "mocha --exit",
+		"test": "mocha --exit --timeout 60000",
 		"start": "webpack-dev-server --output-public-path=/build/",
 		"estart": "webpack&&electron .",
 		"package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release --ignore=node_modules/*",
