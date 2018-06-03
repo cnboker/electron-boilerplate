@@ -6,11 +6,16 @@ var pageTaskJober = require('./baidu/pageTaskJob');
 var jobContext = require('./baidu/jobContext');
 process.env.NODE_ENV = 'test'
 
+var path = require('path')
+require('dotenv').config({
+  path: './.env'
+});
+
 module.exports = {
-    async doTask() {
+     doTask() {
         console.log('doTask start ...')
         //隔30分钟执行scanJober
-        schedule.scheduleJob('*/1 * * * *',function(){
+        schedule.scheduleJob('*/30 * * * *',function(){
             console.log('/30m', moment().format())
             ScanerJober.execute(jobContext);
         })

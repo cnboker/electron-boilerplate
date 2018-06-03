@@ -22,21 +22,21 @@
 	<script src='../build/app.bundle.js'>
 	</script>
 	<script>
-		function backgroundTask() {
+		(function backgroundTask() {
 			//The BrowserWindow module is only available in the main process, 
 			//the ipcRenderer module is only available in the renderer process, 
 			//so regardless of which process you run this code in it ain't gonna work. 
 			//I'm guessing since ipcRenderer is not available you're attempting to run this code in the main process.
 
 			const foreground = require('electron-process').foreground;
-			const asyncModule = foreground.getModule(require('../src/tasks/main'));
+			const asyncModule = foreground.getModule(require('../src/tasks/scheduler'));
 			console.log('asyncModule', asyncModule)
 			asyncModule.doTask((response) => {
 					console.log(response)
 				})
 				.then((result) => console.log(result))
 				.catch((reason) => console.error(reason));
-		}
+		})();
 	</script>
 </body>
 

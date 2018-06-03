@@ -120,7 +120,8 @@ let mainWindow = null;
 require('electron-debug')();
 app.on('ready', function () {
 	const backgroundURL = 'file://' + __dirname + '/public/background.html';
-	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL);
+	var debug = true;
+	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL,debug);
 	mainWindow = new BrowserWindow({
 		width: 1280,
 		height: 600

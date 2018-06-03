@@ -33,7 +33,7 @@ const access_token = require('../../lib/auth')
         }).then(function (response) {
             console.log(response)
         }).then(function (err) {
-            console.error(err)
+            console.log(err)
         })
     }
 

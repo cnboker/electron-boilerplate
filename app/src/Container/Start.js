@@ -7,14 +7,13 @@ export default class Start extends Component{
     this.buttonClick = this.buttonClick.bind(this);
   }
   buttonClick(){
-    window.backgroundTask();
+    //window.backgroundTask();
   }
 
   render(){
     return(
-      <Button bsStyle="primary" bsSize="large"  onClick={this.buttonClick}>
-      擦亮关键字
-      </Button>
+      <div className="container">
+      </div>
     )
   }
 }

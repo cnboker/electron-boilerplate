@@ -17,7 +17,7 @@ export default class Header extends Component {
           <Nav>
             <LinkContainer to="/start">
               <NavItem eventKey={1} href="#">
-                擦亮
+                开始
               </NavItem>
             </LinkContainer>
             <LinkContainer to="/keyword">

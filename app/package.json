@@ -13,7 +13,7 @@
 		"url": "http://www.ioliz.com"
 	},
 	"scripts": {
-		"main":"nodemon ./src/tasks//main.js",
+		"main": "nodemon ./src/tasks//main.js",
 		"test": "mocha --exit --timeout 60000",
 		"start": "webpack-dev-server --output-public-path=/build/",
 		"estart": "webpack&&electron .",

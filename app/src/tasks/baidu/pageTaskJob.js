@@ -2,11 +2,10 @@ var puppeteer = require('puppeteer')
 var sleep = require('../..//utils/sleep')
 var scroll = require('../../utils/scroll')
 var random = require('../../utils/random')
-//var jobContext = require('./jobContext');
 var jobAction = require('../jobAction')
 
 const SCAN_MAX_ROW = 100;
-const SCAN_MAX_PAGE = 10;
+const SCAN_MAX_PAGE = 15;
 
 async function execute(jobContext) {
     if (jobContext.busy) return;
@@ -40,11 +39,12 @@ async function singleTaskProcess(page, task) {
     var keyword = doc.keyword;
     try {
         await inputKeyword(page, keyword);
-        sleep(1000)
-
-        //const selector = '#content_left.result c-container'
 
         const nextpageSelector = '#page > a[href$="rsv_page=1"]'
+
+        await sleep(2000);
+
+        //const selector = '#content_left.result c-container'
 
         while (pageIndex < SCAN_MAX_PAGE) {
             const rank = await pageRank(page, doc.link, pageIndex);
@@ -52,6 +52,7 @@ async function singleTaskProcess(page, task) {
             if (rank != -1) {
                 if (task.action == jobAction.Polish) {
                     findLinkClick(page, doc.link)
+                    await sleep(random(10000, 60000))
                 }
                 break;
             }
@@ -63,9 +64,9 @@ async function singleTaskProcess(page, task) {
                 waitUntil: 'load'
             });
             if (task.action == jobAction.Polish) {
-                sleep(random(10000, 30000))
+                await sleep(random(10000, 30000))
             } else {
-                sleep(random(3000, 10000))
+                await sleep(random(3000, 10000))
             }
             pageIndex++
         }
