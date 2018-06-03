@@ -3,6 +3,6 @@
 /app/release
 /app/.env
 /app/build
-/data
+/data/db
 /server/node_modules
 /server/data
