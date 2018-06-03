@@ -35,7 +35,7 @@ module.exports = function (app) {
 
   app.use('/api/keywords', jwtCheck, requireScope('full_access'));
   app.use('/api/keyword', jwtCheck, requireScope('full_access'));
-  app.use('/api/keyword/rank',jwtCheck,requireScope('full_access'));
-  app.use('/api/keyword/polish',jwtCheck, requireScope('full_access'));
-  app.use('/api/keyword/tasks',jwtCheck,requireScope('full_access'));
+  app.use('/api/kwTask/rank',jwtCheck,requireScope('full_access'));
+  app.use('/api/kwTask/polish',jwtCheck, requireScope('full_access'));
+  app.use('/api/kwTask/tasks',jwtCheck,requireScope('full_access'));
 }

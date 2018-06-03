@@ -76,8 +76,8 @@ class List extends Component {
               {item.keyword}
             </td>
             <td>{item.link}</td>
-            <td>{this.stringFormat(item.systemPage)}</td>
-            <td>{this.stringFormat(item.page)}</td>
+            <td>{this.stringFormat(item.originRank)}</td>
+            <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
             <td>{this.stringFormat(item.todayPolished)}</td>
             <td>{this.stringFormat(item.isValid)}</td>

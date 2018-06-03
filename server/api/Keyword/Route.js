@@ -12,13 +12,13 @@ module.exports = function(app){
   .put(ctl.update)
   .delete(ctl.delete)
 
-  app.route('/api/task/rank')
+  app.route('/api/kwTask/rank')
   .post(ctl.rank)
 
-  app.route('/api/task/polish')
+  app.route('/api/kwTask/polish')
   .post(ctl.polish)
 
-  app.route('/api/tasks')
+  app.route('/api/kwTask/tasks')
   .get(ctl.tasks)
 
 }

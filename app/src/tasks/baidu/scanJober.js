@@ -12,6 +12,7 @@ class ScanJober {
 
     //每5分钟执行一次
     static async  execute(jobContext) {
+        if(jobContext.hasScanTask())return;
         const unScanItems = await this._fetchData();
         //console.log('unScanItems',unScanItems.length);
         var doc = unScanItems.shift();
@@ -29,7 +30,7 @@ class ScanJober {
     }
 
     static async taskFinishedCallback(doc){
-        const url = `${process.env.REACT_APP_API_URL}/rank`
+        const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
         const res = axios({
             method:'post',
             url,
@@ -58,7 +59,7 @@ class ScanJober {
        // console.log(json)
         if(json == undefined)return [];
         return json.filter(function (item, index) {
-            return item.systemPage == 0;
+            return item.originRank == 0;
         })
        
     }

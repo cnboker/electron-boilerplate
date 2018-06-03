@@ -11,18 +11,25 @@ const SCAN_MAX_PAGE = 10;
 async function execute(jobContext) {
     if (jobContext.busy) return;
     jobContext.busy = true;
+    var task = jobContext.popTask();
+    if(task == undefined){
+        jobContext.busy = false;
+        return;
+    }
     const browser = await puppeteer.launch({
         headless: false,
         //executablePath:'./resources/app/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe'
     })
     const page = await browser.newPage();
-    var task = jobContext.popTask();
     await singleTaskProcess(page, task)
         .then(() => {
             task.end(task.doc)
             jobContext.busy = false;
             browser.close();
         })
+        .catch((err)=>{
+            console.error(err)
+        });
 }
 
 async function singleTaskProcess(page, task) {
@@ -44,7 +51,7 @@ async function singleTaskProcess(page, task) {
             doc.rank = rank;
             if (rank != -1) {
                 if (task.action == jobAction.Polish) {
-                    this.findLinkClick(page, doc.link)
+                    findLinkClick(page, doc.link)
                 }
                 break;
             }
@@ -58,7 +65,7 @@ async function singleTaskProcess(page, task) {
             if (task.action == jobAction.Polish) {
                 sleep(random(10000, 30000))
             } else {
-                sleep(random(1000, 3000))
+                sleep(random(3000, 10000))
             }
             pageIndex++
         }
@@ -106,7 +113,7 @@ async function pageRank(page, match, pageIndex) {
         });
     }, match);
     console.log('currentRank=', currentRank)
-    if (currentRank > 0) return pageIndex * 10 + currentRank + 1;
+    if (currentRank >= 0) return pageIndex * 10 + currentRank + 1;
     return -1;
 }
 
