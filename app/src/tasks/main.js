@@ -15,10 +15,11 @@ require('dotenv').config({
 //     //ScanerJober.execute(jobContext);
 // })
 
+scheduler.doTask();
 
-(async function(){
-  var sleep = require('./../utils/sleep')
-  console.log('sleep 5s')
-  await sleep(20000)
-  console.log('sleep 5s end')
-})();
+// (async function(){
+//   var sleep = require('./../utils/sleep')
+//   console.log('sleep 5s')
+//   await sleep(20000)
+//   console.log('sleep 5s end')
+// })();

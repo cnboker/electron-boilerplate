@@ -1,3 +1,5 @@
+'use strict';
+
 var axios = require('axios');
 var jobContext = require('./jobContext');
 var jobAction = require('../jobAction');
@@ -5,7 +7,7 @@ const access_token = require('../../lib/auth')
 
  class PolishJober {
 
-    static async  execute(jobContext) {
+    static async execute(jobContext) {
         const docs = await this._fetchData();
         var doc = docs.shift();
         while (doc) {

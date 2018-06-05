@@ -1,3 +1,5 @@
+'use strict';
+
 var jobContext = require('./jobContext');
 var jobAction = require('../jobAction')
 var axios = require('axios');
@@ -11,7 +13,7 @@ class ScanJober {
     }
 
     //每5分钟执行一次
-    static async  execute(jobContext) {
+    static async execute(jobContext) {
         if(jobContext.hasScanTask())return;
         const unScanItems = await this._fetchData();
         //console.log('unScanItems',unScanItems.length);

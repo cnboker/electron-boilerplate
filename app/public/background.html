@@ -2,7 +2,10 @@
 <html>
   <head>
     <script>
+      //必要,electron node是6.5版本，需要增加babel转换async
+      //require("babel-polyfill");
       const background = require('electron-process').background;
+     
       background.registerModule(require('../src/tasks/scheduler'));
     </script>
   </head>

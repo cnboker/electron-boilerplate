@@ -81,12 +81,16 @@
 // app.on('ready', () => {
 // 	mainWindow = createMainWindow();
 // });
+process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
+process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
+
+console.log(process.env.REACT_APP_API_URL)
 
 const electron = require('electron');
 const main = require('electron-process').main;
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.
-require('electron-reload')(__dirname);
+//require('electron-reload')(__dirname);
 const Menu = electron.Menu;
 const shell = require('electron').shell;
 var menu = Menu.buildFromTemplate([{
@@ -117,7 +121,7 @@ var menu = Menu.buildFromTemplate([{
 //Menu.setApplicationMenu(menu);
 
 let mainWindow = null;
-require('electron-debug')();
+//require('electron-debug')();
 app.on('ready', function () {
 	const backgroundURL = 'file://' + __dirname + '/public/background.html';
 	var debug = true;

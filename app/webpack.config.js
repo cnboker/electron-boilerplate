@@ -1,18 +1,8 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
-module.exports = {
-	mode: 'development', //production or development
-	entry: {
-		app: ['babel-polyfill', './src/index.js']
-	},
-	// node:{
-	// 	fs:"empty"
-	// },
-	output: {
-		path: path.resolve(__dirname, 'build'),
-		filename: 'app.bundle.js'
-	},
+var config = {
+    // TODO: Add common Configuration
 	module: {
 		rules: [{
 				test: /\.(js|jsx)?$/,
@@ -27,7 +17,36 @@ module.exports = {
 				use: ['style-loader', 'css-loader']
 			}
 		]
+	}
+};
+
+var appConfig = Object.assign({}, config, {
+	mode: 'development', //production or development
+	entry: {
+		app: ['babel-polyfill', './src/index.js']
 	},
+	// node:{
+	// 	fs:"empty"
+	// },
+	output: {
+		path: path.resolve(__dirname, 'public'),
+		filename: 'app.bundle.js'
+	},
+	// module: {
+	// 	rules: [{
+	// 			test: /\.(js|jsx)?$/,
+	// 			exclude: /(node_modules|bower_components)/,
+	// 			loader: 'babel-loader',
+	// 			options: {
+	// 				presets: ['env','react',"stage-2"] //stage-2 用于支持箭头函数
+	// 			}
+	// 		},
+	// 		{
+	// 			test: /\.css$/,
+	// 			use: ['style-loader', 'css-loader']
+	// 		}
+	// 	]
+	// },
 	resolve: {
 		extensions: ['*', '.js', '.jsx','.css']
 	},
@@ -46,4 +65,29 @@ module.exports = {
 		})
 	]
 
-}
+});
+
+var taskConfig = Object.assign({}, config,{
+	mode: 'development', //production or development
+	entry: {
+		app: ['babel-polyfill', './src/tasks/scheduler.js']
+	},
+
+	output: {
+		path: path.resolve(__dirname, 'bin'),
+		filename: 'task.bundle.js'
+	},node:
+	{
+		"child_process": "empty",
+		"fs": "empty",
+		"net": "empty",
+		"readline": "empty",
+		"tls": "empty"
+	}
+});
+
+// Return Array of Configurations
+module.exports = [
+    appConfig    	
+];
+

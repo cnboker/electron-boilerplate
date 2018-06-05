@@ -1,21 +1,34 @@
+
 var schedule = require('node-schedule');
 var moment = require('moment');
-var ScanerJober = require('./baidu/scanJober');
+
+//process.env.NODE_ENV = 'test'
+//必要,electron node是6.5版本，需要增加babel转换async
+// require("babel-register")({
+//     // This will override `node_modules` ignoring - you can alternatively pass
+//     // an array of strings to be explicitly matched or a regex / glob
+//     //ignore: false
+//   });
+
 var PolishJober = require('./baidu/polishJober');
+var ScanerJober = require('./baidu/scanJober');
 var pageTaskJober = require('./baidu/pageTaskJob');
 var jobContext = require('./baidu/jobContext');
-process.env.NODE_ENV = 'test'
 
-var path = require('path')
-require('dotenv').config({
-  path: './.env'
-});
+
+var log4js = require('log4js');
+var logger = log4js.getLogger();
+logger.level = 'info';
+logger.debug("Some debug messages");
+
+process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
+process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
 
 module.exports = {
      doTask() {
-        console.log('doTask start ...')
+        logger.log('doTask start ...')
         //隔30分钟执行scanJober
-        schedule.scheduleJob('*/30 * * * *',function(){
+        schedule.scheduleJob('*/2 * * * *',function(){
             console.log('/30m', moment().format())
             ScanerJober.execute(jobContext);
         })
