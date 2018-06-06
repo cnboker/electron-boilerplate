@@ -15,33 +15,30 @@ var ScanerJober = require('./baidu/scanJober');
 var pageTaskJober = require('./baidu/pageTaskJob');
 var jobContext = require('./baidu/jobContext');
 
+var logger = require('../../logger')
 
-var log4js = require('log4js');
-var logger = log4js.getLogger();
-logger.level = 'info';
-logger.debug("Some debug messages");
-
-process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
-process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
-
+require('dotenv').config({
+    path: './.env'
+  });
+  
 module.exports = {
      doTask() {
-        logger.log('doTask start ...')
+        logger.info('doTask start ...')
         //隔30分钟执行scanJober
-        schedule.scheduleJob('*/2 * * * *',function(){
-            console.log('/30m', moment().format())
+        schedule.scheduleJob('*/1 * * * *',function(){
+            logger.log('/30m', moment().format())
             ScanerJober.execute(jobContext);
         })
 
         //隔10分钟执行polishJober
-        schedule.scheduleJob('*/2 * * * *',function(){
-            console.log('/10m', moment().format())
+        schedule.scheduleJob('*/1 * * * *',function(){
+            logger.log('/10m', moment().format())
             PolishJober.execute(jobContext);
         })
 
         //隔1分钟执行pageTaskJober
         schedule.scheduleJob('*/1 * * * *',function(){
-            console.log('/1m', moment().format())
+            logger.log('/1m', moment().format())
             pageTaskJober.execute(jobContext);
         })
     }

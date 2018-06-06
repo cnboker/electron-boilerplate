@@ -22,10 +22,10 @@ import IndexSagas from './index-sagas'
 import thunk from 'redux-thunk'
 //https://github.com/wwayne/redux-reset
 import reduxReset from 'redux-reset'
-import initReactFastclick from 'react-fastclick'
+//import initReactFastclick from 'react-fastclick'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
 
-initReactFastclick()
+//initReactFastclick()
 
 //Setup the sagaMiddleware to watch between Reducers and Actions
 const sagaMiddleware = createSegaMiddleware()
@@ -46,8 +46,7 @@ sagaMiddleware.run(IndexSagas)
 localStorage.debug = true
 //Configure the max length of module names (optional)
 //bows.config({ padLength: 10 })
-
-ReactDOM.render((
+var render =(
   <Provider store={store}>
     <Router>
     <Switch>
@@ -59,4 +58,12 @@ ReactDOM.render((
       </Switch>
     </Router>
   </Provider>
-), document.getElementById('root'))
+);
+ReactDOM.render(render, document.getElementById('root'))
+
+if (module.hot) { // 1
+  module.hot.accept("./App", () => { // 2
+    ReactDOM.render(render,
+ document.getElementById("root")); // 4
+  });
+}

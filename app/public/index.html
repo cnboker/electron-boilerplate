@@ -19,10 +19,12 @@
 	<div id="root" class="container">
 
 	</div>
-	<script src='./app.bundle.js'>
+	<script src='app.bundle.js'>
 	</script>
 	<script>
-		(function backgroundTask() {
+		try{
+			//electron script
+			(function backgroundTask() {
 			//The BrowserWindow module is only available in the main process, 
 			//the ipcRenderer module is only available in the renderer process, 
 			//so regardless of which process you run this code in it ain't gonna work. 
@@ -37,6 +39,12 @@
 				.then((result) => console.log(result))
 				.catch((reason) => console.error(reason));
 		})();
+		}
+		catch{
+
+		}
+	
+
 	</script>
 </body>
 

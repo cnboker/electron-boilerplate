@@ -33,7 +33,7 @@ const access_token = require('../../lib/auth')
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function (response) {
-            console.log(response)
+            //console.log(response)
         }).then(function (err) {
             console.log(err)
         })

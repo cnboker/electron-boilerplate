@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader'  
 import React, {Component} from 'react'
 import {Button} from 'react-bootstrap'
 import Header from './Components/Header'
@@ -46,4 +47,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //不能传mapStateToProps进去，因为PrivateRoute检查token有效后会发起setClient的action, 而
 //state里面包含client reducer导致重新render,从而又作验证发起setClient导致死循环
 //dashboard不能使用PrivateRoute会引起程序死循环
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App))

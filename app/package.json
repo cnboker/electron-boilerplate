@@ -13,9 +13,9 @@
 		"url": "http://www.ioliz.com"
 	},
 	"scripts": {
-		"main": "nodemon ./src/tasks//main.js",
+		"main": "nodemon ./src/tasks/main.js",
 		"test": "mocha --exit --timeout 60000",
-		"start": "webpack-dev-server --output-public-path=/build/",
+		"start": "webpack-dev-server --hot",
 		"estart": "webpack&&electron .",
 		"build": "webpack&&build",
 		"ship": "build --win -p always"
@@ -37,13 +37,14 @@
 		"js-cookie": "^2.2.0",
 		"log4js": "^2.8.0",
 		"moment": "^2.22.1",
+		"node-notifier": "^5.2.1",
 		"node-schedule": "^1.3.0",
 		"puppeteer": "^1.3.0",
 		"ramda": "^0.23.0",
 		"react": "^15.3.0",
 		"react-bootstrap": "^0.32.1",
 		"react-dom": "15.5.4",
-		"react-fastclick": "^3.0.2",
+		"react-hot-loader": "^4.3.0",
 		"react-localization": "^1.0.10",
 		"react-redux": "^5.0.7",
 		"react-redux-loading-bar": "^4.0.5",
