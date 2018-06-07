@@ -2,11 +2,13 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 //const WriteFilePlugin =require('write-file-webpack-plugin');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var config = {
-    // TODO: Add common Configuration
+	// TODO: Add common Configuration
 	module: {
-		
+
 	}
 };
 
@@ -22,10 +24,11 @@ var appConfig = Object.assign({}, config, {
 	module: {
 		rules: [{
 				test: /\.(js|jsx)?$/,
+				//loaders: ['react-hot', 'babel'],
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
 				options: {
-					presets: ['env','react',"stage-2"] //stage-2 用于支持箭头函数
+					presets: ['env', 'react', "stage-2"] //stage-2 用于支持箭头函数
 				}
 			},
 			{
@@ -35,7 +38,7 @@ var appConfig = Object.assign({}, config, {
 		]
 	},
 	resolve: {
-		extensions: ['*', '.js', '.jsx','.css']
+		extensions: ['*', '.js', '.jsx', '.css']
 	},
 	performance: {
 		hints: process.env.NODE_ENV === 'production' ? "warning" : false
@@ -46,20 +49,23 @@ var appConfig = Object.assign({}, config, {
 		publicPath: "http://localhost:3000/public",
 		historyApiFallback: true, //解决页面刷新404问题,
 		compress: false,
-		hot:true
+		hot: true
 	},
-	plugins:[
-    new webpack.HotModuleReplacementPlugin(),
-		//new webpack.HotModuleReplacementPlugin(),
-		//new WriteFilePlugin(),
+	plugins: [
+		new CleanWebpackPlugin(['dist']),
+		new HtmlWebpackPlugin({
+			title: 'Hot Module Replacement'
+		}),
+		new webpack.NamedModulesPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
 		new Dotenv({
-			path:'./.env'
+			path: './.env'
 		})
 	]
 
 });
 
-var taskConfig = Object.assign({}, config,{
+var taskConfig = Object.assign({}, config, {
 	mode: 'development', //production or development
 	entry: {
 		app: ['babel-polyfill', './src/tasks/scheduler.js']
@@ -68,8 +74,8 @@ var taskConfig = Object.assign({}, config,{
 	output: {
 		path: path.resolve(__dirname, 'bin'),
 		filename: 'task.bundle.js'
-	},node:
-	{
+	},
+	node: {
 		"child_process": "empty",
 		"fs": "empty",
 		"net": "empty",
@@ -80,6 +86,5 @@ var taskConfig = Object.assign({}, config,{
 
 // Return Array of Configurations
 module.exports = [
-    appConfig    	
+	appConfig
 ];
-

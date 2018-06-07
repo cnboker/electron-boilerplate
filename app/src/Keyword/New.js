@@ -29,8 +29,8 @@ class New extends Component {
 
   getEntity() {
     var id = this.getId()
-    if (id === 0) {
-      return { id: 0, name: ''}
+    if (id === 'new') {
+      return { id: 0, engine: 'baidu'}
     } else {
       return R.find(R.propEq('_id', id))(this.props.keywords)
     }

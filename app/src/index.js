@@ -46,7 +46,7 @@ sagaMiddleware.run(IndexSagas)
 localStorage.debug = true
 //Configure the max length of module names (optional)
 //bows.config({ padLength: 10 })
-var render =(
+var render =(Component)=>(
   <Provider store={store}>
     <Router>
     <Switch>
@@ -54,16 +54,16 @@ var render =(
       <Route exact path="/signup" name="Sign Page" component={Signup} />
       <Route exact path="/404" name="Page 404" component={Page404} />
       <Route exact path="/500" name="Page 500" component={Page500} />
-      <Route path="/" extact component={App} />
+      <Route path="/" extact component={Component} />
       </Switch>
     </Router>
   </Provider>
 );
-ReactDOM.render(render, document.getElementById('root'))
+ReactDOM.render(render(App), document.getElementById('root'))
 
-if (module.hot) { // 1
-  module.hot.accept("./App", () => { // 2
-    ReactDOM.render(render,
- document.getElementById("root")); // 4
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const App = require('./App').default;
+    render(App);
   });
 }
