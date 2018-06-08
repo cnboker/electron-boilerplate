@@ -6,6 +6,7 @@ var axios = require('axios');
 
 
 const access_token = require('../../lib/auth')
+var logger = require('../../logger')
 
 class ScanJober {
     constructor() {
@@ -49,6 +50,7 @@ class ScanJober {
 
     static async  _fetchData() {
         const url = `${process.env.REACT_APP_API_URL}/keywords`
+        logger.info('scanjob-_fetchData-url', url);
         console.log(url);
         const res = await axios({
             method:'get',

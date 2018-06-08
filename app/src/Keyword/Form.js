@@ -33,7 +33,7 @@ class Form extends Component {
         <Field name="engine" type="text" label="搜索引擎" component={renderField} validate={required} props={{disabled: true}}/>
         <Field name="keyword" type="text" label="关键字" component={renderField} validate={required} />
         <Field name="link" type="text" label="匹配链接" component={renderField} validate={required} />
-        <Field name="manualPage" type="text" label="排名页数" component={renderField} />
+       
         <button action="submit" className="btn btn-block btn-success">更新</button>
       </form>
     )

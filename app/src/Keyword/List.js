@@ -50,7 +50,10 @@ class List extends Component {
     if (val == undefined) return '-';
     if (val === true) return '是';
     if (val === false) return '否';
-    if(Number.isInteger(val)) return val;
+    if(Number.isInteger(val)) {
+      if(val == -1)return '100+'
+      return val;
+    }
     if (this.isValidDate(val)) {
       return moment(val).format("YYYY-MM-DD")
     }
@@ -79,7 +82,7 @@ class List extends Component {
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
-            <td>{this.stringFormat(item.todayPolished)}</td>
+            
             <td>{this.stringFormat(item.isValid)}</td>
             <td>
               {this.stringFormat(item.lastPolishedDate)}
@@ -130,7 +133,6 @@ class List extends Component {
                 <th>原始排名</th>
                 <th>最新排名</th>
                 <th>擦亮次数</th>
-                <th>今天是否擦亮</th>
                 <th>是否有效</th>
                 <th>上次擦亮时间</th>
                 <th>创建日期</th>

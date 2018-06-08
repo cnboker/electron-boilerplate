@@ -13,7 +13,7 @@ var config = {
 };
 
 var appConfig = Object.assign({}, config, {
-	mode: 'development', //production or development
+	mode: 'production', //production or development
 	entry: {
 		app: ['babel-polyfill', './src/index.js']
 	},
@@ -24,16 +24,19 @@ var appConfig = Object.assign({}, config, {
 	module: {
 		rules: [{
 				test: /\.(js|jsx)?$/,
-				//loaders: ['react-hot', 'babel'],
 				exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
 				options: {
 					presets: ['env', 'react', "stage-2"] //stage-2 用于支持箭头函数
-				}
+				},
 			},
 			{
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader']
+			},
+			{
+				test: /\.(png|jpg)$/,
+				loader: 'url-loader'
 			}
 		]
 	},
@@ -53,9 +56,9 @@ var appConfig = Object.assign({}, config, {
 	},
 	plugins: [
 		new CleanWebpackPlugin(['dist']),
-		new HtmlWebpackPlugin({
-			title: 'Hot Module Replacement'
-		}),
+		// new HtmlWebpackPlugin({
+		// 	title: 'Hot Module Replacement'
+		// }),
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new Dotenv({

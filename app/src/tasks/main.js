@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'test'
+//process.env.NODE_ENV = 'test'
 var scheduler = require('./scheduler')
 // var dbinit = require('../../../data/scripts/init');
 //var ScanerJober = require('./baidu/scanJober');

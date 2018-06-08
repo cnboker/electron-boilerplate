@@ -5,7 +5,7 @@ log4js.configure(
       appenders: {
         file: {
           type: 'file',
-          filename: 'logs/log.log',
+          filename: 'logs/log.txt',
           maxLogSize: 10 * 1024 * 1024, // = 10Mb
           numBackups: 5, // keep five backup files
           compress: true, // compress the backups

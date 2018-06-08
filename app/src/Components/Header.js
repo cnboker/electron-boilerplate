@@ -9,16 +9,16 @@ export default class Header extends Component {
       <Navbar  fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#brand">kwPolish</a>
+            kwPolish
           </Navbar.Brand>
           <Navbar.Toggle/>
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
+          <Nav activeKey={1}>
             <LinkContainer to="/start">
               <NavItem eventKey={1} href="#">
                 开始
-              </NavItem>
+              </NavItem>  
             </LinkContainer>
             <LinkContainer to="/keyword">
               <NavItem eventKey={2} href="#">

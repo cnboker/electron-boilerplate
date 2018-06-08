@@ -23,7 +23,8 @@ exports.create = function (req, res) {
     originRank: 0,
     dynamicRank: 0,
     todayPolished: false,
-    polishedCount: 0
+    polishedCount: 0,
+    user:req.user.sub
   });
   newKeyword.save(function (err, entity) {
     if (err) {
