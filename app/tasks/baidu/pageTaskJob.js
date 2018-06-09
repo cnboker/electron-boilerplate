@@ -1,7 +1,7 @@
 var puppeteer = require('puppeteer')
-var sleep = require('../..//utils/sleep')
-var scroll = require('../../utils/scroll')
-var random = require('../../utils/random')
+var sleep = require('../sleep')
+var scroll = require('../scroll')
+var random = require('../random')
 var jobAction = require('../jobAction')
 
 const SCAN_MAX_ROW = 100;
@@ -11,13 +11,19 @@ async function execute(jobContext) {
     if (jobContext.busy) return;
     jobContext.busy = true;
     var task = jobContext.popTask();
-    if(task == undefined){
+    if (task == undefined) {
         jobContext.busy = false;
         return;
     }
     const browser = await puppeteer.launch({
-        headless: false,
-        //executablePath:'./resources/app/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe'
+        headless: true,
+        executablePath: (() => {
+            if (process.env.NODE_ENV = 'production') {
+                return './resources/app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
+            } else {
+                return 'chrome.exe';
+            }
+        })()
     })
     const page = await browser.newPage();
     await singleTaskProcess(page, task)
@@ -26,7 +32,7 @@ async function execute(jobContext) {
             jobContext.busy = false;
             browser.close();
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.error(err)
         });
 }
@@ -64,9 +70,9 @@ async function singleTaskProcess(page, task) {
                 waitUntil: 'load'
             });
             if (task.action == jobAction.Polish) {
-                await sleep(random(10000, 30000))
+                await sleep(random(5000, 10000))
             } else {
-                await sleep(random(3000, 10000))
+                await sleep(random(2000, 5000))
             }
             pageIndex++
         }

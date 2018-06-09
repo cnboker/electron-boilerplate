@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+require('./config')
 
 var config = {
 	// TODO: Add common Configuration
@@ -13,7 +14,8 @@ var config = {
 };
 
 var appConfig = Object.assign({}, config, {
-	mode: 'production', //production or development
+	mode: process.env.NODE_ENV, //production or development
+	devtool: (process.env.NODE_ENV === 'development') ? 'inline-source-map' : false,
 	entry: {
 		app: ['babel-polyfill', './src/index.js']
 	},
@@ -56,9 +58,13 @@ var appConfig = Object.assign({}, config, {
 	},
 	plugins: [
 		new CleanWebpackPlugin(['dist']),
-		// new HtmlWebpackPlugin({
-		// 	title: 'Hot Module Replacement'
-		// }),
+		new HtmlWebpackPlugin({
+			hash: true,
+			publicDir: process.env.APP === 'web' ? "public/" : "",
+			template: './assets/template/index.html',
+			inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
+            filename: './index.html' //relative to root of the application
+		}),
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 		new Dotenv({

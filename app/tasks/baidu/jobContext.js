@@ -21,3 +21,9 @@ jobContext.hasScanTask = function(){
         return task.action == jobAction.SCAN
     }).length > 0
 }
+
+jobContext.hasPolishTask = function(){
+    return this.tasks.filter(function(task){
+        return task.action == jobAction.Polish
+    }).length > 0
+}

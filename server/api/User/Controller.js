@@ -98,7 +98,7 @@ exports.login = function (req, res) {
 
 function createIdToken(user) {
   return jwt.sign(user, config.secret, {
-    expiresIn: 60 * 60 * 24 * 30
+    expiresIn: 60 * 60 * 24 * 360
   });
 }
 
@@ -106,7 +106,7 @@ function createAccessToken(userName) {
   return jwt.sign({
     iss: config.issuer,
     aud: config.audience,
-    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 360),
     scope: 'full_access',
     sub: userName,
     jti: genJti(), // unique identifier for the token

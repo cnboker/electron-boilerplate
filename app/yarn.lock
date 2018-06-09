@@ -2581,9 +2581,9 @@ electron-prebuilt@^1.4.13:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
-electron-process@^0.2.0:
-  version "0.2.0"
-  resolved "http://registry.npm.taobao.org/electron-process/download/electron-process-0.2.0.tgz#df48a9cf4af6626c1e3eadc8fed2b1403de1afa0"
+"electron-process@https://github.com/cnboker/electron-process":
+  version "0.1.3"
+  resolved "https://github.com/cnboker/electron-process#56b62eb0f221d2f4c0a81dbc6a124d750cfa831a"
   dependencies:
     lodash "^4.0.0"
     object-hash "^1.1.0"

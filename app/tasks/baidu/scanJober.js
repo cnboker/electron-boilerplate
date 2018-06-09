@@ -4,8 +4,7 @@ var jobContext = require('./jobContext');
 var jobAction = require('../jobAction')
 var axios = require('axios');
 
-
-const access_token = require('../../lib/auth')
+const access_token = require('../../auth')
 var logger = require('../../logger')
 
 class ScanJober {
@@ -17,7 +16,7 @@ class ScanJober {
     static async execute(jobContext) {
         if(jobContext.hasScanTask())return;
         const unScanItems = await this._fetchData();
-        //console.log('unScanItems',unScanItems.length);
+        logger.info('unScanItems',unScanItems.length);
         var doc = unScanItems.shift();
         while (doc) {
             var task = {

@@ -3,17 +3,19 @@ var token = {
     id_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1Mjc0MzQ3ODgsImV4cCI6MTUzMDAyNjc4OH0.8E_zpIhjdk-sXeVutOg9bjdwTJENngRp-Xgaz2uiBzQ",
     userName: "scott"
 };
-var access_token = '';
-if (process.env.NODE_ENV != 'test') {
+var logger = require('./logger')
+var access_token = token.access_token;
+logger.info(process.env.NODE_ENV)
+if (process.env.NODE_ENV == 'production') {
     const storedToken = localStorage.getItem('token')
+    logger.info('token:' + storedToken);
     // if it exists
     if (storedToken) {
         // parse it down into an object
-        const token = JSON.parse(storedToken)
-        access_token = token.access_token;
+        access_token = JSON.parse(storedToken).access_token;
     } else {
         throw 'access_token not found!'
     }
 } 
 
-module.exports = token.access_token;
+module.exports = access_token;

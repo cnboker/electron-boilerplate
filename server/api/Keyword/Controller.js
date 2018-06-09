@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
   Keyword = mongoose.model('Keyword');
 
 exports.list = function (req, res) {
-  //console.log('user name:', req.user);
+  //console.log('user name:', req.user.sub);
   Keyword.find({
     'user': req.user.sub
   }, function (err, data) {

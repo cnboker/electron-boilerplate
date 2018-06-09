@@ -3,12 +3,15 @@
 var axios = require('axios');
 var jobContext = require('./jobContext');
 var jobAction = require('../jobAction');
-const access_token = require('../../lib/auth')
+const access_token = require('../../auth')
+var logger = require('../../logger')
 
  class PolishJober {
 
     static async execute(jobContext) {
+        if(jobContext.hasPolishTask())return;
         const docs = await this._fetchData();
+       
         var doc = docs.shift();
         while (doc) {
             var task = {
@@ -19,6 +22,7 @@ const access_token = require('../../lib/auth')
             jobContext.addTask(task);
             doc = docs.shift();
         }
+        logger.info('jobContext count',jobContext.tasks.length);
     }
 
     //关键字已擦亮

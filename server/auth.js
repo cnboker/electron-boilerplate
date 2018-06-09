@@ -4,7 +4,7 @@ var token = {
   userName: "scott"
 };
 var access_token = '';
-if (process.env.NODE_ENV != 'test') {
+if (process.env.NODE_ENV == 'production') {
   const storedToken = localStorage.getItem('token')
   // if it exists
   if (storedToken) {

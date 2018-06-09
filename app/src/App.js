@@ -2,7 +2,12 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import Header from "./Components/Header";
-import { BrowserRouter as Router, Route, Switch,Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import Home from "./Container/Home";
 import Keyword from "./Keyword/index";
 import Start from "./Container/Start";
@@ -13,15 +18,33 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 //route test https://pshrmn.github.io/route-tester/#/
+import Cookies from "js-cookie";
 
 class App extends Component {
+  constructor(props) {
+    super();    
+    this.authenticated = localStorage.getItem('token') != undefined;
+  }
+  unset() {
+    if (this.authenticated) {
+      this.props.unsetClient();
+      this.props.dispatch({
+        type: "RESET"
+      });
+    }
+    this.props.history.push("/login");
+  }
+
   render() {
     return (
       <div>
-        <Header />
+        <Header
+          unsetClient={this.unset.bind(this)}
+         
+          authenticated={this.authenticated}
+        />
         <div className={classNames("container", "marginTop70")}>
           <Switch>
-         
             <Route path="/start" component={Start} />
             <PrivateRoute
               path="/keyword"

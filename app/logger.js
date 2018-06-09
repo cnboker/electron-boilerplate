@@ -15,7 +15,7 @@ log4js.configure(
         },
         dateFile: {
           type: 'dateFile',
-          filename: 'more-important-things.log',
+          filename: 'logs/more-important-things.log',
           pattern: 'yyyy-MM-dd-hh',
           compress: true
         },

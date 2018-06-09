@@ -25,6 +25,8 @@ import reduxReset from 'redux-reset'
 //import initReactFastclick from 'react-fastclick'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
 
+//require('../config')
+//import config from '../config'
 //initReactFastclick()
 
 //Setup the sagaMiddleware to watch between Reducers and Actions
