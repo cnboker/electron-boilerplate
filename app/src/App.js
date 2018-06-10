@@ -19,12 +19,12 @@ import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 //route test https://pshrmn.github.io/route-tester/#/
 import Cookies from "js-cookie";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 class App extends Component {
   constructor(props) {
-    super();    
-    this.authenticated = localStorage.getItem('token') != undefined;
+    super();
+    this.authenticated = localStorage.getItem("token") != undefined;
   }
   unset() {
     if (this.authenticated) {
@@ -41,12 +41,10 @@ class App extends Component {
       <div>
         <Header
           unsetClient={this.unset.bind(this)}
-         
           authenticated={this.authenticated}
         />
-        
+
         <div className={classNames("container", "marginTop70")}>
-        
           <Switch>
             <Route path="/start" component={Start} />
             <PrivateRoute
@@ -57,7 +55,15 @@ class App extends Component {
             <Redirect from="/" to="/start" />
           </Switch>
         </div>
-        <ToastContainer/>
+        <ToastContainer />
+        <div className="col-md-12">
+          <div className="update-nag">
+            <div className="update-split">
+              <i className="glyphicon glyphicon-refresh" />
+            </div> 
+            <div className="update-text" id="__messages" />
+          </div>
+        </div>
       </div>
     );
   }

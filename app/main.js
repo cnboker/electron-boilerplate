@@ -26,9 +26,7 @@ autoUpdater.on('update-downloaded', (ev, info) => {
 	}, 5000)
 })
 
-app.on('ready', function () {
-	autoUpdater.checkForUpdates();
-});
+
 
 //require('electron-debug')();
 app.on('ready', function () {
@@ -47,6 +45,9 @@ app.on('ready', function () {
 	}
 
 	mainWindow.on('closed', onClosed);
+
+	logger.info('检测有无新版本');
+	autoUpdater.checkForUpdates();
 });
 
 function sendStatusToWindow(text) {

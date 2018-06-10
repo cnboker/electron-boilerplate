@@ -19,7 +19,8 @@
 	<div id="root" class="container">
 
 	</div>
-	<div id="__messages"></div>
+	
+	
 	<!-- 使用public路径在react-hot-loader模式下才可以正常加载app.bundle.j(/public/app.bundle.js)-->
 	<script src='./<%= htmlWebpackPlugin.options.publicDir%>app.bundle.js'>
 	</script>
@@ -45,13 +46,19 @@
 		}
 	</script>
 	<script>
-		const ipcRenderer = require('electron').ipcRenderer;
+		try{
+			document.getElementById('__messages').innerText = 'test'
+			const ipcRenderer = require('electron').ipcRenderer;
 		// wait for an updateReady message
 		ipcRenderer.on('message', function (event, text) {
 			// changes the text of the button
 			var container = document.getElementById('__messages');
 			container.innerHTML = text;
 		})
+		}catch(e){
+
+		}
+	
 	</script>
 </body>
 
