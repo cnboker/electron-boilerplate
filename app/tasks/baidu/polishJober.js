@@ -45,15 +45,20 @@ var logger = require('../../logger')
 
     //获取待擦亮关键字列表
     static async _fetchData() {
-        const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
-        const res = await axios({
-            method: 'get',
-            url,
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        });
-        return res.data;
+        try{
+            const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
+            const res = await axios({
+                method: 'get',
+                url,
+                headers: {
+                    Authorization: `Bearer ${access_token}`
+                }
+            });
+            return res.data;
+        }catch(e){
+            return []
+        }
+      
     }
 
 }

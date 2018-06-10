@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "kwpolish",
-	"version": "0.0.1",
+	"version": "0.0.4",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -24,7 +24,6 @@
 	"dependencies": {
 		"axios": "^0.18.0",
 		"axios-mock-adapter": "^1.15.0",
-	
 		"bows": "^1.7.0",
 		"classnames": "^2.2.5",
 		"clean-webpack-plugin": "^0.1.19",
@@ -52,6 +51,7 @@
 		"react-router": "^4.2.0",
 		"react-router-bootstrap": "^0.24.4",
 		"react-router-dom": "^4.2.2",
+		"react-toastify": "^3.2.2",
 		"reactstrap": "4.6.2",
 		"redux": "^3.0.0",
 		"redux-crud": "^3.2.0",
@@ -60,7 +60,8 @@
 		"redux-saga": "^0.16.0",
 		"redux-thunk": "^2.2.0",
 		"style-loader": "^0.21.0",
-		"url-loader": "^1.0.1"
+		"url-loader": "^1.0.1",
+		"electron-updater": "^2.21.10"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
@@ -78,7 +79,6 @@
 		"electron": "^2.0.2",
 		"electron-builder": "^19.20.1",
 		"electron-prebuilt": "^1.4.13",
-		"electron-updater": "^2.18.2",
 		"mocha": "^5.2.0",
 		"mongoose": "^5.0.14",
 		"nodemon": "^1.17.5",
@@ -89,6 +89,12 @@
 	"build": {
 		"appId": "com.ioliz.kwPolish",
 		"asar": true,
+		"publish": [
+			{
+				"provider": "generic",
+				"url": "http://www.ioliz.com/download"
+			}
+		],
 		"files": [
 			"**/*",
 			"!public/images${/*}",

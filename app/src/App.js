@@ -19,6 +19,7 @@ import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 //route test https://pshrmn.github.io/route-tester/#/
 import Cookies from "js-cookie";
+import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
   constructor(props) {
@@ -43,7 +44,9 @@ class App extends Component {
          
           authenticated={this.authenticated}
         />
+        
         <div className={classNames("container", "marginTop70")}>
+        
           <Switch>
             <Route path="/start" component={Start} />
             <PrivateRoute
@@ -54,6 +57,7 @@ class App extends Component {
             <Redirect from="/" to="/start" />
           </Switch>
         </div>
+        <ToastContainer/>
       </div>
     );
   }

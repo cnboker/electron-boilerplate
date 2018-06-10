@@ -37,6 +37,8 @@ const GR = new LocalizedStrings({
     create_date:'Create Date',
     formal:"Formal",
     license:'License',
+    success_return:'Success',
+    fetch_data_ok:'load finished'
   },
   zh: {
     orderNo: '订单编号',
@@ -73,6 +75,8 @@ const GR = new LocalizedStrings({
     create_date:'创建日期',
     formal:"正式",
     license:'许可',
+    success_return:'操作成功',
+    fetch_data_ok:'加载数据完成'
   }
 })
 

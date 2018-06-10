@@ -13,6 +13,7 @@ class Index extends Component {
     return (
 
       <div>
+        <p className="bg-success">关键字添加完后,后台程序就会对关键字做优化工作，请不要关闭程序耐心等待结果.</p> 
         <TableContainer title="关键字管理">
           <Switch>
             <Route path="/keyword/:id" component={New}/>
