@@ -38,4 +38,5 @@ module.exports = function (app) {
   app.use('/api/kwTask/rank',jwtCheck,requireScope('full_access'));
   app.use('/api/kwTask/polish',jwtCheck, requireScope('full_access'));
   app.use('/api/kwTask/tasks',jwtCheck,requireScope('full_access'));
+  app.use('/api/kwTask/status',jwtCheck,requireScope('full_access'));
 }

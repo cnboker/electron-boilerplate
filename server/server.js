@@ -2,6 +2,11 @@ var express = require('express'),
   app = express(),
   cors = require('cors'),
   port = process.env.PORT || 3001;
+
+  var http =require('http').Server(app)
+var io = require('socket.io')(http);
+app.io = io;
+
 var Keyword = require('./api/Keyword/Model');
 var User = require('./api/User/Model');
 
@@ -78,8 +83,18 @@ app.get('/500', function (req, res) {
 require('./protected')(app);
 require('./api/Keyword/Route')(app);
 require('./api/User/Route')(app);
-var server = app.listen(port)
 
-console.log('restfull api start...' + port)
+io.on('connection',function(socket){
+  consolo.log('a user conneted');
+  socket.on('disconnect',function(){
+    console.log('user disconnection')
+  })
+})
+
+//var server = app.listen(port)
+http.listen(port,function(){
+  console.log('restfull api start...' + port)
+
+})
 
 module.exports = app;

@@ -1,11 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var Scheam = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-var keywordSckema =new Scheam({
+var keywordSchema =new Schema({
   keyword:String, //关键字
-  engine:String, //搜索引擎
   link:String, //搜索引擎包含关键字
   user:String, //操作用户
   originRank:Number, //系统开始排名，-1表示已扫描未找到
@@ -19,13 +18,13 @@ var keywordSckema =new Scheam({
   status:Number //1. 运行, 2.暂停
 });
 
-module.exports = mongoose.model('Keyword', keywordSckema);
+module.exports = mongoose.model('Keyword', keywordSchema);
 
-var polishLog = new Scheam({
-   keyword_id:ObjectId,
+var polishLogSchema = new Schema({
+   keyword_id:Schema.Types.ObjectId,
    user:String, //擦亮账号
    ip:String,
    createDate:Date
 })
 
-module.exports = mongoose.model('PolishLog', polishLog);
+module.exports = mongoose.model('PolishLog', polishLogSchema);

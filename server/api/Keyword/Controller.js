@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   Keyword = mongoose.model('Keyword');
+var PolishLog = mongoose.model('PolishLog');
 
 exports.list = function (req, res) {
   //console.log('user name:', req.user.sub);
@@ -24,14 +25,14 @@ exports.create = function (req, res) {
     dynamicRank: 0,
     todayPolished: false,
     polishedCount: 0,
-    user: req.user.sub
+    user: req.user.sub,
+    status: 1
   });
   newKeyword.save(function (err, entity) {
     if (err) {
       res.send(err);
       return;
     }
-
     if (entity) {
       res.json(entity);
     }
@@ -92,7 +93,7 @@ exports.delete = function (req, res) {
   })
 }
 
-//update systemPage
+//scan job
 exports.rank = function (req, res) {
   //console.log('server rank  body', req.body)
   Keyword.findOneAndUpdate({
@@ -129,7 +130,7 @@ exports.tasks = function (req, res) {
         $lt: everyDayMaxPolishedCount
       }
     },
-    '_id keyword engine link' //only selecting the "_id" and "keyword" , "engine" "link"fields,
+    '_id keyword link' //only selecting the "_id" and "keyword" , "engine" "link"fields,
     ,
     function (err, docs) {
       if (err) {
@@ -140,6 +141,33 @@ exports.tasks = function (req, res) {
       //console.log('docs', docs)
       res.json(docs);
     })
+}
+
+//暂停关键字擦亮
+exports.status = function (req, res) {
+  Keyword.findOneAndUpdate({
+      _id: req.body._id
+    }, {
+      status: req.status //
+    }, {
+      new: false
+    },
+    function (err, doc) {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      res.json(doc)
+    }
+  );
+  //notify
+  //cmd,data
+  //this==app?
+  //in order to send an event to everyone
+  this.io.emit('keyword_pause', {
+    _id: req.body._id
+  });
+
 }
 
 //关键字擦亮结果处理
@@ -166,4 +194,14 @@ exports.polish = function (req, res) {
       console.log('polish................', doc)
       res.json(doc);
     });
+
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  var log = new PolishLog({
+    keyword_id: req.body._id,
+    user: req.user.sub,
+    createDate: Date.now(),
+    ip: ip
+  })
+  log.save();
+
 }
