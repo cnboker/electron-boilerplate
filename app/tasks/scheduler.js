@@ -10,10 +10,10 @@ var path = require('path')
 //     //ignore: false
 //   });
 
-var PolishJober = require('./baidu/polishJober');
-var ScanerJober = require('./baidu/scanJober');
-var pageTaskJober = require('./baidu/pageTaskJob');
-var jobContext = require('./baidu/jobContext');
+var PolishJober = require('./polishJober');
+var ScanerJober = require('./scanJober');
+var pageTaskJober = require('./pageTaskJob');
+var jobContext = require('./jobContext');
 
 var logger = require('../logger')
 
@@ -42,5 +42,7 @@ module.exports = {
                 logger.error(e);
             }
         })
+
+      
     }
 }

@@ -11,13 +11,13 @@ export class Switch extends React.Component {
     const { name, on } = this.props
 
     return (
-      <div>
+     
         <label className="switch switch-3d switch-primary" >
           <input type="checkbox" className="switch-input" defaultChecked={on} name={name} />
           <span className="switch-label" onClick={this.toggle.bind(this)}></span>
           <span className="switch-handle"  onClick={this.toggle.bind(this)}></span>
         </label>
-      </div>
+      
     )
   }
 }

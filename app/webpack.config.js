@@ -63,7 +63,7 @@ var appConfig = Object.assign({}, config, {
 			publicDir: process.env.APP === 'web' ? "public/" : "",
 			template: './assets/template/index.html',
 			inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
-            filename: './index.html' //relative to root of the application
+			filename: './index.html' //relative to root of the application
 		}),
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -78,7 +78,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var taskConfig = Object.assign({}, config, {
 	mode: 'development', //production or development
 	entry: {
-		app: [ './tasks/scheduler.js']
+		app: ['./tasks/scheduler.js']
 	},
 
 	output: {
