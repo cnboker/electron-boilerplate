@@ -24,7 +24,7 @@ exports.create = function (req, res) {
     dynamicRank: 0,
     todayPolished: false,
     polishedCount: 0,
-    user:req.user.sub
+    user: req.user.sub
   });
   newKeyword.save(function (err, entity) {
     if (err) {
@@ -49,17 +49,33 @@ exports.read = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  Keyword.findOneAndUpdate({
+  // Keyword.findOneAndUpdate({
+  //   _id: req.params.id
+  // }, req.body, {
+  //   new: true
+  // }, function (err, entity) {
+  //   if (err) {
+  //     res.send(err);
+  //     return;
+  //   }
+  //   res.json(entity);
+  // });
+  Keyword.findOne({
     _id: req.params.id
-  }, req.body, {
-    new: true
-  }, function (err, entity) {
-    if (err) {
-      res.send(err);
-      return;
+  }, function (err, obj) {
+    if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
+      obj.originRank = 0
     }
-    res.json(entity);
-  });
+    obj.keyword = req.body.keyword;
+    obj.link = req.body.link;
+    obj.save(function (err, doc) {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      res.json(doc);
+    })
+  })
 }
 
 exports.delete = function (req, res) {
@@ -83,7 +99,7 @@ exports.rank = function (req, res) {
     _id: req.body._id
   }, {
     originRank: req.body.rank,
-    isValid: (req.body.rank != -1)
+    isValid: (req.body.rank != -1),
   }, {
     new: true
   }, function (err, entity) {
@@ -97,9 +113,21 @@ exports.rank = function (req, res) {
 }
 
 exports.tasks = function (req, res) {
+  var inDoTasksTime = (() => {
+    var startTime = 9 * 60;
+    var endTime = 16 * 60 + 30;
+    var d = new Date();
+    var nowTime = d.getHours() * 60 + d.getMinutes();
+    return nowTime > startTime && nowTime < endTime;
+  })();
+  if (!inDoTasksTime) return res.json([])
   //获取点数>0且今天未擦亮的关键字
   Keyword.find({
-    isValid:true
+      isValid: true,
+      status: 1,
+      todayPolishedCount: {
+        $lt: everyDayMaxPolishedCount
+      }
     },
     '_id keyword engine link' //only selecting the "_id" and "keyword" , "engine" "link"fields,
     ,
@@ -119,7 +147,6 @@ exports.polish = function (req, res) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
-      todayPolished: true,
       lastPolishedDate: new Date(),
     },
     $inc: {
@@ -136,7 +163,7 @@ exports.polish = function (req, res) {
         res.send(err);
         return;
       }
-      console.log('polish................',doc)
+      console.log('polish................', doc)
       res.json(doc);
     });
 }

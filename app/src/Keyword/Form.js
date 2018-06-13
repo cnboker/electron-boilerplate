@@ -29,11 +29,10 @@ class Form extends Component {
     const { handleSubmit } = this.props
 
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
-        <Field name="engine" type="text" label="搜索引擎" component={renderField} validate={required} props={{disabled: true}}/>
+      <form onSubmit={handleSubmit(this.submit.bind(this))}>       
         <Field name="keyword" type="text" label="关键字" component={renderField} validate={required} />
-        <Field name="link" type="text" label="匹配链接" component={renderField} validate={required} />
-       
+        <Field name="link" type="text" label="网站域名" component={renderField} validate={required} />
+        <Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} />     
         <button action="submit" className="btn btn-block btn-success">更新</button>
       </form>
     )

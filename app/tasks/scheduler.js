@@ -20,24 +20,22 @@ var logger = require('../logger')
 
 module.exports = {
      doTask() {
-        logger.info('doTask start ...')
-        //ScanerJober.execute(jobContext);
-        //PolishJober.execute(jobContext);
-        //隔30分钟执行scanJober
-        schedule.scheduleJob('*/5 * * * *',function(){
-            logger.log('/5m', moment().format())
+        logger.info('doTask start ...')    
+        //隔15分钟执行scanJober
+        schedule.scheduleJob('*/15 * * * *',function(){
+            logger.log('/15m', moment().format())
             ScanerJober.execute(jobContext);
         })
 
         //隔10分钟执行polishJober
-        schedule.scheduleJob('*/2 * * * *',function(){
-            logger.log('/2m', moment().format())
+        schedule.scheduleJob('*/10 * * * *',function(){
+            logger.log('/10m', moment().format())
             PolishJober.execute(jobContext);
         })
 
-        //隔5分钟执行pageTaskJober
-        schedule.scheduleJob('*/1 * * * *',function(){
-            logger.log('/1m', moment().format())
+        //隔2分钟执行pageTaskJober
+        schedule.scheduleJob('*/2 * * * *',function(){
+            logger.log('/2m', moment().format())
             try{
                 pageTaskJober.execute(jobContext);
             }catch(e){

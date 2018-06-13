@@ -82,8 +82,9 @@ class List extends Component {
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
-            
+            <td>{this.stringFormat(item.todayPolishedCount)}</td>
             <td>{this.stringFormat(item.isValid)}</td>
+            <td>{this.statusFormat(item.status)}</td>
             <td>
               {this.stringFormat(item.lastPolishedDate)}
             </td>
@@ -101,6 +102,13 @@ class List extends Component {
                   .onDelete
                   .bind(this, item)}>
                 <i className="fa fa-trash" />
+              </button>
+              <button
+                className="btn btn-info"
+                onClick={this
+                  .onPause
+                  .bind(this, item)}>
+                <i className="fa fa-pause" />
               </button>
             </td>
           </tr>
@@ -133,7 +141,9 @@ class List extends Component {
                 <th>原始排名</th>
                 <th>最新排名</th>
                 <th>擦亮次数</th>
+                <th>今日擦亮次数</th>
                 <th>是否有效</th>
+                <th>状态</th>
                 <th>上次擦亮时间</th>
                 <th>创建日期</th>
                 <th />

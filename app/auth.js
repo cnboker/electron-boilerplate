@@ -6,16 +6,20 @@ var token = {
 var logger = require('./logger')
 var access_token = token.access_token;
 logger.info(process.env.NODE_ENV)
-if (process.env.NODE_ENV == 'production') {
-    const storedToken = localStorage.getItem('token')
-    logger.info('token:' + storedToken);
-    // if it exists
-    if (storedToken) {
-        // parse it down into an object
-        access_token = JSON.parse(storedToken).access_token;
-    } else {
-        throw 'access_token not found!'
+getToken();
+
+function getToken() {
+    if (process.env.NODE_ENV == 'production') {
+        const storedToken = localStorage.getItem('token')
+        logger.info('token:' + storedToken);
+        // if it exists
+        if (storedToken) {
+            // parse it down into an object
+            access_token = JSON.parse(storedToken).access_token;
+        } else {
+            throw 'access_token not found!'
+        }
     }
-} 
+}
 
 module.exports = access_token;

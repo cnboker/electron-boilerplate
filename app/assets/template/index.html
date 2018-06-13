@@ -23,7 +23,9 @@
 	
 	<!-- 使用public路径在react-hot-loader模式下才可以正常加载app.bundle.j(/public/app.bundle.js)-->
 	<script src='./<%= htmlWebpackPlugin.options.publicDir%>app.bundle.js'>
+	
 	</script>
+	
 	<script>
 		try {
 			//electron script
@@ -47,7 +49,6 @@
 	</script>
 	<script>
 		try{
-			document.getElementById('__messages').innerText = 'test'
 			const ipcRenderer = require('electron').ipcRenderer;
 		// wait for an updateReady message
 		ipcRenderer.on('message', function (event, text) {

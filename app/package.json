@@ -88,7 +88,7 @@
 	},
 	"build": {
 		"appId": "com.ioliz.kwPolish",
-		"asar": true,
+		"asar": false,
 		"publish": [
 			{
 				"provider": "generic",
@@ -101,7 +101,7 @@
 			"!docs${/*}",
 			"!test${/*}",
 			"!src${/*}",
-			"!installers${/*}",
+			"!tasks${/*}",
 			"node_modules/electron-process/*",
 			"!node_modules/electron-prebuilt/${/*}",
 			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe",

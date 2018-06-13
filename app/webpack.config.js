@@ -74,14 +74,15 @@ var appConfig = Object.assign({}, config, {
 
 });
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var taskConfig = Object.assign({}, config, {
 	mode: 'development', //production or development
 	entry: {
-		app: ['babel-polyfill', './src/tasks/scheduler.js']
+		app: [ './tasks/scheduler.js']
 	},
 
 	output: {
-		path: path.resolve(__dirname, 'bin'),
+		path: path.resolve(__dirname, 'public'),
 		filename: 'task.bundle.js'
 	},
 	node: {
