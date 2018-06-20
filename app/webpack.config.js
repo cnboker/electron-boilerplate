@@ -14,8 +14,9 @@ var config = {
 };
 
 var appConfig = Object.assign({}, config, {
+	//target: 'node', //resolve log4js error
 	mode: process.env.NODE_ENV, //production or development
-	devtool: (process.env.NODE_ENV === 'development') ? 'inline-source-map' : false,
+	devtool: 'source-map' ,
 	entry: {
 		app: ['babel-polyfill', './src/index.js']
 	},

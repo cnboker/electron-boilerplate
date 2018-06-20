@@ -1317,10 +1317,6 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap-toggle@^2.2.2:
-  version "2.2.2"
-  resolved "http://registry.npm.taobao.org/bootstrap-toggle/download/bootstrap-toggle-2.2.2.tgz#2b88534fc1b998674f877f98ba0d8b5b743e96fe"
-
 bows@^1.7.0:
   version "1.7.0"
   resolved "http://registry.npm.taobao.org/bows/download/bows-1.7.0.tgz#a3598ed9cef61a7a0cab1a7240f291654865ec76"
@@ -3265,10 +3261,6 @@ fs-write-stream-atomic@^1.0.8:
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
-
-fs@^0.0.1-security:
-  version "0.0.1-security"
-  resolved "http://registry.npm.taobao.org/fs/download/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
 
 fsevents@^1.0.0, fsevents@^1.1.2:
   version "1.2.4"

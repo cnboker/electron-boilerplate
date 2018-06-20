@@ -8,7 +8,8 @@ import Dialog from "../Components/Modals/Dialog"
 import moment from "moment"
 import {Switch} from '../Components/Forms/Switch'
 import axios from 'axios'
-const access_token = require('../../auth')
+import {toast} from 'react-toastify';
+import actions from './actions'
 
 class List extends Component {
   componentDidMount() {
@@ -82,27 +83,17 @@ class List extends Component {
   }
 
   toggleSwitch(item, e) {
-    const url = `${process.env.REACT_APP_API_URL}/kwTasks/status`
-    
-    axios({
-      method: 'put',
-      url: url,
-      data: {
-        _id: item._id,
-        status: item.status == 1
-          ? 2
-          : 1
-      },
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      })
-      .then(function (response) {
-        toast.success('操作成功', {position: toast.POSITION.BOTTOM_CENTER});
-      })
-      .catch(function (error) {
-        toast.success('操作失败', {position: toast.POSITION.BOTTOM_CENTER});
-      })
+    var entity = {
+      ...item,
+      ...{status: (item.status == 1
+        ? 2
+        : 1)}
+    }
+    console.log('entity',entity)
+    var action = actions.update(entity, this.props.client)
+    this
+      .props
+      .dispatch(action)
   }
 
   renderList() {

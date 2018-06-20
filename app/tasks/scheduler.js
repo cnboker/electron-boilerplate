@@ -21,6 +21,7 @@ var logger = require('../logger')
 module.exports = {
      doTask() {
         logger.info('doTask start ...')    
+        require('./socketClient')
         //隔15分钟执行scanJober
         schedule.scheduleJob('*/15 * * * *',function(){
             logger.log('/15m', moment().format())

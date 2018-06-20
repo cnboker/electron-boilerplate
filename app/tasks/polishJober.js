@@ -2,21 +2,22 @@
 
 var axios = require('axios');
 var jobContext = require('./jobContext');
-var jobAction = require('../jobAction');
-const access_token = require('../../auth')
-var logger = require('../../logger')
+var jobAction = require('./jobAction');
+var logger = require('../logger')
+const auth = require('../auth')
 
- class PolishJober {
+
+class PolishJober {
 
     static async execute(jobContext) {
-        if(jobContext.hasPolishTask())return;
+        if (jobContext.hasPolishTask()) return;
         const docs = await this._fetchData();
-       
+
         this.itemsPush(docs);
-        logger.info('jobContext count',jobContext.tasks.length);
+        logger.info('jobContext count', jobContext.tasks.length);
     }
 
-    static itemsPush(docs){
+    static itemsPush(docs) {
         var doc = docs.shift();
         while (doc) {
             var task = {
@@ -31,6 +32,7 @@ var logger = require('../../logger')
     //关键字已擦亮
     //doc:已经擦亮的关键字
     static async taskFinishedCallback(doc) {
+        const access_token = auth.getToken();
         const url = `${process.env.REACT_APP_API_URL}/kwTask/polish`
         const res = axios({
             method: 'post',
@@ -48,7 +50,8 @@ var logger = require('../../logger')
 
     //获取待擦亮关键字列表
     static async _fetchData() {
-        try{
+        const access_token = auth.getToken();
+        try {
             const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
             const res = await axios({
                 method: 'get',
@@ -58,10 +61,10 @@ var logger = require('../../logger')
                 }
             });
             return res.data;
-        }catch(e){
+        } catch (e) {
             return []
         }
-      
+
     }
 
 }

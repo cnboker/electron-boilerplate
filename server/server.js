@@ -5,6 +5,7 @@ var express = require('express'),
 
   var http =require('http').Server(app)
 var io = require('socket.io')(http);
+io.path('/api/task');
 app.io = io;
 
 var Keyword = require('./api/Keyword/Model');
@@ -84,12 +85,22 @@ require('./protected')(app);
 require('./api/Keyword/Route')(app);
 require('./api/User/Route')(app);
 
-io.on('connection',function(socket){
-  consolo.log('a user conneted');
-  socket.on('disconnect',function(){
-    console.log('user disconnection')
+const taskio = io.of('/api/task');
+taskio.on('connection',function(socket){
+  console.log('a user conneted');
+  
+  socket.on('message',function(data){
+    console.log('received data', data);
   })
 })
+
+taskio.on('disconnect',function(){
+  console.log('user disconnection')
+})
+
+taskio.on('error', function (data) {
+  console.log(data || 'error');
+});
 
 //var server = app.listen(port)
 http.listen(port,function(){

@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-var jobAction = require('../jobAction')
+var jobAction = require('./jobAction')
 
 const jobContext = {
     busy: false,
@@ -32,7 +32,7 @@ jobContext.removeById = function(id){
     this.tasks = this.tasks.filter(function(task){
         return task._id != id
     });
-})
+}
 
 jobContext.clean = function(){
     this.tasks = [];

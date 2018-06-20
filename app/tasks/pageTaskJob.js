@@ -1,8 +1,8 @@
 var puppeteer = require('puppeteer')
-var sleep = require('../sleep')
-var scroll = require('../scroll')
-var random = require('../random')
-var jobAction = require('../jobAction')
+var sleep = require('./sleep')
+var scroll = require('./scroll')
+var random = require('./random')
+var jobAction = require('./jobAction')
 
 const SCAN_MAX_ROW = 100;
 const SCAN_MAX_PAGE = 15;

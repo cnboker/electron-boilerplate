@@ -66,7 +66,7 @@ autoUpdater.on('update-not-available', (ev, info) => {
 	sendStatusToWindow('当前为最新版本.');
 })
 autoUpdater.on('error', (ev, err) => {
-	sendStatusToWindow('更新失败. ' + err);
+	sendStatusToWindow('更新失败. ');
 })
 autoUpdater.on('download-progress', (ev, progressObj) => {
 	sendStatusToWindow('正在下载...');

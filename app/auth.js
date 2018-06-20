@@ -5,21 +5,26 @@ var token = {
 };
 var logger = require('./logger')
 var access_token = token.access_token;
-logger.info(process.env.NODE_ENV)
-getToken();
 
-function getToken() {
-    if (process.env.NODE_ENV == 'production') {
-        const storedToken = localStorage.getItem('token')
-        logger.info('token:' + storedToken);
-        // if it exists
-        if (storedToken) {
-            // parse it down into an object
-            access_token = JSON.parse(storedToken).access_token;
-        } else {
-            throw 'access_token not found!'
+const EventEmitter = require('events')
+class Auth extends EventEmitter{
+    getToken() {
+        if (process.env.NODE_ENV == 'production') {
+            const storedToken = localStorage.getItem('token')
+            logger.info('token:' + storedToken);
+            // if it exists
+            if (storedToken) {
+                // parse it down into an object
+                access_token = JSON.parse(storedToken).access_token;
+            } else {
+                throw 'access_token not found!'
+            }
         }
+        return access_token;
+    }
+    refresh(){
+        this.emit('refresh',getToken())
     }
 }
 
-module.exports = access_token;
+module.exports = new Auth();

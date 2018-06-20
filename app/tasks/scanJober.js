@@ -1,12 +1,13 @@
 'use strict';
 
-const notifier = require('node-notifier');
+const notifier = require('node-notifier');  
 var jobContext = require('./jobContext');
-var jobAction = require('../jobAction')
+var jobAction = require('./jobAction')
 var axios = require('axios');
 
-const access_token = require('../../auth')
-var logger = require('../../logger')
+const auth = require('../auth')
+var logger = require('../logger')
+
 
 class ScanJober {
     constructor() {
@@ -15,7 +16,6 @@ class ScanJober {
 
     //每5分钟执行一次
     static async execute(jobContext) {
-        
         if(jobContext.hasScanTask())return;
         const unScanItems = await this._fetchData();
         logger.info('unScanItems',unScanItems.length);
@@ -44,6 +44,7 @@ class ScanJober {
     }
 
     static async taskFinishedCallback(doc){
+        const access_token = auth.getToken();
         const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
         const res = axios({
             method:'post',
@@ -61,6 +62,7 @@ class ScanJober {
 
     static async  _fetchData() {
         try{
+            const access_token = auth.getToken();
             const url = `${process.env.REACT_APP_API_URL}/keywords`
             logger.info('scanjob-_fetchData-url', url);
             console.log(url);

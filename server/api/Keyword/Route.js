@@ -21,6 +21,6 @@ module.exports = function(app){
   app.route('/api/kwTask/tasks')
   .get(ctl.tasks)
 
-  app.route('/api/kwTask/status')
-  .put(ctl.status);
+  //app.route('/api/kwTask/status')
+  //.post(ctl.status);
 }

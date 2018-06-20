@@ -50,17 +50,7 @@ exports.read = function (req, res) {
 }
 
 exports.update = function (req, res) {
-  // Keyword.findOneAndUpdate({
-  //   _id: req.params.id
-  // }, req.body, {
-  //   new: true
-  // }, function (err, entity) {
-  //   if (err) {
-  //     res.send(err);
-  //     return;
-  //   }
-  //   res.json(entity);
-  // });
+
   Keyword.findOne({
     _id: req.params.id
   }, function (err, obj) {
@@ -69,6 +59,22 @@ exports.update = function (req, res) {
     }
     obj.keyword = req.body.keyword;
     obj.link = req.body.link;
+    if (req.body.status) {
+      obj.status = req.body.status;
+      if (obj.status == 2) {
+        console.log('emit keyword_pause')
+        const taskio = req.app.io.of('/api/task');
+        //notify
+        //cmd,data
+        //in order to send an event to everyone
+        taskio.emit('keyword_pause', {
+          _id: req.params.id,
+          for:'everyone'
+        });
+
+      }
+    }
+
     obj.save(function (err, doc) {
       if (err) {
         res.send(err);
@@ -125,10 +131,7 @@ exports.tasks = function (req, res) {
   //获取点数>0且今天未擦亮的关键字
   Keyword.find({
       isValid: true,
-      status: 1,
-      todayPolishedCount: {
-        $lt: everyDayMaxPolishedCount
-      }
+      status: 1
     },
     '_id keyword link' //only selecting the "_id" and "keyword" , "engine" "link"fields,
     ,
@@ -143,32 +146,7 @@ exports.tasks = function (req, res) {
     })
 }
 
-//暂停关键字擦亮
-exports.status = function (req, res) {
-  Keyword.findOneAndUpdate({
-      _id: req.body._id
-    }, {
-      status: req.status //
-    }, {
-      new: false
-    },
-    function (err, doc) {
-      if (err) {
-        res.send(err);
-        return;
-      }
-      res.json(doc)
-    }
-  );
-  //notify
-  //cmd,data
-  //this==app?
-  //in order to send an event to everyone
-  this.io.emit('keyword_pause', {
-    _id: req.body._id
-  });
 
-}
 
 //关键字擦亮结果处理
 exports.polish = function (req, res) {
