@@ -3,7 +3,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User');
 var jwt = require('jsonwebtoken')
-var config = require('../../config.json')
+var config = require('../../config')
 
 
 exports.signup = function (req, res) {

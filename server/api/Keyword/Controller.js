@@ -69,7 +69,7 @@ exports.update = function (req, res) {
         //in order to send an event to everyone
         taskio.emit('keyword_pause', {
           _id: req.params.id,
-          for:'everyone'
+          for: 'everyone'
         });
 
       }
@@ -101,21 +101,23 @@ exports.delete = function (req, res) {
 
 //scan job
 exports.rank = function (req, res) {
-  //console.log('server rank  body', req.body)
+  console.log('server rank  body', req.body)
   Keyword.findOneAndUpdate({
     _id: req.body._id
   }, {
     originRank: req.body.rank,
     isValid: (req.body.rank != -1),
   }, {
-    new: true
-  }, function (err, entity) {
-    console.log('server err:', err)
+    //同时设置这2个参数，否则doc返回null
+    new: true,
+    upsert: true
+  }, function (err, doc) {
+    console.log('server rank doc:', doc)
     if (err) {
       res.send(err);
       return;
     }
-    res.json(entity);
+    res.json(doc);
   });
 }
 
@@ -162,6 +164,8 @@ exports.polish = function (req, res) {
   Keyword.findOneAndUpdate({
       _id: req.body._id
     }, upsertData, {
+       //同时设置这2个参数，否则doc返回null
+      upsert:true,
       new: true //return the modified document rather than the original. defaults to false
     },
     function (err, doc) {

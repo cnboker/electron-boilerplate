@@ -19,4 +19,4 @@ function getToken() {
   return access_token;
 }
 
-module.exports = getToken;
+module.exports = getToken();
