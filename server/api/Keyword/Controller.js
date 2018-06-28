@@ -3,40 +3,92 @@
 var mongoose = require('mongoose'),
   Keyword = mongoose.model('Keyword');
 var PolishLog = mongoose.model('PolishLog');
+var User = mongoose.model('User');
+var boom = require('boom')
+var simpleStrategy = require('./taskSimpleStrategy')
 
 exports.list = function (req, res) {
   //console.log('user name:', req.user.sub);
   Keyword.find({
-    'user': req.user.sub
-  }, function (err, data) {
-    if (err) {
-      res.send(err)
-      return;
-    }
-    res.json(data)
-  })
+      'user': req.user.sub
+    }, null, {
+      sort: {
+        createDate: -1
+      }
+    },
+    function (err, data) {
+      if (err) {
+        res.send(err)
+        return;
+      }
+      res.json(data)
+    })
 }
 
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
   delete req.body._id;
-  var newKeyword = new Keyword({ ...req.body,
-    createDate: Date.now(),
-    originRank: 0,
-    dynamicRank: 0,
-    todayPolished: false,
-    polishedCount: 0,
-    user: req.user.sub,
-    status: 1
-  });
-  newKeyword.save(function (err, entity) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    if (entity) {
-      res.json(entity);
-    }
-  });
+  User
+    .findOne({
+      'userName': req.user.sub
+    })
+    .then((user) => {
+      return new Promise((resolve, reject) => {
+        var grade = user.grade || 0;
+        if (grade == 0) {
+          //免费用户
+          Keyword.count({
+            'user': req.user.sub
+          }).then(count => {
+            if (count > 3) {
+              reject('普通账号关键字数不能大于3个，请升级为标准账号')
+            } else {
+              resolve();
+            }
+          });
+        } else {
+          resolve();
+        }
+      })
+    })
+    .then(() => {
+      return Keyword.find({
+        'user': req.user.sub,
+        'keyword': req.body.keyword,
+        'link': req.body.link
+      })
+    })
+    .then((docs) => {
+      console.log(docs)
+      if (docs.length > 0) {
+        throw '关键字重复错误';
+      } else {
+        return true;
+      }
+    })
+    .then(() => {
+      var newKeyword = new Keyword({ ...req.body,
+        createDate: Date.now(),
+        originRank: 0,
+        dynamicRank: 0,
+        todayPolished: false,
+        polishedCount: 0,
+        user: req.user.sub,
+        status: 1
+      });
+      return newKeyword.save();
+    })
+    .then((err, doc) => {
+      if (err) throw err;
+      res.json(doc)
+      //socket send notify
+      const taskio = req.app.io.of('/api/task');
+      taskio.sockets.in(req.user.sub).emit('keyword_create', doc)
+    })
+    .catch((e) => {
+      //console.log('create.....',e);
+      return next(boom.badRequest(e));
+    })
+
 }
 
 exports.read = function (req, res) {
@@ -122,14 +174,16 @@ exports.rank = function (req, res) {
 }
 
 exports.tasks = function (req, res) {
-  var inDoTasksTime = (() => {
-    var startTime = 9 * 60;
-    var endTime = 16 * 60 + 30;
-    var d = new Date();
-    var nowTime = d.getHours() * 60 + d.getMinutes();
-    return nowTime > startTime && nowTime < endTime;
-  })();
-  if (!inDoTasksTime) return res.json([])
+  
+  // var inDoTasksTime = (() => {
+  //   var startTime = 9 * 60;
+  //   var endTime = 16 * 60 + 30;
+  //   var d = new Date();
+  //   var nowTime = d.getHours() * 60 + d.getMinutes();
+  //   return nowTime > startTime && nowTime < endTime;
+  // })();
+  // if (!inDoTasksTime) return res.json([])
+
   //获取点数>0且今天未擦亮的关键字
   Keyword.find({
       isValid: true,
@@ -143,11 +197,11 @@ exports.tasks = function (req, res) {
         res.send(err);
         return;
       }
+      
       //console.log('docs', docs)
-      res.json(docs);
+      res.json(simpleStrategy(docs));
     })
 }
-
 
 
 //关键字擦亮结果处理
@@ -164,8 +218,8 @@ exports.polish = function (req, res) {
   Keyword.findOneAndUpdate({
       _id: req.body._id
     }, upsertData, {
-       //同时设置这2个参数，否则doc返回null
-      upsert:true,
+      //同时设置这2个参数，否则doc返回null
+      upsert: true,
       new: true //return the modified document rather than the original. defaults to false
     },
     function (err, doc) {

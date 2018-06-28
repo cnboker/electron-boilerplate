@@ -154,14 +154,14 @@ class List extends Component {
           <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
           </Link>
-          <a
+          <button
             onClick={() => {
             this.fetch();
           }}
             role="button"
-            className="btn btn-info pull-right">
+            className="btn btn-info pull-right" >
             刷新
-          </a>
+          </button>
         </div>
 
         <div className="table-responsive">

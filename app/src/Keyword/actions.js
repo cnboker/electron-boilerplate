@@ -3,7 +3,6 @@ import bows from 'bows'
 import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
-import { toast } from 'react-toastify';
 import resources from '../locale'
 
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
@@ -34,16 +33,12 @@ let actionCreators = {
           const successAction = baseActionCreators.fetchSuccess(returned,{replace:replaceExisting});
           log("successAction",successAction);
           dispatch(successAction)
-          toast.success(resources.fetch_data_ok, {
-            position: toast.POSITION.BOTTOM_CENTER
-          });
+        
         },function(response){
           log("rejection",response);
           const errorAction = baseActionCreators.fetchError(response)
           dispatch(errorAction)
-          toast.error(response.response.data, {
-            position: toast.POSITION.BOTTOM_CENTER
-          });
+         
         }).catch(function(err){
           console.error(err.toString())
         })
@@ -78,6 +73,7 @@ let actionCreators = {
         },function(response){
             const errorAction = baseActionCreators.createError(response,entity)
             dispatch(errorAction)
+          
         }).catch(function(err){
            console.error(err.toString())
         })

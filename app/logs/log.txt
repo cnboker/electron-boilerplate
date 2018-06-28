@@ -1,0 +1,19 @@
+[2018-06-28T18:45:05.882] [INFO] tasks - doTask start ...
+[2018-06-28T18:45:05.915] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:45:05.991] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:45:06.060] [INFO] tasks - connect
+[2018-06-28T18:45:06.133] [INFO] tasks - fetch tasks length 2
+[2018-06-28T18:45:06.135] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f1050b',
+  keyword: '软件定制服务',
+  link: 'ioliz.com',
+  runTime: '2018-06-28 18:45:58',
+  state: 'origin' }
+[2018-06-28T18:45:06.138] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f10511',
+  keyword: '保健品',
+  link: 'ebotop.com',
+  runTime: '2018-06-28 18:46:50',
+  state: 'origin' }
+[2018-06-28T18:46:00.005] [INFO] tasks - /10s 2018-06-28T18:46:00+08:00
+[2018-06-28T18:46:00.005] [INFO] tasks - execute scan task 软件定制服务
+[2018-06-28T18:47:00.004] [INFO] tasks - /10s 2018-06-28T18:47:00+08:00
+[2018-06-28T18:47:00.004] [INFO] tasks - execute scan task 保健品

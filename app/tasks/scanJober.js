@@ -15,36 +15,39 @@ class ScanJober {
     }
 
     //每5分钟执行一次
-    static async execute(jobContext) {
-        if(jobContext.hasScanTask())return;
-        const unScanItems = await this._fetchData();
-        logger.info('unScanItems',unScanItems.length);
-        if(unScanItems.length > 0){
-            notifier.notify({
-                title: 'kwPolish提示信息',
-                message: '优化引擎正在分析您关键字的原始排名,请耐心等待结果...'
-              });
-            //notifier.notify('优化引擎正在分析您关键字的原始排名,请耐心等待结果...');
+    static async execute(doc) {
+        var task = {
+            doc,
+            action: jobAction.SCAN,
+            end:this.taskFinishedCallback
         }
-        this.itemsPush(unScanItems);
+        jobContext.addTask(task);
+        // if(unScanItems.length > 0){
+        //     notifier.notify({
+        //         title: 'kwPolish提示信息',
+        //         message: '优化引擎正在分析您关键字的原始排名,请耐心等待结果...'
+        //       });
+        //     //notifier.notify('优化引擎正在分析您关键字的原始排名,请耐心等待结果...');
+        // }
+        // this.itemsPush(unScanItems);
        // console.log('execute end...')
     }
 
-    static itemsPush(unScanItems){
-        var doc = unScanItems.shift();
-        while (doc) {
-            var task = {
-                doc,
-                action: jobAction.SCAN,
-                end:this.taskFinishedCallback
-            }
-            jobContext.addTask(task);
-            doc = unScanItems.shift();
-        }
-    }
+    // static itemsPush(unScanItems){
+    //     var doc = unScanItems.shift();
+    //     while (doc) {
+    //         var task = {
+    //             doc,
+    //             action: jobAction.SCAN,
+    //             end:this.taskFinishedCallback
+    //         }
+    //         jobContext.addTask(task);
+    //         doc = unScanItems.shift();
+    //     }
+    // }
 
     static async taskFinishedCallback(doc){
-        const access_token = auth.getToken();
+        const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
         const res = axios({
             method:'post',
@@ -62,7 +65,7 @@ class ScanJober {
 
     static async  _fetchData() {
         try{
-            const access_token = auth.getToken();
+            const access_token = auth.getToken().access_token;
             const url = `${process.env.REACT_APP_API_URL}/keywords`
             logger.info('scanjob-_fetchData-url', url);
             console.log(url);

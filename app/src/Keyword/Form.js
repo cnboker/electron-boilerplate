@@ -32,7 +32,7 @@ class Form extends Component {
       <form onSubmit={handleSubmit(this.submit.bind(this))}>       
         <Field name="keyword" type="text" label="关键字" component={renderField} validate={required} />
         <Field name="link" type="text" label="网站域名" component={renderField} validate={required} />
-        <Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} />     
+        {/*<Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} /> */}
         <button action="submit" className="btn btn-block btn-success">更新</button>
       </form>
     )

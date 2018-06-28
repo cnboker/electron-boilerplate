@@ -10,7 +10,7 @@ let should = chai.should();
 let expect = chai.expect;
 var dbInit = require('../../data/scripts/init')
 
-const access_token = require('../auth')
+const access_token = require('../auth').access_token
 chai.use(chaiHttp)
 
 describe('keyword', () => {
@@ -36,6 +36,25 @@ describe('keyword', () => {
         });
     })
   });
+
+  describe('/api/keywords/create',()=>{
+    it('throw 400 if free user keywords count great than 3',(done)=>{
+      chai.request(server)
+      .post('/api/keywords')
+      .set('Authorization',`Bearer ${access_token}`)
+      .send({
+        keyword:'abcd',
+        link:'ioliz.com',
+        engine:'baidu'
+      })
+      .end((err,res)=>{
+        res.should.have.status(400)
+        console.log('/api/keywords/create',res.body)
+        done();
+      })
+    })
+  })
+
 
   describe('/api/kwTask/rank', () => {
     it('set rank = 30,should return rank=30', (done) => {

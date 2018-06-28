@@ -5,34 +5,57 @@ var jobContext = require('./jobContext');
 var jobAction = require('./jobAction');
 var logger = require('../logger')
 const auth = require('../auth')
-
+var schedule = require('node-schedule');
+var store = require('./localStore')
+var pageTaskJob = require('./pageTaskJob')
 
 class PolishJober {
-
-    static async execute(jobContext) {
-        if (jobContext.hasPolishTask()) return;
-        const docs = await this._fetchData();
-
+    static async execute() {
+        var docs = store.getKeywordLocalStorage();
+        if (docs == null) {
+            docs = await this._fetchData();
+            logger.info('fetch tasks length', docs.length);
+            store.setKeywordLocalStorage(docs);
+        }
         this.itemsPush(docs);
-        logger.info('jobContext count', jobContext.tasks.length);
+        
     }
 
     static itemsPush(docs) {
         var doc = docs.shift();
         while (doc) {
+            doc.state = 'origin'
             var task = {
                 doc,
                 action: jobAction.Polish,
                 end: this.taskFinishedCallback
             }
             jobContext.addTask(task);
+            var date = new Date(task.doc.runTime);
+            logger.info('polish', doc)
+            schedule.scheduleJob(date, function (doc) {
+                if (jobContext.busy) return;
+                if (doc.state == 'dirty') {
+                    logger.info('doc dirty', doc)
+                    return;
+                }
+                console.log('schedule time polish', doc)
+                if (process.env.APP == 'node') {
+                    return;
+                }
+                pageTaskJob
+                    .execute(task)
+                    .then(() => {
+                        store.remove(doc._id);
+                    })
+            }.bind(null, doc));
             doc = docs.shift();
         }
     }
     //关键字已擦亮
     //doc:已经擦亮的关键字
     static async taskFinishedCallback(doc) {
-        const access_token = auth.getToken();
+        const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/polish`
         const res = axios({
             method: 'post',
@@ -50,7 +73,7 @@ class PolishJober {
 
     //获取待擦亮关键字列表
     static async _fetchData() {
-        const access_token = auth.getToken();
+        const access_token = auth.getToken().access_token;
         try {
             const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
             const res = await axios({

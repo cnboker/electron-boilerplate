@@ -9,7 +9,7 @@ let expect = chai.expect
 var dbInit = require('../../data/scripts/init')
 var moment = require('moment')
 
-const access_token = require('../auth')
+const access_token = require('../auth').access_token
 chai.use(chaiHttp)
 
 describe('balance', () => {

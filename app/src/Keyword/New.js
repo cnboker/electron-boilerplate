@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import Form from './Form'
 import { connect } from 'react-redux'
 import R from 'ramda'
+import { toast } from 'react-toastify';
+import resources from '../locale'
 
 class New extends Component {
   constructor(){
@@ -19,9 +21,23 @@ class New extends Component {
       action = actions.update(entity,this.props.client)
     }
     this.props.dispatch(action)
-    this.props.history.push('/keyword')
+    .then((response)=>{
+      toast.success(resources.fetch_data_ok, {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+      this.props.history.push('/keyword')
+    }).catch((e)=>{
+      toast.error(e.response.data.message, {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    })
+    //this.props.history.push('/keyword')
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    console.log('nextProps', nextProps)
+
+  }
  
   getId() {
    return this.props.match.params.id;

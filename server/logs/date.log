@@ -1,380 +1,47 @@
-[2018-06-21T22:07:03.430] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:07:04.954] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:08:25.923] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:08:27.380] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:09:33.393] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:09:34.883] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:11:05.501] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:11:06.942] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:11:40.479] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
-[2018-06-21T22:11:41.932] [ERROR] all - { Error: 付费金额不能小于单价
-    at exports.pay (/Users/scott/code/kwPolish/server/api/Balance/Controller.js:49:22)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:137:13)
-    at Route.dispatch (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/route.js:112:3)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:281:22
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at cors (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:188:7)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:224:17
-    at originCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:214:15)
-    at /Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/Users/scott/code/kwPolish/server/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:317:13)
-    at /Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:284:7
-    at Function.process_params (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:335:12)
-    at next (/Users/scott/code/kwPolish/server/node_modules/express/lib/router/index.js:275:10)
-    at /Users/scott/code/kwPolish/server/node_modules/body-parser/lib/read.js:130:5
-    at invokeCallback (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:224:16)
-    at done (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:213:7)
-    at IncomingMessage.onEnd (/Users/scott/code/kwPolish/server/node_modules/raw-body/index.js:273:7)
-    at emitNone (events.js:106:13)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:138:11)
-    at process._tickCallback (internal/process/next_tick.js:180:9)
-  data: null,
-  isBoom: true,
-  isServer: false,
-  output: 
-   { statusCode: 400,
-     payload: { statusCode: 400, error: 'Bad Request', message: '付费金额不能小于单价' },
-     headers: {} },
-  reformat: [Function],
-  typeof: [Function: badRequest] }
+[2018-06-28T18:26:15.897] [INFO] all - a user conneted
+[2018-06-28T18:26:16.007] [INFO] all - received data hello world
+[2018-06-28T18:26:16.027] [INFO] all - user scott join
+[2018-06-28T18:27:34.646] [INFO] all - a user conneted
+[2018-06-28T18:27:34.714] [INFO] all - received data hello world
+[2018-06-28T18:27:34.721] [INFO] all - user scott join
+[2018-06-28T18:28:55.904] [INFO] all - a user conneted
+[2018-06-28T18:28:56.027] [INFO] all - received data hello world
+[2018-06-28T18:28:56.039] [INFO] all - user scott join
+[2018-06-28T18:30:18.339] [INFO] all - a user conneted
+[2018-06-28T18:30:18.380] [INFO] all - received data hello world
+[2018-06-28T18:30:19.106] [INFO] all - user scott join
+[2018-06-28T18:32:54.907] [INFO] all - a user conneted
+[2018-06-28T18:32:54.955] [INFO] all - received data hello world
+[2018-06-28T18:32:54.961] [INFO] all - user scott join
+[2018-06-28T18:33:25.873] [INFO] all - a user conneted
+[2018-06-28T18:33:25.922] [INFO] all - received data hello world
+[2018-06-28T18:33:25.951] [INFO] all - user scott join
+[2018-06-28T18:36:17.502] [INFO] all - a user conneted
+[2018-06-28T18:36:17.578] [INFO] all - received data hello world
+[2018-06-28T18:36:17.589] [INFO] all - user scott join
+[2018-06-28T18:36:44.777] [INFO] all - a user conneted
+[2018-06-28T18:36:44.834] [INFO] all - received data hello world
+[2018-06-28T18:36:44.864] [INFO] all - user scott join
+[2018-06-28T18:37:14.802] [INFO] all - restfull api start...3001
+[2018-06-28T18:37:33.087] [INFO] all - a user conneted
+[2018-06-28T18:37:33.146] [INFO] all - received data hello world
+[2018-06-28T18:37:33.157] [INFO] all - user scott join
+[2018-06-28T18:40:06.645] [INFO] all - a user conneted
+[2018-06-28T18:40:06.664] [INFO] all - received data hello world
+[2018-06-28T18:40:06.761] [INFO] all - user scott join
+[2018-06-28T18:41:44.614] [INFO] all - restfull api start...3001
+[2018-06-28T18:41:46.606] [INFO] all - a user conneted
+[2018-06-28T18:41:46.622] [INFO] all - received data hello world
+[2018-06-28T18:41:46.727] [INFO] all - user scott join
+[2018-06-28T18:42:11.012] [INFO] all - a user conneted
+[2018-06-28T18:42:11.077] [INFO] all - received data hello world
+[2018-06-28T18:42:11.085] [INFO] all - user scott join
+[2018-06-28T18:43:35.423] [INFO] all - a user conneted
+[2018-06-28T18:43:35.466] [INFO] all - received data hello world
+[2018-06-28T18:43:35.901] [INFO] all - user scott join
+[2018-06-28T18:43:55.633] [INFO] all - a user conneted
+[2018-06-28T18:43:55.644] [INFO] all - received data hello world
+[2018-06-28T18:43:55.651] [INFO] all - user scott join
+[2018-06-28T18:45:06.056] [INFO] all - a user conneted
+[2018-06-28T18:45:06.067] [INFO] all - received data hello world
+[2018-06-28T18:45:06.073] [INFO] all - user scott join

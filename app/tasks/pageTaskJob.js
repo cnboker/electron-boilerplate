@@ -3,18 +3,13 @@ var sleep = require('./sleep')
 var scroll = require('./scroll')
 var random = require('./random')
 var jobAction = require('./jobAction')
-
+var jobContext = require('./jobContext')
 const SCAN_MAX_ROW = 100;
 const SCAN_MAX_PAGE = 15;
 
-async function execute(jobContext) {
+async function execute(task) {
     if (jobContext.busy) return;
     jobContext.busy = true;
-    var task = jobContext.popTask();
-    if (task == undefined) {
-        jobContext.busy = false;
-        return;
-    }
     const browser = await puppeteer.launch({
         headless: true,
         executablePath: (() => {
@@ -33,6 +28,8 @@ async function execute(jobContext) {
             browser.close();
         })
         .catch((err) => {
+            jobContext.busy = false;
+            browser.close();
             console.error(err)
         });
 }

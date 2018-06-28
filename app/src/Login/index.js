@@ -40,6 +40,7 @@ class Login extends Component {
       if (url.indexOf("http:") !== -1) {
         window.location = url;
       } else {
+        console.log("url", url);
         if (url) {
           nextProps.history.push(url);
         } else {
@@ -86,7 +87,7 @@ class Login extends Component {
                       {resources.login}
                     </button>                    
                     <div>{resources.formatString(resources.not_register,<Link to="/signup">{resources.register}</Link>)}</div>                    
-                    <div>{resources.formatString(resources.forget_password,<a href="http://auth.ezdsm.com/account/forgotPassword">{resources.reset_password}</a>)}</div>
+                    
                     <FetchMessage requestState={this.props.login} />
                   </div>
                 </div>

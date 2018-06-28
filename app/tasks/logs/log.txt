@@ -1,0 +1,13 @@
+[2018-06-28T18:41:46.503] [INFO] tasks - doTask start ...
+[2018-06-28T18:41:46.604] [INFO] tasks - fetch tasks length 2
+[2018-06-28T18:41:46.604] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f1050b',
+  keyword: '软件定制服务',
+  link: 'ioliz.com',
+  runTime: '2018-06-28 18:42:28',
+  state: 'origin' }
+[2018-06-28T18:41:46.607] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f10511',
+  keyword: '保健品',
+  link: 'ebotop.com',
+  runTime: '2018-06-28 18:43:22',
+  state: 'origin' }
+[2018-06-28T18:41:46.613] [INFO] tasks - connect

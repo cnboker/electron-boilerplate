@@ -10,10 +10,9 @@ app.io = io;
 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var Promise = require('bluebird'); //ADD THIS LINE
 //mongoose add promise ablity
 //Promise.promisifyAll(mongoose); //AND THIS LINE
-mongoose.Promise = Promise;
+mongoose.Promise = require('bluebird');
 var logger = require('./logger')
 var Keyword = require('./api/Keyword/Model');
 var User = require('./api/User/Model');
@@ -45,19 +44,25 @@ require('./api/Balance/Route')(app);
 
 const taskio = io.of('/api/task');
 taskio.on('connection',function(socket){
-  console.log('a user conneted');
+  logger.info('a user conneted');
   
   socket.on('message',function(data){
-    console.log('received data', data);
+    logger.info('received data', data);
   })
+  //join room
+  socket.on('join',function(data){
+    logger.info(`user ${data.user} join`)
+    socket.join(data.user);
+  })
+
 })
 
 taskio.on('disconnect',function(){
-  console.log('user disconnection')
+  logger.info('user disconnection')
 })
 
 taskio.on('error', function (data) {
-  console.log(data || 'error');
+  logger.info(data || 'error');
 });
 
 //exception handle
@@ -74,8 +79,7 @@ app.use(function(err,req,res,next){
 
 //var server = app.listen(port)
 http.listen(port,function(){
-  console.log('restfull api start...' + port)
-
+  logger.info('restfull api start...' + port)
 })
 
 module.exports = app;

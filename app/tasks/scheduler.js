@@ -1,4 +1,3 @@
-
 var schedule = require('node-schedule');
 var moment = require('moment');
 var path = require('path')
@@ -10,40 +9,49 @@ var path = require('path')
 //     //ignore: false
 //   });
 
-var PolishJober = require('./polishJober');
-var ScanerJober = require('./scanJober');
+var polishJober = require('./polishJober');
 var pageTaskJober = require('./pageTaskJob');
 var jobContext = require('./jobContext');
-
+var localStore = require('./localStore')
 var logger = require('../logger')
 
 
 module.exports = {
-     doTask() {
-        logger.info('doTask start ...')    
+    doTask() {
+        logger.info('doTask start ...')
         require('./socketClient')
-        //隔15分钟执行scanJober
-        schedule.scheduleJob('*/15 * * * *',function(){
-            logger.log('/15m', moment().format())
-            ScanerJober.execute(jobContext);
-        })
-
-        //隔10分钟执行polishJober
-        schedule.scheduleJob('*/10 * * * *',function(){
-            logger.log('/10m', moment().format())
-            PolishJober.execute(jobContext);
-        })
-
-        //隔2分钟执行pageTaskJober
-        schedule.scheduleJob('*/2 * * * *',function(){
-            logger.log('/2m', moment().format())
-            try{
-                pageTaskJober.execute(jobContext);
-            }catch(e){
-                logger.error(e);
+        polishJober.execute()
+        //隔10s执行scanJober
+        schedule.scheduleJob('/10 * * * * *', function () {
+            logger.info('/10s', moment().format())
+            if (jobContext.busy) return;
+            var task = jobContext.popTask();
+            if (task != null) {
+                try {
+                    logger.info('execute scan task', task.doc.keyword)
+                    pageTaskJober.execute(task);
+                } catch (e) {
+                    logger.error(e);
+                }
             }
         })
 
-      
+        //隔10分钟执行polishJober
+        // schedule.scheduleJob('*/10 * * * *',function(){
+        //     logger.log('/10m', moment().format())
+        //     PolishJober.execute(jobContext);
+        // })
+
+        // //隔2分钟执行pageTaskJober
+        // schedule.scheduleJob('*/2 * * * *',function(){
+        //     logger.log('/2m', moment().format())
+        //     try{
+        //         pageTaskJober.execute(jobContext);
+        //     }catch(e){
+        //         logger.error(e);
+        //     }
+        // })
+
+
     }
 }

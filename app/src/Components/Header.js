@@ -1,38 +1,20 @@
-import React, { Component } from "react";
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import React, {Component} from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default class Header extends Component {
   render() {
     console.log('authenticated:', this.props.authenticated)
     return (
-      <Navbar fixedTop>
-        <Navbar.Header>
-          <Navbar.Brand>kwPolish</Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav activeKey={1}>
-            <LinkContainer to="/start">
-              <NavItem eventKey={1} href="#">
-                开始
-              </NavItem>
-            </LinkContainer>
-            <LinkContainer to="/keyword">
-              <NavItem eventKey={2} href="#">
-                关键字
-              </NavItem>
-            </LinkContainer>
-          </Nav>
-          <Nav pullRight={true}>
-            <LinkContainer to="#" >
-              <NavItem eventKey={3} href="#" onClick={this.props.unsetClient}>
-                {this.props.authenticated ? "登出" : "登录"}
-              </NavItem>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 className="my-0 mr-md-auto font-weight-normal">易优排名</h5>
+      <nav className="my-2 my-md-0 mr-md-3">
+        <Link className="p-2 text-dark" to="/start">特性</Link>
+        <Link className="p-2 text-dark" to="/keyword">关键字</Link>
+        <Link className="p-2 text-dark" to="/support">支持</Link>
+        <Link className="p-2 text-dark" to="/price">价格</Link>
+      </nav>
+      <button className="btn btn-outline-primary"  onClick={this.props.unsetClient}>{this.props.authenticated?'登出':'登录'}</button>
+    </div>
     );
   }
 }

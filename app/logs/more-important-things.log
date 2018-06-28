@@ -1,0 +1,129 @@
+[2018-06-28T18:26:13.131] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:26:13.366] [INFO] tasks - 检测更新...
+[2018-06-28T18:26:13.677] [INFO] tasks - 更新失败. 
+[2018-06-28T18:26:15.622] [INFO] tasks - doTask start ...
+[2018-06-28T18:26:15.672] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:26:15.789] [INFO] tasks - jobContext count 0
+[2018-06-28T18:26:15.947] [INFO] tasks - connect
+[2018-06-28T18:27:00.902] [INFO] tasks - /10s 2018-06-28T18:27:00+08:00
+[2018-06-28T18:27:31.482] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:27:31.759] [INFO] tasks - 检测更新...
+[2018-06-28T18:27:32.148] [INFO] tasks - 更新失败. 
+[2018-06-28T18:27:34.347] [INFO] tasks - doTask start ...
+[2018-06-28T18:27:34.401] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:27:34.527] [INFO] tasks - jobContext count 0
+[2018-06-28T18:27:34.659] [INFO] tasks - connect
+[2018-06-28T18:28:52.776] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:28:53.051] [INFO] tasks - 检测更新...
+[2018-06-28T18:28:53.484] [INFO] tasks - 更新失败. 
+[2018-06-28T18:28:55.504] [INFO] tasks - doTask start ...
+[2018-06-28T18:28:55.566] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:28:55.712] [INFO] tasks - jobContext count 0
+[2018-06-28T18:28:55.953] [INFO] tasks - connect
+[2018-06-28T18:29:00.014] [INFO] tasks - /10s 2018-06-28T18:29:00+08:00
+[2018-06-28T18:30:03.535] [INFO] tasks - /10s 2018-06-28T18:30:03+08:00
+[2018-06-28T18:30:08.494] [INFO] tasks - keyword_pause start...
+[2018-06-28T18:30:15.983] [INFO] tasks - disconnect
+[2018-06-28T18:30:18.347] [INFO] tasks - connect
+[2018-06-28T18:31:00.905] [INFO] tasks - /10s 2018-06-28T18:31:00+08:00
+[2018-06-28T18:31:26.440] [INFO] tasks - keyword_pause start...
+[2018-06-28T18:31:33.383] [INFO] tasks - keyword_pause start...
+[2018-06-28T18:32:00.906] [INFO] tasks - /10s 2018-06-28T18:32:00+08:00
+[2018-06-28T18:32:52.130] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:32:52.354] [INFO] tasks - 检测更新...
+[2018-06-28T18:32:52.740] [INFO] tasks - 更新失败. 
+[2018-06-28T18:32:54.672] [INFO] tasks - doTask start ...
+[2018-06-28T18:32:54.726] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:32:54.822] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:32:54.918] [INFO] tasks - connect
+[2018-06-28T18:32:54.976] [INFO] tasks - jobContext count 0
+[2018-06-28T18:33:00.011] [INFO] tasks - /10s 2018-06-28T18:33:00+08:00
+[2018-06-28T18:33:23.260] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:33:23.546] [INFO] tasks - 检测更新...
+[2018-06-28T18:33:23.905] [INFO] tasks - 更新失败. 
+[2018-06-28T18:33:25.640] [INFO] tasks - doTask start ...
+[2018-06-28T18:33:25.695] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:33:25.786] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:33:25.884] [INFO] tasks - connect
+[2018-06-28T18:33:25.932] [INFO] tasks - jobContext count 0
+[2018-06-28T18:36:14.735] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:36:15.100] [INFO] tasks - 检测更新...
+[2018-06-28T18:36:15.496] [INFO] tasks - 更新失败. 
+[2018-06-28T18:36:17.270] [INFO] tasks - doTask start ...
+[2018-06-28T18:36:17.327] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:36:17.516] [INFO] tasks - connect
+[2018-06-28T18:36:42.000] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:36:42.255] [INFO] tasks - 检测更新...
+[2018-06-28T18:36:42.601] [INFO] tasks - 更新失败. 
+[2018-06-28T18:36:44.542] [INFO] tasks - doTask start ...
+[2018-06-28T18:36:44.595] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:36:44.685] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:36:44.787] [INFO] tasks - connect
+[2018-06-28T18:36:44.844] [INFO] tasks - fetch tasks length 0
+[2018-06-28T18:37:00.905] [INFO] tasks - /10s 2018-06-28T18:37:00+08:00
+[2018-06-28T18:37:30.033] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:37:30.291] [INFO] tasks - 检测更新...
+[2018-06-28T18:37:30.586] [INFO] tasks - 更新失败. 
+[2018-06-28T18:37:32.843] [INFO] tasks - doTask start ...
+[2018-06-28T18:37:32.899] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:37:33.098] [INFO] tasks - connect
+[2018-06-28T18:42:08.300] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:42:08.581] [INFO] tasks - 检测更新...
+[2018-06-28T18:42:08.967] [INFO] tasks - 更新失败. 
+[2018-06-28T18:42:10.803] [INFO] tasks - doTask start ...
+[2018-06-28T18:42:11.022] [INFO] tasks - connect
+[2018-06-28T18:42:11.108] [INFO] tasks - fetch tasks length 2
+[2018-06-28T18:42:11.123] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f1050b',
+  keyword: '软件定制服务',
+  link: 'ioliz.com',
+  runTime: '2018-06-28 18:43:05',
+  state: 'origin' }
+[2018-06-28T18:42:11.138] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f10511',
+  keyword: '保健品',
+  link: 'ebotop.com',
+  runTime: '2018-06-28 18:43:43',
+  state: 'origin' }
+[2018-06-28T18:43:00.908] [INFO] tasks - /10s 2018-06-28T18:43:00+08:00
+[2018-06-28T18:43:00.923] [INFO] tasks - execute scan task 软件定制服务
+[2018-06-28T18:43:33.894] [INFO] tasks - disconnect
+[2018-06-28T18:43:35.433] [INFO] tasks - connect
+[2018-06-28T18:43:52.353] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:43:52.664] [INFO] tasks - 检测更新...
+[2018-06-28T18:43:53.323] [INFO] tasks - 更新失败. 
+[2018-06-28T18:43:55.450] [INFO] tasks - doTask start ...
+[2018-06-28T18:43:55.636] [INFO] tasks - connect
+[2018-06-28T18:43:55.698] [INFO] tasks - fetch tasks length 2
+[2018-06-28T18:43:55.699] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f1050b',
+  keyword: '软件定制服务',
+  link: 'ioliz.com',
+  runTime: '2018-06-28 18:44:42',
+  state: 'origin' }
+[2018-06-28T18:43:55.703] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f10511',
+  keyword: '保健品',
+  link: 'ebotop.com',
+  runTime: '2018-06-28 18:45:31',
+  state: 'origin' }
+[2018-06-28T18:44:00.007] [INFO] tasks - /10s 2018-06-28T18:44:00+08:00
+[2018-06-28T18:44:00.008] [INFO] tasks - execute scan task 软件定制服务
+[2018-06-28T18:45:03.038] [INFO] tasks - 检测有无新版本
+[2018-06-28T18:45:03.353] [INFO] tasks - 检测更新...
+[2018-06-28T18:45:03.731] [INFO] tasks - 更新失败. 
+[2018-06-28T18:45:05.882] [INFO] tasks - doTask start ...
+[2018-06-28T18:45:05.915] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:45:05.991] [INFO] tasks - token:{"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MzAxNTAzNzYsImV4cCI6MTU2MTI1NDM3Nn0.PPcF3iP1y9WixkfpoiP9w4fLodNlcaBJhP4UYTXVD-Q","access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg","userName":"scott"}
+[2018-06-28T18:45:06.060] [INFO] tasks - connect
+[2018-06-28T18:45:06.133] [INFO] tasks - fetch tasks length 2
+[2018-06-28T18:45:06.135] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f1050b',
+  keyword: '软件定制服务',
+  link: 'ioliz.com',
+  runTime: '2018-06-28 18:45:58',
+  state: 'origin' }
+[2018-06-28T18:45:06.138] [INFO] tasks - polish { _id: '5b2f4d17d13943b140f10511',
+  keyword: '保健品',
+  link: 'ebotop.com',
+  runTime: '2018-06-28 18:46:50',
+  state: 'origin' }
+[2018-06-28T18:46:00.005] [INFO] tasks - /10s 2018-06-28T18:46:00+08:00
+[2018-06-28T18:46:00.005] [INFO] tasks - execute scan task 软件定制服务
+[2018-06-28T18:47:00.004] [INFO] tasks - /10s 2018-06-28T18:47:00+08:00
+[2018-06-28T18:47:00.004] [INFO] tasks - execute scan task 保健品

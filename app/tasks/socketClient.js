@@ -4,20 +4,36 @@ var polishJober = require('./polishJober')
 const auth = require('../auth')
 const logger = require('../logger')
 //open debug info
-localStorage.debug = '*';
-var access_token = auth.getToken();
+if (process.env.APP == 'electron') {
+  localStorage.debug = '*';
+}
+
+var token = auth.getToken();
 var io = require('socket.io-client');
+//console.log(process.env.REACT_APP_API_URL)
 //require add namespace 'task' otherwise not connect
-var socket = io.connect(`${process.env.REACT_APP_API_URL}/task?token=${access_token}`,{'force new connection': true})
+var socket = io.connect(`${process.env.REACT_APP_API_URL}/task?token=${token.access_token}`, {
+  'force new connection': true,
+  //transports: ['websocket']
+  //"transports": ["xhr-polling"]
+})
+//socket.send('hello world')
 socket.on('connect', function () {
   logger.info('connect')
+  socket.send('hello world')
+  socket.emit('join', {
+    user: token.userName
+  })
 })
-socket.send('hello world')
+//socket.send('hello world')
+//join private chat
 
 socket.on('event', function (data) {
-  console.log('event...')
+  logger.info('event...')
 })
-socket.on('currentStatus', function (data){ console.log(data) });
+socket.on('currentStatus', function (data) {
+  logger.info(data)
+});
 socket.on('disconnect', function () {
   logger.info('disconnect')
 })
@@ -25,8 +41,9 @@ socket.on('disconnect', function () {
 //pause the keyword polish
 socket.on('keyword_pause', function (data) {
   logger.info('keyword_pause start...')
-  jobContext.removeById(data._id)
+  jobContext.dirty(data._id)
 })
+
 socket.on('error', function (data) {
   logger.info(data || 'error');
 });
@@ -37,16 +54,18 @@ socket.on('connect_failed', function (data) {
 //clean the keyword polish
 socket.on('keyword_clean', function (data) {
   jobContext.clean();
-  socket.emit('finished')
+  //socket.emit('finished')
 });
 
-socket.on('keyword_scan', function (data) {
-  jobContext.clean();
-  scanJober.itemsPush(data)
-  socket.emit('finished')
+//创建关键字
+socket.on('keyword_create', function (doc) {
+  logger.info('socket keyword_create', doc)
+  //jobContext.clean();
+  scanJober.execute(doc)
+  //socket.emit('finished')
 })
 
-socket.on('keyword_polish',function(data){
+socket.on('keyword_polish', function (data) {
   jobContext.clean();
   polishJober.itemsPush(data);
   socket.emit('finished')
