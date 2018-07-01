@@ -13,7 +13,7 @@ class Index extends Component {
     return (
 
       <div>
-        <div className="alert alert-primary" role="alert">关键字添加完后,后台程序就会对关键字做优化工作，请不要关闭程序耐心等待结果.</div> 
+        <div className="alert alert-primary" role="alert">保持程序后台运行即可，优化工作正在进行中...</div> 
        
           <Switch>
             <Route path="/keyword/:id" component={New}/>

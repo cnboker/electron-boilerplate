@@ -52,48 +52,42 @@ exports.pay = function (req, res, next) {
     return next(boom.badRequest('付费金额与单价不能整除'))
   }
   var serviceDays = months * 30;
-  var balance = new Balance({
-    user: req.body.user,
-    amount: req.body.amount,
-    createDate: Date.now(),
-    days: serviceDays,
-    remark: `vip充值金额${req.body.amount}`
-  });
-
-  balance
-    .save()
-    .then(function (doc) {
-      User.findOne({
-          userName: req.body.user
-        })
-        .then(function (user) {
-          console.log('user=', user)
-          user.grade = 2;
-          user.upgradeGradeDate = Date.now();
-          if(user.vipExpiredDate == undefined){
-            user.vipExpiredDate = Date.now();
-          }
-          var expireDate = moment(user.vipExpiredDate, 'YYYY-MM-DD')
-          var now = moment(Date.now(), 'YYYY-MM-DD')
-          var diffDays = expireDate.diff(now, 'days');
-          if (diffDays < 0) {
-            user.vipExpiredDate = Date.now();
-          }
-          user.vipExpiredDate = moment(user.vipExpiredDate, "YYYY-MM-DD").add(serviceDays, 'days');
-          user
-            .save()
-            .then(function (updateUser) {
-              res.json(updateUser)
-            })
-            .catch(function (e) {
-              return next(boom.badRequest(e));
-            })
-
-        })
-        .catch(function (e) {
-          return next(boom.badRequest(e));
-        });
-
+  User.findOne({
+      userName: req.body.userName
+    })
+    .then((doc) => {
+      if (doc == null) {
+        throw '用户不存在'
+      }
+      return doc;
+    })
+    .then((user) => {
+      if (user.vipExpiredDate == undefined) {
+        user.vipExpiredDate = Date.now();
+      }
+      
+      var balance = new Balance({
+        user: req.body.userName,
+        amount: req.body.amount,
+        createDate: Date.now(),
+        serviceDate: user.vipExpiredDate,
+        days: serviceDays,
+        remark: `vip充值金额${req.body.amount}`
+      });
+      balance.save()
+      return user;
+    })
+    .then((user) => {
+      user.grade = 2;
+      user.upgradeGradeDate = Date.now();
+      if (user.vipExpiredDate == undefined) {
+        user.vipExpiredDate = Date.now();
+      }
+      user.vipExpiredDate = moment(user.vipExpiredDate).add(serviceDays, 'days')
+      return user.save()
+    })
+    .then(function (updateUser) {
+      res.json(updateUser)
     })
     .catch(function (e) {
       return next(boom.badRequest(e));

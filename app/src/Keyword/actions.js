@@ -3,7 +3,6 @@ import bows from 'bows'
 import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
-import resources from '../locale'
 
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
 var log = bows("keyword-actions")

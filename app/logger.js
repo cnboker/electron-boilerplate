@@ -1,11 +1,12 @@
 var log4js = require('log4js');
+var path = require('path')
 
 log4js.configure(
     {
       appenders: {
         file: {
           type: 'file',
-          filename: 'logs/log.txt',
+          filename: path.join(__dirname,'logs/log.txt'),
           maxLogSize: 10 * 1024 * 1024, // = 10Mb
           numBackups: 5, // keep five backup files
           compress: true, // compress the backups
@@ -13,18 +14,18 @@ log4js.configure(
           mode: 0o0640,
           flags: 'w+'
         },
-        dateFile: {
-          type: 'dateFile',
-          filename: 'logs/more-important-things.log',
-          pattern: 'yyyy-MM-dd-hh',
-          compress: true
-        },
+        // dateFile: {
+        //   type: 'dateFile',
+        //   filename: 'logs/more-important-things.log',
+        //   pattern: 'yyyy-MM-dd-hh',
+        //   compress: true
+        // },
         out: {
           type: 'stdout'
         }
       },
       categories: {
-        default: { appenders: ['file', 'dateFile', 'out'], level: 'trace' }
+        default: { appenders: ['file',  'out'], level: 'trace' }
       }
     }
   );

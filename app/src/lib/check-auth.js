@@ -12,13 +12,13 @@ export function refreshClient(client) {
     var jsTicks = (new Date()).getTime() * 10000 + 621355968000000000
     // if the token has expired return false
     console.log('span time', (token.expired - jsTicks) / 10000)
-    if (token.expired > jsTicks) {
+   // if (token.expired > jsTicks) {
       client.token = token
-    }
+   // }
   }
 }
 
-export function checkAuthorization(dispatch) {
+export function checkAuthorization(dispatch,next) {
   // attempt to grab the token from localstorage
   const storedToken = localStorage.getItem('token')
 
@@ -33,7 +33,10 @@ export function checkAuthorization(dispatch) {
       dispatch(unsetClient())
       return false
     }
-
+    if(next && next.role == 'admin' &&  token.userName != 'admin'){
+      dispatch(unsetClient())
+      return false;
+    }
     dispatch(setClient(token))
     return true;
   }
@@ -45,7 +48,7 @@ export function checkAuthorization(dispatch) {
 
 export function PrivateRoute({ component: Component, dispatch, state, ...rest }) {
 
-  const authed = checkAuthorization(dispatch)
+  const authed = checkAuthorization(dispatch,rest)
   return (
     <Route
       {...rest}

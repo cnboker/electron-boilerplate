@@ -6,6 +6,7 @@ var PolishLog = mongoose.model('PolishLog');
 var User = mongoose.model('User');
 var boom = require('boom')
 var simpleStrategy = require('./taskSimpleStrategy')
+var logger = require('../../logger')
 
 exports.list = function (req, res) {
   //console.log('user name:', req.user.sub);
@@ -39,8 +40,8 @@ exports.create = function (req, res, next) {
           Keyword.count({
             'user': req.user.sub
           }).then(count => {
-            if (count > 3) {
-              reject('普通账号关键字数不能大于3个，请升级为标准账号')
+            if (count > 5) {
+              reject('普通账号关键字数不能大于5个，请升级为标准账号')
             } else {
               resolve();
             }
@@ -77,15 +78,14 @@ exports.create = function (req, res, next) {
       });
       return newKeyword.save();
     })
-    .then((err, doc) => {
-      if (err) throw err;
+    .then((doc) => {
       res.json(doc)
       //socket send notify
       const taskio = req.app.io.of('/api/task');
-      taskio.sockets.in(req.user.sub).emit('keyword_create', doc)
+      taskio.to(req.user.sub).emit('keyword_create', doc)
     })
     .catch((e) => {
-      //console.log('create.....',e);
+      logger.error(e)
       return next(boom.badRequest(e));
     })
 
@@ -109,22 +109,28 @@ exports.update = function (req, res) {
     if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
       obj.originRank = 0
     }
+
+    const taskio = req.app.io.of('/api/task');
+
     obj.keyword = req.body.keyword;
     obj.link = req.body.link;
     if (req.body.status) {
       obj.status = req.body.status;
       if (obj.status == 2) {
         console.log('emit keyword_pause')
-        const taskio = req.app.io.of('/api/task');
         //notify
         //cmd,data
         //in order to send an event to everyone
         taskio.emit('keyword_pause', {
-          _id: req.params.id,
-          for: 'everyone'
+          _id: req.params.id
         });
 
       }
+    }
+
+    if (obj.originRank == 0) {
+      //私信给特定用户
+      taskio.to(req.user.sub).emit('keyword_create', obj.toObject())
     }
 
     obj.save(function (err, doc) {
@@ -147,6 +153,10 @@ exports.delete = function (req, res) {
     }
     res.json({
       message: 'delete success'
+    });
+    const taskio = req.app.io.of('/api/task');
+    taskio.emit('keyword_pause', {
+      _id: req.params.id
     });
   })
 }
@@ -174,7 +184,7 @@ exports.rank = function (req, res) {
 }
 
 exports.tasks = function (req, res) {
-  
+
   // var inDoTasksTime = (() => {
   //   var startTime = 9 * 60;
   //   var endTime = 16 * 60 + 30;
@@ -197,7 +207,7 @@ exports.tasks = function (req, res) {
         res.send(err);
         return;
       }
-      
+
       //console.log('docs', docs)
       res.json(simpleStrategy(docs));
     })

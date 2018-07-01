@@ -1,8 +1,10 @@
 'use strict';
-
+var path = require('path')
+require('./auto')
 require('./config')
 var logger = require('./logger')
 const electron = require('electron');
+
 const {
 	autoUpdater
 } = require("electron-updater");
@@ -36,8 +38,22 @@ app.on('ready', function () {
 	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL, debug);
 	mainWindow = new BrowserWindow({
 		width: 1280,
-		height: 600
+		height: 600,
+		icon: path.join(__dirname, 'assets/icons/win/logo.png')
 	});
+
+	const tray = new electron.Tray('assets/icons/win/icon.ico')
+
+	tray.on('click', () => {
+		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+	})
+	mainWindow.on('show', () => {
+		tray.setHighlightMode('always')
+	})
+	mainWindow.on('hide', () => {
+		tray.setHighlightMode('never')
+	})
+
 	backgroundProcessHandler.addWindow(mainWindow);
 	mainWindow.loadURL('file://' + __dirname + '/public/index.html');
 	if (process.env.NODE_ENV == 'development') {
@@ -52,7 +68,7 @@ app.on('ready', function () {
 
 function sendStatusToWindow(text) {
 	logger.info(text);
-	if(mainWindow){
+	if (mainWindow) {
 		mainWindow.webContents.send('message', text);
 	}
 }

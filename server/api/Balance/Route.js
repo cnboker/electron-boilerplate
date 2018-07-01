@@ -6,6 +6,6 @@ module.exports = function(app){
   app.route('/api/balance/all')
   .get(ctl.all)
 
-  app.route('/api/balance/pay')
+  app.route('/api/pay')
   .post(ctl.pay)
 }

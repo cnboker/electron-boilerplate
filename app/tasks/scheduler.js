@@ -20,7 +20,7 @@ module.exports = {
     doTask() {
         logger.info('doTask start ...')
         require('./socketClient')
-        polishJober.execute()
+        //polishJober.execute()
         //隔10s执行scanJober
         schedule.scheduleJob('/10 * * * * *', function () {
             logger.info('/10s', moment().format())
@@ -28,7 +28,7 @@ module.exports = {
             var task = jobContext.popTask();
             if (task != null) {
                 try {
-                    logger.info('execute scan task', task.doc.keyword)
+                    logger.info('execute scan task', task.doc)
                     pageTaskJober.execute(task);
                 } catch (e) {
                     logger.error(e);

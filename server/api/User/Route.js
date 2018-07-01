@@ -8,5 +8,8 @@ module.exports = function(app){
 
   app.route('/api/signup')
   .post(ctl.signup)
+
+  app.route('/api/profile')
+  .get(ctl.profile)
 }
 

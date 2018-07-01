@@ -1,47 +1,6 @@
-[2018-06-28T18:26:15.897] [INFO] all - a user conneted
-[2018-06-28T18:26:16.007] [INFO] all - received data hello world
-[2018-06-28T18:26:16.027] [INFO] all - user scott join
-[2018-06-28T18:27:34.646] [INFO] all - a user conneted
-[2018-06-28T18:27:34.714] [INFO] all - received data hello world
-[2018-06-28T18:27:34.721] [INFO] all - user scott join
-[2018-06-28T18:28:55.904] [INFO] all - a user conneted
-[2018-06-28T18:28:56.027] [INFO] all - received data hello world
-[2018-06-28T18:28:56.039] [INFO] all - user scott join
-[2018-06-28T18:30:18.339] [INFO] all - a user conneted
-[2018-06-28T18:30:18.380] [INFO] all - received data hello world
-[2018-06-28T18:30:19.106] [INFO] all - user scott join
-[2018-06-28T18:32:54.907] [INFO] all - a user conneted
-[2018-06-28T18:32:54.955] [INFO] all - received data hello world
-[2018-06-28T18:32:54.961] [INFO] all - user scott join
-[2018-06-28T18:33:25.873] [INFO] all - a user conneted
-[2018-06-28T18:33:25.922] [INFO] all - received data hello world
-[2018-06-28T18:33:25.951] [INFO] all - user scott join
-[2018-06-28T18:36:17.502] [INFO] all - a user conneted
-[2018-06-28T18:36:17.578] [INFO] all - received data hello world
-[2018-06-28T18:36:17.589] [INFO] all - user scott join
-[2018-06-28T18:36:44.777] [INFO] all - a user conneted
-[2018-06-28T18:36:44.834] [INFO] all - received data hello world
-[2018-06-28T18:36:44.864] [INFO] all - user scott join
-[2018-06-28T18:37:14.802] [INFO] all - restfull api start...3001
-[2018-06-28T18:37:33.087] [INFO] all - a user conneted
-[2018-06-28T18:37:33.146] [INFO] all - received data hello world
-[2018-06-28T18:37:33.157] [INFO] all - user scott join
-[2018-06-28T18:40:06.645] [INFO] all - a user conneted
-[2018-06-28T18:40:06.664] [INFO] all - received data hello world
-[2018-06-28T18:40:06.761] [INFO] all - user scott join
-[2018-06-28T18:41:44.614] [INFO] all - restfull api start...3001
-[2018-06-28T18:41:46.606] [INFO] all - a user conneted
-[2018-06-28T18:41:46.622] [INFO] all - received data hello world
-[2018-06-28T18:41:46.727] [INFO] all - user scott join
-[2018-06-28T18:42:11.012] [INFO] all - a user conneted
-[2018-06-28T18:42:11.077] [INFO] all - received data hello world
-[2018-06-28T18:42:11.085] [INFO] all - user scott join
-[2018-06-28T18:43:35.423] [INFO] all - a user conneted
-[2018-06-28T18:43:35.466] [INFO] all - received data hello world
-[2018-06-28T18:43:35.901] [INFO] all - user scott join
-[2018-06-28T18:43:55.633] [INFO] all - a user conneted
-[2018-06-28T18:43:55.644] [INFO] all - received data hello world
-[2018-06-28T18:43:55.651] [INFO] all - user scott join
-[2018-06-28T18:45:06.056] [INFO] all - a user conneted
-[2018-06-28T18:45:06.067] [INFO] all - received data hello world
-[2018-06-28T18:45:06.073] [INFO] all - user scott join
+[2018-07-01T19:40:06.713] [ERROR] all - { [UnauthorizedError: No Authorization header was found]
+  name: 'UnauthorizedError',
+  message: 'No Authorization header was found',
+  code: 'credentials_required',
+  status: 401,
+  inner: { message: 'No Authorization header was found' } }

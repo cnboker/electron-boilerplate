@@ -40,9 +40,7 @@ class PolishJober {
                     return;
                 }
                 console.log('schedule time polish', doc)
-                if (process.env.APP == 'node') {
-                    return;
-                }
+               
                 pageTaskJob
                     .execute(task)
                     .then(() => {

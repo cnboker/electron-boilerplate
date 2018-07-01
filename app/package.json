@@ -22,11 +22,11 @@
 		"ship": "build --win -p always"
 	},
 	"dependencies": {
+		"auto-launch": "^5.0.5",
 		"axios": "^0.18.0",
 		"axios-mock-adapter": "^1.15.0",
 		"bows": "^1.7.0",
 		"classnames": "^2.2.5",
-		"clean-webpack-plugin": "^0.1.19",
 		"css-loader": "^0.28.11",
 		"dotenv": "^5.0.1",
 		"dotenv-webpack": "^1.5.5",
@@ -75,6 +75,7 @@
 		"babel-preset-stage-2": "^6.24.1",
 		"chai": "^4.1.2",
 		"chai-http": "^4.0.0",
+		"clean-webpack-plugin": "^0.1.19",
 		"devtron": "^1.1.0",
 		"electron": "^2.0.2",
 		"electron-builder": "^19.20.1",
@@ -89,6 +90,9 @@
 	"build": {
 		"appId": "com.ioliz.kwPolish",
 		"asar": true,
+		"win" : {
+			"icon" : "assets/icons/win/icon.ico"
+		},
 		"publish": [
 			{
 				"provider": "generic",
@@ -101,7 +105,6 @@
 			"!docs${/*}",
 			"!test${/*}",
 			"!src${/*}",
-			"!tasks${/*}",
 			"node_modules/electron-process/*",
 			"!node_modules/electron-prebuilt/${/*}",
 			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe",

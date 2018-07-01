@@ -2,13 +2,9 @@ import {default as crudActions} from "./actions"
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import {connect} from "react-redux"
-//import mock from './mocks'
-import {Navbar, Nav} from "react-bootstrap"
 import Dialog from "../Components/Modals/Dialog"
 import moment from "moment"
 import {Switch} from '../Components/Forms/Switch'
-import axios from 'axios'
-import {toast} from 'react-toastify';
 import actions from './actions'
 
 class List extends Component {
@@ -113,12 +109,14 @@ class List extends Component {
             <td>{this.stringFormat(item.polishedCount)}</td>
             <td>{this.stringFormat(item.isValid)}</td>
             <td>{this.statusFormat(item.status)}</td>
+            {/*}
             <td>
               {this.stringFormat(item.lastPolishedDate)}
             </td>
             <td>
               {this.stringFormat(item.createDate)}
             </td>
+        */}
             <td>
               <Link to={`/keyword/${item._id}`} role="button" className="btn btn-success">
                 <i className="fa fa-pencil fa-lg"/>
@@ -175,8 +173,8 @@ class List extends Component {
                 <th>擦亮次数</th>
                 <th>是否有效</th>
                 <th>状态</th>
-                <th>上次擦亮时间</th>
-                <th>创建日期</th>
+                {/*<th>上次擦亮时间</th>
+                <th>创建日期</th>*/}
                 <th/>
               </tr>
             </thead>

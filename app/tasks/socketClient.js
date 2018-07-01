@@ -57,7 +57,7 @@ socket.on('keyword_clean', function (data) {
   //socket.emit('finished')
 });
 
-//创建关键字
+//创建关键字,重新扫描排名
 socket.on('keyword_create', function (doc) {
   logger.info('socket keyword_create', doc)
   //jobContext.clean();

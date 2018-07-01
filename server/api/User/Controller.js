@@ -4,7 +4,59 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User');
 var jwt = require('jsonwebtoken')
 var config = require('../../config')
+var Balance = mongoose.model('Balance')
+var boom = require('boom')
 
+function userGrade(grade) {
+  if (grade == 1) {
+    return '免费账号';
+  } else if (grade == 2) {
+    return 'VIP账号'
+  } else if (grade == 3) {
+    return '企业账户'
+  } else {
+    return '未知'
+  }
+}
+
+exports.profile = function (req, res,next) {
+  var userName = req.user.sub;
+  const profile = {
+    userName: '',
+    grade: '',
+    expiredDate: '',
+    balance: []
+  }
+  var query = User.where({
+    userName
+  });
+
+  query
+    .findOne()
+    .then(function (doc) {
+      profile.userName = doc.userName;
+      profile.grade = userGrade(doc.grade);
+      profile.gradeValue = doc.grade;
+      profile.expiredDate = doc.vipExpiredDate;
+
+      return profile;
+    })
+    .then(function (profile) {
+      return Balance.find({
+        'user': req.user.sub
+      },null,{
+        sort:{
+          createDate:-1
+        }
+      })
+    }).then(function (docs) {
+      profile.balance = docs;
+      res.json(profile)
+    })
+    .catch(function (e) {
+      return next(boom.badRequest(e));
+    })
+}
 
 exports.signup = function (req, res) {
   var userName = req.body.userName;

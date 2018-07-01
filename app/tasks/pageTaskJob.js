@@ -10,13 +10,14 @@ const SCAN_MAX_PAGE = 15;
 async function execute(task) {
     if (jobContext.busy) return;
     jobContext.busy = true;
+    console.log('process.env.NODE_ENV =' + process.env.NODE_ENV )
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         executablePath: (() => {
-            if (process.env.NODE_ENV = 'production') {
+            if (process.env.NODE_ENV == 'production') {
                 return './resources/app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
             } else {
-                return 'chrome.exe';
+                return './node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
             }
         })()
     })
@@ -67,9 +68,9 @@ async function singleTaskProcess(page, task) {
                 waitUntil: 'load'
             });
             if (task.action == jobAction.Polish) {
-                await sleep(random(5000, 10000))
+                await sleep(random(10000, 20000))
             } else {
-                await sleep(random(2000, 5000))
+                await sleep(random(5000, 10000))
             }
             pageIndex++
         }
