@@ -6,3 +6,6 @@
 /data/db
 /server/node_modules
 /server/data
+/server/logs
+/app/logs
+/doc

@@ -42,7 +42,7 @@ app.on('ready', function () {
 		icon: path.join(__dirname, 'assets/icons/win/logo.png')
 	});
 
-	const tray = new electron.Tray('assets/icons/win/icon.ico')
+	const tray = new electron.Tray(path.join(__dirname , 'assets/icons/win/icon.ico'))
 
 	tray.on('click', () => {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()

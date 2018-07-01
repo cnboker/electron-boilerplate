@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "kwpolish",
-	"version": "0.0.6",
+	"version": "0.1.0",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -106,6 +106,7 @@
 			"!test${/*}",
 			"!src${/*}",
 			"node_modules/electron-process/*",
+			"assets/icons${/*}",
 			"!node_modules/electron-prebuilt/${/*}",
 			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe",
 			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/locales"

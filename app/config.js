@@ -1,9 +1,10 @@
 //production, development
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 if(process.env.NODE_ENV == 'production'){
     process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
     process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
+    process.env.APP = 'electron'
    // process.env.REACT_APP_COOKIE_DOMAIN = '.ioliz.com'
 }else{
     //process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
