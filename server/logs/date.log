@@ -1,6 +1,0 @@
-[2018-07-01T19:40:06.713] [ERROR] all - { [UnauthorizedError: No Authorization header was found]
-  name: 'UnauthorizedError',
-  message: 'No Authorization header was found',
-  code: 'credentials_required',
-  status: 401,
-  inner: { message: 'No Authorization header was found' } }
