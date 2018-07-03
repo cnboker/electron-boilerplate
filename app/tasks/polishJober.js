@@ -34,6 +34,7 @@ class PolishJober {
             var date = new Date(task.doc.runTime);
             logger.info('polish', doc)
             schedule.scheduleJob(date, function (doc) {
+                logger.info('scheduleJob time=', Date.now().toString())
                 if (jobContext.busy) return;
                 if (doc.state == 'dirty') {
                     logger.info('doc dirty', doc)
@@ -64,8 +65,9 @@ class PolishJober {
             }
         }).then(function (response) {
             //console.log(response)
+            logger.info('polish post', response.data)
         }).then(function (err) {
-            console.log(err)
+            logger.info(err)
         })
     }
 

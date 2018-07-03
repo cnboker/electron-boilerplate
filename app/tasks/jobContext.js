@@ -1,7 +1,6 @@
-const puppeteer = require('puppeteer')
 var jobAction = require('./jobAction')
-var schedule = require('node-schedule');
-var pageTaskJob = require('./pageTaskJob')
+
+var logger = require('../logger')
 
 const jobContext = {
     busy: false,
@@ -16,6 +15,19 @@ jobContext.addTask = function (task) {
 
 jobContext.popTask = function () {
     return this.tasks.shift();
+}
+
+jobContext.popScanTask = function(){
+    logger.info('tasks count=',this.tasks.length)
+    var tasks = this.tasks.filter(function (task) {
+        return task.action == jobAction.SCAN
+    });
+    var task = tasks.shift();
+    if(task){
+        this.removeById(task.doc._id)
+    }
+    logger.info('remove tasks count=',this.tasks.length)
+    return task;
 }
 
 jobContext.hasScanTask = function () {

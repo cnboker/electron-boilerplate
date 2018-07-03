@@ -185,14 +185,14 @@ exports.rank = function (req, res) {
 
 exports.tasks = function (req, res) {
 
-  // var inDoTasksTime = (() => {
-  //   var startTime = 9 * 60;
-  //   var endTime = 16 * 60 + 30;
-  //   var d = new Date();
-  //   var nowTime = d.getHours() * 60 + d.getMinutes();
-  //   return nowTime > startTime && nowTime < endTime;
-  // })();
-  // if (!inDoTasksTime) return res.json([])
+  var inDoTasksTime = (() => {
+    var startTime = 9 * 60;
+    var endTime = 18 * 60 + 30;
+    var d = new Date();
+    var nowTime = d.getHours() * 60 + d.getMinutes();
+    return nowTime > startTime && nowTime < endTime;
+  })();
+  if (!inDoTasksTime) return res.json([])
 
   //获取点数>0且今天未擦亮的关键字
   Keyword.find({

@@ -1,8 +1,10 @@
 var AutoLaunch = require('auto-launch');
+var userHome = require('user-home');
 
 var minecraftAutoLauncher = new AutoLaunch({
-	name: 'kwPolish',
-	//path: '/Applications/kwPolish.app',
+	name: '易优排名',
+	//isHidden:true,
+	path: `${userHome}/AppData/Local/Programs/app/易优排名.exe`,
 });
 
 minecraftAutoLauncher.enable();

@@ -3,21 +3,19 @@ var token = {
     id_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1Mjc0MzQ3ODgsImV4cCI6MTUzMDAyNjc4OH0.8E_zpIhjdk-sXeVutOg9bjdwTJENngRp-Xgaz2uiBzQ",
     userName: "scott"
 };
-var logger = require('./logger')
-//var access_token = token.access_token;
 
 const EventEmitter = require('events')
 class Auth extends EventEmitter{
     getToken() {
         if (process.env.APP == 'electron') {
             const storedToken = localStorage.getItem('token')
-            logger.info('token:' + storedToken);
+            //logger.info('token:' + storedToken);
             // if it exists
             if (storedToken) {
                 // parse it down into an object
                 token = JSON.parse(storedToken);
             } else {
-                throw 'access_token not found!'
+                return null;
             }
         }
         return token;

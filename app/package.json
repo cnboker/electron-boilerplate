@@ -1,7 +1,7 @@
 {
 	"name": "app",
-	"productName": "kwpolish",
-	"version": "0.1.0",
+	"productName": "易优排名",
+	"version": "0.1.6",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -11,7 +11,7 @@
 	"author": {
 		"name": "scott",
 		"email": "coobots@gmail.com",
-		"url": "http://www.ioliz.com"
+		"url": "http://"
 	},
 	"scripts": {
 		"main": "nodemon ./tasks/main.js",
@@ -61,7 +61,8 @@
 		"redux-thunk": "^2.2.0",
 		"socket.io-client": "^2.1.1",
 		"style-loader": "^0.21.0",
-		"url-loader": "^1.0.1"
+		"url-loader": "^1.0.1",
+		"user-home": "^2.0.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
@@ -90,8 +91,8 @@
 	"build": {
 		"appId": "com.ioliz.kwPolish",
 		"asar": true,
-		"win" : {
-			"icon" : "assets/icons/win/icon.ico"
+		"win": {
+			"icon": "assets/icons/win/icon.ico"
 		},
 		"publish": [
 			{
@@ -108,8 +109,7 @@
 			"node_modules/electron-process/*",
 			"assets/icons${/*}",
 			"!node_modules/electron-prebuilt/${/*}",
-			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe",
-			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/locales"
+			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe"
 		]
 	}
 }

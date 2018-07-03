@@ -6,10 +6,11 @@ var scheduler = require('./scheduler')
 var jobContext = require('./jobContext');
 
 var path = require('path')
-
+var schedule = require('node-schedule');
 // dbinit(() => {
 //     scheduler.doTask();
 //     //ScanerJober.execute(jobContext);
 // })
 
 scheduler.doTask();
+
