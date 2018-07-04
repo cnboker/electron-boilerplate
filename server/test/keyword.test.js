@@ -14,8 +14,8 @@ chai.use(chaiHttp)
 
 describe('keyword', () => {
 
-  beforeEach(function(done){
-    dbInit(function(){
+  beforeEach(function (done) {
+    dbInit(function () {
       done();
     });
   });
@@ -36,23 +36,7 @@ describe('keyword', () => {
     })
   });
 
-  describe('/api/keywords/create',()=>{
-    it('throw 400 if free user keywords count great than 3',(done)=>{
-      chai.request(server)
-      .post('/api/keywords')
-      .set('Authorization',`Bearer ${access_token}`)
-      .send({
-        keyword:'abcd',
-        link:'ioliz.com',
-        engine:'baidu'
-      })
-      .end((err,res)=>{
-        res.should.have.status(400)
-        console.log('/api/keywords/create',res.body)
-        done();
-      })
-    })
-  })
+
 
 
   describe('/api/kwTask/rank', () => {
@@ -93,18 +77,18 @@ describe('keyword', () => {
 
   describe('/api/kwTask/polish', () => {
     it('set dynamicRank = 20, should return dynamicRank =20', (done) => {
-      
-      Keyword.create({
-        keyword: '保健品1',
-        link: 'ebotop.com',
-        user: 'scott',
 
-        createDate: new Date(),
-    
-      })
+      Keyword.create({
+          keyword: '保健品1',
+          link: 'ebotop.com',
+          user: 'scott',
+
+          createDate: new Date(),
+
+        })
         .then((doc) => {
-        
-          console.log('polish:',doc.toObject())
+
+          console.log('polish:', doc.toObject())
           if (doc) {
             chai.request(server)
               .post('/api/kwTask/polish')
@@ -122,9 +106,21 @@ describe('keyword', () => {
                 done();
               });
           }
-          
+
         });
     })
   })
+  
+
+  // describe('test sort', ()=>{
+  //   it('print',(done)=>{
+  //     var json = require('./keywordFake')
+  //     var tss = require('../api/Keyword/taskSimpleStrategy')
+  //     console.log(tss(json))
+  //     done();
+  //   })
+  // })
 
 })
+
+

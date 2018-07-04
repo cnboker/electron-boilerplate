@@ -203,17 +203,19 @@ exports.tasks = function (req, res) {
       sort: {
         createDate: -1
       }
-    },
-    function (err, docs) {
-      if (err) {
-        console.log('err', err)
-        res.send(err);
-        return;
-      }
+    }
+   )
+   .lean()
+   .exec( function (err, docs) {
+    if (err) {
+      console.log('err', err)
+      res.send(err);
+      return;
+    }
 
-      //console.log('docs', docs)
-      res.json(simpleStrategy(docs));
-    })
+    console.log('docs', docs)
+    res.json(simpleStrategy(docs));
+  })
 }
 
 
