@@ -1,12 +1,11 @@
-'use strict'
 
-var mongoose = require('mongoose')
-var User = mongoose.model('User')
-var Balance = mongoose.model('Balance')
-var jwt = require('jsonwebtoken')
-var config = require('../../config.js')
 var moment = require('moment')
 var boom = require('boom')
+
+var User = require('../User/Model')
+var Balance = require('./Model')
+var config = require('../../config.js')
+
 
 /* example
 // Find First 10 News Items

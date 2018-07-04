@@ -14,9 +14,6 @@ var bodyParser = require('body-parser');
 //Promise.promisifyAll(mongoose); //AND THIS LINE
 mongoose.Promise = require('bluebird');
 var logger = require('./logger')
-var Keyword = require('./api/Keyword/Model');
-var User = require('./api/User/Model');
-var Balance = require('./api/Balance/Model')
 
 //mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/kwPolish');
@@ -73,6 +70,9 @@ app.use(function(err,req,res,next){
     // or do you?
   }
   logger.error(err);
+  if(err.status == 401){
+    return res.status(err.status).json(err);
+  }
   return res.status(err.output.statusCode).json(err.output.payload);
 
 })

@@ -1,10 +1,12 @@
 'use strict'
 
-var mongoose = require('mongoose'),
-  Keyword = mongoose.model('Keyword');
-var PolishLog = mongoose.model('PolishLog');
-var User = mongoose.model('User');
 var boom = require('boom')
+
+
+var Keyword = require('./Model');
+var PolishLog = require('./PolishlogModel')
+var User = require('../User/Model')
+
 var simpleStrategy = require('./taskSimpleStrategy')
 var logger = require('../../logger')
 
@@ -36,36 +38,32 @@ exports.create = function (req, res, next) {
       return new Promise((resolve, reject) => {
         var grade = user.grade || 0;
         if (grade == 0) {
-          //免费用户
-          Keyword.count({
-            'user': req.user.sub
-          }).then(count => {
-            if (count > 5) {
-              reject('普通账号关键字数不能大于5个，请升级为标准账号')
-            } else {
+          Keyword.find({
+              'user': req.user.sub
+            })
+            .then((docs) => {
+              if (docs.length == 5) {
+                reject('普通账号关键字数不能大于5个，请升级为标准账号')
+              }
+              var exists = docs.filter(function (doc) {
+                return doc.link == req.body.link;
+              })
+              if (exists.length == 0) {
+                reject('普通账号只能增加一个域名')
+              }
+              exists = docs.filter(function (doc) {
+                return doc.link == req.body.link && doc.keyword == req.body.keyword;
+              })
+              if (exists.length > 0) {
+                reject('关键字重复错误')
+              }
               resolve();
-            }
-          });
+            })
         } else {
           resolve();
         }
       })
-    })
-    .then(() => {
-      return Keyword.find({
-        'user': req.user.sub,
-        'keyword': req.body.keyword,
-        'link': req.body.link
-      })
-    })
-    .then((docs) => {
-      console.log(docs)
-      if (docs.length > 0) {
-        throw '关键字重复错误';
-      } else {
-        return true;
-      }
-    })
+    })   
     .then(() => {
       var newKeyword = new Keyword({ ...req.body,
         createDate: Date.now(),
@@ -192,15 +190,20 @@ exports.tasks = function (req, res) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  if (!inDoTasksTime) return res.json([])
+
+  //if (!inDoTasksTime) return res.json([])
 
   //获取点数>0且今天未擦亮的关键字
   Keyword.find({
       isValid: true,
       status: 1
     },
-    '_id keyword link' //only selecting the "_id" and "keyword" , "engine" "link"fields,
-    ,
+    '_id keyword link', //only selecting the "_id" and "keyword" , "engine" "link"fields,
+    {
+      sort: {
+        createDate: -1
+      }
+    },
     function (err, docs) {
       if (err) {
         console.log('err', err)
@@ -215,7 +218,7 @@ exports.tasks = function (req, res) {
 
 
 //关键字擦亮结果处理
-exports.polish = function (req, res) {
+exports.polish = function (req, res, next) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
@@ -225,29 +228,38 @@ exports.polish = function (req, res) {
       polishedCount: 1
     }
   };
-  Keyword.findOneAndUpdate({
-      _id: req.body._id
-    }, upsertData, {
-      //同时设置这2个参数，否则doc返回null
-      upsert: true,
-      new: true //return the modified document rather than the original. defaults to false
-    },
-    function (err, doc) {
-      if (err) {
-        res.send(err);
-        return;
-      }
-      console.log('polish................', doc)
-      res.json(doc);
-    });
 
-  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  var log = new PolishLog({
-    keyword_id: req.body._id,
-    user: req.user.sub,
-    createDate: Date.now(),
-    ip: ip
-  })
-  log.save();
+  Keyword.findOne({
+      _id: req.body._id
+    })
+    .then(function (doc) {
+
+      if (doc.originRank > 0 && req.body.rank == -1) {
+        throw 'skip rank=-1'
+      }
+      return Keyword.findOneAndUpdate({
+        _id: req.body._id
+      }, upsertData, {
+        //同时设置这2个参数，否则doc返回null
+        upsert: true,
+        new: true //return the modified document rather than the original. defaults to false
+      });
+    })
+    .then(function (doc) {
+      var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+      var log = new PolishLog({
+        keyword_id: req.body._id,
+        user: req.user.sub,
+        keyword: doc.keyword,
+        createDate: Date.now(),
+        ip: ip
+      })
+      log.save();
+      res.json(doc);
+    })
+    .catch((e) => {
+      logger.error(e)
+      return next(boom.badRequest(e));
+    })
 
 }

@@ -1,11 +1,12 @@
 'use strict'
 
-var mongoose = require('mongoose'),
-  User = mongoose.model('User');
-var jwt = require('jsonwebtoken')
-var config = require('../../config')
-var Balance = mongoose.model('Balance')
 var boom = require('boom')
+var jwt = require('jsonwebtoken')
+
+var config = require('../../config')
+var Balance = require('../Balance/Model')
+var User = require('./Model');
+
 
 function userGrade(grade) {
   if (grade == 1) {

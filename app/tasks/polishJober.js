@@ -31,10 +31,11 @@ class PolishJober {
                 end: this.taskFinishedCallback
             }
             jobContext.addTask(task);
-            var date = new Date(task.doc.runTime);
+            var date = new Date(doc.runTime);
             logger.info('polish', doc)
-            schedule.scheduleJob(date, function (doc) {
+            schedule.scheduleJob(date, function (task) {
                 logger.info('scheduleJob time=', Date.now().toString())
+                const doc = task.doc;
                 if (jobContext.busy) return;
                 if (doc.state == 'dirty') {
                     logger.info('doc dirty', doc)
@@ -47,7 +48,7 @@ class PolishJober {
                     .then(() => {
                         store.remove(doc._id);
                     })
-            }.bind(null, doc));
+            }.bind(null, task));
             doc = docs.shift();
         }
     }

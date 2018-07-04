@@ -9,7 +9,6 @@ let server = require('../server')
 let should = chai.should();
 let expect = chai.expect;
 var dbInit = require('../../data/scripts/init')
-
 const access_token = require('../auth').access_token
 chai.use(chaiHttp)
 
@@ -67,6 +66,7 @@ describe('keyword', () => {
       });
       keyword.save()
         .then((doc) => {
+          console.log('rank', doc)
           if (doc) {
             chai.request(server)
               .post('/api/kwTask/rank')
@@ -93,18 +93,18 @@ describe('keyword', () => {
 
   describe('/api/kwTask/polish', () => {
     it('set dynamicRank = 20, should return dynamicRank =20', (done) => {
-      let keyword = new Keyword({
-        keyword: 'test',
-        link: 'ioliz.com',
-        originRank: 0,
-        dynamicRank: 0,
-        polishedCount: 0,
-        user:'scott',
-        engine:'baidu'
-      });
-      keyword.save({new:true})
+      
+      Keyword.create({
+        keyword: '保健品1',
+        link: 'ebotop.com',
+        user: 'scott',
+
+        createDate: new Date(),
+    
+      })
         .then((doc) => {
-          console.log('polish:',doc)
+        
+          console.log('polish:',doc.toObject())
           if (doc) {
             chai.request(server)
               .post('/api/kwTask/polish')
@@ -122,6 +122,7 @@ describe('keyword', () => {
                 done();
               });
           }
+          
         });
     })
   })

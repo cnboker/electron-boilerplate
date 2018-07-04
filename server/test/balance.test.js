@@ -20,14 +20,15 @@ describe('balance', () => {
     })
   })
 
-  describe('/api/balance/pay', () => {
+  describe('/api/pay', () => {
 
-    it('amount < 30 should return "付费金额不能小于单价"', (done) => {
+    it('amount < 199 should return "付费金额不能小于单价"', (done) => {
+     
       chai.request(server)
-        .post('/api/balance/pay')
+        .post('/api/pay')
         .set('Authorization', `Bearer ${access_token}`)
         .send({
-          user: 'scott',
+          userName: 'scott',
           amount: 20
         })
         .end((err, res) => {
@@ -41,13 +42,14 @@ describe('balance', () => {
 
     it('common user become vip user should return vip info', (done) => {
       chai.request(server)
-        .post('/api/balance/pay')
+        .post('/api/pay')
         .set('Authorization', `Bearer ${access_token}`)
         .send({
-          user: 'scott',
-          amount: 90
+          userName: 'scott',
+          amount: 199
         })
         .end((err, res) => {
+          console.log(res.body)
           res.should.have.status(200);
           expect(res.body.grade).to.be.equal(2);
           done();
@@ -56,11 +58,11 @@ describe('balance', () => {
 
     it('vip user charge return vip info', (done) => {
       chai.request(server)
-        .post('/api/balance/pay')
+        .post('/api/pay')
         .set('Authorization', `Bearer ${access_token}`)
         .send({
-          user: 'vipUser',
-          amount: 30
+          userName: 'vipUser',
+          amount: 199
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -75,10 +77,10 @@ describe('balance', () => {
 
     it('vip charge amount equal 0 return exception', (done) => {
       chai.request(server)
-        .post('/api/balance/pay')
+        .post('/api/pay')
         .set('Authorization', `Bearer ${access_token}`)
         .send({
-          user: 'scott',
+          userName: 'scott',
           amount: 0
         })
         .end((err, res) => {
