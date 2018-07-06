@@ -1,11 +1,11 @@
 /app/node_modules
 /app/dist
-/app/release
 /app/.env
-/app/build
+/app/output
+/app/logs
+
 /data/db
 /server/node_modules
 /server/data
 /server/logs
-/app/logs
 /doc

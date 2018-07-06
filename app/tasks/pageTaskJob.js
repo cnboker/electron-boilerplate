@@ -1,4 +1,4 @@
-var puppeteer = require('puppeteer')
+
 var sleep = require('./sleep')
 var scroll = require('./scroll')
 var random = require('./random')
@@ -8,6 +8,7 @@ const SCAN_MAX_ROW = 100;
 const SCAN_MAX_PAGE = 15;
 
 async function execute(task) {
+    var puppeteer = require('puppeteer')
     if (jobContext.busy) return;
     jobContext.busy = true;
     console.log('process.env.NODE_ENV =' + process.env.NODE_ENV )

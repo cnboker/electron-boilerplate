@@ -32,17 +32,17 @@ autoUpdater.on('update-downloaded', (ev, info) => {
 
 //require('electron-debug')();
 app.on('ready', function () {
-	const backgroundURL = 'file://' + __dirname + '/public/background.html';
-	var debug = (process.env.NODE_ENV == 'development');
+	const backgroundURL = 'file://' +  $dirname + '/background.html';
+	var debug =  (process.env.NODE_ENV == 'development');
 
 	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL, debug);
 	mainWindow = new BrowserWindow({
 		width: 1280,
 		height: 600,
-		icon: path.join(__dirname, 'assets/icons/win/logo.png')
+		icon: path.join($dirname, 'assets/icons/win/logo.png')
 	});
 
-	const tray = new electron.Tray(path.join(__dirname , 'assets/icons/win/icon.ico'))
+	const tray = new electron.Tray(path.join($dirname , 'assets/icons/win/icon.ico'))
 
 	tray.on('click', () => {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
@@ -50,12 +50,16 @@ app.on('ready', function () {
 	mainWindow.on('show', () => {
 		tray.setHighlightMode('always')
 	})
+	mainWindow.on('minimize', () => {
+		mainWindow.hide();
+	})
 	mainWindow.on('hide', () => {
 		tray.setHighlightMode('never')
 	})
 
 	backgroundProcessHandler.addWindow(mainWindow);
-	mainWindow.loadURL('file://' + __dirname + '/public/index.html');
+	mainWindow.loadURL('file://' +  $dirname + '/index.html');
+	
 	if (process.env.NODE_ENV == 'development') {
 		mainWindow.webContents.openDevTools();
 	}
@@ -63,7 +67,10 @@ app.on('ready', function () {
 	mainWindow.on('closed', onClosed);
 
 	logger.info('检测有无新版本');
-	autoUpdater.checkForUpdates();
+	try{
+		autoUpdater.checkForUpdates();
+	}catch(e){}
+	
 });
 
 function sendStatusToWindow(text) {

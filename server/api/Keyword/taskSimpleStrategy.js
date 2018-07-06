@@ -8,8 +8,8 @@ module.exports = function (docs) {
   var max = 20 * 60; // 20min
   var next = moment().add(random(min, max), 'seconds'); //hours,minutes,seconds
   var objs = [];
-  docs = sort(docs)
-  for (let doc of docs) {
+  var sortDocs = sort(docs)
+  for (let doc of sortDocs) {
 
     //var obj = {...doc, time:next.format('YYYY-MM-DD HH:mm:ss')};
     const obj = Object.assign({}, doc, {
@@ -29,7 +29,7 @@ function sort(docs) {
   var arr = docs.filter(function (doc) {
     return doc.originRank != -1
   })
-  var gd = arr.groupBy('userName');
+  var gd = arr.groupBy('user');
   //console.log('-----------------',gd)
   var keys = Object.keys(gd)
   for (var key in gd) {

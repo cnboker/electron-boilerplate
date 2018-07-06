@@ -23,7 +23,8 @@ import thunk from 'redux-thunk'
 //https://github.com/wwayne/redux-reset
 import reduxReset from 'redux-reset'
 //import initReactFastclick from 'react-fastclick'
-import { loadingBarMiddleware } from 'react-redux-loading-bar'
+
+import './resource'
 
 //require('../config')
 //import config from '../config'
@@ -38,7 +39,7 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
 /*eslint-enable */
 const store = createStore(
   IndexReducer,
-  composeSetup(applyMiddleware(sagaMiddleware, thunk, loadingBarMiddleware()), reduxReset())
+  composeSetup(applyMiddleware(sagaMiddleware, thunk), reduxReset())
 )
 
 //Begin out Index Saga

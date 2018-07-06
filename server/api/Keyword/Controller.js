@@ -198,7 +198,7 @@ exports.tasks = function (req, res) {
       isValid: true,
       status: 1
     },
-    '_id keyword link', //only selecting the "_id" and "keyword" , "engine" "link"fields,
+    '_id user originRank keyword link', //only selecting the "_id" and "keyword" , "engine" "link"fields,
     {
       sort: {
         createDate: -1
@@ -213,7 +213,7 @@ exports.tasks = function (req, res) {
       return;
     }
 
-    console.log('docs', docs)
+    logger.info('docs', docs)
     res.json(simpleStrategy(docs));
   })
 }

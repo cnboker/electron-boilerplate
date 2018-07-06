@@ -5,12 +5,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="utf-8">
-	<title>kwPolish</title>
+	<title>易优排名</title>
 	<!-- Latest compiled and minified CSS -->
-	<link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/font-awesome.min.css" />
-	<link rel="stylesheet" href="css/simple-line-icons.css" />
-	<link rel="stylesheet" href="css/main.css" />
+
 </head>
 
 <body>
@@ -18,47 +15,23 @@
 	<div id="root" class="container">
 
 	</div>
-	
-	
-	<!-- 使用public路径在react-hot-loader模式下才可以正常加载app.bundle.j(/public/app.bundle.js)-->
-	<script src='./public/app.bundle.js'>
-	
+
+
+	<script src='app.bundle.js'>
 	</script>
-	
+
 	<script>
 		try {
-			//electron script
-			(function backgroundTask() {
-				//The BrowserWindow module is only available in the main process, 
-				//the ipcRenderer module is only available in the renderer process, 
-				//so regardless of which process you run this code in it ain't gonna work. 
-				//I'm guessing since ipcRenderer is not available you're attempting to run this code in the main process.
-
-				const foreground = require('../node_modules/electron-process/src/foreground');
-				const asyncModule = foreground.getModule(require('../tasks/scheduler'));
-				asyncModule.doTask((response) => {
-						console.log(response)
-					})
-					.then((result) => console.log(result))
-					.catch((reason) => console.error(reason));
-			})();
+			const ipcRenderer = require('electron').ipcRenderer;
+			// wait for an updateReady message
+			ipcRenderer.on('message', function (event, text) {
+				// changes the text of the button
+				var container = document.getElementById('__messages');
+				container.innerHTML = text;
+			})
 		} catch (e) {
 
 		}
-	</script>
-	<script>
-		try{
-			const ipcRenderer = require('electron').ipcRenderer;
-		// wait for an updateReady message
-		ipcRenderer.on('message', function (event, text) {
-			// changes the text of the button
-			var container = document.getElementById('__messages');
-			container.innerHTML = text;
-		})
-		}catch(e){
-
-		}
-	
 	</script>
 </body>
 

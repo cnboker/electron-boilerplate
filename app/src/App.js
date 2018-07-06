@@ -2,13 +2,11 @@ import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import Header from "./Components/Header";
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   Redirect
 } from "react-router-dom";
 import Keyword from "./Keyword/index";
-import Start from "./Container/Start";
 import Price from "./Price/index";
 import Contact from "./Price/contact";
 import Charge from './Price/charge'
@@ -42,7 +40,7 @@ class App extends Component {
 
         <div className="container">
           <Switch>
-            <Route path="/start" component={Start} />
+           
             <PrivateRoute
               path="/price"
               component={Price}

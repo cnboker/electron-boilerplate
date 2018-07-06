@@ -5,20 +5,20 @@
 	"private": true,
 	"description": "",
 	"license": "MIT",
-	"repository": "user/repo",
-	"main": "main.js",
-	"homepage": "http://localhost:3000",
+	"main": "./output/index.js",
 	"author": {
 		"name": "scott",
 		"email": "coobots@gmail.com",
 		"url": "http://"
 	},
 	"scripts": {
-		"main": "nodemon ./tasks/main.js",
+		"background": "nodemon ./tasks/main.js",
 		"test": "mocha --exit --timeout 60000",
-		"start": "webpack&&webpack-dev-server --hot",
-		"estart": "webpack&&electron .",
-		"build": "SET NODE_ENV=production&webpack&&build",
+		"webpack": "SET NODE_ENV=development&webpack",
+		"start": "SET NODE_ENV=development&webpack&&webpack-dev-server --hot",
+		"estart": "SET NODE_ENV=development&webpack&&electron .",
+		"build": "SET NODE_ENV=development&webpack&&build",
+		"publish": "SET NODE_ENV=production&webpack&&build",
 		"ship": "build --win -p always"
 	},
 	"dependencies": {
@@ -32,14 +32,12 @@
 		"dotenv-webpack": "^1.5.5",
 		"electron-process": "https://github.com/cnboker/electron-process",
 		"electron-updater": "^2.21.10",
-		"html-webpack-plugin": "^3.2.0",
+		"file-loader": "^1.1.11",
 		"invariant": "^2.2.4",
 		"js-cookie": "^2.2.0",
-		"log4js": "^2.8.0",
 		"moment": "^2.22.1",
 		"node-notifier": "^5.2.1",
 		"node-schedule": "^1.3.0",
-		"puppeteer": "^1.3.0",
 		"ramda": "^0.23.0",
 		"react": "^15.3.0",
 		"react-bootstrap": "^0.32.1",
@@ -47,7 +45,6 @@
 		"react-hot-loader": "^4.3.0",
 		"react-localization": "^1.0.10",
 		"react-redux": "^5.0.7",
-		"react-redux-loading-bar": "^4.0.5",
 		"react-router": "^4.2.0",
 		"react-router-bootstrap": "^0.24.4",
 		"react-router-dom": "^4.2.2",
@@ -59,8 +56,10 @@
 		"redux-reset": "^0.3.0",
 		"redux-saga": "^0.16.0",
 		"redux-thunk": "^2.2.0",
+		"rimraf": "^2.6.2",
 		"socket.io-client": "^2.1.1",
 		"style-loader": "^0.21.0",
+		"unzipper": "^0.9.1",
 		"url-loader": "^1.0.1",
 		"user-home": "^2.0.0"
 	},
@@ -78,12 +77,15 @@
 		"chai-http": "^4.0.0",
 		"clean-webpack-plugin": "^0.1.19",
 		"devtron": "^1.1.0",
-		"electron": "^2.0.2",
+		"electron": "^2.0.4",
 		"electron-builder": "^19.20.1",
 		"electron-prebuilt": "^1.4.13",
+		"html-webpack-plugin": "^3.2.0",
 		"mocha": "^5.2.0",
 		"mongoose": "^5.0.14",
 		"nodemon": "^1.17.5",
+		"puppeteer": "^1.3.0",
+		"uglifyjs-webpack-plugin": "^1.2.7",
 		"webpack": "^4.0.0",
 		"webpack-cli": "^3.0.1",
 		"webpack-dev-server": "^3.1.4"
@@ -101,15 +103,8 @@
 			}
 		],
 		"files": [
-			"**/*",
-			"!public/images${/*}",
-			"!docs${/*}",
-			"!test${/*}",
-			"!src${/*}",
-			"node_modules/electron-process/*",
-			"assets/icons${/*}",
-			"!node_modules/electron-prebuilt/${/*}",
-			"!node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/interactive_ui_tests.exe"
+			"!**/*",
+			"output${/*}"
 		]
 	}
 }

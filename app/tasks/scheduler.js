@@ -18,7 +18,12 @@ const auth = require('../auth')
 
 function doTask() {
     logger.info('doTask start ...')
-    waitUtil(main)
+    var downloader = require('./downloader/resloader')
+    downloader(function(){
+        logger.info('download finished...')
+        waitUtil(main)
+    })
+    
 }
 
 function main() {
