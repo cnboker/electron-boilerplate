@@ -14,11 +14,11 @@
 	"scripts": {
 		"background": "nodemon ./tasks/main.js",
 		"test": "mocha --exit --timeout 60000",
-		"webpack": "SET NODE_ENV=development&webpack",
-		"start": "SET NODE_ENV=development&webpack&&webpack-dev-server --hot",
-		"estart": "SET NODE_ENV=development&webpack&&electron .",
-		"build": "SET NODE_ENV=development&webpack&&build",
-		"publish": "SET NODE_ENV=production&webpack&&build",
+		"webpack": "cross-env NODE_ENV=development&webpack",
+		"start": "cross-env NODE_ENV=development&webpack&&webpack-dev-server --hot",
+		"estart": "cross-env NODE_ENV=development&webpack&&electron .",
+		"build": "cross-env NODE_ENV=development&webpack&&build",
+		"publish": "cross-env NODE_ENV=production&webpack&&build",
 		"ship": "build --win -p always"
 	},
 	"dependencies": {
@@ -27,6 +27,8 @@
 		"axios-mock-adapter": "^1.15.0",
 		"bows": "^1.7.0",
 		"classnames": "^2.2.5",
+		"copy-webpack-plugin": "^4.5.2",
+		"cross-env": "^5.2.0",
 		"css-loader": "^0.28.11",
 		"dotenv": "^5.0.1",
 		"dotenv-webpack": "^1.5.5",
