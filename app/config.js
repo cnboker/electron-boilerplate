@@ -3,6 +3,13 @@
 process.env.REACT_APP_DOWNLOAD_URL = 'http://www.ioliz.com';
 process.env.APP = 'electron';
 
+if (process.env.NODE_ENV == 'production') {
+    process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
+    process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
+} else {
+    process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
+    process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
+}
 
 var userHome = require('user-home');
 var path = require('path');
