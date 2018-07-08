@@ -14,11 +14,11 @@
 	"scripts": {
 		"background": "nodemon ./tasks/main.js",
 		"test": "mocha --exit --timeout 60000",
-		"webpack": "cross-env NODE_ENV=development&webpack",
-		"start": "cross-env NODE_ENV=development&webpack&&webpack-dev-server --hot",
-		"estart": "cross-env NODE_ENV=development&webpack&&electron .",
-		"build": "cross-env NODE_ENV=development&webpack&&build",
-		"publish": "cross-env NODE_ENV=production&webpack&&build",
+		"webpack": "cross-env NODE_ENV=development webpack",
+		"start": "cross-env NODE_ENV=development webpack&&webpack-dev-server --hot",
+		"estart": "cross-env NODE_ENV=development webpack&&electron .",
+		"build": "cross-env NODE_ENV=development webpack&&build",
+		"publish": "cross-env NODE_ENV=production build",
 		"ship": "build --win -p always"
 	},
 	"dependencies": {
@@ -38,6 +38,7 @@
 		"invariant": "^2.2.4",
 		"js-cookie": "^2.2.0",
 		"moment": "^2.22.1",
+		"node-localstorage": "^1.3.1",
 		"node-notifier": "^5.2.1",
 		"node-schedule": "^1.3.0",
 		"ramda": "^0.23.0",
@@ -94,9 +95,12 @@
 	},
 	"build": {
 		"appId": "com.ioliz.kwPolish",
-		"asar": true,
+		"asar": false,
 		"win": {
 			"icon": "assets/icons/win/icon.ico"
+		},
+		"mac": {
+			"icon": "assets/icons/mac/icon.icns"
 		},
 		"publish": [
 			{

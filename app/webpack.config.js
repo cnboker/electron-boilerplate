@@ -8,7 +8,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 require('./config')
-
+console.log('node_env=',process.env.NODE_ENV)
 var config = {
 	mode: process.env.NODE_ENV, //production or development
 	devtool: 'source-map',
@@ -83,9 +83,9 @@ var appConfig = Object.assign({}, config, {
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
 
-		new Dotenv({
-			path: './.env'
-		})
+		// new Dotenv({
+		// 	path: './.env'
+		// })
 	],
 	optimization: {
 		minimize: process.env.NODE_ENV === 'production',
@@ -130,14 +130,11 @@ var mainConfig = Object.assign({}, config, {
 	plugins: [
 		new CopyWebpackPlugin([{
 			from: './assets',
-			to: './assets',
+			to: 'assets',
 			toType: 'dir'
 		}]),
 		new webpack.DefinePlugin({
 			$dirname: '__dirname', //解决__dirname编译以后运行环境为/
-		}),
-		new Dotenv({
-			path: './.env'
 		})
 	]
 });

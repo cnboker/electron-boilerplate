@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add cross-env --save-dev
+  /usr/local/bin/node /usr/local/bin/yarn add fsevents --save-dev
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/Library/Frameworks/Mono.framework/Versions/Current/Commands
@@ -8,7 +8,7 @@ Yarn version:
   0.24.5
 
 Node version: 
-  8.11.1
+  10.6.0
 
 Platform: 
   darwin x64
@@ -30,11 +30,11 @@ npm manifest:
   	"scripts": {
   		"background": "nodemon ./tasks/main.js",
   		"test": "mocha --exit --timeout 60000",
-  		"webpack": "SET NODE_ENV=development&webpack",
-  		"start": "SET NODE_ENV=development&webpack&&webpack-dev-server --hot",
-  		"estart": "SET NODE_ENV=development&webpack&&electron .",
-  		"build": "SET NODE_ENV=development&webpack&&build",
-  		"publish": "SET NODE_ENV=production&webpack&&build",
+  		"webpack": "cross-env NODE_ENV=development&webpack",
+  		"start": "cross-env NODE_ENV=development&webpack&&webpack-dev-server --hot",
+  		"estart": "cross-env NODE_ENV=development&webpack&&electron .",
+  		"build": "cross-env NODE_ENV=development&webpack&&build",
+  		"publish": "cross-env NODE_ENV=production&webpack&&build",
   		"ship": "build --win -p always"
   	},
   	"dependencies": {
@@ -44,6 +44,7 @@ npm manifest:
   		"bows": "^1.7.0",
   		"classnames": "^2.2.5",
   		"copy-webpack-plugin": "^4.5.2",
+  		"cross-env": "^5.2.0",
   		"css-loader": "^0.28.11",
   		"dotenv": "^5.0.1",
   		"dotenv-webpack": "^1.5.5",
@@ -2151,6 +2152,13 @@ Lockfile:
       is-nan "^1.2.1"
       moment-timezone "^0.5.0"
   
+  cross-env@^5.2.0:
+    version "5.2.0"
+    resolved "http://registry.npm.taobao.org/cross-env/download/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
+    dependencies:
+      cross-spawn "^6.0.5"
+      is-windows "^1.0.0"
+  
   cross-spawn@^5.0.1:
     version "5.1.0"
     resolved "http://registry.npm.taobao.org/cross-spawn/download/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
@@ -3331,7 +3339,7 @@ Lockfile:
     version "1.0.0"
     resolved "http://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   
-  fsevents@^1.0.0, fsevents@^1.1.2:
+  fsevents@^1.0.0, fsevents@^1.1.2, fsevents@^1.2.4:
     version "1.2.4"
     resolved "http://registry.npm.taobao.org/fsevents/download/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
     dependencies:
@@ -4170,7 +4178,7 @@ Lockfile:
     version "0.2.1"
     resolved "http://registry.npm.taobao.org/is-utf8/download/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
   
-  is-windows@^1.0.2:
+  is-windows@^1.0.0, is-windows@^1.0.2:
     version "1.0.2"
     resolved "http://registry.npm.taobao.org/is-windows/download/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
   
@@ -7805,4 +7813,4 @@ Lockfile:
     resolved "http://registry.npm.taobao.org/yeast/download/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 Trace: 
-  Error: EACCES: permission denied, open '/Users/scott/code/kwPolish/app/node_modules/fsevents/node_modules/rc/cli.js'
+  Error: EACCES: permission denied, mkdir '/Users/scott/code/kwPolish/app/node_modules/touch/node_modules/nopt'

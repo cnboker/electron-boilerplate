@@ -1,6 +1,5 @@
 'use strict';
 var path = require('path')
-require('./auto')
 require('./config')
 var logger = require('./logger')
 const electron = require('electron');
@@ -10,12 +9,14 @@ const {
 } = require("electron-updater");
 //引用远程未注册模块
 const main = require('./node_modules/electron-process/src/main');
+var extender = require('./mainExtend')
+extender.enableAuto();
 
 const app = electron.app; // Module to control application life.
 const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.
 //require('electron-reload')(__dirname);
 const Menu = electron.Menu;
-const shell = require('electron').shell;
+const shell = electron.shell;
 
 let mainWindow = null;
 
@@ -28,25 +29,33 @@ autoUpdater.on('update-downloaded', (ev, info) => {
 	}, 5000)
 })
 
-
-
 //require('electron-debug')();
 app.on('ready', function () {
-	const backgroundURL = 'file://' +  $dirname + '/background.html';
-	var debug =  (process.env.NODE_ENV == 'development');
+	const backgroundURL = 'file://' + $dirname + '/background.html';
+	var debug = (process.env.NODE_ENV == 'development');
 
 	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL, debug);
-	mainWindow = new BrowserWindow({
-		width: 1280,
-		height: 600,
-		icon: path.join($dirname, 'assets/icons/win/logo.png')
-	});
-
-	const tray = new electron.Tray(path.join($dirname , 'assets/icons/win/icon.ico'))
+	// mainWindow = new BrowserWindow({
+	// 	width: 1280,
+	// 	height: 600,
+	// 	icon: path.join($dirname, 'assets/icons/win/logo.png'),
+	// 	show: false, 
+	// 	//backgroundColor: '#002b36'
+	// });
+	// //fix White loading screens belong in browser
+	// mainWindow.on('ready-to-show', function() { 
+	// 	mainWindow.show(); 
+	// 	mainWindow.focus(); 
+	// });
+	mainWindow = extender.getStateWindow('易优排名',path.join($dirname, 'assets/icons/win/logo.png'))
+	
+	const tray = new electron.Tray(path.join($dirname, 'assets/icons/win/logo.png'))
+		
 
 	tray.on('click', () => {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
 	})
+
 	mainWindow.on('show', () => {
 		tray.setHighlightMode('always')
 	})
@@ -58,8 +67,8 @@ app.on('ready', function () {
 	})
 
 	backgroundProcessHandler.addWindow(mainWindow);
-	mainWindow.loadURL('file://' +  $dirname + '/index.html');
-	
+	mainWindow.loadURL('file://' + $dirname + '/index.html');
+
 	if (process.env.NODE_ENV == 'development') {
 		mainWindow.webContents.openDevTools();
 	}
@@ -67,10 +76,10 @@ app.on('ready', function () {
 	mainWindow.on('closed', onClosed);
 
 	logger.info('检测有无新版本');
-	try{
+	try {
 		autoUpdater.checkForUpdates();
-	}catch(e){}
-	
+	} catch (e) {}
+
 });
 
 function sendStatusToWindow(text) {

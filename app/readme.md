@@ -33,3 +33,6 @@ install webpack
 npm install --save-dev webpack webpack-dev-server babel-core babel-loader bebel-preset-env
 
 npm install -g webpack-cli --save-dev
+
+gernerate icon
+https://github.com/jaretburkett/electron-icon-maker
