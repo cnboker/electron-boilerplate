@@ -1,14 +1,14 @@
 require('../../config')
 var fetcher = require('./resFetcher')
 var unrar = require('./unrar')
+var path = require('path')
 
 module.exports = function (callback) {
-    var dest = `${process.env.Home}\\puppeteer.zip`
-    var output = `${process.env.AppRoot}\\resources\\app.asar.unpacked\\node_modules`
-    //var output = `C:\\Users\\scott\\AppData\\Local\\Programs\\app\\resources\\app.asar.unpacked\\node_modules`
-
+    var dest = path.join(process.env.Home,'puppeteer.zip');
+    //var output = `${process.env.AppRoot}\\resources\\app.asar.unpacked\\node_modules`
+    var output = path.join(process.env.Home,'puppeteer')
     var fs = require('fs');
-    if (fs.existsSync(`${output}\\puppeteer\\.local-chromium\\win64-555668\\chrome-win32\\chrome.exe`)) {
+    if (fs.existsSync(process.env.ChromePath)) {
         console.log('chrome.exe exist')
         // Do something
         if (callback) callback();

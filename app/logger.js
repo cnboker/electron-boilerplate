@@ -2,17 +2,19 @@ require('./config')
 
 var fs = require('fs');
 var util = require('util');
+var path = require('path');
+var os = require(‘os’), EOL = os.EOL;
 
 if (!fs.existsSync(process.env.Home)) {
   fs.mkdirSync(process.env.Home)
 }
 
-var dir = `${process.env.Home}/logs`
+var dir = path.join(process.env.Home,'logs');
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir)
 }
 
-var log_file = fs.createWriteStream(`${dir}/log.txt`, {
+var log_file = fs.createWriteStream(path.join(dir,'log.txt'), {
   flags: 'w'
 });
 var log_stdout = process.stdout;
@@ -27,8 +29,10 @@ var logger = {
         output += ' ' + arg;
       }
     }
-    log_file.write(util.format(output) + '\r\n');
-    log_stdout.write(util.format(output) + '\r\n');
+    //https://shapeshed.com/writing-cross-platform-node/
+    //Cross Platform Newline Characters
+    log_file.write(util.format(output) + EOL);
+    log_stdout.write(util.format(output) + EOL);
   }
 }
 

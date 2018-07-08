@@ -15,11 +15,12 @@ async function execute(task) {
     const browser = await puppeteer.launch({
         headless: true,
         executablePath: (() => {
-            if (process.env.NODE_ENV == 'production') {
-                return './resources/app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
-            } else {
-                return './node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
-            }
+            return process.env.ChromePath;
+            // if (process.env.NODE_ENV == 'production') {
+            //     return './resources/app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
+            // } else {
+            //     return './node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
+            // }
         })()
     })
     const page = await browser.newPage();

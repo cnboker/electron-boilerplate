@@ -11,9 +11,12 @@ if (process.env.NODE_ENV == 'production') {
     process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
 }
 
-var userHome = require('user-home');
+
 var path = require('path');
 //用户目录
-process.env.Home = path.resolve(userHome, '.kwPolish');
+process.env.Home = path.resolve((process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME, '.kwPolish');
 //程序运行目录
-process.env.AppRoot = process.cwd();
+//process.env.AppRoot = process.cwd();
+process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true;
+process.env.ChromePath = path.join(process.env.Home, 'puppeteer',
+    '.local-chromium', 'win64-555668', 'chrome-win32', 'chrome.exe');
