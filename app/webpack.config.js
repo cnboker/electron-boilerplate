@@ -1,14 +1,14 @@
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
 //const WriteFilePlugin =require('write-file-webpack-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 require('./config')
-console.log('node_env=',process.env.NODE_ENV)
+console.log('node_env=', process.env.NODE_ENV)
 var config = {
 	mode: process.env.NODE_ENV, //production or development
 	devtool: 'source-map',
@@ -18,7 +18,6 @@ var config = {
 };
 
 var appConfig = Object.assign({}, config, {
-
 
 	// TODO: Add common Configuration
 	target: 'electron-renderer',
@@ -65,6 +64,10 @@ var appConfig = Object.assign({}, config, {
 		hot: true
 	},
 	plugins: [
+		new WebpackShellPlugin({
+			onBuildStart: ['echo "webpack start"'],
+			onBuildEnd: ['echo "Webpack End"']
+		}),
 		new CleanWebpackPlugin(['dist', 'output']),
 		new HtmlWebpackPlugin({
 			hash: true,
@@ -96,14 +99,17 @@ var appConfig = Object.assign({}, config, {
 
 
 var taskConfig = Object.assign({}, config, {
+	externals: ['puppeteer'], //don't compile puppeteer
 	target: 'node', //resolve puppeteer build failure 
 	entry: {
-		app: ['./tasks/main.js']
+		app: ['./tasks/scheduler.js']
 	},
 
 	output: {
 		path: path.resolve(__dirname, 'output'),
-		filename: 'background.bundle.js'
+		filename: 'background.bundle.js',
+		libraryTarget: 'var',
+		library: 'PageJob'
 	},
 
 	optimization: {

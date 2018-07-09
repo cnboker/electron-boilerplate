@@ -2,24 +2,20 @@ var moment = require('moment')
 const KEYWORD_KEY = 'kwPoslish_tasks'
 
 var setKeywordLocalStorage = function (arr) {
-  if (process.env.APP == 'node') {
-    return;
-  }
+  
   var data = {
     date: moment().format('YYYY-MM-DD'),
     arr
   }
-  localStorage.setItem(KEYWORD_KEY, JSON.stringify(data));
+  global.nodeStorage.setItem(KEYWORD_KEY, JSON.stringify(data));
 }
 
 var getKeywordLocalStorage = function () {
-  if (process.env.APP == 'node') {
-    return null;
-  }
-  var json = localStorage.getItem(KEYWORD_KEY);
-  if (json == null) return null;
+  var json =  global.nodeStorage.getItem(KEYWORD_KEY);
+  //var json = localStorage.getItem(KEYWORD_KEY);
+  if (json == null) return [];
   var data = JSON.parse(json);
-  if (data.date != moment().format('YYYY-MM-DD')) return null;
+  if (data.date != moment().format('YYYY-MM-DD')) return [];
   return data.arr;
 }
 

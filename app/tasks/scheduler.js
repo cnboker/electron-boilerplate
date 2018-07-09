@@ -1,13 +1,6 @@
 var schedule = require('node-schedule');
 var moment = require('moment');
-var path = require('path')
 
-//必要,electron node是6.5版本，需要增加babel转换async
-// require("babel-register")({
-//     // This will override `node_modules` ignoring - you can alternatively pass
-//     // an array of strings to be explicitly matched or a regex / glob
-//     //ignore: false
-//   });
 
 var polishJober = require('./polishJober');
 var pageTaskJober = require('./pageTaskJob');
@@ -16,12 +9,18 @@ var logger = require('../logger')
 const auth = require('../auth')
 
 
-function doTask() {
+function doTask(puppeteerCreator) {
     logger.info('doTask start ...')
     var downloader = require('./downloader/resloader')
-    downloader(function(){
-        logger.info('download finished...')
-        waitUtil(main)
+    downloader(function(success){
+        if(success){
+            logger.info('download finished...')
+            jobContext.puppeteer = puppeteerCreator();
+            waitUtil(main)
+        }else{
+            logger.info('downloader failure,retry doTask start ...')
+            window.setTimeout(doTask, 300000);
+        }
     })
     
 }
@@ -32,8 +31,8 @@ function main() {
     polishJober.execute()
     //隔10s执行scanJober
     schedule.scheduleJob('*/1 * * * *', function () {
-        logger.info('/1m', moment().format())
-        if (jobContext.busy) return;
+        logger.info('/1m', moment().format())       
+        if (jobContext.busy || jobContext.puppeteer == undefined) return;
         var task = jobContext.popScanTask();
         if (task != null) {
             try {

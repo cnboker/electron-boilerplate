@@ -3,29 +3,27 @@ require('./config')
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
-var os = require(‘os’), EOL = os.EOL;
+var os = require('os'),
+  EOL = os.EOL;
 
-if (!fs.existsSync(process.env.Home)) {
-  fs.mkdirSync(process.env.Home)
-}
-
-var dir = path.join(process.env.Home,'logs');
+var dir = path.join(process.env.AppHome, 'logs');
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir)
 }
 
-var log_file = fs.createWriteStream(path.join(dir,'log.txt'), {
-  flags: 'w'
+var log_file = fs.createWriteStream(path.join(dir, 'log.txt'), {
+  flags: 'w',
+  encoding: 'utf8'
 });
 var log_stdout = process.stdout;
 
 var logger = {
   info: function (...args) { //
     var output = '';
-    for(let arg of args){
-      if(typeof arg === 'object'){
+    for (let arg of args) {
+      if (typeof arg === 'object') {
         output += ' ' + JSON.stringify(arg)
-      }else{
+      } else {
         output += ' ' + arg;
       }
     }

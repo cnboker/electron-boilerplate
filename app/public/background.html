@@ -2,9 +2,29 @@
 <html>
 
 <head>
+  <!-- <script>
+    //必须增加该行, 因为在webpack.config.js中没有编译puppeteer,所以需要外部定义
+    global.puppeteerReady = function () {
+      console.log('inject puppeteer')
+      global.puppeteer = require('puppeteer')
+    }
+  </script> -->
   <script src='background.bundle.js'>
   </script>
-
+  <script>
+    window.onload = function () {
+      //必须增加该行, 因为在webpack.config.js中没有编译puppeteer,所以需要外部定义
+      PageJob.doTask(function () {
+        return require('puppeteer')
+      })
+    }
+  </script>
+  <script>
+    var ipc = require('electron').ipcRenderer;
+    window.onerror = function (error, url, line) {
+      ipc.send('errorInWindow', error);
+    };
+  </script>
 </head>
 
 <body>

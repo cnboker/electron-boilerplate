@@ -13,10 +13,9 @@ var extender = require('./mainExtend')
 extender.enableAuto();
 
 const app = electron.app; // Module to control application life.
-const BrowserWindow = electron.BrowserWindow; // Module to create native browser window.
 //require('electron-reload')(__dirname);
-const Menu = electron.Menu;
-const shell = electron.shell;
+//const Menu = electron.Menu;
+//const shell = electron.shell;
 
 let mainWindow = null;
 
@@ -47,10 +46,11 @@ app.on('ready', function () {
 	// 	mainWindow.show(); 
 	// 	mainWindow.focus(); 
 	// });
-	mainWindow = extender.getStateWindow('易优排名',path.join($dirname, 'assets/icons/win/logo.png'))
-	
+	mainWindow = extender.getStateWindow('易优排名', path.join($dirname, 'assets/icons/win/logo.png'))
+
 	const tray = new electron.Tray(path.join($dirname, 'assets/icons/win/logo.png'))
-		
+	// Don't show the app in the doc
+	//app.dock.hide()
 
 	tray.on('click', () => {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
@@ -113,3 +113,9 @@ function onClosed() {
 	mainWindow = null;
 	app.quit();
 }
+
+var ipc = electron.ipcMain;
+
+ipc.on('errorInWindow', function(event, data){
+    logger.info(data)
+});

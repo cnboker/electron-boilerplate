@@ -1,4 +1,3 @@
-var userHome = require('user-home');
 
 module.exports = {
 	enableAuto: function () {
@@ -6,7 +5,7 @@ module.exports = {
 		var minecraftAutoLauncher = new AutoLaunch({
 			name: '易优排名',
 			//isHidden:true,
-			path: process.platform === 'darwin' ? '/Applications/Minecraft.app' : `${process.env.AppRoot}/易优排名.exe`,
+			path: (process.platform === 'darwin' ? '/Applications/易优排名.app' : `${process.cwd()}/易优排名.exe`),
 		});
 
 		minecraftAutoLauncher.enable();
@@ -23,10 +22,7 @@ module.exports = {
 			});
 	},
 	getStateWindow: function (title, icon) {
-		var JSONStorage = require('node-localstorage').JSONStorage;
-		var storageLocation = `${process.env.Home}/appData`;
-		global.nodeStorage = new JSONStorage(storageLocation);
-
+	
 		const electron = require('electron');
 		const BrowserWindow = electron.BrowserWindow;
 

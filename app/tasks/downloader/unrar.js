@@ -8,12 +8,13 @@ module.exports = function (rarFile, outputPath, finished) {
         path: outputPath
     });
     fs.createReadStream(rarFile).pipe(extract);
-    extract.on('error', function(err) {
+    extract.on('error', function (err) {
         console.log(err)
-      });
+        if (finished) finished(false);
+    });
     extract.on('close', function () {
         console.log('zip success')
-        if (finished) finished();
+        if (finished) finished(true);
     })
 
 }

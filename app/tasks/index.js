@@ -1,4 +1,7 @@
+const EventEmitter = require('events');
+var emitter = new EventEmitter();
 
-require('../config')
-var logger = require('../logger')
-logger.info('hello world')
+emitter.on('downloadComplete',function(){
+    console.log('test')
+})
+emitter.emit('downloadComplete')

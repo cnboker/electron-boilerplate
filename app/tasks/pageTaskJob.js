@@ -1,19 +1,16 @@
-
 var sleep = require('./sleep')
 var scroll = require('./scroll')
 var random = require('./random')
 var jobAction = require('./jobAction')
 var jobContext = require('./jobContext')
-const SCAN_MAX_ROW = 100;
-const SCAN_MAX_PAGE = 15;
+const SCAN_MAX_PAGE = 10;
 
 async function execute(task) {
-    var puppeteer = require('puppeteer')
-    if (jobContext.busy) return;
+    if (jobContext.busy || jobContext.puppeteer == undefined) return;
     jobContext.busy = true;
-    console.log('process.env.NODE_ENV =' + process.env.NODE_ENV )
-    const browser = await puppeteer.launch({
-        headless: true,
+    console.log('process.env.NODE_ENV =' + process.env.NODE_ENV)
+    const browser = await jobContext.puppeteer.launch({
+        headless: false,
         executablePath: (() => {
             return process.env.ChromePath;
             // if (process.env.NODE_ENV == 'production') {

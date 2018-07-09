@@ -12,13 +12,12 @@ var pageTaskJob = require('./pageTaskJob')
 class PolishJober {
     static async execute() {
         var docs = store.getKeywordLocalStorage();
-        if (docs == null) {
+        if (docs.length == 0) {
             docs = await this._fetchData();
             logger.info('fetch tasks length', docs.length);
             store.setKeywordLocalStorage(docs);
         }
-        this.itemsPush(docs);
-        
+        this.itemsPush(docs);    
     }
 
     static itemsPush(docs) {

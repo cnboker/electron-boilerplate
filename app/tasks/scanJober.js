@@ -58,8 +58,9 @@ class ScanJober {
             }
         }).then(function(response){
            // console.log(response)
+           logger.info('scan post', response.data)
         }).then(function(err){
-            console.error(err)
+           // console.error(err)
         })
     }
 
@@ -68,7 +69,6 @@ class ScanJober {
             const access_token = auth.getToken().access_token;
             const url = `${process.env.REACT_APP_API_URL}/keywords`
             logger.info('scanjob-_fetchData-url', url);
-            console.log(url);
             const res = await axios({
                 method:'get',
                 url,
