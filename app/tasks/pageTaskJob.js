@@ -10,14 +10,9 @@ async function execute(task) {
     jobContext.busy = true;
     console.log('process.env.NODE_ENV =' + process.env.NODE_ENV)
     const browser = await jobContext.puppeteer.launch({
-        headless: false,
+        headless: true,
         executablePath: (() => {
             return process.env.ChromePath;
-            // if (process.env.NODE_ENV == 'production') {
-            //     return './resources/app.asar.unpacked/node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
-            // } else {
-            //     return './node_modules/puppeteer/.local-chromium/win64-555668/chrome-win32/chrome.exe';
-            // }
         })()
     })
     const page = await browser.newPage();

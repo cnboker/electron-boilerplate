@@ -45,7 +45,7 @@ class PolishJober {
                 pageTaskJob
                     .execute(task)
                     .then(() => {
-                        store.remove(doc._id);
+                        store.removeItem(doc._id);
                     })
             }.bind(null, task));
             doc = docs.shift();

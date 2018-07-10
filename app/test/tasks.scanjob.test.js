@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test'
 
 // const assert = require('assert');
 
@@ -46,7 +45,7 @@ describe('scanJober',()=>{
               jobContextMock.tasks.push(item);
             }
           }
-          const Scanjob = require('../src/tasks/baidu/scanJober');
+          const Scanjob = require('../tasks/scanJober');
           Scanjob.execute(jobContextMock).then(()=>{
             console.log('jobContextMock.tasks.length',jobContextMock.tasks.length)
             expect(6).to.equal(jobContextMock.tasks.length);

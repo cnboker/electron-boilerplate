@@ -2,22 +2,36 @@ require('../../config')
 var fetcher = require('./resFetcher')
 var unrar = require('./unrar')
 var path = require('path')
+var logger = require('../../logger')
+var fs = require('fs');
 
 module.exports = function (callback) {
     var dest = path.join(process.env.AppHome, 'puppeteer.zip');
-    //var output = `${process.env.AppRoot}\\resources\\app.asar.unpacked\\node_modules`
-    //var output = path.join(process.cwd(),'resources','app','output');
-    var output = path.join(process.cwd(),'resources');
-    var fs = require('fs');
+
+    var output = path.join(process.cwd(), 'resources');
+
     if (fs.existsSync(process.env.ChromePath)) {
-        console.log('chrome.exe exist')
+        logger.info('chrome.exe exist')
         // Do something
         if (callback) callback(true);
         return;
     }
 
+    //下载锁问题
+    var lockFile = path.join(process.env.AppHome, 'download.lock');
+    console.log('lockFile', lockFile)
+    if (fs.existsSync(lockFile)) {
+        logger.info('puppeteer.zip exist, but crack, retry download')
+        fs.unlinkSync(lockFile)
+        if (fs.existsSync(dest)) {
+            fs.unlinkSync(dest)
+        }
+        if (callback) callback(false)
+        return;
+    }
     if (fs.existsSync(dest)) {
-        console.log('puppeteer.zip exist', dest)
+        logger.info('puppeteer.zip exist', dest)
+
         unrar(dest, output, function (success) {
             if (callback) callback(success);
         })
@@ -25,16 +39,21 @@ module.exports = function (callback) {
     }
 
     var fileUrl = `${process.env.REACT_APP_DOWNLOAD_URL}/download/puppeteer.zip`
-    fetcher(fileUrl, dest, function (err) {
-        console.log(err)
-        if (err == undefined) {
-            //unrar
-            unrar(dest, output, function (success) {
-                if (callback) callback(success);
-            })
-        } else {
-            if (callback) callback(false);
+
+    fs.writeFileSync(lockFile, '1', function (err) {
+        if (err) {
+            logger.info('lock file create failure', err)
         }
-        //console.info(err)
+    })
+
+    fetcher(fileUrl, dest, function () {
+        fs.unlinkSync(lockFile)
+        //unrar
+        unrar(dest, output, function (success) {
+            if (callback) callback(success);
+        })
+
+    }, function () {
+        if (callback) callback(false);
     })
 }

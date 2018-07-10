@@ -1,6 +1,5 @@
 module.exports = function (rarFile, outputPath, finished) {
-    console.log(rarFile)
-    console.log(outputPath)
+    var logger = require('../../logger')
     var fs = require('fs')
     var unzip = require('unzipper')
 
@@ -9,12 +8,16 @@ module.exports = function (rarFile, outputPath, finished) {
     });
     fs.createReadStream(rarFile).pipe(extract);
     extract.on('error', function (err) {
-        console.log(err)
+        logger.info('unzip err', err)
+        if(fs.existsSync(rarFile)){
+            fs.unlinkSync(rarFile);
+        }
         if (finished) finished(false);
+       
     });
     extract.on('close', function () {
-        console.log('zip success')
-        if (finished) finished(true);
+        var success = fs.existsSync(rarFile);
+        if (finished && success) finished(success);
     })
 
 }

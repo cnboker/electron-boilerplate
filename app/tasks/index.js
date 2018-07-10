@@ -1,7 +1,5 @@
-const EventEmitter = require('events');
-var emitter = new EventEmitter();
-
-emitter.on('downloadComplete',function(){
-    console.log('test')
+require('../config')
+var downloader = require('./downloader/resloader')
+downloader(function(result){
+    console.log('download result=', result)
 })
-emitter.emit('downloadComplete')

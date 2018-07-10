@@ -19,7 +19,7 @@ function doTask(puppeteerCreator) {
             waitUtil(main)
         }else{
             logger.info('downloader failure,retry doTask start ...')
-            window.setTimeout(doTask, 300000);
+            window.setTimeout(doTask.bind(null,puppeteerCreator), 30000);
         }
     })
     

@@ -55,7 +55,10 @@ app.on('ready', function () {
 	tray.on('click', () => {
 		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
 	})
-
+	//自启动隐藏程序
+	if(process.cwd() != process.env.ApplicationPath){
+		mainWindow.hide();
+	}
 	mainWindow.on('show', () => {
 		tray.setHighlightMode('always')
 	})

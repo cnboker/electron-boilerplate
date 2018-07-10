@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "易优排名",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -12,13 +12,13 @@
 		"url": "http://"
 	},
 	"scripts": {
-		"background": "nodemon ./tasks/main.js",
-		"test": "mocha --exit --timeout 60000",
+		"node": "nodemon ./tasks/index.js",
+		"test": "mocha --exit --timeout 6000",
 		"webpack": "cross-env NODE_ENV=development webpack",
 		"start": "cross-env NODE_ENV=development webpack&&webpack-dev-server --hot",
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
 		"build": "cross-env NODE_ENV=development webpack&&build",
-		"publish": "cross-env NODE_ENV=production build",
+		"publish": "cross-env NODE_ENV=production webpack&&build",
 		"ship": "build --win -p always"
 	},
 	"dependencies": {
@@ -93,7 +93,7 @@
 	},
 	"build": {
 		"appId": "com.ioliz.kwPolish",
-		"asar": false,
+		"asar": true,
 		"win": {
 			"icon": "assets/icons/win/icon.ico"
 		},
