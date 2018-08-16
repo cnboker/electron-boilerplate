@@ -1,5 +1,6 @@
 process.env.REACT_APP_DOWNLOAD_URL = 'http://www.ioliz.com';
 process.env.APP = 'electron';
+process.env.engine = 'google'
 
 if (process.env.NODE_ENV == 'production') {
     process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';

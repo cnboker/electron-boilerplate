@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var keywordSchema =new Schema({
+  engine:String, //搜索引擎
   keyword:String, //关键字
   link:String, //搜索引擎包含关键字
   user:String, //操作用户

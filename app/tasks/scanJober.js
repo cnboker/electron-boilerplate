@@ -33,18 +33,6 @@ class ScanJober {
        // console.log('execute end...')
     }
 
-    // static itemsPush(unScanItems){
-    //     var doc = unScanItems.shift();
-    //     while (doc) {
-    //         var task = {
-    //             doc,
-    //             action: jobAction.SCAN,
-    //             end:this.taskFinishedCallback
-    //         }
-    //         jobContext.addTask(task);
-    //         doc = unScanItems.shift();
-    //     }
-    // }
 
     static async taskFinishedCallback(doc){
         const access_token = auth.getToken().access_token;

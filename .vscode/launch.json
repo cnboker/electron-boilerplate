@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/server/protected.js"
+      "program": "${workspaceFolder}/app/tasks/index.js"
     }
   ]
 }

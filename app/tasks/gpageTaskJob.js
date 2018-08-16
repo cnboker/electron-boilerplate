@@ -8,23 +8,15 @@ const SCAN_MAX_PAGE = 10;
 async function execute(task) {
     if (jobContext.busy || jobContext.puppeteer == undefined) return;
     jobContext.busy = true;
-    task.doc.engine = 'baidu'
+    task.doc.engine = 'google'
     console.log('process.env.NODE_ENV =' + process.env.NODE_ENV)
     const browser = await jobContext.puppeteer.launch({
-        headless: true,
+        headless: false,
         executablePath: (() => {
             return process.env.ChromePath;
         })()
     })
 
-    // const browser = await puppeteer.launch({
-    //     ignoreHTTPSErrors: true, 
-    //     args: ['--proxy-server=example.com:8080']
-    // });
-    // const page = await browser.newPage();
-    // await page.setExtraHTTPHeaders({
-    //     'Proxy-Authorization': 'Basic ' + Buffer.from('user:pass').toString('base64'),
-    // });
 
     const page = await browser.newPage();
     await singleTaskProcess(page, task)
@@ -49,7 +41,7 @@ async function singleTaskProcess(page, task) {
     try {
         await inputKeyword(page, keyword);
 
-        const nextpageSelector = '#page > a[href$="rsv_page=1"]'
+        const nextpageSelector = '#pnnext'
 
         await sleep(2000);
 
@@ -87,36 +79,24 @@ async function singleTaskProcess(page, task) {
 
 //输入框模拟输入关键字
 async function inputKeyword(page, input) {
-    const pageUrl = 'http://www.baidu.com'
+    const pageUrl = 'http://www.google.com'
     await page.goto(pageUrl, {
         waitUtil: 'load'
     });
 
-    await page.focus('#kw')
-    await page.waitFor('#kw');
+    await page.focus('#lst-ib')
+    await page.waitFor('#lst-ib');
 
-    await page.$eval('#kw', (el, input) => el.value = input, input);
+    await page.$eval('#lst-ib', (el, input) => el.value = input, input);
 
-    await page.click('#su');
-}
-
-//查找当前页是否包含特定关键字
-async function pageHasKeyword(page, keyword) {
-    const selector = '#content_left'
-    //await page.waitForSelector(selector);
-    //#\31 > div.f13
-    var text = await page.$eval(selector, div => {
-        return div.innerText
-    })
-    //console.log('div', text)
-    return text.indexOf(keyword) > 0;
+    await page.click('#tsf > div.tsf-p > div.jsb > center > input[type="submit"]:nth-child(1)');
 }
 
 //检查当前页是否包含特定链接
 //match:特定链接，比如ioliz.com,pageIndex:分页
 //return -1 表示为找到匹配链接
 async function pageRank(page, match, pageIndex) {
-    const selector = '#content_left div.f13'
+    const selector = 'div > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > cite'
     var currentRank = await page.$$eval(selector, (links, match) => {
         return links.findIndex(function (element) {
             return element.innerText.indexOf(match) >= 0
@@ -130,7 +110,7 @@ async function pageRank(page, match, pageIndex) {
 //查找包含关键字的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
 
-    var selector = '//a[contains(text(), "' + keyword + '")]'
+    var selector = '//a[contains(@href, "' + keyword + '")]'
     const linkHandler = (await page.$x(selector))[0];
     if (linkHandler) {
         await linkHandler.click();

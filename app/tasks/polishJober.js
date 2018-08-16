@@ -7,7 +7,7 @@ var logger = require('../logger')
 const auth = require('../auth')
 var schedule = require('node-schedule');
 var store = require('./localStore')
-var pageTaskJob = require('./pageTaskJob')
+var taskRouter = require('./taskRouter')
 
 class PolishJober {
     static async execute() {
@@ -42,7 +42,7 @@ class PolishJober {
                 }
                 console.log('schedule time polish', doc)
                
-                pageTaskJob
+                taskRouter
                     .execute(task)
                     .then(() => {
                         store.removeItem(doc._id);

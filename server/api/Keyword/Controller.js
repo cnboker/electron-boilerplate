@@ -166,6 +166,7 @@ exports.rank = function (req, res) {
     _id: req.body._id
   }, {
     originRank: req.body.rank,
+    engine:req.body.engine,
     isValid: (req.body.rank != -1),
   }, {
     //同时设置这2个参数，否则doc返回null
@@ -225,6 +226,7 @@ exports.polish = function (req, res, next) {
     $set: {
       dynamicRank: req.body.rank,
       lastPolishedDate: new Date(),
+      engine:req.body.engine
     },
     $inc: {
       polishedCount: 1

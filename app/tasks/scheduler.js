@@ -3,8 +3,9 @@ var moment = require('moment');
 
 
 var polishJober = require('./polishJober');
-var pageTaskJober = require('./pageTaskJob');
 var jobContext = require('./jobContext');
+var jobRouter = require('./taskRouter')
+
 var logger = require('../logger')
 const auth = require('../auth')
 
@@ -37,7 +38,7 @@ function main() {
         if (task != null) {
             try {
                 logger.info('execute scan task', task.doc)
-                pageTaskJober.execute(task);
+                jobRouter.execute(task);
             } catch (e) {
                 logger.error(e);
             }

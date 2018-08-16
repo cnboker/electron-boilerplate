@@ -12,7 +12,7 @@
 		"url": "http://"
 	},
 	"scripts": {
-		"node": "nodemon ./tasks/index.js",
+		"node": "cross-env NODE_ENV=development node ./test.js",
 		"test": "mocha --exit --timeout 6000",
 		"webpack": "cross-env NODE_ENV=development webpack",
 		"start": "cross-env NODE_ENV=development webpack&&webpack-dev-server --hot",
