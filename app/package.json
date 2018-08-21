@@ -15,7 +15,7 @@
 		"node": "cross-env NODE_ENV=development node ./test.js",
 		"test": "mocha --exit --timeout 6000",
 		"webpack": "cross-env NODE_ENV=development webpack",
-		"start": "cross-env NODE_ENV=development webpack&&webpack-dev-server --hot",
+		"start": "cross-env NODE_ENV=development webpack-dev-server",
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
 		"build": "cross-env NODE_ENV=development webpack&&build",
 		"publish": "cross-env NODE_ENV=production webpack&&build",
@@ -26,6 +26,7 @@
 		"axios": "^0.18.0",
 		"bows": "^1.7.0",
 		"classnames": "^2.2.5",
+		"dotenv-webpack": "^1.5.7",
 		"electron-process": "https://github.com/cnboker/electron-process",
 		"electron-updater": "^2.21.10",
 		"invariant": "^2.2.4",
@@ -37,7 +38,7 @@
 		"puppeteer": "^1.5.0",
 		"ramda": "^0.23.0",
 		"react": "^15.3.0",
-		"react-bootstrap": "^0.32.1",
+		"react-bootstrap": "^0.30.3",
 		"react-dom": "15.5.4",
 		"react-hot-loader": "^4.3.0",
 		"react-localization": "^1.0.10",
@@ -60,12 +61,7 @@
 		"url-loader": "^1.0.1"
 	},
 	"devDependencies": {
-		"webpack-shell-plugin": "^0.5.0",
 		"axios-mock-adapter": "^1.15.0",
-		"copy-webpack-plugin": "^4.5.2",
-		"file-loader": "^1.1.11",
-		"cross-env": "^5.2.0",
-		"css-loader": "^0.28.11",
 		"babel-cli": "^6.26.0",
 		"babel-core": "^6.26.3",
 		"babel-loader": "^7.1.4",
@@ -78,10 +74,14 @@
 		"chai": "^4.1.2",
 		"chai-http": "^4.0.0",
 		"clean-webpack-plugin": "^0.1.19",
+		"copy-webpack-plugin": "^4.5.2",
+		"cross-env": "^5.2.0",
+		"css-loader": "^0.28.11",
 		"devtron": "^1.1.0",
 		"electron": "^2.0.4",
 		"electron-builder": "^19.20.1",
 		"electron-prebuilt": "^1.4.13",
+		"file-loader": "^1.1.11",
 		"html-webpack-plugin": "^3.2.0",
 		"mocha": "^5.2.0",
 		"mongoose": "^5.0.14",
@@ -89,7 +89,8 @@
 		"uglifyjs-webpack-plugin": "^1.2.7",
 		"webpack": "^4.0.0",
 		"webpack-cli": "^3.0.1",
-		"webpack-dev-server": "^3.1.4"
+		"webpack-dev-server": "^3.1.4",
+		"webpack-shell-plugin": "^0.5.0"
 	},
 	"build": {
 		"appId": "com.ioliz.kwPolish",
@@ -100,10 +101,12 @@
 		"mac": {
 			"icon": "assets/icons/mac/icon.icns"
 		},
-		"publish": [{
-			"provider": "generic",
-			"url": "http://www.ioliz.com/download"
-		}],
+		"publish": [
+			{
+				"provider": "generic",
+				"url": "http://www.ioliz.com/download"
+			}
+		],
 		"files": [
 			"!**/*",
 			"output${/*}"

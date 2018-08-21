@@ -9,7 +9,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 // Containers
 import App from './App'
-import Home from './Container/Home'
 // Views
 import Login from './Login'
 import Signup from './Signup'
@@ -24,8 +23,7 @@ import thunk from 'redux-thunk'
 import reduxReset from 'redux-reset'
 //import initReactFastclick from 'react-fastclick'
 
-import './resource'
-
+import './resource' 
 //require('../config')
 //import config from '../config'
 //initReactFastclick()

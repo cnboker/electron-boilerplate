@@ -3,7 +3,7 @@ import { required } from "../utils/fieldLevelValidation";
 import { renderField } from "../Components/Forms/RenderField";
 import { reduxForm, Field } from "redux-form";
 import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { connect } from "react-redux";
 
 class Charge extends Component {
@@ -16,19 +16,26 @@ class Charge extends Component {
     var self = this;
     this.submitStart = true;
     const url = `${process.env.REACT_APP_API_URL}/pay`;
-    axios
-      .post(url, values)
+
+    axios({
+      method: "post",
+      url: url,
+      data: values,
+      headers: {
+        Authorization: `Bearer ${this.props.client.token.access_token}`
+      }
+    })
       .then(function(res) {
         self.submitStart = false;
-        toast.info('充值成功', {
-            position: toast.POSITION.BOTTOM_CENTER
-          });
+        toast.info("充值成功", {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       })
-      .catch(function(err) {
+      .catch(function(e) {
         self.submitStart = false;
         toast.error(e.response.data.message, {
-            position: toast.POSITION.BOTTOM_CENTER
-          });
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       });
   }
 
@@ -59,7 +66,8 @@ class Charge extends Component {
         <button
           action="submit"
           className="btn btn-block btn-success"
-          disabled={this.submitStart}>
+          disabled={this.submitStart}
+        >
           充值
         </button>
       </form>

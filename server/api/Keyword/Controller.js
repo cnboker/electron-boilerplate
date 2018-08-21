@@ -48,7 +48,7 @@ exports.create = function (req, res, next) {
               var exists = docs.filter(function (doc) {
                 return doc.link == req.body.link;
               })
-              if (exists.length == 0) {
+              if (docs.length> 0 && exists.length == 0) {
                 reject('普通账号只能增加一个域名')
               }
               exists = docs.filter(function (doc) {

@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const Dotenv = require('dotenv-webpack');
 
 require('./config')
 console.log('node_env=', process.env.NODE_ENV)
@@ -20,14 +21,15 @@ var config = {
 var appConfig = Object.assign({}, config, {
 
 	// TODO: Add common Configuration
-	target: 'electron-renderer',
-
+	//target: 'electron-renderer',
+	target:process.env.APP === 'web' ? 'web':'electron-renderer',
 	entry: {
 		app: ['babel-polyfill', './src/index.js'],
 	},
 	output: {
 		path: path.resolve(__dirname, 'output'),
-		filename: 'app.bundle.js'
+		filename: 'app.bundle.js',
+		publicPath:'/' //dev server required
 	},
 	module: {
 		rules: [{
@@ -58,10 +60,10 @@ var appConfig = Object.assign({}, config, {
 	devServer: {
 		contentBase: path.join(__dirname, 'output'),
 		port: 3000,
-		publicPath: "http://localhost:3000/background.html",
+		publicPath: "http://localhost:3000/index.html",
 		historyApiFallback: true, //解决页面刷新404问题,
 		compress: false,
-		hot: true
+		hot: true,
 	},
 	plugins: [
 		new WebpackShellPlugin({
@@ -71,7 +73,6 @@ var appConfig = Object.assign({}, config, {
 		new CleanWebpackPlugin(['dist', 'output']),
 		new HtmlWebpackPlugin({
 			hash: true,
-			publicDir: process.env.APP === 'web' ? "public/" : "",
 			template: './public/index.html',
 			inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
 			filename: './index.html' //relative to root of the application
@@ -84,15 +85,17 @@ var appConfig = Object.assign({}, config, {
 			filename: './background.html' //relative to root of the application
 		}),
 		new webpack.NamedModulesPlugin(),
-		new webpack.HotModuleReplacementPlugin(),
-
-		// new Dotenv({
-		// 	path: './.env'
-		// })
+		new webpack.HotModuleReplacementPlugin(), //Hot Module Replacement enabled.
+		new Dotenv({
+			path: './.env'
+		})
 	],
 	optimization: {
 		minimize: process.env.NODE_ENV === 'production',
-		minimizer: [new UglifyJsPlugin({})]
+		minimizer: [new UglifyJsPlugin({})],
+		// splitChunks:{
+		// 	chunks:'all'
+		// }
 	}
 
 });
@@ -147,6 +150,6 @@ var mainConfig = Object.assign({}, config, {
 
 // Return Array of Configurations
 module.exports = [
-	appConfig, taskConfig, mainConfig
-
+	//appConfig, taskConfig, mainConfig
+	appConfig
 ];

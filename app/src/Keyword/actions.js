@@ -1,21 +1,18 @@
 import axios from 'axios'
-import bows from 'bows'
 import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
 
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
-var log = bows("keyword-actions")
 
 let actionCreators = {
   fetch(page, limit, replaceExisting,client) {
-    log("fetch to keyword")
     return function (dispatch, getState) {
         const action = baseActionCreators.fetchStart()
         dispatch(action)
 
         const url = `${process.env.REACT_APP_API_URL}/keywords`
-        console.log('client',client);
+        console.log('actionCreators url',url);
         const promise = axios(
           {
             url: url,
@@ -27,14 +24,11 @@ let actionCreators = {
         )
 
         promise.then(function(response){
-          log("fatch success", response)
           const returned = response.data
           const successAction = baseActionCreators.fetchSuccess(returned,{replace:replaceExisting});
-          log("successAction",successAction);
           dispatch(successAction)
         
         },function(response){
-          log("rejection",response);
           const errorAction = baseActionCreators.fetchError(response)
           dispatch(errorAction)
          
@@ -83,7 +77,6 @@ let actionCreators = {
   },
 
   update(entity,client){
-    log('update',entity)
     return function(dispatch){
       const optimisticAction = baseActionCreators.updateStart(entity)
       dispatch(optimisticAction)
