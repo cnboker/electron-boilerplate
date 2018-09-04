@@ -13,6 +13,13 @@ var extender = require('./mainExtend')
 extender.enableAuto();
 
 const app = electron.app; // Module to control application life.
+const crashReporter = electron.crashReporter;
+crashReporter.start({
+	productName:'kwpolish',
+	companyName:'kwpolish',
+	submitURL:`http://localhost:3000/api/app-crashes`,
+	uploadToServer:true
+})
 //require('electron-reload')(__dirname);
 //const Menu = electron.Menu;
 //const shell = electron.shell;

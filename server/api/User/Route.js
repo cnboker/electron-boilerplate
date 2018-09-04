@@ -11,5 +11,8 @@ module.exports = function(app){
 
   app.route('/api/profile')
   .get(ctl.profile)
+
+  app.route('/api/user/list')
+  .get(ctl.list)
 }
 

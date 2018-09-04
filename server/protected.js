@@ -41,4 +41,5 @@ module.exports = function (app) {
   app.use('/api/kwTask/status',jwtCheck,requireScope('full_access'));
   app.use('/api/profile',jwtCheck,requireScope('full_access'));
   app.use('/api/pay',jwtCheck,requireScope('full_access'));
+  app.use('/api/user/list',jwtCheck,requireScope('full_access'));
 }

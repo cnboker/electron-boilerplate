@@ -19,8 +19,19 @@ function userGrade(grade) {
     return '未知'
   }
 }
+//get user list
+exports.list = function(req,res,next){
+  User.find({},null,{
+    sort:{
+      createDate: -1
+    }
+  },function(err,docs){
+    res.json(docs)
+  });
+  //end
+}
 
-exports.profile = function (req, res,next) {
+exports.profile = function (req, res, next) {
   var userName = req.user.sub;
   const profile = {
     userName: '',
@@ -45,9 +56,9 @@ exports.profile = function (req, res,next) {
     .then(function (profile) {
       return Balance.find({
         'user': req.user.sub
-      },null,{
-        sort:{
-          createDate:-1
+      }, null, {
+        sort: {
+          createDate: -1
         }
       })
     }).then(function (docs) {
@@ -59,54 +70,54 @@ exports.profile = function (req, res,next) {
     })
 }
 
-exports.signup = function (req, res) {
+exports.signup = function (req, res, next) {
   var userName = req.body.userName;
   var password = req.body.password;
   var email = req.body.email;
   if (!userName || !password || !email) {
     return res.status(400).send("you must send the userName , the password, the email")
   }
-  var query = User.where({
-    userName
-  });
-  query.findOne(function (err, entity) {
-    if (err) {
-      return res.status(500).send(err)
-    }
-    if (entity) {
-      return res.status(400).send(`用户${userName}已存在`)
-    }
-  })
-  query = User.where({
-    email
-  });
-  query.findOne(function (err, entity) {
-    if (err) return res.status(500).send(err);
-    if (entity) return res.status(400).send(`email${email}已存在`)
-  })
 
-  var user = new User({ ...req.body,
-    createDate: Date.now(),
-    actived: true,
-    locked: false
-  });
+  User.findOne({
+      $or: [{
+        userName
+      }, {
+        email
+      }]
+    })
+    .then((doc) => {
+      if (doc) {
+        throw `用户${userName}或${email}已存在`
+      }
+      var user = new User({ ...req.body,
+        createDate: Date.now(),
+        actived: true,
+        locked: false,
+        grade:1, //free account
+        todayPoint: 50,
+        totalPoint: 50,
+        lostPoint:0
+      });
 
-  user.save(function (err, entity) {
-    if (err) {
-      res.send(err);
-    }
-    if (entity) {
-      var jwtJson = {
-        id_token: createIdToken({
-          userName,
-          role: 'user'
-        }),
-        access_token: createAccessToken(entity.userName)
-      };
-      //console.log('jwtJson', jwtJson);
-      res.status(201).json(jwtJson);
-    }
-  });
+      return user.save();
+    })
+    .then((doc) => {
+      if (doc) {
+        console.log('signup', doc)
+        var jwtJson = {
+          id_token: createIdToken({
+            userName,
+            role: 'user'
+          }),
+          access_token: createAccessToken(userName)
+        };
+        console.log('jwtJson', jwtJson);
+        res.status(201).json(jwtJson);
+      }
+    })
+    .catch((e) => {
+       res.status(400).send(e)
+    })
 }
 
 

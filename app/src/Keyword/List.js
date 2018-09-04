@@ -5,14 +5,13 @@ import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
 import { Switch } from "../Components/Forms/Switch";
-import actions from "./actions";
 import "../utils/groupBy";
-import Dropdownlist from '../Components/Dropdownlist/index'
+import Select from 'react-select'
 class List extends Component {
   constructor() {
     super();
     this.state = {
-      filter: ""
+      filter: null
     };
   }
   componentDidMount() {
@@ -92,9 +91,9 @@ class List extends Component {
     var self = this;
     return this.props.keywords
       .filter(item => {
-        return self.state.filter == ""
+        return self.state.filter == null
           ? true
-          : item.keyword == self.state.filter;
+          : item.link == self.state.filter.value;
       })
       .map(item => {
         return (
@@ -129,7 +128,7 @@ class List extends Component {
               >
                 <i className="fa fa-trash" />
               </button>
-              &nbsp;
+              {" "}
               <Switch
                 on={item.status == 1}
                 onClick={this.toggleSwitch.bind(this, item)}
@@ -140,40 +139,46 @@ class List extends Component {
       });
   }
 
-  onSelect(keyword) {
+  onSelect(selectedOption) {
     this.setState({
-      fliter: keyword
+      filter: selectedOption
     });
+    console.log('option select', selectedOption)
   }
 
   render() {
-    const gData = Object.keys(this.props.keywords.groupBy('link')).map(function(item) {
+    const options = Object.keys(this.props.keywords.groupBy('link')).map((item)=>{
       return {
-        key: item,
-        value: item
-      };
-    });
+        value:item, label:item
+      }
+    })
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
 
-        <div className="mb-3">
-          <Dropdownlist title="域名过滤" bsStyle="info" dataSource={gData} id="filter"/>{" "}
-          <Link to={"/keyword/new"} role="button" className="btn btn-success">
+        <div className="d-flex justify-content-between">
+           <div className="col-md-6">          
+           <Select placeholder="域名过滤" value={this.state.filter} onChange={this.onSelect.bind(this)} options={options} id="filter"/>{" "}
+        </div>
+           <div> 
+           <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
-          </Link>
+          </Link>{" "}
           <button
             onClick={() => {
               this.fetch();
             }}
             role="button"
-            className="btn btn-info pull-right"
+            className="btn btn-info"
           >
             刷新
           </button>
+          </div>
+         
         </div>
 
         <div className="table-responsive">
+            <br/>
           <table className="table table-bordered table-striped">
             <thead>
               <tr>

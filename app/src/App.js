@@ -10,6 +10,7 @@ import Keyword from "./Keyword/index";
 import Price from "./Price/index";
 import Contact from "./Price/contact";
 import Charge from './Price/charge'
+import Users from './Users/index'
 import "./Components/Header.css";
 import { PrivateRoute,refreshClient } from "./lib/check-auth";
 import { connect } from "react-redux";
@@ -54,6 +55,12 @@ class App extends Component {
               component={Charge}
               dispatch={this.props.dispatch}
             />
+            <PrivateRoute
+            path="/users"
+            role="admin"
+            component={Users}
+            dispatch={this.props.dispatch}
+          />
             <PrivateRoute
               path="/keyword"
               component={Keyword}

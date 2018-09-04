@@ -4,7 +4,7 @@ import signup from './Signup/reducer'
 import client from './Client/reducer'
 import login from './Login/reducer'
 import keywordReducer from './Keyword/reducer'
-
+import userReducer from './Users/reducer'
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -12,6 +12,7 @@ const appReducer = combineReducers({
   client,
   login,
   keywords: keywordReducer,
+  users:userReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

@@ -11,6 +11,7 @@ export default class Header extends Component {
         {/*<Link className="p-2 text-dark" to="/start">特性</Link>*/}
         <Link className="p-2 text-dark" to="/keyword">关键字</Link>
         {this.props.userName=='admin' && <Link className="p-2 text-dark" to="/charge">充值</Link>}
+        {this.props.userName=='admin' && <Link className="p-2 text-dark" to="/users">会员列表</Link>}
         <Link className="p-2 text-dark" to="/price">服务</Link>
       </nav>
       <button className="btn btn-outline-primary"  onClick={this.props.unsetClient}>{this.props.userName?'登出':'登录'}</button>
