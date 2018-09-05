@@ -118,7 +118,7 @@ class List extends Component {
             <td>{item.userName}</td>
             <td>{item.email}</td>
             <td>
-              <Link to={`/users/keywords/${item.userName}`} role="button" className="btn btn-success">
+              <Link to={`/users/keywords/${item.userName}`} >
                 {this.stringFormat(item.keywordCount)}
               </Link>
 

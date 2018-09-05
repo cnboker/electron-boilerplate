@@ -50,9 +50,13 @@ exports.list = function(req, res, next) {
           console.log("keyword group by", gr);
           for (let doc of docs) {
             doc.isOnline = req.app.clients[doc.userName] !== undefined;
-            doc.keywordCount = gr.filter(function(val) {
+            var grResult = gr.filter(function(val) {
               return val._id == doc.userName;
-            })[0].count;
+            });
+            doc.keywordCount = 0;
+            if(grResult.length > 0){
+              doc.keywordCount = grResult[0].count;
+            }
             doc.userTypeText = userGrade(doc.userType || 1);
           }
           res.json(docs);

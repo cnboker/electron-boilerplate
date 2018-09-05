@@ -164,7 +164,7 @@ class List extends Component {
            <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
           </Link>{" "}
-          <Link to={"/keyword/setting"} role="button" className="btn btn-alert">
+          <Link to={"/keyword/setting"} role="button" className="btn btn-danger">
             设置
           </Link>{" "}
           <button

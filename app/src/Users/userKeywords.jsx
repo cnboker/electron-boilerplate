@@ -16,7 +16,13 @@ class List extends Component {
   }
   componentDidMount() {
     //mock()
-    this.fetch();
+    console.log('this.props.match.params.id ',this.props.match.params.id )
+    if(this.props.match.params.id === '__today__'){
+      this.today();
+    }else{
+      this.fetch();
+
+    }
   }
 
   fetch() {
@@ -112,8 +118,7 @@ class List extends Component {
             <td>{this.stringFormat(item.createDate)}</td>
             <td>{this.statusFormat(item.status)}</td>          
             <td>
-             
-              &nbsp;
+           
               <button
                 className="btn btn-danger"
                 onClick={this.onDelete.bind(this, item)}
@@ -150,16 +155,7 @@ class List extends Component {
         </div>
            <div> 
           
-          <button
-            onClick={() => {
-              this.today();
-            }}
-            role="button"
-            className="btn btn-info"
-          >
-            今日关键字
-          </button>
-          {" "}
+        
           <button
             onClick={() => {
               this.fetch();

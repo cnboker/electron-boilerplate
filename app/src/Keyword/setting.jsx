@@ -4,7 +4,7 @@ import { required } from "../utils/fieldLevelValidation";
 import { renderField } from "../Components/Forms/RenderField";
 import PropTypes from "prop-types";
 import { reduxForm, Field } from "redux-form";
-
+import RadioGroup from '../Components/RadioGroup/radioGroup'
 class Setting extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +18,7 @@ class Setting extends Component {
   }
 
   componentDidMount() {
-    this.props.initialize(this.props.entity);
+    //this.props.initialize(this.props.entity);
   }
 
   render() {
@@ -27,22 +27,7 @@ class Setting extends Component {
     return (
      
         <form onSubmit={handleSubmit(this.submit.bind(this))}>
-          <Field
-            name="keyword"
-            type="text"
-            label="关键字"
-            component={renderField}
-            validate={required}
-            placeholder="输入需要擦亮的关键字"
-          />
-          <Field
-            name="link"
-            type="text"
-            label="网站域名"
-            component={renderField}
-            validate={required}
-            placeholder="输入需要提升排名的网站域名,不加http://"
-          />
+          <RadioGroup dataSource={[{key:'baidu',value:'baidu'},{key:'google',value:'goole'}]} name="engine"/>
           {/*<Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} /> */}
           <button action="submit" className="btn btn-block btn-success">
             更新
@@ -53,10 +38,6 @@ class Setting extends Component {
   }
 }
 
-Setting.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  onCommit: PropTypes.func.isRequired
-};
 
 Setting = reduxForm({
   form: "form"
