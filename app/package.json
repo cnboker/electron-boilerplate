@@ -17,7 +17,7 @@
 		"webpack": "cross-env NODE_ENV=development webpack",
 		"start": "cross-env NODE_ENV=development webpack-dev-server",
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
-		"build": "cross-env NODE_ENV=development webpack&&build",
+		"build": "cross-env NODE_ENV=development webpack",
 		"publish": "cross-env NODE_ENV=production webpack&&build",
 		"ship": "build --win -p always"
 	},
@@ -60,7 +60,8 @@
 		"socket.io-client": "^2.1.1",
 		"style-loader": "^0.21.0",
 		"unzipper": "^0.9.1",
-		"url-loader": "^1.0.1"
+		"url-loader": "^1.0.1",
+		"webpack-bundle-analyzer": "^2.13.1"
 	},
 	"devDependencies": {
 		"axios-mock-adapter": "^1.15.0",

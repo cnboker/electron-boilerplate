@@ -1,5 +1,6 @@
 import List from './List'
 import New from './New'
+import Setting from './setting'
 import React, { Component } from 'react'
 
 import {Route, Switch } from 'react-router-dom'
@@ -19,6 +20,7 @@ class Index extends Component {
             <Route path="/keyword/:id" component={New}/>
             <Route path="/keyword/new" component={New}/>
             <Route path="/keyword" exact component={List}/>
+            <Route path="/keyword/setting" exact component={Settting}/>
             {/*<Route path='/svr' extact render={()=><List dispatch={props.dispatch} source={props.svrs} />} />*/}
           </Switch>
         

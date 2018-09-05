@@ -1,12 +1,12 @@
-import { default as crudActions } from "./actions";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
-import { Switch } from "../Components/Forms/Switch";
 import "../utils/groupBy";
 import Select from 'react-select'
+import { default as crudActions } from "../Keyword/actions";
+
 class List extends Component {
   constructor() {
     super();
@@ -20,7 +20,12 @@ class List extends Component {
   }
 
   fetch() {
-    const action = crudActions.fetch(0, 0, true, this.props.client);
+    const action = crudActions.fetch(0, 0, true, this.props.client,this.props.match.params.id);
+    this.dispatch(action);
+  }
+
+  today() {
+    const action = crudActions.today(0, 0, true, this.props.client);
     this.dispatch(action);
   }
 
@@ -59,7 +64,7 @@ class List extends Component {
       return val;
     }
     if (this.isValidDate(val)) {
-      return moment(val).format("YYYY-MM-DD");
+      return moment(val).format("YYYY-MM-DD HH:mm");
     }
     return val;
   }
@@ -104,35 +109,18 @@ class List extends Component {
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
             <td>{this.stringFormat(item.isValid)}</td>
-            <td>{this.statusFormat(item.status)}</td>
-            {/*}
+            <td>{this.stringFormat(item.createDate)}</td>
+            <td>{this.statusFormat(item.status)}</td>          
             <td>
-              {this.stringFormat(item.lastPolishedDate)}
-            </td>
-            <td>
-              {this.stringFormat(item.createDate)}
-            </td>
-        */}
-            <td>
-              <Link
-                to={`/keyword/${item._id}`}
-                role="button"
-                className="btn btn-success"
-              >
-                <i className="fa fa-pencil fa-lg" />
-              </Link>
-              {" "}
+             
+              &nbsp;
               <button
                 className="btn btn-danger"
                 onClick={this.onDelete.bind(this, item)}
               >
                 <i className="fa fa-trash" />
               </button>
-              {" "}
-              <Switch
-                on={item.status == 1}
-                onClick={this.toggleSwitch.bind(this, item)}
-              />
+            
             </td>
           </tr>
         );
@@ -161,12 +149,17 @@ class List extends Component {
            <Select placeholder="域名过滤" value={this.state.filter} onChange={this.onSelect.bind(this)} options={options} id="filter"/>{" "}
         </div>
            <div> 
-           <Link to={"/keyword/new"} role="button" className="btn btn-success">
-            新建
-          </Link>{" "}
-          <Link to={"/keyword/setting"} role="button" className="btn btn-alert">
-            设置
-          </Link>{" "}
+          
+          <button
+            onClick={() => {
+              this.today();
+            }}
+            role="button"
+            className="btn btn-info"
+          >
+            今日关键字
+          </button>
+          {" "}
           <button
             onClick={() => {
               this.fetch();
@@ -191,9 +184,9 @@ class List extends Component {
                 <th>最新排名</th>
                 <th>擦亮次数</th>
                 <th>是否有效</th>
+                <th>创建日期</th>
                 <th>状态</th>
-                {/*<th>上次擦亮时间</th>
-                <th>创建日期</th>*/}
+          
                 <th />
               </tr>
             </thead>

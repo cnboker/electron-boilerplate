@@ -21,6 +21,9 @@ module.exports = function(app){
   app.route('/api/kwTask/tasks')
   .get(ctl.tasks)
 
+  app.route('/api/keywords/today')
+  .get(ctl.today)
+
   //app.route('/api/kwTask/status')
   //.post(ctl.status);
 }

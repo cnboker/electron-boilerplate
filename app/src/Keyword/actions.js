@@ -6,12 +6,45 @@ import {reducerKey} from './constants'
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
 
 let actionCreators = {
-  fetch(page, limit, replaceExisting,client) {
+  today(page, limit, replaceExisting,client) {
     return function (dispatch, getState) {
         const action = baseActionCreators.fetchStart()
         dispatch(action)
 
-        const url = `${process.env.REACT_APP_API_URL}/keywords`
+        var url = `${process.env.REACT_APP_API_URL}/keywords/today`
+       
+        console.log('actionCreators url',url);
+        const promise = axios(
+          {
+            url: url,
+            method:'get',
+            headers: {
+             Authorization: `Bearer ${client.token.access_token}`
+            }
+          }
+        )
+
+        promise.then(function(response){
+          const returned = response.data
+          const successAction = baseActionCreators.fetchSuccess(returned,{replace:replaceExisting});
+          dispatch(successAction)
+        
+        },function(response){
+          const errorAction = baseActionCreators.fetchError(response)
+          dispatch(errorAction)
+         
+        }).catch(function(err){
+          console.error(err.toString())
+        })
+    }
+  },
+  fetch(page, limit, replaceExisting,client, userName) {
+    return function (dispatch, getState) {
+        const action = baseActionCreators.fetchStart()
+        dispatch(action)
+
+        var url = `${process.env.REACT_APP_API_URL}/keywords?userName=${userName||''}`
+       
         console.log('actionCreators url',url);
         const promise = axios(
           {

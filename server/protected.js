@@ -34,6 +34,7 @@ module.exports = function (app) {
   }
 
   app.use('/api/keywords', jwtCheck, requireScope('full_access'));
+  app.use('/api/keywords/today', jwtCheck, requireScope('full_access'));
   app.use('/api/keyword', jwtCheck, requireScope('full_access'));
   app.use('/api/kwTask/rank',jwtCheck,requireScope('full_access'));
   app.use('/api/kwTask/polish',jwtCheck, requireScope('full_access'));
@@ -42,4 +43,5 @@ module.exports = function (app) {
   app.use('/api/profile',jwtCheck,requireScope('full_access'));
   app.use('/api/pay',jwtCheck,requireScope('full_access'));
   app.use('/api/user/list',jwtCheck,requireScope('full_access'));
+  
 }

@@ -66,5 +66,5 @@ if (module.hot) {
   module.hot.accept('./App', () => {
     const App = require('./App').default;
     render(App);
-  });
+  })
 }

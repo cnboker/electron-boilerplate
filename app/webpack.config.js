@@ -1,155 +1,167 @@
-const path = require('path');
+const path = require("path");
 //const WriteFilePlugin =require('write-file-webpack-plugin');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const WebpackShellPlugin = require('webpack-shell-plugin');
-const Dotenv = require('dotenv-webpack');
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WebpackShellPlugin = require("webpack-shell-plugin");
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const Dotenv = require("dotenv-webpack");
 
-require('./config')
-console.log('node_env=', process.env.NODE_ENV)
+require("./config");
+console.log("node_env=", process.env.NODE_ENV);
 var config = {
-	mode: process.env.NODE_ENV, //production or development
-	devtool: 'source-map',
-	performance: {
-		hints: process.env.NODE_ENV !== 'production' ? "warning" : false
-	}
+  mode: process.env.NODE_ENV, //production or development
+  devtool: "source-map",
+  performance: {
+    hints: process.env.NODE_ENV !== "production" ? "warning" : false
+  }
 };
 
 var appConfig = Object.assign({}, config, {
-
-	// TODO: Add common Configuration
-	//target: 'electron-renderer',
-	target:process.env.APP === 'web' ? 'web':'electron-renderer',
-	entry: {
-		app: ['babel-polyfill', './src/index.js'],
-	},
-	output: {
-		path: path.resolve(__dirname, 'output'),
-		filename: 'app.bundle.js',
-		publicPath:'/' //dev server required
-	},
-	module: {
-		rules: [{
-				test: /\.(js|jsx)?$/,
-				//exclude: path.resolve(__dirname, "node_modules"),
-				loader: 'babel-loader',
-				options: {
-					presets: ['env', 'react', "stage-2"] //stage-2 用于支持箭头函数
-				},
-			},
-			{
-				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
-			},
-			{
-				test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-				loader: 'url-loader',
-				options: {
-					limit: 10000
-				}
-			}
-		]
-
-	},
-	resolve: {
-		extensions: ['*', '.js', '.jsx', '.css']
-	},
-	devServer: {
-		contentBase: path.join(__dirname, 'output'),
-		port: 3000,
-		publicPath: "http://localhost:3000/index.html",
-		historyApiFallback: true, //解决页面刷新404问题,
-		compress: false,
-		hot: true,
-	},
-	plugins: [
-		new WebpackShellPlugin({
-			onBuildStart: ['echo "webpack start"'],
-			onBuildEnd: ['echo "Webpack End"']
-		}),
-		new CleanWebpackPlugin(['dist', 'output']),
-		new HtmlWebpackPlugin({
-			hash: true,
-			template: './public/index.html',
-			inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
-			filename: './index.html' //relative to root of the application
-		}),
-		new HtmlWebpackPlugin({
-			hash: true,
-			publicDir: process.env.APP === 'web' ? "public/" : "",
-			template: './public/background.html',
-			inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
-			filename: './background.html' //relative to root of the application
-		}),
-		new webpack.NamedModulesPlugin(),
-		new webpack.HotModuleReplacementPlugin(), //Hot Module Replacement enabled.
-		new Dotenv({
-			path: './.env'
-		})
-	],
-	optimization: {
-		minimize: process.env.NODE_ENV === 'production',
-		minimizer: [new UglifyJsPlugin({})],
-		// splitChunks:{
-		// 	chunks:'all'
-		// }
-	}
-
+  // TODO: Add common Configuration
+  //target: 'electron-renderer',
+  target: process.env.APP === "web" ? "web" : "electron-renderer",
+  entry: {
+    app: ["babel-polyfill", "./src/index.js"]
+  },
+  output: {
+    path: path.resolve(__dirname, "output"),
+    filename: "app.bundle.js",
+    publicPath: "/" //dev server required
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)?$/,
+        //exclude: path.resolve(__dirname, "node_modules"),
+        loader: "babel-loader",
+        options: {
+          presets: ["env", "react", "stage-2"] //stage-2 用于支持箭头函数
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        loader: "url-loader",
+        options: {
+          limit: 10000
+        }
+      }
+    ]
+  },
+  resolve: {
+    extensions: ["*", ".js", ".jsx", ".css"]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "output"),
+    port: 3000,
+    publicPath: "http://localhost:3000/index.html",
+    historyApiFallback: true, //解决页面刷新404问题,
+    compress: false,
+    hot: true
+  },
+  plugins: [
+    new WebpackShellPlugin({
+      onBuildStart: ['echo "webpack start"'],
+      onBuildEnd: ['echo "Webpack End"']
+    }),
+    new CleanWebpackPlugin(["dist", "output"]),
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: "./public/index.html",
+      inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
+      filename: "./index.html" //relative to root of the application
+    }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      publicDir: process.env.APP === "web" ? "public/" : "",
+      template: "./public/background.html",
+      inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
+      filename: "./background.html" //relative to root of the application
+    }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(), //Hot Module Replacement enabled.
+    new Dotenv({
+      path: "./.env"
+    })
+    //new BundleAnalyzerPlugin()
+  ],
+  optimization: {
+    minimize: process.env.NODE_ENV === "production",
+    minimizer: [new UglifyJsPlugin({})],
+    splitChunks: { //提高编译速度，HOTload不再重新编译vendors~app.app.bundle.js
+      chunks: "all",
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  }
 });
 
-
 var taskConfig = Object.assign({}, config, {
-	externals: ['puppeteer'], //don't compile puppeteer
-	target: 'node', //resolve puppeteer build failure 
-	entry: {
-		app: ['./tasks/scheduler.js']
-	},
+  externals: ["puppeteer"], //don't compile puppeteer
+  target: "node", //resolve puppeteer build failure
+  entry: {
+    app: ["./tasks/scheduler.js"]
+  },
 
-	output: {
-		path: path.resolve(__dirname, 'output'),
-		filename: 'background.bundle.js',
-		libraryTarget: 'var',
-		library: 'PageJob'
-	},
+  output: {
+    path: path.resolve(__dirname, "output"),
+    filename: "background.bundle.js",
+    libraryTarget: "var",
+    library: "PageJob"
+  },
 
-	optimization: {
-		minimize: process.env.NODE_ENV === 'production',
-		minimizer: [new UglifyJsPlugin({})]
-	}
+  optimization: {
+    minimize: process.env.NODE_ENV === "production",
+    minimizer: [new UglifyJsPlugin({})]
+  }
 });
 
 var mainConfig = Object.assign({}, config, {
-	target: 'electron-renderer', //resolve puppeteer build failure 
-	entry: {
-		app: ['./main.js']
-	},
+  target: "electron-renderer", //resolve puppeteer build failure
+  entry: {
+    app: ["./main.js"]
+  },
 
-	output: {
-		path: path.resolve(__dirname, 'output'),
-		filename: 'index.js'
-	},
+  output: {
+    path: path.resolve(__dirname, "output"),
+    filename: "index.js"
+  },
 
-	optimization: {
-		minimize: process.env.NODE_ENV === 'production',
-		minimizer: [new UglifyJsPlugin({})]
-	},
-	plugins: [
-		new CopyWebpackPlugin([{
-			from: './assets',
-			to: 'assets',
-			toType: 'dir'
-		}]),
-		new webpack.DefinePlugin({
-			$dirname: '__dirname', //解决__dirname编译以后运行环境为/
-		})
-	]
+  optimization: {
+    minimize: process.env.NODE_ENV === "production",
+    minimizer: [new UglifyJsPlugin({})]
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: "./assets",
+        to: "assets",
+        toType: "dir"
+      }
+    ]),
+    new webpack.DefinePlugin({
+      $dirname: "__dirname" //解决__dirname编译以后运行环境为/
+    })
+  ]
 });
 
 // Return Array of Configurations
 module.exports = [
-	//appConfig, taskConfig, mainConfig
-	appConfig
+  //appConfig, taskConfig, mainConfig
+  appConfig
 ];

@@ -57,7 +57,7 @@ class App extends Component {
             />
             <PrivateRoute
             path="/users"
-            role="admin"
+            role="admin" 
             component={Users}
             dispatch={this.props.dispatch}
           />
