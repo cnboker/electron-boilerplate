@@ -1,11 +1,14 @@
 var pageTaskJober = require('./pageTaskJob');
 var gpageTaskJober = require('./gpageTaskJob');
+const auth = require('../auth')
 
-async function execute(task) {
-
-    if(process.env.engine == 'baidu'){
-        pageTaskJober(task)
-    }else if(process.env.engine == 'google'){
-        gpageTaskJober(task)
+module.exports.execute =  async function execute(task) {
+    console.log(' auth.getToken()',  auth.getToken())
+    var engine = auth.getToken().engine || 'baidu';
+    if(engine == 'baidu'){
+        console.log('execute baidu engine...')
+        pageTaskJober.execute(task)
+    }else if(engine == 'google'){
+        gpageTaskJober.execute(task)
     }
 }

@@ -5,9 +5,23 @@ var token = {
 };
 
 const EventEmitter = require('events')
+var logger = require('./logger')
 class Auth extends EventEmitter{
+    waitUtilGetToken(callback) {
+        var token = this.getToken();
+        if (token == null) {
+            logger.info('token is null')
+            window.setTimeout(this.waitUtilGetToken.bind(null, callback), 1000); /* 将参数callback带入进去*/
+        } else {
+            if (callback && typeof (callback) === "function") {
+                logger.info('token is ok', token)
+                callback(token);
+            }
+        }
+    }
+
     getToken() {
-        if (process.env.APP == 'electron') {
+        if (process.env.APP != 'web') {
             const storedToken = localStorage.getItem('token')
             //logger.info('token:' + storedToken);
             // if it exists
@@ -20,6 +34,7 @@ class Auth extends EventEmitter{
         }
         return token;
     }
+
     refresh(){
         this.emit('refresh',getToken())
     }

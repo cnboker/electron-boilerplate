@@ -9,9 +9,8 @@ async function execute(task) {
     if (jobContext.busy || jobContext.puppeteer == undefined) return;
     jobContext.busy = true;
     task.doc.engine = 'baidu'
-    console.log('process.env.NODE_ENV =' + process.env.NODE_ENV)
     const browser = await jobContext.puppeteer.launch({
-        headless: true,
+        headless: (process.env.NODE_ENV == 'production'),
         executablePath: (() => {
             return process.env.ChromePath;
         })()

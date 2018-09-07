@@ -14,12 +14,11 @@
 	"scripts": {
 		"node": "cross-env NODE_ENV=development node ./test.js",
 		"test": "mocha --exit --timeout 6000",
-		"webpack": "cross-env NODE_ENV=development webpack",
-		"start": "cross-env NODE_ENV=development webpack-dev-server",
+		"start": "cross-env APP=web webpack-dev-server",
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
 		"build": "cross-env NODE_ENV=development webpack",
-		"publish": "cross-env NODE_ENV=production webpack&&build",
-		"ship": "build --win -p always"
+		"publish": "cross-env NODE_ENV=development webpack&&build",
+		"ship": "cross-env NODE_ENV=production webpack&&build"
 	},
 	"dependencies": {
 		"auto-launch": "^5.0.5",
@@ -104,12 +103,10 @@
 		"mac": {
 			"icon": "assets/icons/mac/icon.icns"
 		},
-		"publish": [
-			{
-				"provider": "generic",
-				"url": "http://www.ioliz.com/download"
-			}
-		],
+		"publish": [{
+			"provider": "generic",
+			"url": "http://www.ioliz.com/download"
+		}],
 		"files": [
 			"!**/*",
 			"output${/*}"

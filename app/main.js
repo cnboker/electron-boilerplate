@@ -60,7 +60,12 @@ app.on('ready', function () {
 	//app.dock.hide()
 
 	tray.on('click', () => {
-		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+		if(mainWindow.isVisible()){
+			mainWindow.hide() 
+		}else{
+			mainWindow.maximize();
+			mainWindow.show()
+		}
 	})
 	//自启动隐藏程序
 	if(process.cwd() != process.env.ApplicationPath){

@@ -40,7 +40,7 @@ function main() {
                 logger.info('execute scan task', task.doc)
                 jobRouter.execute(task);
             } catch (e) {
-                logger.error(e);
+                logger.info(e);
             }
         }
     })

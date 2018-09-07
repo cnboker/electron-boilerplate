@@ -4,7 +4,7 @@ var jobContext = require('./tasks/jobContext')
 jobContext.puppeteer = require('puppeteer')
 
 var jobAction = require('./tasks/jobAction')
-var tasker = require('./tasks/gpageTaskJob')
+var taskRouter = require('./tasks/taskRouter')
 var taskItem = {
     doc: {
       userName: 'scott',
@@ -19,4 +19,4 @@ var taskItem = {
     },
 
   };
-  tasker.execute(taskItem)
+  taskRouter.execute(taskItem)

@@ -11,7 +11,7 @@ async function execute(task) {
     task.doc.engine = 'google'
     console.log('process.env.NODE_ENV =' + process.env.NODE_ENV)
     const browser = await jobContext.puppeteer.launch({
-        headless: false,
+        headless:  (process.env.NODE_ENV == 'production'),
         executablePath: (() => {
             return process.env.ChromePath;
         })()

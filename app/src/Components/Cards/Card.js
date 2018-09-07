@@ -1,7 +1,7 @@
 import React from 'react'
-import * as classNames from 'classnames'
+import classNames  from 'classnames'
 import PropTypes from 'prop-types'
-import If from '../../../lib/If'
+import If from '../../lib/If'
 
 export const CardHeader = (props) => {
   const {

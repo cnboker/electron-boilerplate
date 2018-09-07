@@ -24,6 +24,5 @@ module.exports = function(app){
   app.route('/api/keywords/today')
   .get(ctl.today)
 
-  //app.route('/api/kwTask/status')
-  //.post(ctl.status);
+ 
 }

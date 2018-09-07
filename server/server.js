@@ -7,6 +7,8 @@ port = process.env.PORT || 3001;
 var http = require('http').Server(app)
 var logger = require('./logger')
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
 var mongoose = require('mongoose');
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE

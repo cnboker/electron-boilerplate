@@ -6,7 +6,7 @@ import createSegaMiddleware from 'redux-saga'
 //import { HashRouter, Route, Switch } from 'react-router-dom'
 //import { createBrowserHistory } from 'history';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-
+//import './resource' 
 // Containers
 import App from './App'
 // Views
@@ -23,9 +23,6 @@ import thunk from 'redux-thunk'
 import reduxReset from 'redux-reset'
 //import initReactFastclick from 'react-fastclick'
 
-import './resource' 
-//require('../config')
-//import config from '../config'
 //initReactFastclick()
 
 //Setup the sagaMiddleware to watch between Reducers and Actions

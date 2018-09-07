@@ -11,11 +11,11 @@ var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
 
 exports.today = function(req, res) {
-  var s = moment(Date.now()).format( "YYYY-MM-DD");
+  var s = moment(Date.now()).format("YYYY-MM-DD");
   var start = moment(s).valueOf();
   var now = Date.now();
-  console.log('start=',start,now)
-  
+  console.log("start=", start, now);
+
   Keyword.find(
     {
       createDate: { $gt: start, $lte: now }
@@ -74,11 +74,12 @@ exports.create = function(req, res, next) {
   })
     .then(user => {
       return new Promise((resolve, reject) => {
-        var grade = user.grade || 0;
-        if (grade == 0) {
-          Keyword.find({
-            user: req.user.sub
-          }).then(docs => {
+        var grade = user.grade || 1;
+
+        Keyword.find({
+          user: req.user.sub
+        }).then(docs => {
+          if (grade == 1) {
             if (docs.length == 5) {
               reject("普通账号关键字数不能大于5个，请升级为标准账号");
             }
@@ -88,19 +89,17 @@ exports.create = function(req, res, next) {
             if (docs.length > 0 && exists.length == 0) {
               reject("普通账号只能增加一个域名");
             }
-            exists = docs.filter(function(doc) {
-              return (
-                doc.link == req.body.link && doc.keyword == req.body.keyword
-              );
-            });
-            if (exists.length > 0) {
-              reject("关键字重复错误");
-            }
-            resolve();
+          } 
+          exists = docs.filter(function(doc) {
+            return (
+              doc.link == req.body.link && doc.keyword == req.body.keyword
+            );
           });
-        } else {
+          if (exists.length > 0) {
+            reject("关键字重复错误");
+          }
           resolve();
-        }
+        });        
       });
     })
     .then(() => {
@@ -112,7 +111,8 @@ exports.create = function(req, res, next) {
         todayPolished: false,
         polishedCount: 0,
         user: req.user.sub,
-        status: 1
+        status: 1,
+        engine: req.user.engine
       });
       return newKeyword.save();
     })
@@ -146,6 +146,7 @@ exports.update = function(req, res) {
     function(err, obj) {
       if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
         obj.originRank = 0;
+
       }
 
       const taskio = req.app.io.of("/api/task");
@@ -236,7 +237,7 @@ exports.rank = function(req, res) {
   );
 };
 
-exports.tasks = function(req, res) {
+exports.tasks = function(req, res, next) {
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
     var endTime = 18 * 60 + 30;
@@ -246,30 +247,39 @@ exports.tasks = function(req, res) {
   })();
 
   //if (!inDoTasksTime) return res.json([])
+  User.findOne({
+    userName: req.user.sub
+  })
+    .then(user => {
+      console.log('user engine', user)
+      //获取点数>0且今天未擦亮的关键字
+      Keyword.find(
+        {
+          isValid: true,
+          status: 1,
+          engine: user.engine
+        },
+        "_id user originRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
+        {
+          sort: {
+            createDate: -1
+          }
+        }
+      )
+        .lean()
+        .exec(function(err, docs) {
+          if (err) {
+            console.log("err", err);
+            res.send(err);
+            return;
+          }
 
-  //获取点数>0且今天未擦亮的关键字
-  Keyword.find(
-    {
-      isValid: true,
-      status: 1
-    },
-    "_id user originRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
-    {
-      sort: {
-        createDate: -1
-      }
-    }
-  )
-    .lean()
-    .exec(function(err, docs) {
-      if (err) {
-        console.log("err", err);
-        res.send(err);
-        return;
-      }
-
-      logger.info("docs", docs);
-      res.json(simpleStrategy(docs));
+          logger.info("docs", docs);
+          res.json(simpleStrategy(docs));
+        });
+    })
+    .catch(e => {
+      return next(boom.badRequest(e));
     });
 };
 

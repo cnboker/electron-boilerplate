@@ -14,5 +14,8 @@ module.exports = function(app){
 
   app.route('/api/user/list')
   .get(ctl.list)
+
+  app.route('/api/user/engineChange')
+  .put(ctl.engineChange);
 }
 

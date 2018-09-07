@@ -20,6 +20,60 @@ function userGrade(grade) {
   }
 }
 
+//切换引擎
+exports.engineChange = function(req, res, next) {
+  User.findOne({
+    userName: req.user.sub
+  })
+    .then(function(doc) {
+      console.log(doc);
+      if (doc.engine !== req.body.engine) {
+        doc.engine = req.body.engine;
+        doc.save();
+        return doc;
+      }
+      throw "not update";
+    })
+    .then(function(doc) {
+      console.log('req.body.engine=', req.body.engine,doc.userName)
+        return Keyword.update(
+        {
+          user: doc.userName
+        },
+        {
+          engine: req.body.engine,
+          originRank:0,
+          dynamicRank:0,
+          polishedCount:0
+        },
+        { multi: true }
+      )
+    
+    })
+    .then(doc=>{
+      Keyword.find({
+        user: req.user.sub
+      })
+      .lean()
+      .exec((err,docs) => {
+        if (err) {
+          console.log("err", err);
+          res.send(err);
+          return;
+        }
+        const taskio = req.app.io.of("/api/task");
+        console.log('docs=', docs)
+        for(let doc of docs){
+          taskio.to(req.user.sub).emit("keyword_create", doc);
+        }
+        res.send(docs);
+      })
+    })
+    .catch(function(e) {
+      return next(boom.badRequest(e));
+    });
+};
+
 //get user list
 exports.list = function(req, res, next) {
   User.find(
@@ -54,7 +108,7 @@ exports.list = function(req, res, next) {
               return val._id == doc.userName;
             });
             doc.keywordCount = 0;
-            if(grResult.length > 0){
+            if (grResult.length > 0) {
               doc.keywordCount = grResult[0].count;
             }
             doc.userTypeText = userGrade(doc.userType || 1);
@@ -146,7 +200,8 @@ exports.signup = function(req, res, next) {
         grade: 1, //free account
         todayPoint: 50,
         totalPoint: 50,
-        lostPoint: 0
+        lostPoint: 0,
+        engine: "baidu"
       });
 
       return user.save();
@@ -192,7 +247,10 @@ exports.login = function(req, res) {
             userName,
             role: "user"
           }),
-          access_token: createAccessToken(userName)
+          access_token: createAccessToken(userName),
+          userName,
+          engine: doc.engine,
+          role: "user"
         };
         //console.log('jwtJson', jwtJson);
         res.status(200).json(jwtJson);

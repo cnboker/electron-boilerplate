@@ -102,7 +102,7 @@ class List extends Component {
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
-            <td>{this.stringFormat(item.polishedCount)}</td>
+            {/* <td>{this.stringFormat(item.polishedCount)}</td> */}
             <td>{this.stringFormat(item.isValid)}</td>
             <td>{this.statusFormat(item.status)}</td>
             {/*}
@@ -164,9 +164,7 @@ class List extends Component {
            <Link to={"/keyword/new"} role="button" className="btn btn-success">
             新建
           </Link>{" "}
-          <Link to={"/keyword/setting"} role="button" className="btn btn-danger">
-            设置
-          </Link>{" "}
+          
           <button
             onClick={() => {
               this.fetch();
@@ -189,7 +187,7 @@ class List extends Component {
                 <th>匹配链接</th>
                 <th>原始排名</th>
                 <th>最新排名</th>
-                <th>擦亮次数</th>
+                {/* <th>擦亮次数</th> */}
                 <th>是否有效</th>
                 <th>状态</th>
                 {/*<th>上次擦亮时间</th>

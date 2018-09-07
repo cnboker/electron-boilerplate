@@ -10,9 +10,10 @@ const WebpackShellPlugin = require("webpack-shell-plugin");
 const Dotenv = require("dotenv-webpack");
 
 require("./config");
+
 console.log("node_env=", process.env.NODE_ENV);
 var config = {
-  mode: process.env.NODE_ENV, //production or development
+  mode: process.env.NODE_ENV || "development", //production or development
   devtool: "source-map",
   performance: {
     hints: process.env.NODE_ENV !== "production" ? "warning" : false
@@ -71,15 +72,22 @@ var appConfig = Object.assign({}, config, {
       onBuildEnd: ['echo "Webpack End"']
     }),
     new CleanWebpackPlugin(["dist", "output"]),
+    new CopyWebpackPlugin([
+      {
+        from: "./public",
+        to: "public",
+        toType: "dir"
+      }
+    ]),
     new HtmlWebpackPlugin({
       hash: true,
+      prefixApp: process.env.NODE_ENV === "production"? "1" : "vendors~app",
       template: "./public/index.html",
       inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
       filename: "./index.html" //relative to root of the application
     }),
     new HtmlWebpackPlugin({
       hash: true,
-      publicDir: process.env.APP === "web" ? "public/" : "",
       template: "./public/background.html",
       inject: false, //fix "Error: only one instance of babel-polyfill is allowed"
       filename: "./background.html" //relative to root of the application
@@ -94,7 +102,8 @@ var appConfig = Object.assign({}, config, {
   optimization: {
     minimize: process.env.NODE_ENV === "production",
     minimizer: [new UglifyJsPlugin({})],
-    splitChunks: { //提高编译速度，HOTload不再重新编译vendors~app.app.bundle.js
+    splitChunks: {
+      //提高编译速度，HOTload不再重新编译vendors~app.app.bundle.js
       chunks: "all",
       cacheGroups: {
         vendors: {
@@ -161,7 +170,8 @@ var mainConfig = Object.assign({}, config, {
 });
 
 // Return Array of Configurations
-module.exports = [
-  //appConfig, taskConfig, mainConfig
-  appConfig
-];
+if (process.env.APP === "web") {
+  module.exports = [appConfig];
+} else {
+  module.exports = [appConfig, taskConfig, mainConfig];
+}

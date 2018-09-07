@@ -48,7 +48,7 @@ function* loginFlow(action) {
     var tokenString = JSON.stringify(token);
     localStorage.setItem("token", tokenString);
 
-    Cookies.set("token", tokenString, { expires: 360, path: "", domain: cookieDomain });
+    Cookies.set("token", tokenString, { expires: 360, path: ""});
     yield put({ type: LOGIN_SUCCESS });
 
 

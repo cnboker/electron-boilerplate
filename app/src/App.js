@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 import { ToastContainer } from "react-toastify";
-
+import Setting from './Settings/index'
 class App extends Component {
   constructor(props) {
     super();
@@ -64,6 +64,11 @@ class App extends Component {
             <PrivateRoute
               path="/keyword"
               component={Keyword}
+              dispatch={this.props.dispatch}
+            />
+             <PrivateRoute
+              path="/setting"
+              component={Setting}
               dispatch={this.props.dispatch}
             />
             <Redirect from="/" to="/keyword" />

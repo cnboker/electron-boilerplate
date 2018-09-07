@@ -17,7 +17,8 @@ var userSchema = new Scheam({
   grade: Number, //1:免费账号,2:vip账号，3:企业账户
   upgradeGradeDate: Date, //升级日期
   vipExpiredDate: Date, //vip用户到期日期
-  lastLoginDate:Date
+  lastLoginDate:Date,
+  engine:String //优化引擎
 });
 
 module.exports = mongoose.model('User', userSchema);

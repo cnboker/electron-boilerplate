@@ -36,6 +36,13 @@ main {
 figure {
   margin: 1em 40px; }
 
+  .bd-panel {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+    border-width: .2rem;
+}
+
 hr {
   box-sizing: content-box;
   height: 0;
