@@ -83,8 +83,9 @@ class List extends Component {
       }
     };
     console.log("entity", entity);
-    var action = actions.update(entity, this.props.client);
+    var action = crudActions.update(entity, this.props.client);
     this.props.dispatch(action);
+    
   }
 
   renderList() {
@@ -185,7 +186,7 @@ class List extends Component {
               <tr>
                 <th>关键字</th>
                 <th>匹配链接</th>
-                <th>原始排名</th>
+                <th>初始排名</th>
                 <th>最新排名</th>
                 {/* <th>擦亮次数</th> */}
                 <th>是否有效</th>

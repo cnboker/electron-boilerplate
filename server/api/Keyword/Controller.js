@@ -98,29 +98,38 @@ exports.create = function(req, res, next) {
           if (exists.length > 0) {
             reject("关键字重复错误");
           }
-          resolve();
+          resolve(user);
         });        
       });
     })
-    .then(() => {
-      var newKeyword = new Keyword({
-        ...req.body,
-        createDate: Date.now(),
-        originRank: 0,
-        dynamicRank: 0,
-        todayPolished: false,
-        polishedCount: 0,
-        user: req.user.sub,
-        status: 1,
-        engine: req.user.engine
-      });
-      return newKeyword.save();
+    .then((user) => {     
+      var keywords = req.body.keyword.split('\n').filter(function(val){return val.trim().length>1})
+      console.log('keyword=', keywords)
+      var docs = []
+      for(var keyword of keywords){
+        docs.push({
+          link:req.body.link,
+          keyword,
+          createDate: Date.now(),
+          originRank: 0,
+          dynamicRank: 0,
+          todayPolished: false,
+          polishedCount: 0,
+          user: req.user.sub,
+          status: 1,
+          engine: user.engine
+        })
+      }
+      return Keyword.collection.insertMany(docs)     
     })
-    .then(doc => {
-      res.json(doc);
+    .then(docs => {
+      res.json(docs);
+      console.log('docs', docs)
       //socket send notify
       const taskio = req.app.io.of("/api/task");
-      taskio.to(req.user.sub).emit("keyword_create", doc);
+      for(var doc of docs.ops){
+        taskio.to(req.user.sub).emit("keyword_create", doc);
+      }
     })
     .catch(e => {
       logger.error(e);
@@ -288,8 +297,7 @@ exports.polish = function(req, res, next) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
-      lastPolishedDate: new Date(),
-      engine: req.body.engine
+      lastPolishedDate: new Date()
     },
     $inc: {
       polishedCount: 1
@@ -300,7 +308,7 @@ exports.polish = function(req, res, next) {
     _id: req.body._id
   })
     .then(function(doc) {
-      if (doc.originRank > 0 && req.body.rank == -1) {
+      if (doc.originRank > 0 && (req.body.rank==null || req.body.rank == -1)) {
         throw "skip rank=-1";
       }
       return Keyword.findOneAndUpdate(

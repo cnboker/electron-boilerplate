@@ -17,6 +17,10 @@ class List extends Component {
   componentDidMount() {
     //mock()
     console.log('this.props.match.params.id ',this.props.match.params.id )
+    this.load();
+  }
+
+  load(){
     if(this.props.match.params.id === '__today__'){
       this.today();
     }else{
@@ -24,7 +28,6 @@ class List extends Component {
 
     }
   }
-
   fetch() {
     const action = crudActions.fetch(0, 0, true, this.props.client,this.props.match.params.id);
     this.dispatch(action);
@@ -158,7 +161,7 @@ class List extends Component {
         
           <button
             onClick={() => {
-              this.fetch();
+              this.load();
             }}
             role="button"
             className="btn btn-info"

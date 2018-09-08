@@ -111,7 +111,7 @@ exports.list = function(req, res, next) {
             if (grResult.length > 0) {
               doc.keywordCount = grResult[0].count;
             }
-            doc.userTypeText = userGrade(doc.userType || 1);
+            doc.userTypeText = userGrade(doc.userGrade || 1);
           }
           res.json(docs);
         })

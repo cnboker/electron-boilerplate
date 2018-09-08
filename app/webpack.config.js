@@ -95,7 +95,7 @@ var appConfig = Object.assign({}, config, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(), //Hot Module Replacement enabled.
     new Dotenv({
-      path: "./.env"
+      path: process.env.NODE_ENV === "production"? "./.env.production": "./.env"
     })
     //new BundleAnalyzerPlugin()
   ],

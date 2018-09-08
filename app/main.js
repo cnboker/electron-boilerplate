@@ -17,7 +17,7 @@ const crashReporter = electron.crashReporter;
 crashReporter.start({
 	productName:'kwpolish',
 	companyName:'kwpolish',
-	submitURL:`http://localhost:3000/api/app-crashes`,
+	submitURL:`http://polish.ioliz.com/api/app-crashes`,
 	uploadToServer:true
 })
 //require('electron-reload')(__dirname);
