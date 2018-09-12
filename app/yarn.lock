@@ -2821,7 +2821,7 @@ electron-prebuilt@^1.4.13:
 
 "electron-process@https://github.com/cnboker/electron-process":
   version "0.1.3"
-  resolved "https://github.com/cnboker/electron-process#56b62eb0f221d2f4c0a81dbc6a124d750cfa831a"
+  resolved "https://github.com/cnboker/electron-process#cd8597efdfc690bbec94f4766df44b08db5394f5"
   dependencies:
     lodash "^4.0.0"
     object-hash "^1.1.0"
@@ -2856,9 +2856,9 @@ electron-updater@^2.21.10:
     semver "^5.5.0"
     source-map-support "^0.5.6"
 
-electron@^2.0.4:
-  version "2.0.8"
-  resolved "http://registry.npm.taobao.org/electron/download/electron-2.0.8.tgz#6ec7113b356e09cc9899797e0d41ebff8163e962"
+electron@^2.0.9:
+  version "2.0.9"
+  resolved "http://registry.npm.taobao.org/electron/download/electron-2.0.9.tgz#dfc863d653fa3a2dd4fea0c63303df9c0e33c602"
   dependencies:
     "@types/node" "^8.0.24"
     electron-download "^3.0.1"
@@ -6216,7 +6216,7 @@ react-input-autosize@^2.2.1:
   dependencies:
     prop-types "^15.5.8"
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "http://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
@@ -6241,6 +6241,13 @@ react-prop-types@^0.4.0:
   resolved "http://registry.npm.taobao.org/react-prop-types/download/react-prop-types-0.4.0.tgz#f99b0bfb4006929c9af2051e7c1414a5c75b93d0"
   dependencies:
     warning "^3.0.0"
+
+react-redux-loading-bar@^4.0.7:
+  version "4.0.7"
+  resolved "http://registry.npm.taobao.org/react-redux-loading-bar/download/react-redux-loading-bar-4.0.7.tgz#f3b87455d26e359c70fb9852fae9e997b287970b"
+  dependencies:
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.2"
 
 react-redux@^5.0.7:
   version "5.0.7"

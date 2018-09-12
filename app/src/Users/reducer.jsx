@@ -8,7 +8,7 @@ var baseReducers = reduxCrud.List.reducersFor('users', {key: '_id'})
 var log = bows(`${reducerKey}-reducer`)
 
 export default function reducer(state=[],action){
-  log(action)
+  //log(action)
 
   switch(action.type){
     default:

@@ -8,6 +8,7 @@ const auth = require('../auth')
 var schedule = require('node-schedule');
 var store = require('./localStore')
 var taskRouter = require('./taskRouter')
+const messager = require('./ipcSender');
 
 class PolishJober {
     static async execute() {
@@ -45,6 +46,7 @@ class PolishJober {
                 taskRouter
                     .execute(task)
                     .then(() => {
+                        messager('pageRefresh')
                         store.removeItem(doc._id);
                     })
             }.bind(null, task));
@@ -64,6 +66,7 @@ class PolishJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function (response) {
+            messager('pageRefresh')
             //console.log(response)
             logger.info('polish post', response.data)
         }).then(function (err) {

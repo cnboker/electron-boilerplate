@@ -111,7 +111,7 @@ exports.list = function(req, res, next) {
             if (grResult.length > 0) {
               doc.keywordCount = grResult[0].count;
             }
-            doc.userTypeText = userGrade(doc.userGrade || 1);
+            doc.userTypeText = userGrade(doc.grade || 1);
           }
           res.json(docs);
         })
@@ -194,7 +194,7 @@ exports.signup = function(req, res, next) {
       }
       var user = new User({
         ...req.body,
-        createDate: Date.now(),
+        createDate: new Date(),
         actived: true,
         locked: false,
         grade: 1, //free account

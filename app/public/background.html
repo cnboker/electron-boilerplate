@@ -12,13 +12,15 @@
   <script src='background.bundle.js'>
   </script>
   <script>
+      window.remote = require('electron').remote;
+
     window.onload = function () {
-      //必须增加该行, 因为在webpack.config.js中没有编译puppeteer,所以需要外部定义
-      PageJob.doTask(function () {
-        return require('puppeteer')
-      })
+       PageJob.doTask(function () {
+          return require('puppeteer')
+        })
     }
   </script>
+
   <script>
     var ipc = require('electron').ipcRenderer;
     window.onerror = function (error, url, line) {

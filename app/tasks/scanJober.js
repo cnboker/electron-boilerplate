@@ -7,6 +7,7 @@ var axios = require('axios');
 
 const auth = require('../auth')
 var logger = require('../logger')
+const messager = require('./ipcSender');
 
 
 class ScanJober {
@@ -33,7 +34,6 @@ class ScanJober {
        // console.log('execute end...')
     }
 
-
     static async taskFinishedCallback(doc){
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
@@ -45,6 +45,7 @@ class ScanJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function(response){
+            messager('pageRefresh')
            // console.log(response)
            logger.info('scan post', response.data)
         }).then(function(err){

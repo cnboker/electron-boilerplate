@@ -5,6 +5,8 @@ import client from './Client/reducer'
 import login from './Login/reducer'
 import keywordReducer from './Keyword/reducer'
 import userReducer from './Users/reducer'
+import { loadingBarReducer } from 'react-redux-loading-bar'
+
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -12,6 +14,7 @@ const appReducer = combineReducers({
   client,
   login,
   keywords: keywordReducer,
+  loadingBar: loadingBarReducer,
   users:userReducer
 })
 

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
 import "../utils/groupBy";
-import Select from 'react-select'
+import Select from "react-select";
 import { default as crudActions } from "../Keyword/actions";
 
 class List extends Component {
@@ -14,22 +14,44 @@ class List extends Component {
       filter: null
     };
   }
-  componentDidMount() {
-    //mock()
-    console.log('this.props.match.params.id ',this.props.match.params.id )
+
+  componentWillMount() {
+    this.state = {
+      id: this.props.match.params.id
+    };
+
     this.load();
   }
 
-  load(){
-    if(this.props.match.params.id === '__today__'){
-      this.today();
-    }else{
-      this.fetch();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps == undefined) {
+      return false;
+    }
 
+    /**
+     * new Project in town ?
+     */
+    if (this.state.id != this.props.match.params.id) {
+      this.load();
+      this.setState({ id: this.props.match.params.id });
+    }
+  }
+
+  load() {
+    if (this.props.match.params.id === "__today__") {
+      this.today();
+    } else {
+      this.fetch();
     }
   }
   fetch() {
-    const action = crudActions.fetch(0, 0, true, this.props.client,this.props.match.params.id);
+    const action = crudActions.fetch(
+      0,
+      0,
+      true,
+      this.props.client,
+      this.props.match.params.id
+    );
     this.dispatch(action);
   }
 
@@ -119,16 +141,14 @@ class List extends Component {
             <td>{this.stringFormat(item.polishedCount)}</td>
             <td>{this.stringFormat(item.isValid)}</td>
             <td>{this.stringFormat(item.createDate)}</td>
-            <td>{this.statusFormat(item.status)}</td>          
+            <td>{this.statusFormat(item.status)}</td>
             <td>
-           
               <button
                 className="btn btn-danger"
                 onClick={this.onDelete.bind(this, item)}
               >
                 <i className="fa fa-trash" />
               </button>
-            
             </td>
           </tr>
         );
@@ -139,41 +159,47 @@ class List extends Component {
     this.setState({
       filter: selectedOption
     });
-    console.log('option select', selectedOption)
+    console.log("option select", selectedOption);
   }
 
   render() {
-    const options = Object.keys(this.props.keywords.groupBy('link')).map((item)=>{
-      return {
-        value:item, label:item
+    const options = Object.keys(this.props.keywords.groupBy("link")).map(
+      item => {
+        return {
+          value: item,
+          label: item
+        };
       }
-    })
+    );
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
 
         <div className="d-flex justify-content-between">
-           <div className="col-md-6">          
-           <Select placeholder="域名过滤" value={this.state.filter} onChange={this.onSelect.bind(this)} options={options} id="filter"/>{" "}
-        </div>
-           <div> 
-          
-        
-          <button
-            onClick={() => {
-              this.load();
-            }}
-            role="button"
-            className="btn btn-info"
-          >
-            刷新
-          </button>
+          <div className="col-md-6">
+            <Select
+              placeholder="域名过滤"
+              value={this.state.filter}
+              onChange={this.onSelect.bind(this)}
+              options={options}
+              id="filter"
+            />{" "}
           </div>
-         
+          <div>
+            <button
+              onClick={() => {
+                this.load();
+              }}
+              role="button"
+              className="btn btn-info"
+            >
+              刷新
+            </button>
+          </div>
         </div>
 
         <div className="table-responsive">
-            <br/>
+          <br />
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
@@ -185,7 +211,7 @@ class List extends Component {
                 <th>是否有效</th>
                 <th>创建日期</th>
                 <th>状态</th>
-          
+
                 <th />
               </tr>
             </thead>

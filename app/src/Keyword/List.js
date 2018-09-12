@@ -115,7 +115,7 @@ class List extends Component {
             </td>
         */}
             <td>
-              <Link
+              <Link style={{display:'none'}}
                 to={`/keyword/${item._id}`}
                 role="button"
                 className="btn btn-success"
@@ -166,7 +166,7 @@ class List extends Component {
             新建
           </Link>{" "}
           
-          <button
+          <button id='pageRefresh'
             onClick={() => {
               this.fetch();
             }}

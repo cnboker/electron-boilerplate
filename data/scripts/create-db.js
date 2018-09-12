@@ -47,8 +47,8 @@ db.users.insert({
   totalPoint: 0,
   lostPoint: 0,
   grade: 2,
-  upgradeGradeDate: Date.now(),
-  vipExpiredDate: Date.now()
+  upgradeGradeDate: new Date(),
+  vipExpiredDate: new Date()
 });
 
 db.keywords.insert({

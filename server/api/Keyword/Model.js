@@ -12,7 +12,7 @@ var keywordSchema =new Schema({
   dynamicRank:Number, //当前页数
   lastPolishedDate:Date, //上次擦亮时间
   isValid:Boolean, //如果前100名未找到则认为关键字设置无效,
-  createDate:Date,
+  createDate:{type:Date,default:Date.now},
   todayPolishedCount:Number,//今天擦亮次数
   polishedCount:Number, //总擦亮次数,
   everyDayMaxPolishedCount:Number, //每天最大擦亮次数

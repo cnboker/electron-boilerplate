@@ -27,7 +27,7 @@ module.exports = function(app, server) {
       User.findOne({
         userName:data.user
       },function(err,doc){
-        doc.lastLoginDate = Date.now();
+        doc.lastLoginDate = new Date();
         doc.save();
       })
 

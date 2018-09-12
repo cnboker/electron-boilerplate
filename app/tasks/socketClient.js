@@ -3,6 +3,8 @@ var scanJober = require("./scanJober");
 var polishJober = require("./polishJober");
 const auth = require("../auth");
 const logger = require("../logger");
+const messager = require('./ipcSender');
+
 //open debug info
 if (process.env.APP != "web") {
   localStorage.debug = "*";
@@ -25,7 +27,7 @@ function main(token) {
   //socket.send('hello world')
   socket.on("connect", function() {
     logger.info("connect");
-    socket.send("hello world");
+    //socket.send("hello world");
     socket.emit("join", {
       user: token.userName
     });
@@ -64,12 +66,14 @@ function main(token) {
 
   //创建关键字,重新扫描排名
   socket.on("keyword_create", function(doc) {
+    messager('message',`关键字"${doc.keyword}"等待优化`)
     logger.info("socket keyword_create", doc);
     //jobContext.clean();
     scanJober.execute(doc);
     //socket.emit('finished')
   });
 
+  //服务器远程增加新优化关键字
   socket.on("keyword_polish", function(data) {
     jobContext.clean();
     polishJober.itemsPush(data);

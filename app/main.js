@@ -35,12 +35,12 @@ autoUpdater.on('update-downloaded', (ev, info) => {
 	}, 5000)
 })
 
+global.backgroundProcessHandler = null;
 //require('electron-debug')();
 app.on('ready', function () {
-	const backgroundURL = 'file://' + $dirname + '/background.html';
 	var debug = (process.env.NODE_ENV == 'development');
 
-	const backgroundProcessHandler = main.createBackgroundProcess(backgroundURL, debug);
+
 	// mainWindow = new BrowserWindow({
 	// 	width: 1280,
 	// 	height: 600,
@@ -81,8 +81,11 @@ app.on('ready', function () {
 		tray.setHighlightMode('never')
 	})
 
-	backgroundProcessHandler.addWindow(mainWindow);
 	mainWindow.loadURL('file://' + $dirname + '/index.html');
+	
+	const backgroundURL = 'file://' + $dirname + '/background.html';
+	backgroundProcessHandler = main.createBackgroundProcess(backgroundURL, debug);
+	backgroundProcessHandler.addWindow(mainWindow);
 
 	if (process.env.NODE_ENV == 'development') {
 		mainWindow.webContents.openDevTools();

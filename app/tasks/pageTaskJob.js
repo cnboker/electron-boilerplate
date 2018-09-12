@@ -3,6 +3,8 @@ var scroll = require('./scroll')
 var random = require('./random')
 var jobAction = require('./jobAction')
 var jobContext = require('./jobContext')
+const messager = require('./ipcSender');
+
 const SCAN_MAX_PAGE = 10;
 
 async function execute(task) {
@@ -29,6 +31,7 @@ async function execute(task) {
     await singleTaskProcess(page, task)
         .then(() => {
             task.end(task.doc)
+           // messager('message',`关键字"${task.doc.keyword}"优化完成`)
             jobContext.busy = false;
             browser.close();
         })

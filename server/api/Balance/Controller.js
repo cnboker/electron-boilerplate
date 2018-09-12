@@ -62,13 +62,13 @@ exports.pay = function (req, res, next) {
     })
     .then((user) => {
       if (user.vipExpiredDate == undefined) {
-        user.vipExpiredDate = Date.now();
+        user.vipExpiredDate = new Date();
       }
       
       var balance = new Balance({
         user: req.body.userName,
         amount: req.body.amount,
-        createDate: Date.now(),
+        createDate: new Date(),
         serviceDate: user.vipExpiredDate,
         days: serviceDays,
         remark: `vip充值金额${req.body.amount}`
@@ -78,9 +78,9 @@ exports.pay = function (req, res, next) {
     })
     .then((user) => {
       user.grade = 2;
-      user.upgradeGradeDate = Date.now();
+      user.upgradeGradeDate = new Date();
       if (user.vipExpiredDate == undefined) {
-        user.vipExpiredDate = Date.now();
+        user.vipExpiredDate = new Date();
       }
       user.vipExpiredDate = moment(user.vipExpiredDate).add(serviceDays, 'days')
       return user.save()

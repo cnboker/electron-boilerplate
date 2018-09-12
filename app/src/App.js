@@ -1,32 +1,30 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import Header from "./Components/Header";
-import {
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Keyword from "./Keyword/index";
 import Price from "./Price/index";
 import Contact from "./Price/contact";
-import Charge from './Price/charge'
-import Users from './Users/index'
+import Charge from "./Price/charge";
+import Users from "./Users/index";
 import "./Components/Header.css";
-import { PrivateRoute,refreshClient } from "./lib/check-auth";
+import { PrivateRoute, refreshClient } from "./lib/check-auth";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 import { ToastContainer } from "react-toastify";
-import Setting from './Settings/index'
+import Setting from "./Settings/index";
+import LoadingBar from "react-redux-loading-bar";
+
 class App extends Component {
   constructor(props) {
     super();
-    this.authenticated = localStorage.getItem('token') != null;
+    this.authenticated = localStorage.getItem("token") != null;
   }
   unset() {
     if (this.authenticated) {
       this.props.unsetClient();
-     // this.props.dispatch(this.props.unsetClient());
+      // this.props.dispatch(this.props.unsetClient());
     }
     this.props.history.push("/login");
   }
@@ -34,21 +32,25 @@ class App extends Component {
   render() {
     return (
       <div>
+        <LoadingBar />
         <Header
           unsetClient={this.unset.bind(this)}
-          userName = {this.props.token == null?"":this.props.token.userName}
+          userName={this.props.token == null ? "" : this.props.token.userName}
         />
+
+        <div className="alert alert-info center-block" >
+          保持程序后台运行即可，优化工作正在进行中...
+        </div>
 
         <div className="container">
           <Switch>
-           
             <PrivateRoute
               path="/price"
               component={Price}
               dispatch={this.props.dispatch}
             />
             <Route path="/contact" component={Contact} />
-            
+
             <PrivateRoute
               path="/charge"
               role="admin"
@@ -56,17 +58,17 @@ class App extends Component {
               dispatch={this.props.dispatch}
             />
             <PrivateRoute
-            path="/users"
-            role="admin" 
-            component={Users}
-            dispatch={this.props.dispatch}
-          />
+              path="/users"
+              role="admin"
+              component={Users}
+              dispatch={this.props.dispatch}
+            />
             <PrivateRoute
               path="/keyword"
               component={Keyword}
               dispatch={this.props.dispatch}
             />
-             <PrivateRoute
+            <PrivateRoute
               path="/setting"
               component={Setting}
               dispatch={this.props.dispatch}
@@ -74,6 +76,7 @@ class App extends Component {
             <Redirect from="/" to="/keyword" />
           </Switch>
         </div>
+        <div id="__messages" className="alert alert-warning">.</div>
         <footer id="footer">
           <div className="container">
             <div className="row">
@@ -108,21 +111,19 @@ class App extends Component {
 // referene
 // https://stackoverflow.com/questions/36559661/how-can-i-dispatch-from-child-com
 // ponents-in-react-redux
-const mapStateToProps = state => 
-{
+const mapStateToProps = state => {
   // if(!state.client.token){
   //   refreshClient(state.client)
   // }
   return state.client;
-}
-
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     dispatch,
-    ...bindActionCreators({unsetClient }, dispatch)
-  }
-}
+    ...bindActionCreators({ unsetClient }, dispatch)
+  };
+};
 // 不能传mapStateToProps进去，因为PrivateRoute检查token有效后会发起setClient的action, 而
 // state里面包含client reducer导致重新render,从而又作验证发起setClient导致死循环
 // dashboard不能使用PrivateRoute会引起程序死循环

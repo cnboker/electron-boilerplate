@@ -10,7 +10,7 @@ var logger = require('./logger')
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose').set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
 mongoose.Promise = require('bluebird');
 //mongoose.Promise = global.Promise;

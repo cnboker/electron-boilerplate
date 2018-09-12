@@ -18,7 +18,8 @@
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
 		"build": "cross-env NODE_ENV=development webpack",
 		"publish": "cross-env NODE_ENV=development webpack&&build",
-		"ship": "cross-env NODE_ENV=production webpack&&build"
+		"ship": "cross-env NODE_ENV=production webpack&&build -w",
+		"ship32": "cross-env NODE_ENV=production webpack&&build -ia32 -w"
 	},
 	"dependencies": {
 		"auto-launch": "^5.0.5",
@@ -44,6 +45,7 @@
 		"react-hot-loader": "^4.3.0",
 		"react-localization": "^1.0.10",
 		"react-redux": "^5.0.7",
+		"react-redux-loading-bar": "^4.0.7",
 		"react-router": "^4.2.0",
 		"react-router-bootstrap": "^0.24.4",
 		"react-router-dom": "^4.2.2",
@@ -81,7 +83,7 @@
 		"cross-env": "^5.2.0",
 		"css-loader": "^0.28.11",
 		"devtron": "^1.1.0",
-		"electron": "^2.0.4",
+		"electron": "^2.0.9",
 		"electron-builder": "^19.20.1",
 		"electron-prebuilt": "^1.4.13",
 		"file-loader": "^1.1.11",

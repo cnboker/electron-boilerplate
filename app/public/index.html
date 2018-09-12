@@ -6,13 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="utf-8">
 	<title>易优排名</title>
-	
+
 	<!-- Latest compiled and minified CSS -->
-	 <link rel="stylesheet" href="public/css/bootstrap.min.css">
+	<link rel="stylesheet" href="public/css/bootstrap.min.css">
 	<link rel="stylesheet" href="public/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="public/css/simple-line-icons.css" />
-	<link rel="stylesheet" href="public/css/main.css" /> 
-	
+	<link rel="stylesheet" href="public/css/main.css" />
+
 </head>
 
 <body>
@@ -22,9 +22,9 @@
 	</div>
 
 	<script src='app.bundle.js'>
-	
+
 	</script>
-<script src='<%= htmlWebpackPlugin.options.prefixApp %>.app.bundle.js'/>
+	<script src='<%= htmlWebpackPlugin.options.prefixApp %>.app.bundle.js'></script>
 	<script>
 		try {
 			const ipcRenderer = require('electron').ipcRenderer;
@@ -33,6 +33,15 @@
 				// changes the text of the button
 				var container = document.getElementById('__messages');
 				container.innerHTML = text;
+			})
+			
+			//重新加载页面数据
+			ipcRenderer.on('pageRefresh',function(){
+				console.log('pageRefresh message')
+				var refreshButton = document.getElementById('pageRefresh')
+				if(refreshButton){
+					refreshButton.click();
+				}
 			})
 		} catch (e) {
 
