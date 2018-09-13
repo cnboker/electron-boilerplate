@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "易优排名",
-	"version": "0.2.2",
+	"version": "0.2.4",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -39,6 +39,7 @@
 		"puppeteer": "^1.5.0",
 		"ramda": "^0.23.0",
 		"react": "^15.3.0",
+		"react-animated-css": "^1.0.4",
 		"react-autosize-textarea": "^4.0.0",
 		"react-bootstrap": "^0.30.3",
 		"react-dom": "15.5.4",

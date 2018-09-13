@@ -20,6 +20,27 @@ function userGrade(grade) {
   }
 }
 
+
+exports.update = function(req, res, next) {
+  if(req.user.sub !== 'admin'){
+    throw '不是指定账号'
+  }
+  User.findOne({
+    userName: req.body.userName
+  })
+    .then(function(doc) {
+       doc.locked = req.body.locked;
+       return doc.save()
+    })
+    .then(doc=>{
+      res.json(doc)
+    })
+    .catch(e => {
+      return next(boom.badRequest(e));
+    });
+};
+
+
 //切换引擎
 exports.engineChange = function(req, res, next) {
   User.findOne({
@@ -35,39 +56,38 @@ exports.engineChange = function(req, res, next) {
       throw "not update";
     })
     .then(function(doc) {
-      console.log('req.body.engine=', req.body.engine,doc.userName)
-        return Keyword.update(
+      console.log("req.body.engine=", req.body.engine, doc.userName);
+      return Keyword.update(
         {
           user: doc.userName
         },
         {
           engine: req.body.engine,
-          originRank:0,
-          dynamicRank:0,
-          polishedCount:0
+          originRank: 0,
+          dynamicRank: 0,
+          polishedCount: 0
         },
         { multi: true }
-      )
-    
+      );
     })
-    .then(doc=>{
+    .then(doc => {
       Keyword.find({
         user: req.user.sub
       })
-      .lean()
-      .exec((err,docs) => {
-        if (err) {
-          console.log("err", err);
-          res.send(err);
-          return;
-        }
-        const taskio = req.app.io.of("/api/task");
-        console.log('docs=', docs)
-        for(let doc of docs){
-          taskio.to(req.user.sub).emit("keyword_create", doc);
-        }
-        res.send(docs);
-      })
+        .lean()
+        .exec((err, docs) => {
+          if (err) {
+            console.log("err", err);
+            res.send(err);
+            return;
+          }
+          const taskio = req.app.io.of("/api/task");
+          console.log("docs=", docs);
+          for (let doc of docs) {
+            taskio.to(req.user.sub).emit("keyword_create", doc);
+          }
+          res.send(docs);
+        });
     })
     .catch(function(e) {
       return next(boom.badRequest(e));

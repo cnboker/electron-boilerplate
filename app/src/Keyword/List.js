@@ -87,6 +87,21 @@ class List extends Component {
     this.props.dispatch(action);
     
   }
+  getDiff(item){
+    let color='green', diffText = '-'
+    if(item.dynamicRank ===0 || item.originRank === 0){
+      color = 'black';
+    }else{
+      var diff = item.originRank - item.dynamicRank;
+      if(diff > 0){
+        diffText = '+' + diff
+      }else{
+        color = 'red';
+        diffText =  diff
+      }
+    }  
+    return(<span style={{"color":color,'fontWeight': 'bold'}}>{diffText}</span>)
+  }
 
   renderList() {
     var self = this;
@@ -103,6 +118,7 @@ class List extends Component {
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
+            <td>{this.getDiff(item)}</td>
             {/* <td>{this.stringFormat(item.polishedCount)}</td> */}
             <td>{this.stringFormat(item.isValid)}</td>
             <td>{this.statusFormat(item.status)}</td>
@@ -188,6 +204,7 @@ class List extends Component {
                 <th>匹配链接</th>
                 <th>初始排名</th>
                 <th>最新排名</th>
+                <th>变化</th>
                 {/* <th>擦亮次数</th> */}
                 <th>是否有效</th>
                 <th>状态</th>

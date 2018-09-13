@@ -23,6 +23,7 @@ var config = {
 var appConfig = Object.assign({}, config, {
   // TODO: Add common Configuration
   //target: 'electron-renderer',
+  externals: ["electron"],
   target: process.env.APP === "web" ? "web" : "electron-renderer",
   entry: {
     app: ["babel-polyfill", "./src/index.js"]

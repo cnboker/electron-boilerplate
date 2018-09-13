@@ -7,6 +7,7 @@ import moment from "moment";
 import {Switch} from "../Components/Forms/Switch";
 import Select from 'react-select'
 import {PAGE_SIZE} from './constants'
+
 class List extends Component {
   constructor() {
     super();
@@ -90,13 +91,8 @@ class List extends Component {
     return "未知";
   }
 
-  toggleSwitch(item, e) {
-    var entity = {
-      ...item,      
-        status: item.status       
-    };
-    console.log("entity", entity);
-    var action = actions.update(entity, this.props.client);
+  toggleSwitch(user, e) {    
+    var action = crudActions.update({...user,locked:!user.locked}, this.props.client);
     this
       .props
       .dispatch(action);
@@ -128,6 +124,11 @@ class List extends Component {
             <td>{item.userTypeText}</td>
             <td>{this.statusFormat(item.expiredDate)}</td>
             <td>{this.statusFormat(item.totalPoint)}</td>
+            <td>  <Switch
+                on={item.locked}
+                onClick={this.toggleSwitch.bind(this, item)}
+              />
+              </td>
           </tr>
         );
       });
@@ -191,6 +192,7 @@ class List extends Component {
                 <th>会员类型</th>
                 <th>到期日期</th>
                 <th>积分</th>
+                <th>拉黑</th>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>

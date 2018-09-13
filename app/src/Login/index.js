@@ -8,7 +8,7 @@ import { loginRequest, loginFinish } from "./actions";
 import { required, renderField } from "../utils/fieldLevelValidation";
 // Import the helpers.. that we'll make here in the next step
 import FetchMessage from "../notifications/fetchMessage";
-import resources from './locals'
+import resources from "./locals";
 
 class Login extends Component {
   componentDidMount() {
@@ -28,8 +28,9 @@ class Login extends Component {
     const params = new URLSearchParams(search);
     var url = params.get("returnUrl") || "";
     if (url) return url;
-    if(this.props.location.state)return this.props.location.state.from.pathname
-    return '/';
+    if (this.props.location.state)
+      return this.props.location.state.from.pathname;
+    return "/";
   }
   //在状态或props改变后render之前执行
   componentWillUpdate(nextProps, nextState) {
@@ -49,55 +50,80 @@ class Login extends Component {
       }
     }
   }
+
+  openLink(url){
+    event.preventDefault();
+    let link = event.target.href;
+    require("electron").shell.openExternal(link);
+  }
+
   render() {
     const { handleSubmit } = this.props;
 
     return (
+      <div>
+        <div className="jumbotron">
+          <h1 className="display-4">易优排名-让你的网络推广变轻松</h1>
+          <p className="lead">检测优化自家网站排名情况,易优排名好的营销伴侣.</p>
+
+          <p className="lead">
+            <a className="btn btn-primary btn-lg" href="#" role="button" onClick={()=>{
+              this.openLink('http://kwpolish.com/product.html')
+            }}>
+              了解更多
+            </a>
+   
+          </p>
+      </div>
       <form onSubmit={handleSubmit(this.submit)}>
-        <div className="app flex-row align-items-center">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-md-6">
-                <div className="card mx-4">
-                  <div className="card-block p-4">
-                    {/*<h1>注册</h1>*/}
-                    <p className="text-muted">{resources.login}</p>
-                    <Field
-                      name="userName"
-                      type="text"
-                      labelIcon="icon-user"
-                      className="form-control"
-                      component={renderField}
-                      placeholder={resources.userName}
-                      validate={required}
-                    />
-                    <Field
-                      name="password"
-                      type="password"
-                      labelIcon="icon-lock"
-                      className="form-control"
-                      component={renderField}
-                      placeholder={resources.password}
-                      validate={required}
-                    />
-                    <button
-                      action="submit"
-                      className="btn btn-block btn-success"
-                    >
-                      {resources.login}
-                    </button>                    
-                    <div>{resources.formatString(resources.not_register,<Link to="/signup">{resources.register}</Link>)}</div>                    
-                    
-                    <FetchMessage requestState={this.props.login} />
+          <div className="app flex-row align-items-center">
+            <div className="container">
+              <div className="row justify-content-center">
+                <div className="col-md-6">
+                  <div className="card mx-4">
+                    <div className="card-block p-4">
+                      {/*<h1>注册</h1>*/}
+                      <p className="text-muted">{resources.login}</p>
+                      <Field
+                        name="userName"
+                        type="text"
+                        labelIcon="icon-user"
+                        className="form-control"
+                        component={renderField}
+                        placeholder={resources.userName}
+                        validate={required}
+                      />
+                      <Field
+                        name="password"
+                        type="password"
+                        labelIcon="icon-lock"
+                        className="form-control"
+                        component={renderField}
+                        placeholder={resources.password}
+                        validate={required}
+                      />
+                      <button
+                        action="submit"
+                        className="btn btn-block btn-success"
+                      >
+                        {resources.login}
+                      </button>
+                      <div>
+                        {resources.formatString(
+                          resources.not_register,
+                          <Link to="/signup">{resources.register}</Link>
+                        )}
+                      </div>
+
+                      <FetchMessage requestState={this.props.login} />
+                    </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
-        </div>
-
-      </form>
+        </form>
+       </div>
     );
   }
 }
@@ -120,9 +146,10 @@ const mapStateToProps = state => ({
   client: state.client
 });
 
-const connected = connect(mapStateToProps, { loginRequest, loginFinish })(
-  Login
-);
+const connected = connect(
+  mapStateToProps,
+  { loginRequest, loginFinish }
+)(Login);
 
 const formed = reduxForm({
   form: "login"

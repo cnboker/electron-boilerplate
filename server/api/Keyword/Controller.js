@@ -265,38 +265,52 @@ exports.tasks = function(req, res, next) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-
-  // if (!inDoTasksTime) return res.json([])
-  
-  User.findOne({
-    userName: req.user.sub
+  var hrstart = process.hrtime()
+  if (!inDoTasksTime) return res.json([]);
+  User.find({
+    locked:true
   })
-    .then(user => {
-      console.log("user engine", user);
-      //获取点数>0且今天未擦亮的关键字
-      return Keyword.find(
-        {
-          isValid: true,
-          status: 1,
-          engine: user.engine,
-          originRank: { $gt: 10, $ne: -1 } //原始排名>10 and != -1
-        },
-        "_id user originRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
-        {
-          sort: {
-            createDate: -1
-          }
-        }
-      ) 
-      .lean()
-      .exec()
-    })   
-    .then(docs => {
-      logger.info("docs", docs);
-      res.json(simpleStrategy(docs));
+    .then(lockedUsers => {
+      return lockedUsers.map(x => {
+        return x.userName;
+      });
     })
-    .catch(e => {
-      return next(boom.badRequest(e));
+    .then(names => {
+      console.log('black users', names)
+      User.findOne({
+        userName: req.user.sub
+      })
+        .then(user => {
+          console.log("user engine", user);
+          //获取点数>0且今天未擦亮的关键字
+          return Keyword.find(
+            {
+              isValid: true,
+              status: 1,
+              engine: user.engine,
+              originRank: { $gt: 10, $ne: -1 }, //原始排名>10 and != -1
+              user: { $nin: names }
+            },
+            "_id user originRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
+            {
+              sort: {
+                createDate: -1
+              }
+            }
+          )
+            .lean()
+            .exec();
+        })
+        .then(docs => {
+          logger.info("docs", docs);
+          res.json(simpleStrategy(docs));
+
+          var hrend = process.hrtime(hrstart)
+          console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
+        })
+        .catch(e => {
+          return next(boom.badRequest(e));
+        });
     });
 };
 

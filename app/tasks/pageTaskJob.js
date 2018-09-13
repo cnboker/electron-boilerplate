@@ -31,7 +31,7 @@ async function execute(task) {
     await singleTaskProcess(page, task)
         .then(() => {
             task.end(task.doc)
-           // messager('message',`关键字"${task.doc.keyword}"优化完成`)
+            messager('message',`新的关键字优化完成`)
             jobContext.busy = false;
             browser.close();
         })

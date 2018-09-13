@@ -119,7 +119,7 @@ autoUpdater.on('error', (ev, err) => {
 	sendStatusToWindow('更新失败. ');
 })
 autoUpdater.on('download-progress', (ev, progressObj) => {
-	sendStatusToWindow('正在下载...');
+	sendStatusToWindow('有新版本啦,正在下载...');
 })
 autoUpdater.on('update-downloaded', (ev, info) => {
 	sendStatusToWindow('已下载完成; 马上重新安装');

@@ -17,5 +17,8 @@ module.exports = function(app){
 
   app.route('/api/user/engineChange')
   .put(ctl.engineChange);
+
+  app.route('/api/user/update')
+  .put(ctl.update);
 }
 

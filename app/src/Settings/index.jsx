@@ -56,7 +56,7 @@ class Index extends Component {
   render() {
     return (
       <div className="bd-panel">
-        <p>切换引擎->切换后,关键字统计数据将重置,请谨慎操作.切换到google确保网络能够翻墙,否正无法正常运行</p>
+        <p>切换引擎->切换后,系统需要重新登录,关键字统计数据将重置,请谨慎操作,切换到google确保网络通畅.</p>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <input

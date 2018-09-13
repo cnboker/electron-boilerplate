@@ -25,7 +25,7 @@ export default class Header extends Component {
       return (
         <nav className="my-2 my-md-0 mr-md-3">
           <Link className="p-2 text-dark" to="/keyword">
-            关键字
+            排名检查
           </Link>
           <Link className="p-2 text-dark" to="/setting">
             设置

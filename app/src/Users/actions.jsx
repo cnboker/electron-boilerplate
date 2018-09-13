@@ -96,7 +96,7 @@ let actionCreators = {
       dispatch(optimisticAction);
 
       //const url = `/server/${entity.id}`
-      const url = `${process.env.REACT_APP_API_URL}/keyword/${entity._id}`;
+      const url = `${process.env.REACT_APP_API_URL}/user/update`;
       console.log("url", url);
       const promise = axios({
         url: url,
