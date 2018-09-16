@@ -257,6 +257,11 @@ exports.rank = function(req, res) {
   );
 };
 
+//给新用户优化机会， 每个用户3个关键字
+function radmonPolishNewUsers(doc){
+  
+}
+
 exports.tasks = function(req, res, next) {
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
@@ -332,7 +337,7 @@ exports.polish = function(req, res, next) {
     .then(function(doc) {
       if (
         doc.originRank > 0 &&
-        (req.body.rank == null || req.body.rank == -1)
+        (req.body.rank == undefined || req.body.rank == -1)
       ) {
         throw "skip rank=-1";
       }

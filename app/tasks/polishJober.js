@@ -36,7 +36,9 @@ class PolishJober {
             schedule.scheduleJob(date, function (task) {
                 logger.info('scheduleJob time=', Date.now().toString())
                 const doc = task.doc;
-                if (jobContext.busy) return;
+                if (jobContext.busy) {                    
+                    return;
+                }
                 if (doc.state == 'dirty') {
                     logger.info('doc dirty', doc)
                     return;

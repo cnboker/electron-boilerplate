@@ -34,6 +34,18 @@ class ScanJober {
        // console.log('execute end...')
     }
 
+    //程序启动检查是否还有未处理的关键字
+    static async appStartRun(){
+        var arr = await this._fetchData();
+        console.log('arr', arr)
+        if(arr.length == 0)return;
+        
+        arr.forEach(function(item){
+            console.log('scan items', item)
+            ScanJober.execute(item)
+        })
+    }
+
     static async taskFinishedCallback(doc){
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
@@ -56,6 +68,7 @@ class ScanJober {
     static async  _fetchData() {
         try{
             const access_token = auth.getToken().access_token;
+           //const access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg'
             const url = `${process.env.REACT_APP_API_URL}/keywords`
             logger.info('scanjob-_fetchData-url', url);
             const res = await axios({
@@ -72,6 +85,7 @@ class ScanJober {
                 return item.originRank == 0;
             })
         }catch(e){
+            console.log(e)
             return [];
         }
        

@@ -17,7 +17,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/kwPolish');
 
 require('./appCrashReporter')(app)
-require('./socketServer')(app,http)
+require('./socketServer').start(app,http)
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}))

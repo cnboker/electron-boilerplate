@@ -63,7 +63,7 @@ async function singleTaskProcess(page, task) {
             if (rank != -1) {
                 if (task.action == jobAction.Polish) {
                     findLinkClick(page, doc.link)
-                    await sleep(random(5000, 20000))
+                    await sleep(random(3000, 10000))
                 }
                 break;
             }
@@ -77,7 +77,7 @@ async function singleTaskProcess(page, task) {
             if (task.action == jobAction.Polish) {
                 await sleep(random(5000, 10000))
             } else {
-                await sleep(random(5000, 10000))
+                await sleep(random(3000, 10000))
             }
             pageIndex++
         }

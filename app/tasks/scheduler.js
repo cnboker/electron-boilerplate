@@ -1,8 +1,7 @@
 var schedule = require('node-schedule');
-var moment = require('moment');
-
 
 var polishJober = require('./polishJober');
+var scanJober = require('./scanJober');
 var jobContext = require('./jobContext');
 var jobRouter = require('./taskRouter')
 
@@ -30,16 +29,15 @@ function doTask(puppeteerCreator) {
     
 }
 
-
-
 function main(token) {
     logger.info('token is ok', token)
     if(token.userName == 'admin' || token.userName == 'su')return;
     require('./socketClient')
-    polishJober.execute()
-    //隔10s执行scanJober
-    schedule.scheduleJob('*/1 * * * *', function () {
-        logger.info('/1m', moment().format())       
+    polishJober.execute();
+    scanJober.appStartRun();
+    //隔5s执行scanJober
+    //*/5 * * * * *
+    schedule.scheduleJob('*/5 * * * * *', function () {             
         if (jobContext.busy || jobContext.puppeteer == undefined) return;
         var task = jobContext.popScanTask();
         if (task != null) {
@@ -55,5 +53,6 @@ function main(token) {
 
 
 module.exports = {
-    doTask
+    doTask,
+    main
 }
