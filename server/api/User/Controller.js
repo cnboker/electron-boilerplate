@@ -81,10 +81,9 @@ exports.engineChange = function(req, res, next) {
             res.send(err);
             return;
           }
-          const taskio = req.app.io.of("/api/task");
-          console.log("docs=", docs);
+        
           for (let doc of docs) {
-            taskio.to(req.user.sub).emit("keyword_create", doc);
+            req.socketServer.keywordCreate(doc)
           }
           res.send(docs);
         });
@@ -123,7 +122,7 @@ exports.list = function(req, res, next) {
         .then(function(gr) {
           console.log("keyword group by", gr);
           for (let doc of docs) {
-            doc.isOnline = req.app.clients[doc.userName] !== undefined;
+            doc.isOnline = req.socketServer.isOnline()
             var grResult = gr.filter(function(val) {
               return val._id == doc.userName;
             });

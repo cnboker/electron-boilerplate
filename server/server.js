@@ -17,13 +17,23 @@ mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/kwPolish');
 
 require('./appCrashReporter')(app)
-require('./socketServer').start(app,http)
+
+var SocketServer = require('./socket/socketServer');
+const socketServer = new SocketServer(http)
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}))
 // Adding body-parser middleware to parser JSON data
 app.use(bodyParser.json());
 app.use(cors());
+//inject socketServer
+app.use((req,res,next)=>{
+  if(!req.socketServer){
+    console.log('inject socketServer')
+    req.socketServer = socketServer;
+  }
+  next();
+})
 
 app.get('/404', function (req, res) {
   throw new NotFound;
@@ -33,11 +43,10 @@ app.get('/500', function (req, res) {
   throw new Error('keyboard cat!');
 });
 
-require('./protected')(app);
+require('./api/protected')(app);
 require('./api/Keyword/Route')(app);
 require('./api/User/Route')(app);
 require('./api/Balance/Route')(app);
-
 
 //exception handle
 app.use(function (err, req, res, next) {
@@ -45,7 +54,7 @@ app.use(function (err, req, res, next) {
     // log the error... probably you don't want to log unauthorized access or do
     // you?
   }
-  logger.error(err);
+  logger.error('err', err);
   if (err.status == 401) {
     return res
       .status(err.status)

@@ -137,10 +137,10 @@ exports.create = function(req, res, next) {
     .then(docs => {
       res.json(docs);
       console.log("docs", docs);
+      
       //socket send notify
-      const taskio = req.app.io.of("/api/task");
       for (var doc of docs.ops) {
-        taskio.to(req.user.sub).emit("keyword_create", doc);
+        req.socketServer.keywordCreate(doc)
       }
     })
     .catch(e => {
@@ -169,8 +169,6 @@ exports.update = function(req, res) {
         obj.originRank = 0;
       }
 
-      const taskio = req.app.io.of("/api/task");
-
       obj.keyword = req.body.keyword;
       obj.link = req.body.link;
       if (req.body.status) {
@@ -180,16 +178,14 @@ exports.update = function(req, res) {
           //notify
           //cmd,data
           //in order to send an event to everyone
-          taskio.emit("keyword_pause", {
-            _id: req.params.id
-          });
+          req.socketServer.keywordPause(req.user.sub,req.params.id)
         }
       }
 
-      if (obj.originRank == 0) {
-        //私信给特定用户
-        taskio.to(req.user.sub).emit("keyword_create", obj.toObject());
-      }
+      // if (obj.originRank == 0) {
+      //   //私信给特定用户
+      //   taskio.to(req.user.sub).emit("keyword_create", obj.toObject());
+      // }
 
       obj.save(function(err, doc) {
         if (err) {
@@ -221,10 +217,8 @@ exports.delete = function(req, res) {
       res.json({
         message: "delete success"
       });
-      const taskio = req.app.io.of("/api/task");
-      taskio.emit("keyword_pause", {
-        _id: req.params.id
-      });
+      req.socketServer.keywordPause(req.user.sub,req.params.id)
+      
     }
   );
 };
@@ -245,16 +239,14 @@ exports.rank = function(req, res) {
       //同时设置这2个参数，否则doc返回null
       new: true,
       upsert: true
-    },
-    function(err, doc) {
-      console.log("server rank doc:", doc);
-      if (err) {
-        res.send(err);
-        return;
-      }
-      res.json(doc);
-    }
-  );
+    })
+    .then(doc=>{
+      res.json(doc)
+      req.socketServer.keywordRank(doc);
+    })
+    .catch(e=>{
+      return next(boom.badRequest(e))
+    })  
 };
 
 //给新用户优化机会， 每个用户3个关键字

@@ -4,4 +4,4 @@ module.exports = {
   issuer: "Demo_Issuer",
   audience: "Demo_Audience",
   user_keyword_max_count: 3
-}
+} 

@@ -16,7 +16,7 @@ module.exports.join = function(socket){
 
 module.exports.leave = function(socket){
     var room = rooms.find(x=>x.name == socket.roomName)
-    room -+ 1;
+    room -= 1;
 }
 
 function getRoom(){

@@ -2,7 +2,7 @@ module.exports = function (app) {
 
   var express = require('express'),
     jwt = require('express-jwt'),
-    config = require('./config');
+    config = require('../config');
 
   // Validate access_token
   var jwtCheck = jwt({
@@ -15,7 +15,7 @@ module.exports = function (app) {
         return req.headers.authorization.split(' ')[1];
       } else if (req.query && req.query.token) {
         return req.query.token;
-      }
+      } 
       return null;
     }
   });
