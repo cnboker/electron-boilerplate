@@ -28,7 +28,7 @@ function main(token) {
   socket.on("connect", function() {
     logger.info("connect");
     //socket.send("hello world");
-    socket.emit("join", {
+    socket.emit("hello", {
       user: token.userName
     });
   });
@@ -75,8 +75,8 @@ function main(token) {
 
   //服务器远程增加新优化关键字
   socket.on("keyword_polish", function(doc) {
-    //jobContext.clean();
-    polishJober.itemsPush([doc]);
-    //socket.emit("finished");
+    polishJober.singlePush(doc);
   });
+
+  
 }

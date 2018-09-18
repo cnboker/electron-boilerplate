@@ -7,7 +7,6 @@ const EventEmitter = require('events');
 const clients = {};
 
 class SocketServer extends EventEmitter {
-  
 
   SocketServer(server) {
     var io = require("socket.io")(server);
@@ -49,34 +48,32 @@ class SocketServer extends EventEmitter {
   //关键字创建， 通知客户端做scan动作
   keywordCreate(doc) {
     var socket = this.find(doc.user);
-    if(socket){
-      socket.emit('keyword_create',doc)
+    if (socket) {
+      socket.emit('keyword_create', doc)
     }
   }
 
-  find(userName){
-    return clients.find(x=>x.nickname == userName)
+  find(userName) {
+    return clients[userName]
   }
   //rank完成，通知在线客户端polish， 对于新用户会给出3个关键字的机会，这样的目的是留住新用户，尽快让用户能看到结果
   keywordRank(doc) {
 
   }
   //用户关键暂停或删除，通知其他用户不再polish
-  keywordPause(user,_id) {
+  keywordPause(user, _id) {
     var socket = this.find(user)
-    if(socket){
-      socket.broadcast.emit('keyword_pause',{
-        _id
-      })
+    if (socket) {
+      socket
+        .broadcast
+        .emit('keyword_pause', {_id})
     }
   }
 
   //管理员广播新消息
-  message(msg) {
+  message(msg) {}
 
-  }
-
-  isOnline(user){
+  isOnline(user) {
     return this.find(user) !== undefined
   }
 }

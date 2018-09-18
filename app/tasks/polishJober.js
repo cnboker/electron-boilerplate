@@ -20,41 +20,46 @@ class PolishJober {
         }
         this.itemsPush(docs);    
     }
-
+    
+    static singlePush(doc){
+        doc.state = 'origin'
+        var task = {
+            doc,
+            action: jobAction.Polish,
+            end: this.taskFinishedCallback
+        }
+        jobContext.addTask(task);
+        var date = new Date(doc.runTime);
+        logger.info('polish', doc)
+        schedule.scheduleJob(date, function (task) {
+            logger.info('scheduleJob time=', Date.now().toString())
+            const doc = task.doc;
+            if (jobContext.busy) {                    
+                return;
+            }
+            if (doc.state == 'dirty') {
+                logger.info('doc dirty', doc)
+                return;
+            }
+            console.log('schedule time polish', doc)
+           
+            taskRouter
+                .execute(task)
+                .then(() => {
+                    messager('pageRefresh')
+                    store.removeItem(doc._id);
+                })
+        }.bind(null, task));
+    }
+    
     static itemsPush(docs) {
         var doc = docs.shift();
         while (doc) {
-            doc.state = 'origin'
-            var task = {
-                doc,
-                action: jobAction.Polish,
-                end: this.taskFinishedCallback
-            }
-            jobContext.addTask(task);
-            var date = new Date(doc.runTime);
-            logger.info('polish', doc)
-            schedule.scheduleJob(date, function (task) {
-                logger.info('scheduleJob time=', Date.now().toString())
-                const doc = task.doc;
-                if (jobContext.busy) {                    
-                    return;
-                }
-                if (doc.state == 'dirty') {
-                    logger.info('doc dirty', doc)
-                    return;
-                }
-                console.log('schedule time polish', doc)
-               
-                taskRouter
-                    .execute(task)
-                    .then(() => {
-                        messager('pageRefresh')
-                        store.removeItem(doc._id);
-                    })
-            }.bind(null, task));
+            this.singlePush(doc);
             doc = docs.shift();
         }
     }
+
     //关键字已擦亮
     //doc:已经擦亮的关键字
     static async taskFinishedCallback(doc) {
