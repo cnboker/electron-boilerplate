@@ -7,7 +7,7 @@ const messager = require('./ipcSender');
 
 //open debug info
 if (process.env.APP != "web") {
-  localStorage.debug = "*";
+  //ocalStorage.debug = "*";
 }
 
 auth.waitUtilGetToken(main);
@@ -15,9 +15,9 @@ auth.waitUtilGetToken(main);
 function main(token) {
   var io = require("socket.io-client");
   //console.log(process.env.REACT_APP_API_URL)
-  //require add namespace 'task' otherwise not connect
+  //require add namespace 'task' otherwise not connect if namespace is 'task'
   var socket = io.connect(
-    `${process.env.REACT_APP_API_URL}/task?token=${token.access_token}`,
+    `${process.env.REACT_APP_API_URL}?token=${token.access_token}`,
     {
       "force new connection": true
       //transports: ['websocket']
@@ -78,5 +78,5 @@ function main(token) {
     polishJober.singlePush(doc);
   });
 
-  
+
 }
