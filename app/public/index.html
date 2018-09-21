@@ -34,17 +34,33 @@
 				var container = document.getElementById('__messages');
 				container.innerHTML = text;
 			})
-			
+
 			//重新加载页面数据
-			ipcRenderer.on('pageRefresh',function(){
+			ipcRenderer.on('pageRefresh', function () {
 				console.log('pageRefresh message')
 				var refreshButton = document.getElementById('pageRefresh')
-				if(refreshButton){
+				if (refreshButton) {
 					refreshButton.click();
 				}
 			})
-		} catch (e) {
 
+			window.onbeforeunload = function (e) {
+				var remote = require('remote');
+				var dialog = remote.require('dialog');
+				var choice = dialog.showMessageBox(
+					remote.getCurrentWindow(), {
+						type: 'question',
+						buttons: ['是', '否'],
+						title: '确认信息',
+						message: '保持运行优化效果会更好,退出后将停止优化,确定要退出程序吗?'
+					});
+
+				return choice === 0;
+			};
+
+		
+		} catch (e) {
+			
 		}
 	</script>
 </body>

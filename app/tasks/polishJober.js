@@ -18,7 +18,7 @@ class PolishJober {
             logger.info('fetch tasks length', docs.length);
             store.setKeywordLocalStorage(docs);
         }
-        this.itemsPush(docs);    
+        this.itemsPush(docs);     this.itemsPush(docs);    
     }
     
     static singlePush(doc){
@@ -30,7 +30,7 @@ class PolishJober {
         }
         jobContext.addTask(task);
         var date = new Date(doc.runTime);
-        logger.info('polish', doc)
+        logger.info('singlePush', doc)
         schedule.scheduleJob(date, function (task) {
             logger.info('scheduleJob time=', Date.now().toString())
             const doc = task.doc;

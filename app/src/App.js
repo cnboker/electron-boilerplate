@@ -15,7 +15,7 @@ import { unsetClient } from "./Client/action";
 import { ToastContainer } from "react-toastify";
 import Setting from "./Settings/index";
 import LoadingBar from "react-redux-loading-bar";
-import {Animated} from "react-animated-css";
+import { Animated } from "react-animated-css";
 
 class App extends Component {
   constructor(props) {
@@ -50,9 +50,11 @@ class App extends Component {
               </button>
             </div>
             <div className="col-md-10">
-              <div className="alert alert-danger center-block">
-                禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理.
-              </div>
+              <Animated className="animated flash  " isVisible={true}>
+                <div id="__messages" className="alert alert-success">
+                  保持程序运行，优化工作正在进行中...
+                </div>
+              </Animated>
             </div>
           </div>
           <hr />
@@ -88,18 +90,8 @@ class App extends Component {
             />
             <Redirect from="/" to="/keyword" />
           </Switch>
-          <hr />
-          <Animated className="animated flash  " isVisible={true}>
-          <div
-            id="__messages"
-            className="alert alert-success"
-            style={{ "marginTop": "30px" }}
-          >
-            保持程序运行，优化工作正在进行中...
-          </div>
-          </Animated>
         </div>
-       
+
         <footer id="footer">
           <div className="container">
             <div className="row">
@@ -112,8 +104,8 @@ class App extends Component {
               </div>
             </div>
             <div className="row">
-            <div className="col-12">
-              免职声明：官方团队会努力使用技术手段检测和优化用户关键字的排名,因为关键字每天的排名变化很大，官方不对排名负责，也不会发布承诺7天上首页等不实言论。
+              <div className="col-12">
+                免责声明：易优团队致力于应用AI技术优化网站以适应搜索引擎规则，从而帮助优质网站在搜索引擎获得较好的排名。由于影响关键词具体排名的非可控因素较多，我们不承诺具体排名位置
               </div>
             </div>
           </div>

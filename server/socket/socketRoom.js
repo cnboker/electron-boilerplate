@@ -1,6 +1,6 @@
 const rooms = []
 
-for(var i = 0; i< 100; i++){
+for(var i = 0; i< 10; i++){
     rooms.push({
         name: `room${rooms.length}`,
         clientCount:0
@@ -11,12 +11,14 @@ module.exports.join = function(socket){
     var room = getRoom();
     socket.join(room.name)
     room.clientCount += 1    
-    socket.roomName = room.name;
+    socket.roomName = room.name; socket.roomName = room.name;
+    //console.log('rooms', rooms)
 }
 
 module.exports.leave = function(socket){
     var room = rooms.find(x=>x.name == socket.roomName)
-    room -= 1;
+    room.clientCount -= 1;
+   // console.log('rooms', rooms)
 }
 
 function getRoom(){

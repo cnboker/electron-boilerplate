@@ -13,7 +13,7 @@
 	},
 	"scripts": {
 		"node": "cross-env NODE_ENV=development node ./test.js",
-		"test": "mocha --exit --timeout 6000",
+		"test": "mocha --exit --timeout 30000",
 		"start": "cross-env APP=web webpack-dev-server",
 		"estart": "cross-env NODE_ENV=development webpack&&electron .",
 		"build": "cross-env NODE_ENV=development webpack",

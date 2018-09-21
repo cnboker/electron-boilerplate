@@ -93,7 +93,7 @@ class List extends Component {
       color = 'black';
     }else{
       var diff = item.originRank - item.dynamicRank;
-      if(diff > 0){
+      if(diff >= 0){
         diffText = '+' + diff
       }else{
         color = 'red';

@@ -18,7 +18,7 @@ jobContext.popTask = function () {
 }
 
 jobContext.popScanTask = function(){
-    logger.info('tasks count=',this.tasks.length)
+    //logger.info('tasks count=',this.tasks.length)
     var tasks = this.tasks.filter(function (task) {
         return task.action == jobAction.SCAN
     });
@@ -26,7 +26,7 @@ jobContext.popScanTask = function(){
     if(task){
         this.removeById(task.doc._id)
     }
-    logger.info('remove tasks count=',this.tasks.length)
+    //logger.info('remove tasks count=',this.tasks.length)
     return task;
 }
 

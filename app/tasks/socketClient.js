@@ -3,7 +3,7 @@ var scanJober = require("./scanJober");
 var polishJober = require("./polishJober");
 const auth = require("../auth");
 const logger = require("../logger");
-const messager = require('./ipcSender');
+const messager = require("./ipcSender");
 
 //open debug info
 if (process.env.APP != "web") {
@@ -17,7 +17,7 @@ function main(token) {
   //console.log(process.env.REACT_APP_API_URL)
   //require add namespace 'task' otherwise not connect if namespace is 'task'
   var socket = io.connect(
-    `${process.env.REACT_APP_API_URL}?token=${token.access_token}`,
+    `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
       "force new connection": true
       //transports: ['websocket']
@@ -32,8 +32,13 @@ function main(token) {
       user: token.userName
     });
   });
-  //socket.send('hello world')
-  //join private chat
+
+  socket.on("reconnect", function() {
+    console.log("reconnect fired!");
+    socket.emit("hello", {
+      user: token.userName
+    });
+  });
 
   socket.on("event", function(data) {
     logger.info("event...");
@@ -66,17 +71,14 @@ function main(token) {
 
   //创建关键字,重新扫描排名
   socket.on("keyword_create", function(doc) {
-    messager('message',`关键字"${doc.keyword}"等待优化`)
+    messager("message", `关键字"${doc.keyword}"等待优化`);
     logger.info("socket keyword_create", doc);
-    //jobContext.clean();
     scanJober.execute(doc);
-    //socket.emit('finished')
   });
 
   //服务器远程增加新优化关键字
   socket.on("keyword_polish", function(doc) {
+    console.log("keyword_polish", doc);
     polishJober.singlePush(doc);
   });
-
-
 }

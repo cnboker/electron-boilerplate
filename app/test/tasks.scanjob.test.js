@@ -37,26 +37,6 @@ describe('scanJober',()=>{
     done();
   })
 
-  describe('task execute',()=>{
-      it('it should return 6 docs',(done)=>{
-          var jobContextMock = {
-             tasks:[],
-            addTask:function(item){
-              jobContextMock.tasks.push(item);
-            }
-          }
-          const Scanjob = require('../tasks/scanJober');
-          Scanjob.execute(jobContextMock).then(()=>{
-            console.log('jobContextMock.tasks.length',jobContextMock.tasks.length)
-            expect(6).to.equal(jobContextMock.tasks.length);
-            done();
-          })
-        
-      })
-
-  })
-
-
 
 })
 

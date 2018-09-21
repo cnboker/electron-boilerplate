@@ -136,7 +136,7 @@ exports.create = function(req, res, next) {
     })
     .then(docs => {
       res.json(docs);
-      console.log("docs", docs);
+     // console.log("docs", docs);
       
       //socket send notify
       for (var doc of docs.ops) {
@@ -225,7 +225,7 @@ exports.delete = function(req, res) {
 
 //scan job
 exports.rank = function(req, res) {
-  console.log("server rank  body", req.body);
+  //console.log("server rank  body", req.body);
   Keyword.findOneAndUpdate(
     {
       _id: req.body._id
@@ -241,8 +241,9 @@ exports.rank = function(req, res) {
       upsert: true
     })
     .then(doc=>{
-      res.json(doc)
+      console.log('rank doc', doc)
       req.socketServer.keywordRank(doc);
+      res.json(doc)
     })
     .catch(e=>{
       return next(boom.badRequest(e))
@@ -262,8 +263,10 @@ exports.tasks = function(req, res, next) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
+ // if (!inDoTasksTime) return res.json([]);
+
   var hrstart = process.hrtime()
-  if (!inDoTasksTime) return res.json([]);
+
   User.find({
     locked:true
   })
@@ -278,7 +281,7 @@ exports.tasks = function(req, res, next) {
         userName: req.user.sub
       })
         .then(user => {
-          console.log("user engine", user);
+          //console.log("user engine", user);
           //获取点数>0且今天未擦亮的关键字
           return Keyword.find(
             {
@@ -288,7 +291,7 @@ exports.tasks = function(req, res, next) {
               originRank: { $gt: 10, $ne: -1 }, //原始排名>10 and != -1
               user: { $nin: names }
             },
-            "_id user originRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
+            "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
             {
               sort: {
                 createDate: -1
@@ -299,7 +302,7 @@ exports.tasks = function(req, res, next) {
             .exec();
         })
         .then(docs => {
-          logger.info("docs", docs);
+          logger.info("exports.tasks docs", docs);
           res.json(simpleStrategy(docs));
 
           var hrend = process.hrtime(hrstart)

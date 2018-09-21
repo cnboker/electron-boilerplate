@@ -4,8 +4,8 @@ require('../../utils/groupBy')
 var sortBy = require('../../utils/sort_by')
 
 module.exports = function (docs) {
-  var min = 5 * 60; //5min
-  var max = 10 * 60; // 20min
+  var min = 3 * 60; //5min
+  var max = 8 * 60; // 20min
   var next = moment().add(random(min, max), 'seconds'); //hours,minutes,seconds
   var objs = [];
   var sortDocs = sort(docs)
@@ -40,6 +40,10 @@ function sort(docs) {
     for (var key in gd) {
       var arr = gd[key]
       var val = arr.shift();
+      if (val) {
+        newDocs.push(val)
+      }
+      val =arr.shift();
       if (val) {
         newDocs.push(val)
       }
