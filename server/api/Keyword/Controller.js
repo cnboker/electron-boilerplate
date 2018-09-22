@@ -250,11 +250,6 @@ exports.rank = function(req, res) {
     })  
 };
 
-//给新用户优化机会， 每个用户3个关键字
-function radmonPolishNewUsers(doc){
-  
-}
-
 exports.tasks = function(req, res, next) {
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
@@ -288,7 +283,7 @@ exports.tasks = function(req, res, next) {
               isValid: true,
               status: 1,
               engine: user.engine,
-              originRank: { $gt: 10, $ne: -1 }, //原始排名>10 and != -1
+              originRank: { $gt: 1, $ne: -1 }, //原始排名>10 and != -1
               user: { $nin: names }
             },
             "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,

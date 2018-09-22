@@ -122,7 +122,7 @@ exports.list = function(req, res, next) {
         .then(function(gr) {
           console.log("keyword group by", gr);
           for (let doc of docs) {
-            doc.isOnline = req.socketServer.isOnline()
+            doc.isOnline = req.socketServer.isOnline(doc.userName)
             var grResult = gr.filter(function(val) {
               return val._id == doc.userName;
             });

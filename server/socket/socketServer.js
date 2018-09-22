@@ -97,7 +97,7 @@ class SocketServer extends EventEmitter {
   message(msg) {}
 
   isOnline(user) {
-    return this.find(user) !== undefined
+    return this.find(user) != undefined
   }
 }
 module.exports = SocketServer;
