@@ -5636,6 +5636,10 @@ plist@^2.1.0:
     xmlbuilder "8.2.2"
     xmldom "0.1.x"
 
+popper.js@^1.14.1:
+  version "1.14.4"
+  resolved "http://registry.npm.taobao.org/popper.js/download/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
+
 portfinder@^1.0.9:
   version "1.0.17"
   resolved "http://registry.npm.taobao.org/portfinder/download/portfinder-1.0.17.tgz#a8a1691143e46c4735edefcf4fbcccedad26456a"
@@ -6172,6 +6176,15 @@ react-bootstrap@^0.30.3:
     uncontrollable "^4.0.1"
     warning "^3.0.0"
 
+react-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "http://registry.npm.taobao.org/react-datepicker/download/react-datepicker-1.6.0.tgz#6b7a87e949f3bbd94872554be6a0119bd908a987"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+    react-onclickoutside "^6.7.1"
+    react-popper "^0.9.1"
+
 react-dom@15.5.4:
   version "15.5.4"
   resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-15.5.4.tgz#ba0c28786fd52ed7e4f2135fe0288d462aef93da"
@@ -6209,6 +6222,10 @@ react-localization@^1.0.10:
     localized-strings "^0.0.11"
     react "^16.0.0"
 
+react-onclickoutside@^6.7.1:
+  version "6.7.1"
+  resolved "http://registry.npm.taobao.org/react-onclickoutside/download/react-onclickoutside-6.7.1.tgz#6a5b5b8b4eae6b776259712c89c8a2b36b17be93"
+
 react-overlays@^0.6.12:
   version "0.6.12"
   resolved "http://registry.npm.taobao.org/react-overlays/download/react-overlays-0.6.12.tgz#a079c750cc429d7db4c7474a95b4b54033e255c3"
@@ -6217,6 +6234,19 @@ react-overlays@^0.6.12:
     dom-helpers "^3.2.0"
     react-prop-types "^0.4.0"
     warning "^3.0.0"
+
+react-paginate@^5.2.4:
+  version "5.2.4"
+  resolved "http://registry.npm.taobao.org/react-paginate/download/react-paginate-5.2.4.tgz#0a4d6d468ebb1795d0581bd4fc930ad57a86ae14"
+  dependencies:
+    prop-types "^15.6.1"
+
+react-popper@^0.9.1:
+  version "0.9.5"
+  resolved "http://registry.npm.taobao.org/react-popper/download/react-popper-0.9.5.tgz#02a24ef3eec33af9e54e8358ab70eb0e331edd05"
+  dependencies:
+    popper.js "^1.14.1"
+    prop-types "^15.6.1"
 
 react-prop-types@^0.4.0:
   version "0.4.0"

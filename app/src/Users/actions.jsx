@@ -9,14 +9,14 @@ var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {
 
 let actionCreators = {
   
-  fetch(page, size, replaceExisting, client) {
-    return function(dispatch, getState) {
-      const action = baseActionCreators.fetchStart();
-      dispatch(action);
-
+  fetch(queryParameters, client) {
+  
+      var query = Object.keys(queryParameters).map((key)=>{
+        return encodeURIComponent(key) + '=' + encodeURIComponent(queryParameters[key])
+      }).join('&')
       const url = `${
         process.env.REACT_APP_API_URL
-      }/user/list?page=${page}&size=${size}`;
+      }/user/list?${query}`;
       console.log("actionCreators url", url);
       const promise = axios({
         url: url,
@@ -26,24 +26,8 @@ let actionCreators = {
         }
       });
 
-      promise
-        .then(
-          function(response) {
-            const returned = response.data;
-            const successAction = baseActionCreators.fetchSuccess(returned, {
-              replace: replaceExisting
-            });
-            dispatch(successAction);
-          },
-          function(response) {
-            const errorAction = baseActionCreators.fetchError(response);
-            dispatch(errorAction);
-          }
-        )
-        .catch(function(err) {
-          console.error(err.toString());
-        });
-    };
+      return promise;
+    
   },
 
   create(entity, client) {

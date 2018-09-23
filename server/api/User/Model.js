@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Scheam = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate');
 
 var userSchema = new Scheam({
   userName: String, //username
@@ -18,7 +19,8 @@ var userSchema = new Scheam({
   upgradeGradeDate: Date, //升级日期
   vipExpiredDate: Date, //vip用户到期日期
   lastLoginDate:Date,
-  engine:String //优化引擎
+  engine:String, //优化引擎,
+  status:Number //1 online, 2 offline
 });
-
+userSchema.plugin(mongoosePaginate) //pagination function
 module.exports = mongoose.model('User', userSchema);

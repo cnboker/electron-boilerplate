@@ -4,26 +4,50 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
+import ReactPaginate from 'react-paginate';
 import {Switch} from "../Components/Forms/Switch";
-import Select from 'react-select'
 import {PAGE_SIZE} from './constants'
+import UserQuery from './listQuery'
 
 class List extends Component {
+
   constructor() {
     super();
     this.state = {
-      filter: null,
-      pageIndex:1
+      pageCount:1,
+      data:[],
+      page:0
     };
   }
-  componentDidMount() {
-    //mock()
+
+  pagination =(data)=>{
+    let page = data.selected;
+    this.setState({
+      page
+    })
     this.fetch();
   }
 
-  fetch() {
-    const action = crudActions.fetch(this.state.pageIndex, PAGE_SIZE, true, this.props.client);
-    this.dispatch(action);
+  query(terms){
+    this.terms = terms;
+    this.fetch({page:this.state.page, limit:PAGE_SIZE, ...terms})
+  }
+
+
+  fetch(ps) {
+    //console.log('paramters',ps)
+    var self = this;
+     crudActions.fetch(ps, this.props.client)
+     .then(result=>{
+      self.setState({
+        data:result.data.docs,
+        pageCount:result.data.pages
+      })
+     })
+     .catch(e=>{
+        console.log(e)
+     })
+    
   }
 
   get dispatch() {
@@ -73,7 +97,7 @@ class List extends Component {
     return val;
   }
 
-  stringFormatTime(val){
+  stringFormatTime(val) {
     return moment(val).format("MM-DD HH:mm:ss")
   }
 
@@ -85,36 +109,33 @@ class List extends Component {
   statusFormat(value) {
     if (value == 1) 
       return "在运行";
-
+    
     if (value == 2) 
       return "已停止";
     return "未知";
   }
 
-  toggleSwitch(user, e) {    
-    var action = crudActions.update({...user,locked:!user.locked}, this.props.client);
+  toggleSwitch(user, e) {
+    var action = crudActions.update({
+      ...user,
+      locked: !user.locked
+    }, this.props.client);
     this
       .props
       .dispatch(action);
   }
 
   renderList() {
-    var self = this;
     return this
-      .props
-      .users
-      .filter(item => {
-        return self.state.filter == null
-          ? true
-          : item.isOnline === !!self.state.filter.value;
-      })
+      .state
+      .data
       .map(item => {
         return (
           <tr key={item._id}>
             <td>{item.userName}</td>
             <td>{item.email}</td>
             <td>
-              <Link to={`/users/keywords/${item.userName}`} >
+              <Link to={`/users/keywords/${item.userName}`}>
                 {this.stringFormat(item.keywordCount)}
               </Link>
 
@@ -124,49 +145,29 @@ class List extends Component {
             <td>{item.userTypeText}</td>
             <td>{this.statusFormat(item.expiredDate)}</td>
             <td>{this.statusFormat(item.totalPoint)}</td>
-            <td>  <Switch
+            <td>
+              <Switch
                 on={item.locked}
-                onClick={this.toggleSwitch.bind(this, item)}
-              />
-              </td>
+                onClick={this
+                .toggleSwitch
+                .bind(this, item)}/>
+            </td>
           </tr>
         );
       });
   }
 
-  onSelect(selectedOption) {
-    this.setState({filter: selectedOption});
-    console.log('option select', selectedOption)
-  }
 
   render() {
-    const options = [
-      {
-        value: 1,
-        label: '在线'
-      },
-      {
-        value: 0,
-        label: '离线'
-      }
-    ]
+    
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog"/>
 
         <div className="d-flex justify-content-between">
-          <div className="col-md-6">
-            <Select
-              placeholder="用户状态"
-              value={this.state.filter}
-              onChange={this
-              .onSelect
-              .bind(this)}
-              options={options}
-              id="filter"/>{" "}
-          </div>
-          <div>
-
+         
+          <UserQuery query={this.query.bind(this)} />
+        
             <button
               onClick={() => {
               this.fetch();
@@ -175,7 +176,7 @@ class List extends Component {
               className="btn btn-info">
               刷新
             </button>
-          </div>
+          
 
         </div>
 
@@ -197,6 +198,21 @@ class List extends Component {
             </thead>
             <tbody>{this.renderList()}</tbody>
           </table>
+          <br/>
+          <div className="pull-right">
+            <ReactPaginate
+              previousLabel={'上一页'}
+              nextLabel={'下一页'}
+              breakLabel={<a href = ""> ...</a>}
+              breakClassName={"break-me"}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.pagination}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}/>
+          </div>
         </div>
       </div>
     );

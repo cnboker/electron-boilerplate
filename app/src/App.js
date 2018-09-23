@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import Setting from "./Settings/index";
 import LoadingBar from "react-redux-loading-bar";
 import { Animated } from "react-animated-css";
+require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
 class App extends Component {
   constructor(props) {

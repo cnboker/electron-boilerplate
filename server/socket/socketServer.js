@@ -27,6 +27,7 @@ class SocketServer extends EventEmitter {
           userName: data.user
         }, function (err, doc) {
           doc.lastLoginDate = new Date();
+          doc.status = 1;
           doc.save();
         });
       });
@@ -34,8 +35,18 @@ class SocketServer extends EventEmitter {
       //socket disconnect
       socket.on("disconnect", function () {
         delete clients[socket.nickname];
-        console.log("clients", clients);
-        socketRoom.leave(socket)
+        //console.log("clients", clients);
+        User
+          .findOne({userName: socket.nickname})
+          .then(doc => {
+            doc.status = 0;
+            doc.save();
+          })
+          .catch(err => {
+            console.log(err)
+          });
+          socketRoom.leave(socket)
+          
       });
     });
 
@@ -63,24 +74,28 @@ class SocketServer extends EventEmitter {
 
   //rank完成，通知在线客户端polish， 对于新用户会给出3个关键字的机会，这样的目的是留住新用户，尽快让用户能看到结果
   keywordRank(doc) {
-    if(doc.originRank == -1)return;
-    var min = 5 ; //5s
+    if (doc.originRank == -1) 
+      return;
+    var min = 5; //5s
     var max = 60; // 20s
     var next = moment().add(random(min, max), 'seconds');
     doc.runTime = next.format('YYYY-MM-DD HH:mm:ss')
-    
-    var mergeDoc = {...doc.toObject(), runTime:next.format('YYYY-MM-DD HH:mm:ss')}
+
+    var mergeDoc = {
+      ...doc.toObject(),
+      runTime: next.format('YYYY-MM-DD HH:mm:ss')
+    }
     console.log('keywordRank mergeDoc=', mergeDoc)
-    if(!this.userPtr){
+    if (!this.userPtr) {
       this.userPtr = 0;
     }
     var keys = Object.keys(clients);
-    if(this.userPtr >= keys.length){
+    if (this.userPtr >= keys.length) {
       this.userPtr = 0;
     }
     var socket = clients[keys[this.userPtr]]
-    if(socket){
-      socket.emit('keyword_polish',mergeDoc)
+    if (socket) {
+      socket.emit('keyword_polish', mergeDoc)
     }
   }
   //用户关键暂停或删除，通知其他用户不再polish
