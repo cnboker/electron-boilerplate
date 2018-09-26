@@ -10,7 +10,7 @@ var User = require("../User/Model");
 var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
 
-exports.today = function(req, res) {
+exports.today = function (req, res) {
   //var today = moment().startOf('day')
   //var tomorrow = moment(today).endOf('day')
   // var start = new Date();
@@ -31,11 +31,11 @@ exports.today = function(req, res) {
 
   console.log("start=", start, end);
   Keyword.find({
-    createDate: {
-      $gt: start,
-      $lt: end
-    }
-  })
+      createDate: {
+        $gt: start,
+        $lt: end
+      }
+    })
     .sort({
       createDate: -1
     })
@@ -48,7 +48,7 @@ exports.today = function(req, res) {
     });
 };
 
-exports.list = function(req, res) {
+exports.list = function (req, res) {
   console.log("req.query:", req.query);
   if (req.user.sub === "admin") {
     ListByUserName(res, req.query.userName);
@@ -59,17 +59,15 @@ exports.list = function(req, res) {
 
 function ListByUserName(res, username) {
   console.log("ListByUserName=", username);
-  Keyword.find(
-    {
+  Keyword.find({
       user: username
     },
-    null,
-    {
+    null, {
       sort: {
         createDate: -1
       }
     },
-    function(err, data) {
+    function (err, data) {
       if (err) {
         res.send(err);
         return;
@@ -79,11 +77,11 @@ function ListByUserName(res, username) {
   );
 }
 
-exports.create = function(req, res, next) {
+exports.create = function (req, res, next) {
   delete req.body._id;
   User.findOne({
-    userName: req.user.sub
-  })
+      userName: req.user.sub
+    })
     .then(user => {
       return new Promise((resolve, reject) => {
         var grade = user.grade || 1;
@@ -95,14 +93,14 @@ exports.create = function(req, res, next) {
             if (docs.length == 5) {
               reject("普通账号关键字数不能大于5个，请升级为标准账号");
             }
-            var exists = docs.filter(function(doc) {
+            var exists = docs.filter(function (doc) {
               return doc.link == req.body.link;
             });
             if (docs.length > 0 && exists.length == 0) {
               reject("普通账号只能增加一个域名");
             }
           }
-          exists = docs.filter(function(doc) {
+          exists = docs.filter(function (doc) {
             return doc.link == req.body.link && doc.keyword == req.body.keyword;
           });
           if (exists.length > 0) {
@@ -113,7 +111,7 @@ exports.create = function(req, res, next) {
       });
     })
     .then(user => {
-      var keywords = req.body.keyword.split("\n").filter(function(val) {
+      var keywords = req.body.keyword.split("\n").filter(function (val) {
         return val.trim().length > 1;
       });
       console.log("keyword=", keywords);
@@ -136,8 +134,8 @@ exports.create = function(req, res, next) {
     })
     .then(docs => {
       res.json(docs);
-     // console.log("docs", docs);
-      
+      // console.log("docs", docs);
+
       //socket send notify
       for (var doc of docs.ops) {
         req.socketServer.keywordCreate(doc)
@@ -149,8 +147,8 @@ exports.create = function(req, res, next) {
     });
 };
 
-exports.read = function(req, res) {
-  Keyword.findById(req.params.id, function(err, entity) {
+exports.read = function (req, res) {
+  Keyword.findById(req.params.id, function (err, entity) {
     if (err) {
       res.send(err);
       return;
@@ -159,12 +157,11 @@ exports.read = function(req, res) {
   });
 };
 
-exports.update = function(req, res) {
-  Keyword.findOne(
-    {
+exports.update = function (req, res) {
+  Keyword.findOne({
       _id: req.params.id
     },
-    function(err, obj) {
+    function (err, obj) {
       if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
         obj.originRank = 0;
       }
@@ -178,7 +175,7 @@ exports.update = function(req, res) {
           //notify
           //cmd,data
           //in order to send an event to everyone
-          req.socketServer.keywordPause(req.user.sub,req.params.id)
+          req.socketServer.keywordPause(req.user.sub, req.params.id)
         }
       }
 
@@ -187,7 +184,7 @@ exports.update = function(req, res) {
       //   taskio.to(req.user.sub).emit("keyword_create", obj.toObject());
       // }
 
-      obj.save(function(err, doc) {
+      obj.save(function (err, doc) {
         if (err) {
           res.send(err);
           return;
@@ -198,12 +195,11 @@ exports.update = function(req, res) {
   );
 };
 
-exports.delete = function(req, res) {
-  Keyword.remove(
-    {
+exports.delete = function (req, res) {
+  Keyword.remove({
       _id: req.params.id
     },
-    function(err, entity) {
+    function (err, entity) {
       if (entity.user !== req.user.sub && entity.user !== "admin") {
         res.json({
           message: "删除失败"
@@ -217,40 +213,37 @@ exports.delete = function(req, res) {
       res.json({
         message: "delete success"
       });
-      req.socketServer.keywordPause(req.user.sub,req.params.id)
-      
+      req.socketServer.keywordPause(req.user.sub, req.params.id)
+
     }
   );
 };
 
 //scan job
-exports.rank = function(req, res) {
+exports.rank = function (req, res) {
   //console.log("server rank  body", req.body);
-  Keyword.findOneAndUpdate(
-    {
+  Keyword.findOneAndUpdate({
       _id: req.body._id
-    },
-    {
+    }, {
       originRank: req.body.rank,
       engine: req.body.engine,
       isValid: req.body.rank != -1
-    },
-    {
+    }, {
       //同时设置这2个参数，否则doc返回null
       new: true,
       upsert: true
     })
-    .then(doc=>{
+    .then(doc => {
       console.log('rank doc', doc)
       req.socketServer.keywordRank(doc);
       res.json(doc)
     })
-    .catch(e=>{
+    .catch(e => {
       return next(boom.badRequest(e))
-    })  
+    })
 };
 
-exports.tasks = function(req, res, next) {
+exports.tasks = function (req, res, next) {
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
     var endTime = 18 * 60 + 30;
@@ -258,59 +251,58 @@ exports.tasks = function(req, res, next) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
- // if (!inDoTasksTime) return res.json([]);
+  // if (!inDoTasksTime) return res.json([]);
 
   var hrstart = process.hrtime()
-
-  User.find({
-    locked:true
-  })
-    .then(lockedUsers => {
-      return lockedUsers.map(x => {
-        return x.userName;
-      });
-    })
-    .then(names => {
-      console.log('black users', names)
+  Promise.all([
+      User.find({
+        locked: true
+      }),
       User.findOne({
         userName: req.user.sub
       })
-        .then(user => {
-          //console.log("user engine", user);
-          //获取点数>0且今天未擦亮的关键字
-          return Keyword.find(
-            {
-              isValid: true,
-              status: 1,
-              engine: user.engine,
-              originRank: { $gt: 1, $ne: -1 }, //原始排名>10 and != -1
-              user: { $nin: names }
-            },
-            "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
-            {
-              sort: {
-                createDate: -1
-              }
+    ]).then(([blackUsers, currentUser]) => {
+      var names = blackUsers.map(x => {
+        return x.userName;
+      });
+      return Keyword.find({
+            isValid: true,
+            status: 1,
+            engine: currentUser.engine,
+            originRank: {
+              $gt: 1,
+              $ne: -1
+            }, //原始排名>10 and != -1
+            user: {
+              $nin: names
             }
-          )
-            .lean()
-            .exec();
-        })
-        .then(docs => {
-          logger.info("exports.tasks docs", docs);
-          res.json(simpleStrategy(docs));
+          },
+          "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
+          {
+            sort: {
+              createDate: -1
+            }
+          }
+        )
+        .lean()
+        .exec();
+    })
+    .then(docs => {
+      logger.info("exports.tasks docs", docs);
+      res.json(simpleStrategy(docs));
 
-          var hrend = process.hrtime(hrstart)
-          console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
-        })
-        .catch(e => {
-          return next(boom.badRequest(e));
-        });
+      var hrend = process.hrtime(hrstart)
+      console.info('Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000)
+    })
+    .catch(e => {
+      return next(boom.badRequest(e));
     });
-};
+}
+
+
 
 //关键字擦亮结果处理
-exports.polish = function(req, res, next) {
+exports.polish = function (req, res, next) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
@@ -322,28 +314,48 @@ exports.polish = function(req, res, next) {
   };
 
   Keyword.findOne({
-    _id: req.body._id
-  })
-    .then(function(doc) {
+      _id: req.body._id
+    })
+    .then(function (doc) {
+      if (doc.dynamicRank == null) throw 'dynamicRank is not null'
+      if (!doc.originRank) {
+        doc.originRank = req.body.rank || -1;
+      }
       if (
         doc.originRank > 0 &&
         (req.body.rank == undefined || req.body.rank == -1)
       ) {
         throw "skip rank=-1";
       }
-      return Keyword.findOneAndUpdate(
-        {
+
+      User.findOneAndUpdate({
+        userName: req.sub.user
+      }, {
+        $inc: {
+          point: 1
+        }
+      })
+      
+      //
+      User.findOneAndUpdate({
+        userName: doc.user
+      }, {
+        $inc: {
+          point: -1
+        }
+      })
+      
+      return Keyword.findOneAndUpdate({
           _id: req.body._id
         },
-        upsertData,
-        {
+        upsertData, {
           //同时设置这2个参数，否则doc返回null
           upsert: true,
           new: true //return the modified document rather than the original. defaults to false
         }
       );
     })
-    .then(function(doc) {
+    .then(function (doc) {
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,

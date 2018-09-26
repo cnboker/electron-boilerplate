@@ -20,7 +20,7 @@ it('link return rank', (done) => {
     })
     const page = await browser.newPage();
 
-    const pageUrl = 'https://www.baidu.com/s?wd=%E8%BD%AF%E4%BB%B6%E5%AE%9A%E5%88%B6&pn=30&oq=%E8%BD%AF%E4%BB%B6%E5%AE%9A%E5%88%B6&ie=utf-8&rsv_idx=1&rsv_pq=a9611d420005e20b&rsv_t=42deGwuLscoWKO%2BiVcZVoBhFpfBll9XL53h%2Bix8GUJrHmcxKx2NBnb7RD5I';
+    const pageUrl = 'https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&tn=baidu&wd=%E7%9B%B4%E6%B5%81%E9%AB%98%E5%8E%8B%E5%8F%91%E7%94%9F%E5%99%A8&rsv_spt=3&oq=%25E7%259B%25B4%25E6%25B5%2581%25E9%25AB%2598%25E5%258E%258B%25E5%258F%2591%25E7%2594%259F%25E5%2599%25A8&rsv_pq=a69d9580000381b6&rsv_t=f5e8pIo7QWrxc8GEScvqRqTG%2BJgn2qEUHqScQOy%2BjyPOKqCcCdqJuAjmKxc&rqlang=cn&rsv_enter=0&prefixsug=%25E7%259B%25B4%25E6%25B5%2581%25E9%25AB%2598%25E5%258E%258B%25E5%258F%2591%25E7%2594%259F%25E5%2599%25A8&rsp=0&rsv_sug=1';
     await page.goto(pageUrl, {
       waitUtil: 'load'
     });
@@ -41,7 +41,7 @@ it('pageSkipScanClick test',(done)=>{
     })
     const page = await browser.newPage();
 
-    const pageUrl = 'https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=%E6%95%B0%E5%AD%97%E6%A0%87%E7%89%8C%20%E5%8F%91%E5%B8%83%E7%B3%BB%E7%BB%9F%20%E5%AE%9A%E5%88%B6%E5%BC%80%E5%8F%91&oq=%25E5%2585%2585%25E7%2594%25B5%25E6%25A1%25A9%25E7%259B%2591%25E6%258E%25A7%25E7%25B3%25BB%25E7%25BB%259F%2520%25E8%25BD%25AF%25E4%25BB%25B6%25E5%25AE%259A%25E5%2588%25B6&rsv_pq=e4a3036f000068d3&rsv_t=3d7agel4A12fO8Kqb7LiBzOPfffQl8FB3JnQ3uX4HsbXjjchpMRx9m5zMG4&rqlang=cn&rsv_enter=0&rsv_n=2&rsv_sug3=1&bs=%E5%85%85%E7%94%B5%E6%A1%A9%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%20%E8%BD%AF%E4%BB%B6%E5%AE%9A%E5%88%B6';
+    const pageUrl = 'https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&tn=baidu&wd=%E7%9B%B4%E6%B5%81%E9%AB%98%E5%8E%8B%E5%8F%91%E7%94%9F%E5%99%A8&rsv_spt=3&oq=%25E7%259B%25B4%25E6%25B5%2581%25E9%25AB%2598%25E5%258E%258B%25E5%258F%2591%25E7%2594%259F%25E5%2599%25A8&rsv_pq=a69d9580000381b6&rsv_t=f5e8pIo7QWrxc8GEScvqRqTG%2BJgn2qEUHqScQOy%2BjyPOKqCcCdqJuAjmKxc&rqlang=cn&rsv_enter=0&prefixsug=%25E7%259B%25B4%25E6%25B5%2581%25E9%25AB%2598%25E5%258E%258B%25E5%258F%2591%25E7%2594%259F%25E5%2599%25A8&rsp=0&rsv_sug=1';
     await page.goto(pageUrl, {
       waitUtil: 'load'
     });
@@ -50,9 +50,9 @@ it('pageSkipScanClick test',(done)=>{
       doc: {
         userName: 'scott',
         engine: 'baidu',
-        link: 'ioliz.com',
-        keyword: '数字标牌 发布系统 定制开发',
-        originRank: 41,
+        link: 'www.whhuatian.com',
+        keyword: '直流高压发生器',
+        originRank: 66,
       },
       action: jobAction.Polish,
       end: function (doc) {

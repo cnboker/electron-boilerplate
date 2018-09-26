@@ -26,7 +26,7 @@ class Auth extends EventEmitter{
             //logger.info('token:' + storedToken);
             // if it exists
             if (storedToken) {
-                // parse it down into an object
+                // parse it down into an object 
                 token = JSON.parse(storedToken);
             } else {
                 return null;
@@ -40,4 +40,6 @@ class Auth extends EventEmitter{
     }
 }
 
-module.exports = new Auth();
+var _auth = new Auth()
+
+module.exports = _auth

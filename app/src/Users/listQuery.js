@@ -44,7 +44,7 @@ export default class UserQuery extends Component {
             <Form inline>
                 <FormGroup>
                 <Select
-                styles={{control:()=>({width:120})}}
+                styles={{control:()=>({width:150})}}
                    placeholder="用户状态"
                    value={this.state.status}
                    onChange={(status)=>{
@@ -53,7 +53,7 @@ export default class UserQuery extends Component {
                    options={userStatusList}
                    />
                <Select
-               styles={{control:()=>({width:120})}}
+               styles={{control:()=>({width:150})}}
                    placeholder="用户类型" 
                    value={this.state.grade}
                    onChange={(grade)=>{

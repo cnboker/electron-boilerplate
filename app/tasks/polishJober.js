@@ -63,6 +63,8 @@ class PolishJober {
     //关键字已擦亮
     //doc:已经擦亮的关键字
     static async taskFinishedCallback(doc) {
+        if(doc.rank == null || doc.rank == -1)return;
+
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/polish`
         const res = axios({
@@ -73,7 +75,9 @@ class PolishJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function (response) {
+
             messager('pageRefresh')
+            messager("message", `已赚到一个优币,优币余额${response.data.point},保持程序运行,继续赚优币!`);
             //console.log(response)
             logger.info('polish post', response.data)
         }).then(function (err) {

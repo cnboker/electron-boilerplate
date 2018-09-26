@@ -14,40 +14,39 @@ class List extends Component {
   constructor() {
     super();
     this.state = {
-      pageCount:1,
-      data:[],
-      page:0
+      pageCount: 1,
+      data: [],
+      page: 0
     };
   }
 
-  pagination =(data)=>{
+  pagination = (data) => {
     let page = data.selected;
-    this.setState({
-      page
-    })
+    this.setState({page})
     this.fetch();
   }
 
-  query(terms){
+  query(terms) {
     this.terms = terms;
-    this.fetch({page:this.state.page, limit:PAGE_SIZE, ...terms})
+    this.fetch({
+      page: this.state.page,
+      limit: PAGE_SIZE,
+      ...terms
+    })
   }
-
 
   fetch(ps) {
     //console.log('paramters',ps)
     var self = this;
-     crudActions.fetch(ps, this.props.client)
-     .then(result=>{
-      self.setState({
-        data:result.data.docs,
-        pageCount:result.data.pages
+    crudActions
+      .fetch(ps, this.props.client)
+      .then(result => {
+        self.setState({data: result.data.docs, pageCount: result.data.pages})
       })
-     })
-     .catch(e=>{
+      .catch(e => {
         console.log(e)
-     })
-    
+      })
+
   }
 
   get dispatch() {
@@ -120,6 +119,7 @@ class List extends Component {
       ...user,
       locked: !user.locked
     }, this.props.client);
+    user.locked = !user.locked
     this
       .props
       .dispatch(action);
@@ -157,28 +157,14 @@ class List extends Component {
       });
   }
 
-
   render() {
-    
+
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog"/>
-
-        <div className="d-flex justify-content-between">
-         
-          <UserQuery query={this.query.bind(this)} />
-        
-            <button
-              onClick={() => {
-              this.fetch();
-            }}
-              role="button"
-              className="btn btn-info">
-              刷新
-            </button>
-          
-
-        </div>
+        <UserQuery query={this
+          .query
+          .bind(this)}/>
 
         <div className="table-responsive">
           <br/>
@@ -203,7 +189,7 @@ class List extends Component {
             <ReactPaginate
               previousLabel={'上一页'}
               nextLabel={'下一页'}
-              breakLabel={<a href = ""> ...</a>}
+              breakLabel={< a href = "" > ...</a>}
               breakClassName={"break-me"}
               pageCount={this.state.pageCount}
               marginPagesDisplayed={2}
