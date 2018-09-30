@@ -1,16 +1,15 @@
-import {default as crudActions} from "./actions";
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import { default as crudActions } from "./actions";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
-import ReactPaginate from 'react-paginate';
-import {Switch} from "../Components/Forms/Switch";
-import {PAGE_SIZE} from './constants'
-import UserQuery from './listQuery'
+import ReactPaginate from "react-paginate";
+import { Switch } from "../Components/Forms/Switch";
+import { PAGE_SIZE } from "./constants";
+import UserQuery from "./listQuery";
 
 class List extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -20,11 +19,11 @@ class List extends Component {
     };
   }
 
-  pagination = (data) => {
+  pagination = data => {
     let page = data.selected;
-    this.setState({page})
+    this.setState({ page });
     this.fetch();
-  }
+  };
 
   query(terms) {
     this.terms = terms;
@@ -32,7 +31,7 @@ class List extends Component {
       page: this.state.page,
       limit: PAGE_SIZE,
       ...terms
-    })
+    });
   }
 
   fetch(ps) {
@@ -41,12 +40,11 @@ class List extends Component {
     crudActions
       .fetch(ps, this.props.client)
       .then(result => {
-        self.setState({data: result.data.docs, pageCount: result.data.pages})
+        self.setState({ data: result.data.docs, pageCount: result.data.pages });
       })
       .catch(e => {
-        console.log(e)
-      })
-
+        console.log(e);
+      });
   }
 
   get dispatch() {
@@ -56,38 +54,34 @@ class List extends Component {
   onDelete(entity, event) {
     event.preventDefault();
 
-    this
-      .refs
-      .dialog
-      .show({
-        title: "提示",
-        body: "确定要删除此项吗?",
-        actions: [
-          Dialog.CancelAction(() => {
-            console.log("dialog cancel");
-          }),
-          Dialog.OKAction(() => {
-            const action = crudActions.delete(entity, this.props.client);
-            this.dispatch(action);
-          })
-        ],
-        bsSize: "small",
-        onHide: dialog => {
-          dialog.hide();
-        }
-      });
+    this.refs.dialog.show({
+      title: "提示",
+      body: "确定要删除此项吗?",
+      actions: [
+        Dialog.CancelAction(() => {
+          console.log("dialog cancel");
+        }),
+        Dialog.OKAction(() => {
+          const action = crudActions.delete(entity, this.props.client);
+          this.dispatch(action);
+        })
+      ],
+      bsSize: "small",
+      onHide: dialog => {
+        dialog.hide();
+      }
+    });
+  }
+  isOnline(val) {
+    if (val === 1) return "是";
+    if (val === 0) return "否";
   }
 
   stringFormat(val) {
-    if (val == undefined) 
-      return "-";
-    if (val === true) 
-      return "是";
-    if (val === false) 
-      return "否";
+    if (val == undefined) return "-";
+
     if (Number.isInteger(val)) {
-      if (val == -1) 
-        return "100+";
+      if (val == -1) return "100+";
       return val;
     }
     if (this.isValidDate(val)) {
@@ -97,7 +91,8 @@ class List extends Component {
   }
 
   stringFormatTime(val) {
-    return moment(val).format("MM-DD HH:mm:ss")
+    if (!val) return "";
+    return moment(val).format("MM-DD HH:mm:ss");
   }
 
   isValidDate(value) {
@@ -106,68 +101,59 @@ class List extends Component {
   }
 
   statusFormat(value) {
-    if (value == 1) 
-      return "在运行";
-    
-    if (value == 2) 
-      return "已停止";
+    if (value == 1) return "在运行";
+
+    if (value == 2) return "已停止";
     return "未知";
   }
 
   toggleSwitch(user, e) {
-    var action = crudActions.update({
-      ...user,
-      locked: !user.locked
-    }, this.props.client);
-    user.locked = !user.locked
-    this
-      .props
-      .dispatch(action);
+    var action = crudActions.update(
+      {
+        ...user,
+        locked: !user.locked
+      },
+      this.props.client
+    );
+    user.locked = !user.locked;
+    this.props.dispatch(action);
   }
 
   renderList() {
-    return this
-      .state
-      .data
-      .map(item => {
-        return (
-          <tr key={item._id}>
-            <td>{item.userName}</td>
-            <td>{item.email}</td>
-            <td>
-              <Link to={`/users/keywords/${item.userName}`}>
-                {this.stringFormat(item.keywordCount)}
-              </Link>
-
-            </td>
-            <td>{this.stringFormatTime(item.lastLoginDate)}</td>
-            <td>{this.stringFormat(item.isOnline)}</td>
-            <td>{item.userTypeText}</td>
-            <td>{this.statusFormat(item.expiredDate)}</td>
-            <td>{this.statusFormat(item.totalPoint)}</td>
-            <td>
-              <Switch
-                on={item.locked}
-                onClick={this
-                .toggleSwitch
-                .bind(this, item)}/>
-            </td>
-          </tr>
-        );
-      });
+    return this.state.data.map(item => {
+      return (
+        <tr key={item._id}>
+          <td>{item.userName}</td>
+          <td>{item.email}</td>
+          <td>
+            <Link to={`/users/keywords/${item.userName}`}>
+              {this.stringFormat(item.keywordCount)}
+            </Link>
+          </td>
+          <td>{this.stringFormatTime(item.lastLoginDate)}</td>
+          <td>{this.isOnline(item.status)}</td>
+          <td>{item.userTypeText}</td>
+          <td>{this.statusFormat(item.expiredDate)}</td>
+          <td>{this.statusFormat(item.totalPoint)}</td>
+          <td>
+            <Switch
+              on={item.locked}
+              onClick={this.toggleSwitch.bind(this, item)}
+            />
+          </td>
+        </tr>
+      );
+    });
   }
 
   render() {
-
     return (
       <div className="animated fadeIn">
-        <Dialog ref="dialog"/>
-        <UserQuery query={this
-          .query
-          .bind(this)}/>
+        <Dialog ref="dialog" />
+        <UserQuery query={this.query.bind(this)} />
 
         <div className="table-responsive">
-          <br/>
+          <br />
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
@@ -184,12 +170,12 @@ class List extends Component {
             </thead>
             <tbody>{this.renderList()}</tbody>
           </table>
-          <br/>
+          <br />
           <div className="pull-right">
             <ReactPaginate
-              previousLabel={'上一页'}
-              nextLabel={'下一页'}
-              breakLabel={< a href = "" > ...</a>}
+              previousLabel={"上一页"}
+              nextLabel={"下一页"}
+              breakLabel={<a href=""> ...</a>}
               breakClassName={"break-me"}
               pageCount={this.state.pageCount}
               marginPagesDisplayed={2}
@@ -197,7 +183,8 @@ class List extends Component {
               onPageChange={this.pagination}
               containerClassName={"pagination"}
               subContainerClassName={"pages pagination"}
-              activeClassName={"active"}/>
+              activeClassName={"active"}
+            />
           </div>
         </div>
       </div>
@@ -206,7 +193,7 @@ class List extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {users: state.users, client: state.client};
+  return { users: state.users, client: state.client };
 };
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(List);

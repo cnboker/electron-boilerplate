@@ -116,6 +116,7 @@ function polishFinished(user, doc) {
   });
 
   polishedDocs.forEach(element => {
+    element.tasker = user;
     finishedPool.push(element);
     var index = sharePool.indexOf(element);
     sharePool.splice(index, 1);
