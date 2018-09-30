@@ -24,5 +24,10 @@ module.exports = function(app){
   app.route('/api/keywords/today')
   .get(ctl.today)
 
+  app.route('/api/pool/sharePool')
+  .get(ctl.sharePool)
+
+  app.route('/api/pool/finishedPool')
+  .get(ctl.finishedPool)
  
 }

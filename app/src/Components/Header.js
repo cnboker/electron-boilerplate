@@ -16,6 +16,9 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/users">
             会员列表
           </Link>
+          <Link className="p-2 text-dark" to="/pool">
+            任务池
+          </Link>
           <Link className="p-2 text-dark" to="/price">
             服务
           </Link>

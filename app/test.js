@@ -15,7 +15,7 @@ var taskItem = {
     },
     action: jobAction.Polish,
     end: function (doc) {
-      console.log(' execute doc rank', doc.rank);
+      console.log(' execute doc rank', doc);
     },
 
   };

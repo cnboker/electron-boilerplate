@@ -6,6 +6,8 @@ import { RowContainer } from "../Components/Forms/RowContainer";
 import PropTypes from "prop-types";
 import { reduxForm, Field } from "redux-form";
 import TextareaAutosize from "react-autosize-textarea";
+import {extractRootDomain} from '../utils/string'
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ class Form extends Component {
       this.state,
       { keyword }
     ]);
+    entity.link = extractRootDomain(entity.link).substring(0,20)
     console.log(entity);
     this.props.onCommit(entity);
   }
@@ -56,7 +59,7 @@ class Form extends Component {
 
         {/*<Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} /> */}
         <button action="submit" className="btn btn-block btn-success">
-          更新
+          提交
         </button>
       </form>
     );

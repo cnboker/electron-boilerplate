@@ -59,7 +59,8 @@ async function singleTaskProcess(page, task) {
             }
 
             scroll(page);
-            page.click(nextpageSelector);
+            //page.click(nextpageSelector);
+            await page.evaluate(()=>document.querySelector(nextpageSelector).click())
             //wait load new page
             await page.waitForNavigation({
                 waitUntil: 'load'

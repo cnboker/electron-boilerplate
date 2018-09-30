@@ -13,14 +13,11 @@ jobContext.addTask = function (task) {
     this.tasks.push(task);
 }
 
-jobContext.popTask = function () {
-    return this.tasks.shift();
-}
 
-jobContext.popScanTask = function(){
+jobContext.popTask = function(action){
     //logger.info('tasks count=',this.tasks.length)
     var tasks = this.tasks.filter(function (task) {
-        return task.action == jobAction.SCAN
+        return task.action == action //jobAction.SCAN
     });
     var task = tasks.shift();
     if(task){
@@ -30,13 +27,9 @@ jobContext.popScanTask = function(){
     return task;
 }
 
-jobContext.hasScanTask = function () {
-    this.scanTasks().length > 0
-}
-
-jobContext.scanTasks = function(){
+jobContext.list = function(action){
     return this.tasks.filter(function (task) {
-        return task.action == jobAction.SCAN
+        return task.action === action //jobAction.SCAN
     });
 }
 
@@ -60,4 +53,8 @@ jobContext.clean = function () {
     for(var item of this.tasks){
         item.state = 'dirty'
     }
+}
+
+jobContext.removeTask = function(task){
+    this.tasks.splice(this.tasks.indexOf(task),1)
 }

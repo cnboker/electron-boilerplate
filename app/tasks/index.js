@@ -1,4 +1,4 @@
-require('../config')
+//require('../config')
 // var downloader = require('./downloader/resloader')
 // downloader(function(result){
 //     console.log('download result=', result)
@@ -18,35 +18,37 @@ var token = {
 // schedule.scheduleJob('*/5 * * * * *', function () {
 //     console.log(moment().format('HH:mm:ss'))
 // })
+var jobAction = require("./jobAction");
+var jobContext = require("./jobContext");
+var pageTaskJob = require("./pageTaskJob");
 
-var io = require("socket.io-client");
-//console.log(process.env.REACT_APP_API_URL)
-//require add namespace 'task' otherwise not connect if namespace is 'task'
-var url = `http://127.0.0.1:3001?token=${token.access_token}`;
-//console.log('url', url)
-var count = 0;
-var timer = setInterval(function(){
-    count++;
-    if(count > 102){
-        clearInterval(timer)
-    }
-    var socket = io.connect(
-        url,
-        {
-          "force new connection": true,
-          //transports: ['websocket']
-          //"transports": ["xhr-polling"]
-        }
-      );
-      //socket.send('hello world')
-      socket.on("connect", function() {
-        console.info("connect");
-        //socket.send("hello world");
-        socket.emit("hello", {
-          user: token.userName
-        });
-      });
-},200)
+(async () => {
 
+  var task = {
+    doc: {
+      userName: 'scott',
+      engine: 'baidu',
+      link: 'ioliz.com',
+      keyword: '充电桩监控系统 软件定制',
+      originRank: 66,
+    },
+    action: jobAction.Polish,
+    end:  function (doc) {
+      console.log('polishjober execute doc rank', doc);
+      //done();
+    },
+  };
+  jobContext.puppeteer = require('puppeteer');
+  const browser = await jobContext.puppeteer.launch({
+    headless: false
+  });
+
+
+  const page = await browser.newPage();
+
+ 
+  await pageTaskJob.singleTaskProcess( page,task);
+
+})();
 
 

@@ -6,19 +6,21 @@ var jobAction = require('./jobAction');
 var logger = require('../logger')
 const auth = require('../auth')
 var schedule = require('node-schedule');
-var store = require('./localStore')
+//var store = require('./localStore')
 var taskRouter = require('./taskRouter')
 const messager = require('./ipcSender');
 
 class PolishJober {
     static async execute() {
-        var docs = store.getKeywordLocalStorage();
-        if (docs.length == 0) {
-            docs = await this._fetchData();
-            logger.info('fetch tasks length', docs.length);
-            store.setKeywordLocalStorage(docs);
+        //var docs = store.getKeywordLocalStorage();
+        var docs = jobContext.list(jobAction.Polish)
+        if (docs.length > 0) {
+            return;
+            //store.setKeywordLocalStorage(docs);
         }
-        this.itemsPush(docs);     this.itemsPush(docs);    
+        docs = await this._fetchData();
+        logger.info('fetch tasks length', docs.length);
+        this.itemsPush(docs); 
     }
     
     static singlePush(doc){
@@ -47,7 +49,9 @@ class PolishJober {
                 .execute(task)
                 .then(() => {
                     messager('pageRefresh')
-                    store.removeItem(doc._id);
+                    jobContext.removeTask(task)
+                    console.log('jobContext.removeTask ', jobContext.tasks)
+                    //store.removeItem(doc._id);
                 })
         }.bind(null, task));
     }
@@ -67,7 +71,7 @@ class PolishJober {
 
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/polish`
-        const res = axios({
+        axios({
             method: 'post',
             url,
             data: doc,
@@ -77,7 +81,7 @@ class PolishJober {
         }).then(function (response) {
 
             messager('pageRefresh')
-            messager("message", `已赚到一个优币,优币余额${response.data.point},保持程序运行,继续赚优币!`);
+            messager("message", `已赚到一个优币,保持程序运行,继续赚优币!`);
             //console.log(response)
             logger.info('polish post', response.data)
         }).then(function (err) {

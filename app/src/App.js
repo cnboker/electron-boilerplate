@@ -14,6 +14,7 @@ import { bindActionCreators } from "redux";
 import { unsetClient } from "./Client/action";
 import { ToastContainer } from "react-toastify";
 import Setting from "./Settings/index";
+import Pool from './Pools/list'
 import LoadingBar from "react-redux-loading-bar";
 import { Animated } from "react-animated-css";
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
@@ -77,6 +78,12 @@ class App extends Component {
               path="/users"
               role="admin"
               component={Users}
+              dispatch={this.props.dispatch}
+            />
+             <PrivateRoute
+              path="/pool"
+              role="admin"
+              component={Pool}
               dispatch={this.props.dispatch}
             />
             <PrivateRoute
