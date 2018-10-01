@@ -67,7 +67,7 @@ class PolishJober {
     //关键字已擦亮
     //doc:已经擦亮的关键字
     static async taskFinishedCallback(doc) {
-        if(doc.rank == null || doc.rank == -1)return;
+        if(doc.rank == null)return;
 
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/polish`

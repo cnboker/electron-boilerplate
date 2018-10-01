@@ -66,7 +66,6 @@ class List extends Component {
           <td>{this.stringFormat(item.originRank)}</td>
           <td>{this.stringFormat(item.dynamicRank)}</td>
           <td>{this.stringFormat(item.polishedCount)}</td>
-          <td>{this.stringFormat(item.point)}</td>
           <td>{this.stringFormat(item.tasker)}</td>
           <td>{this.stringFormat(item.createDate)}</td>
         </tr>
@@ -116,7 +115,6 @@ class List extends Component {
                 <th>原始排名</th>
                 <th>最新排名</th>
                 <th>擦亮次数</th>
-                <th>优币</th>
                 <th>执行人</th>
                 <th>创建日期</th>
               </tr>

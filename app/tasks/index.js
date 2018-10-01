@@ -29,8 +29,8 @@ var pageTaskJob = require("./pageTaskJob");
       userName: 'scott',
       engine: 'baidu',
       link: 'ioliz.com',
-      keyword: '充电桩监控系统 软件定制',
-      originRank: 66,
+        keyword: '软件定制',
+        originRank: 20
     },
     action: jobAction.Polish,
     end:  function (doc) {

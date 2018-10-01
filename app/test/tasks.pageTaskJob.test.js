@@ -40,9 +40,9 @@ it('pageSkipScanClick test',(done)=>{
       doc: {
         userName: 'scott',
         engine: 'baidu',
-        link: 'ioliz.com',
-        keyword: '充电桩监控系统 软件定制',
-        originRank: 66,
+        link: 'www.xbz365.com',
+        keyword: '预防龋齿xbz365',
+        originRank: 5,
       },
       action: jobAction.Polish,
       end:  function (doc) {

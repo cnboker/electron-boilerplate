@@ -347,13 +347,13 @@ exports.polish = function(req, res, next) {
   })
     .then(function(doc) {
      // console.log('polish doc', doc)
-      if (doc.dynamicRank == null) throw "dynamicRank is not null";
+      //if (doc.dynamicRank == null) throw "dynamicRank is not null";
       if (!doc.originRank) {
         doc.originRank = req.body.rank || -1;
       }
       if (
         doc.originRank > 0 &&
-        (req.body.rank == undefined || req.body.rank == -1)
+        (req.body.rank == undefined )
       ) {
         throw "skip rank=-1";
       }

@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "易优排名",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -19,7 +19,7 @@
 		"build": "cross-env NODE_ENV=development webpack",
 		"publish": "cross-env NODE_ENV=development webpack&&build",
 		"ship": "cross-env NODE_ENV=production webpack&&build -w",
-		"ship32": "cross-env NODE_ENV=production webpack&&build -ia32 -w"
+		"ship32": "cross-env NODE_ENV=production webpack&&build --win --ia32 "
 	},
 	"dependencies": {
 		"auto-launch": "^5.0.5",

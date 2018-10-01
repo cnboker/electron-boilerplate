@@ -41,7 +41,7 @@ function doTask(puppeteerCreator) {
 */
 
 function main(token) {
-  logger.info("token is ok", token);
+  //logger.info("token is ok", token);
   if (token.userName == "admin" || token.userName == "su") return;
   require("./socketClient");
  

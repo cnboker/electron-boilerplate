@@ -56,7 +56,6 @@ async function singleTaskProcess(page, task) {
     //首页处理
     const rank = await pageRank(page, doc.link, pageIndex);
     doc.rank = rank || -1;
-    console.log("首页处理");
     if (doc.rank > 0) {
       if (task.action == jobAction.Polish) {
         await findLinkClick(page, doc.link);
@@ -66,37 +65,37 @@ async function singleTaskProcess(page, task) {
     }
 
     //上一次扫描排行当前页，前后页处理
-    await pageSkipScanClick(page, task);
-    if (task.doc.rank > 0) return;
-
-    //如果还找不到逐页扫描
-    const nextpageSelector = '#page > a[href$="rsv_page=1"]';
-    while (pageIndex < SCAN_MAX_PAGE) {
-      if (pageIndex !== 0) {
-        const rank = await pageRank(page, doc.link, pageIndex);
-        doc.rank = rank || -1;
-        if (doc.rank > 0) {
-          if (task.action == jobAction.Polish) {
-            await findLinkClick(page, doc.link);
-            await sleep(random(3000, 10000));
+    if (task.action == jobAction.Polish) {
+      await quickScanClick(page, task);
+    } else {
+      //重新扫描
+      pageIndex = 0;
+      await inputKeyword(page, doc.keyword);
+      await sleep(2000);
+      //如果还找不到逐页扫描
+      const nextpageSelector = '#page > a[href$="rsv_page=1"]';
+      while (pageIndex < SCAN_MAX_PAGE) {
+        if (pageIndex !== 0) {
+          const rank = await pageRank(page, doc.link, pageIndex);
+          doc.rank = rank || -1;
+          if (doc.rank > 0) {
+            if (task.action == jobAction.Polish) {
+              await findLinkClick(page, doc.link);
+              await sleep(random(2000, 10000));
+            }
+            break;
           }
-          break;
         }
-      }
+        scroll(page);
+        page.click(nextpageSelector);
 
-      scroll(page);
-      page.click(nextpageSelector);
-      //await page.evaluate((selector)=>document.querySelector(selector).click(),nextpageSelector)
-      //wait load new page
-      // await page.waitForNavigation({
-      //   waitUntil: "load"
-      // });
-      if (task.action == jobAction.Polish) {
-        await sleep(random(5000, 10000));
-      } else {
-        await sleep(random(3000, 10000));
+        if (task.action == jobAction.Polish) {
+          await sleep(random(5000, 10000));
+        } else {
+          await sleep(random(3000, 10000));
+        }
+        pageIndex++;
       }
-      pageIndex++;
     }
   } catch (e) {
     console.error(e);
@@ -104,62 +103,59 @@ async function singleTaskProcess(page, task) {
 }
 
 //根据初始排名前一页后一样扫描，如果未找到再进行逐页扫描
-async function pageSkipScanClick(page, task) {
+async function quickScanClick(page, task) {
   if (task == undefined) return;
-  if (task.action == jobAction.SCAN) return;
+ 
   var doc = task.doc;
   try {
-    var rank = doc.dynamicRank || doc.originRank;
-    console.log("rank=", rank);
-    var pageIndex = Math.ceil(rank / 10);
-    var nextPageIndex = pageIndex + 1;
-    var lastPageSelector = `#page > a:nth-child(1)`; //上一页按钮
+    doc.rank = doc.dynamicRank || doc.originRank;
+    var pageIndex = Math.ceil(doc.rank / 10);
+    quickSeachList = [pageIndex - 1, pageIndex, pageIndex + 1];
 
-    var rank = -1;
-    if (nextPageIndex < 10) {
-      const nextpageSelector = `#page > a:nth-child(${nextPageIndex})`;
-      console.log("nextpageSelector=", nextpageSelector);
-      await pageClick(page, task, nextpageSelector, nextPageIndex);
+    for (var i = 0; i < quickSeachList.length; i++) {
+      pageIndex = quickSeachList[i];
+      if (pageIndex <= 1 || pageIndex > 10) continue;
+      await paginationClick(page, task, pageIndex);
       if (doc.rank > 0) {
-        rank = doc.rank;
-        console.log(`下一页${nextPageIndex}找到排名${doc.rank}`);
+        console.log(`当前页${pageIndex}找到排名${doc.rank}`);
+        break;
       }
     }
 
-    if (pageIndex > 0) {
-      console.log("lastPageSelector=", lastPageSelector);
-      await pageClick(page, task, lastPageSelector, nextPageIndex - 1);
-      if (doc.rank > 0) {
-        rank = doc.rank;
-        console.log(`当前页${nextPageIndex - 1}找到排名${doc.rank}`);
-      }
-    }
+    if (doc.rank > 0) return;
 
-    if (pageIndex > 1) {
-      await pageClick(page, task, lastPageSelector, nextPageIndex - 2);
+    for (var i = 0; i < 10; i++) {
+      pageIndex = i + 1;
+      if (quickSeachList.includes(pageIndex) || pageIndex <= 1) continue;
+      await paginationClick(page, task, pageIndex);
       if (doc.rank > 0) {
-        rank = doc.rank;
-        console.log(`前一页${nextPageIndex - 2}找到排名${doc.rank}`);
+        console.log(`当前页${pageIndex}找到排名${doc.rank}`);
+        break;
       }
     }
-    doc.rank = rank;
   } catch (e) {
     console.error(e);
   }
 }
 
 //打开特定分页
-async function pageClick(page, task, selector, pageIndex) {
-  try{
+async function paginationClick(page, task, pageIndex) {
+  try {
     var doc = task.doc;
 
-    await page.evaluate(s => document.querySelector(s).click(), selector);
-    // await page.waitForNavigation({
-    //   waitUntil: "load"
-    // });
+    await page.evaluate(pageIndex => {
+      var nodes = document.querySelectorAll("#page > a");
+      var items = [...nodes].filter(x => {
+        return x.innerText == pageIndex;
+      });
+      if (items.length > 0) {
+        items[0].click();
+      }
+    }, pageIndex);
+
     await sleep(random(2000, 5000));
     scroll(page);
-  
+
     const rank = await pageRank(page, doc.link, pageIndex - 1);
     doc.rank = rank || -1;
     console.log("doc.rank=", doc.rank);
@@ -169,10 +165,9 @@ async function pageClick(page, task, selector, pageIndex) {
         await sleep(random(3000, 10000));
       }
     }
-  }catch(e){
-    console.log(selector,e)
+  } catch (e) {
+    console.log(`第${pageIndex}error`, e);
   }
-  
 }
 
 //输入框模拟输入关键字
@@ -221,23 +216,13 @@ async function pageRank(page, match, pageIndex) {
     },
     match
   );
-  console.log("currentRank=", currentRank, "pageIndex=", pageIndex);
+  console.log("currentRank=", currentRank, "pageIndex=", pageIndex+1);
   if (currentRank >= 0) return pageIndex * 10 + currentRank + 1;
   return -1;
 }
 
 //查找包含关键字的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
-  // var selector = '//a[contains(text(), "' + keyword + '")]';
-  // await page.evaluate((s)=>document.querySelector(s).click(),selector);
-
-  // const linkHandler = (await page.$x(selector))[0];
-  // if (linkHandler) {
-  //   await linkHandler.click();
-
-  // } else {
-  //   throw new Error(`Link not found`);
-  // }
   await page.evaluate(keyword => {
     var nodes = document.querySelectorAll("div.result.c-container");
     var items = [...nodes].filter(x => {

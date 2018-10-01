@@ -45,7 +45,7 @@ class SocketServer extends EventEmitter {
   }
   //关键字创建， 通知客户端做scan动作
   keywordCreate(doc) {
-    console.log("keywordCreate doc=", doc);
+    //console.log("keywordCreate doc=", doc);
     var socket = this.find(doc.user);
     //console.log('keywordCreate socket=', socket)
     if (socket) {

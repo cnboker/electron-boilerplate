@@ -14,23 +14,22 @@ class List extends Component {
     super();
     this.state = {
       pageCount: 1,
-      data: [],
-      page: 0
+      data: []
     };
+    this.page = 0;
   }
 
   pagination = data => {
-    let page = data.selected;
-    this.setState({ page });
-    this.fetch();
+    this.page = data.selected;
+    this.query();
   };
 
   query(terms) {
-    this.terms = terms;
+    this.terms = terms || this.terms;
     this.fetch({
-      page: this.state.page,
+      page: this.page,
       limit: PAGE_SIZE,
-      ...terms
+      ...this.terms
     });
   }
 
@@ -180,7 +179,7 @@ class List extends Component {
               pageCount={this.state.pageCount}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
-              onPageChange={this.pagination}
+              onPageChange={this.pagination.bind(this)}
               containerClassName={"pagination"}
               subContainerClassName={"pages pagination"}
               activeClassName={"active"}

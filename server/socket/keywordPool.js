@@ -117,7 +117,10 @@ function polishFinished(user, doc) {
 
   polishedDocs.forEach(element => {
     element.tasker = user;
+    element.polishedCount = doc.polishedCount;
+    element.dynamicRank = doc.rank;
     finishedPool.push(element);
+
     var index = sharePool.indexOf(element);
     sharePool.splice(index, 1);
   });
@@ -160,8 +163,8 @@ function req(user) {
 }
 
 function setRunTime(doc) {
-  var min = 1 * 10; //1min
-  var max = 1 * 60; // 5min
+  var min = 2 * 60; //1min
+  var max = 5 * 60; // 5min
   var next = moment().add(random(min, max), "seconds");
   doc.runTime = next.format("YYYY-MM-DD HH:mm:ss");
 }

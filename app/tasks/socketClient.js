@@ -19,14 +19,14 @@ function main(token) {
   var socket = io.connect(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
-      "force new connection": true
-      //transports: ['websocket']
+      "force new connection": true,
+     // transports: ['websocket']
       //"transports": ["xhr-polling"]
     }
   );
   //socket.send('hello world')
   socket.on("connect", function() {
-    logger.info("connect");
+    logger.info("socket connected");
     //socket.send("hello world");
     socket.emit("hello", {
       user: token.userName
