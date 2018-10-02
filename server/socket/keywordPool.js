@@ -118,7 +118,7 @@ function polishFinished(user, doc) {
   polishedDocs.forEach(element => {
     element.tasker = user;
     element.polishedCount = doc.polishedCount;
-    element.dynamicRank = doc.rank;
+    element.dynamicRank = doc.dynamicRank;
     finishedPool.push(element);
 
     var index = sharePool.indexOf(element);

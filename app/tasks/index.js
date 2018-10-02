@@ -29,7 +29,7 @@ var pageTaskJob = require("./pageTaskJob");
       userName: 'scott',
       engine: 'baidu',
       link: 'ioliz.com',
-        keyword: '软件定制',
+        keyword: '软件定制 广告机 数字标牌',
         originRank: 20
     },
     action: jobAction.Polish,

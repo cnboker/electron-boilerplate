@@ -105,10 +105,13 @@ async function singleTaskProcess(page, task) {
 //根据初始排名前一页后一样扫描，如果未找到再进行逐页扫描
 async function quickScanClick(page, task) {
   if (task == undefined) return;
- 
+
   var doc = task.doc;
   try {
-    doc.rank = doc.dynamicRank || doc.originRank;
+    doc.rank = doc.originRank;
+    if (doc.dynamicRank) {
+      doc.rank = doc.dynamicRank;
+    }
     var pageIndex = Math.ceil(doc.rank / 10);
     quickSeachList = [pageIndex - 1, pageIndex, pageIndex + 1];
 
@@ -216,7 +219,7 @@ async function pageRank(page, match, pageIndex) {
     },
     match
   );
-  console.log("currentRank=", currentRank, "pageIndex=", pageIndex+1);
+  console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1);
   if (currentRank >= 0) return pageIndex * 10 + currentRank + 1;
   return -1;
 }

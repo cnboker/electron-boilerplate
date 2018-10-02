@@ -9,15 +9,15 @@ var User = require("../User/Model");
 
 var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
-var keywordPool = require('../../socket/keywordPool')
+var keywordPool = require("../../socket/keywordPool");
 
-exports.finishedPool = function(req, res){
-  return res.json(keywordPool.finishedPool)
-}
+exports.finishedPool = function(req, res) {
+  return res.json(keywordPool.finishedPool);
+};
 
-exports.sharePool = function(req, res){
-  return res.json(keywordPool.sharePool)
-}
+exports.sharePool = function(req, res) {
+  return res.json(keywordPool.sharePool);
+};
 
 exports.today = function(req, res) {
   //var today = moment().startOf('day')
@@ -90,42 +90,43 @@ function ListByUserName(res, username) {
 
 exports.create = function(req, res, next) {
   delete req.body._id;
-  User.findOne({
-    userName: req.user.sub
-  })
-    .then(user => {
-      return new Promise((resolve, reject) => {
-        var grade = user.grade || 1;
-
-        Keyword.find({
-          user: req.user.sub
-        }).then(docs => {
-          if (grade == 1) {
-            if (docs.length == 5) {
-              reject("普通账号关键字数不能大于5个，请升级为标准账号");
-            }
-            var exists = docs.filter(function(doc) {
-              return doc.link == req.body.link;
-            });
-            if (docs.length > 0 && exists.length == 0) {
-              reject("普通账号只能增加一个域名");
-            }
-          }
-          exists = docs.filter(function(doc) {
-            return doc.link == req.body.link && doc.keyword == req.body.keyword;
-          });
-          if (exists.length > 0) {
-            reject("关键字重复错误");
-          }
-          resolve(user);
-        });
-      });
+  Promise.all([
+    User.findOne({
+      userName: req.user.sub
+    }),
+    Keyword.find({
+      user: req.user.sub
     })
-    .then(user => {
+  ])
+    .then(([user, docs]) => {
       var keywords = req.body.keyword.split("\n").filter(function(val) {
         return val.trim().length > 1;
       });
-      console.log("keyword=", keywords);
+
+      //remove duplicate
+      keywords = keywords.filter(function(item, pos) {
+        return keywords.indexOf(item) == pos;
+      });
+
+      var grade = user.grade || 1;
+      if (grade == 1) {
+        if (docs.length + keywords.length > 5) {
+          throw "普通账号关键字数不能大于5个，请升级为标准账号";
+        }
+        var exists = docs.filter(function(doc) {
+          return doc.link == req.body.link;
+        });
+        if (docs.length > 0 && exists.length == 0) {
+          throw "普通账号只能增加一个域名";
+        }
+      }
+      exists = docs.filter(function(doc) {
+        return doc.link == req.body.link && keywords.includes(doc.keyword);
+      });
+      if (exists.length > 0) {
+        throw "关键字重复错误";
+      }
+      
       var docs = [];
       for (var keyword of keywords) {
         docs.push({
@@ -156,6 +157,73 @@ exports.create = function(req, res, next) {
       logger.error(e);
       return next(boom.badRequest(e));
     });
+
+  // User.findOne({
+  //   userName: req.user.sub
+  // })
+  //   .then(user => {
+  //     return new Promise((resolve, reject) => {
+  //       var grade = user.grade || 1;
+
+  //       Keyword.find({
+  //         user: req.user.sub
+  //       }).then(docs => {
+  //         if (grade == 1) {
+  //           if (docs.length == 5) {
+  //             reject("普通账号关键字数不能大于5个，请升级为标准账号");
+  //           }
+  //           var exists = docs.filter(function(doc) {
+  //             return doc.link == req.body.link;
+  //           });
+  //           if (docs.length > 0 && exists.length == 0) {
+  //             reject("普通账号只能增加一个域名");
+  //           }
+  //         }
+  //         exists = docs.filter(function(doc) {
+  //           return doc.link == req.body.link && doc.keyword == req.body.keyword;
+  //         });
+  //         if (exists.length > 0) {
+  //           reject("关键字重复错误");
+  //         }
+  //         resolve(user);
+  //       });
+  //     });
+  //   })
+  //   .then(user => {
+  //     var keywords = req.body.keyword.split("\n").filter(function(val) {
+  //       return val.trim().length > 1;
+  //     });
+  //     console.log("keyword=", keywords);
+  //     var docs = [];
+  //     for (var keyword of keywords) {
+  //       docs.push({
+  //         link: req.body.link,
+  //         keyword,
+  //         createDate: new Date(), //必须传new date()进去，传Date.now()进去为double,传Date()进去为string
+  //         originRank: 0,
+  //         dynamicRank: 0,
+  //         todayPolished: false,
+  //         polishedCount: 0,
+  //         user: req.user.sub,
+  //         status: 1,
+  //         engine: user.engine
+  //       });
+  //     }
+  //     return Keyword.collection.insertMany(docs);
+  //   })
+  //   .then(docs => {
+  //     res.json(docs);
+  //     // console.log("docs", docs);
+
+  //     //socket send notify
+  //     for (var doc of docs.ops) {
+  //       req.socketServer.keywordCreate(doc);
+  //     }
+  //   })
+  //   .catch(e => {
+  //     logger.error(e);
+  //     return next(boom.badRequest(e));
+  //   });
 };
 
 exports.read = function(req, res) {
@@ -234,7 +302,7 @@ exports.delete = function(req, res) {
 //scan job
 exports.rank = function(req, res) {
   //console.log("server rank  body", req.body);
-  if(req.body.rank == null) return;
+  if (req.body.rank == null) return;
 
   Keyword.findOneAndUpdate(
     {
@@ -261,9 +329,9 @@ exports.rank = function(req, res) {
     });
 };
 
-exports.tasks = function(req,res,next){
+exports.tasks = function(req, res, next) {
   return res.json(keywordPool.reqTask(req.user.sub));
-}
+};
 
 exports.tasksv1 = function(req, res, next) {
   var inDoTasksTime = (() => {
@@ -274,7 +342,6 @@ exports.tasksv1 = function(req, res, next) {
     return nowTime > startTime && nowTime < endTime;
   })();
   // if (!inDoTasksTime) return res.json([]);
-  
 
   var hrstart = process.hrtime();
   Promise.all([
@@ -328,7 +395,6 @@ exports.tasksv1 = function(req, res, next) {
     });
 };
 
-
 //关键字擦亮结果处理
 exports.polish = function(req, res, next) {
   //console.log('polish body', req.body)
@@ -346,15 +412,12 @@ exports.polish = function(req, res, next) {
     _id: req.body._id
   })
     .then(function(doc) {
-     // console.log('polish doc', doc)
+      // console.log('polish doc', doc)
       //if (doc.dynamicRank == null) throw "dynamicRank is not null";
       if (!doc.originRank) {
         doc.originRank = req.body.rank || -1;
       }
-      if (
-        doc.originRank > 0 &&
-        (req.body.rank == undefined )
-      ) {
+      if (doc.originRank > 0 && req.body.rank == undefined) {
         throw "skip rank=-1";
       }
 
@@ -371,7 +434,7 @@ exports.polish = function(req, res, next) {
       );
     })
     .then(function(doc) {
-      console.log('polish doc', doc)
+      console.log("polish doc", doc);
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
@@ -381,8 +444,8 @@ exports.polish = function(req, res, next) {
         ip: ip
       });
       log.save();
-      keywordPool.polishFinished(req.user.sub, doc)
-      
+      keywordPool.polishFinished(req.user.sub, doc);
+
       res.json(doc);
     })
     .catch(e => {
