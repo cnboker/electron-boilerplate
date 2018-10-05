@@ -126,7 +126,7 @@ exports.create = function(req, res, next) {
       if (exists.length > 0) {
         throw "关键字重复错误";
       }
-      
+
       var docs = [];
       for (var keyword of keywords) {
         docs.push({
@@ -158,72 +158,6 @@ exports.create = function(req, res, next) {
       return next(boom.badRequest(e));
     });
 
-  // User.findOne({
-  //   userName: req.user.sub
-  // })
-  //   .then(user => {
-  //     return new Promise((resolve, reject) => {
-  //       var grade = user.grade || 1;
-
-  //       Keyword.find({
-  //         user: req.user.sub
-  //       }).then(docs => {
-  //         if (grade == 1) {
-  //           if (docs.length == 5) {
-  //             reject("普通账号关键字数不能大于5个，请升级为标准账号");
-  //           }
-  //           var exists = docs.filter(function(doc) {
-  //             return doc.link == req.body.link;
-  //           });
-  //           if (docs.length > 0 && exists.length == 0) {
-  //             reject("普通账号只能增加一个域名");
-  //           }
-  //         }
-  //         exists = docs.filter(function(doc) {
-  //           return doc.link == req.body.link && doc.keyword == req.body.keyword;
-  //         });
-  //         if (exists.length > 0) {
-  //           reject("关键字重复错误");
-  //         }
-  //         resolve(user);
-  //       });
-  //     });
-  //   })
-  //   .then(user => {
-  //     var keywords = req.body.keyword.split("\n").filter(function(val) {
-  //       return val.trim().length > 1;
-  //     });
-  //     console.log("keyword=", keywords);
-  //     var docs = [];
-  //     for (var keyword of keywords) {
-  //       docs.push({
-  //         link: req.body.link,
-  //         keyword,
-  //         createDate: new Date(), //必须传new date()进去，传Date.now()进去为double,传Date()进去为string
-  //         originRank: 0,
-  //         dynamicRank: 0,
-  //         todayPolished: false,
-  //         polishedCount: 0,
-  //         user: req.user.sub,
-  //         status: 1,
-  //         engine: user.engine
-  //       });
-  //     }
-  //     return Keyword.collection.insertMany(docs);
-  //   })
-  //   .then(docs => {
-  //     res.json(docs);
-  //     // console.log("docs", docs);
-
-  //     //socket send notify
-  //     for (var doc of docs.ops) {
-  //       req.socketServer.keywordCreate(doc);
-  //     }
-  //   })
-  //   .catch(e => {
-  //     logger.error(e);
-  //     return next(boom.badRequest(e));
-  //   });
 };
 
 exports.read = function(req, res) {
