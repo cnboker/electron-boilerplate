@@ -1,10 +1,9 @@
 var boom = require("boom");
-var moment = require("moment");
 
 var Keyword = require("../api/Keyword/Model");
 var User = require("../api/User/Model");
 var constants = require("./constants");
-var random = require("../utils/random");
+
 var sharePool = require('./sharePool')
 /*{
     userName:{
@@ -62,7 +61,8 @@ function userJoin(user) {
   });
 }
 
-//任务完成 user:current user keyword: polish keyword object
+//任务完成 user:current user 
+// keyword: polish keyword object
 function polishFinished(user, doc) {
   if (user !== doc.user) {
     //current add point
@@ -85,7 +85,7 @@ function polishFinished(user, doc) {
 
   }
 
-  sharePool.end(doc)
+  sharePool.end(user, doc)
   
   var my = userPool[user];
   if (!my) 
@@ -94,7 +94,7 @@ function polishFinished(user, doc) {
     .mykeywords
     .shift();
   if (first) {
-    sharePool.push(user, first);
+    sharePool.push(my.myInfo, first);
   }
 }
 
