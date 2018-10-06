@@ -36,7 +36,12 @@ class List extends Component {
         console.log(e);
       });
   }
-
+  isVIP(val){
+    if (val == undefined) return "-";
+    if (val === true) return "是";
+    if (val === false) return "否";
+  }
+  
   stringFormat(val) {
     if (val == undefined) return "-";
     if (val === true) return "是";
@@ -67,6 +72,7 @@ class List extends Component {
           <td>{this.stringFormat(item.dynamicRank)}</td>
           <td>{this.stringFormat(item.polishedCount)}</td>
           <td>{this.stringFormat(item.tasker)}</td>
+          <td>{this.isVIP(item.isVIP)}</td>
           <td>{this.stringFormat(item.createDate)}</td>
         </tr>
       );
@@ -116,6 +122,7 @@ class List extends Component {
                 <th>最新排名</th>
                 <th>擦亮次数</th>
                 <th>执行人</th>
+                <th>vip</th>
                 <th>创建日期</th>
               </tr>
             </thead>
