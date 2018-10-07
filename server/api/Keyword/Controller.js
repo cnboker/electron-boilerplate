@@ -157,7 +157,6 @@ exports.create = function(req, res, next) {
       logger.error(e);
       return next(boom.badRequest(e));
     });
-
 };
 
 exports.read = function(req, res) {
@@ -244,6 +243,7 @@ exports.rank = function(req, res) {
     },
     {
       originRank: req.body.rank,
+      dynamicRank: req.body.rank,
       engine: req.body.engine,
       isValid: req.body.rank != -1
     },

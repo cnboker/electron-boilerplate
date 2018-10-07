@@ -132,8 +132,8 @@ class List extends Component {
           <td>{this.stringFormatTime(item.lastLoginDate)}</td>
           <td>{this.isOnline(item.status)}</td>
           <td>{item.userTypeText}</td>
-          <td>{this.statusFormat(item.expiredDate)}</td>
-          <td>{this.statusFormat(item.totalPoint)}</td>
+          <td>{this.stringFormat(item.vipExpiredDate)}</td>
+          <td>{item.point}</td>
           <td>
             <Switch
               on={item.locked}

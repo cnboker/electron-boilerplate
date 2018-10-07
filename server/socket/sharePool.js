@@ -3,7 +3,7 @@ const POOL_MAX_LENGTH = 200;
 
 var moment = require("moment");
 var random = require("../utils/random");
-const pool = [];
+var pool = [];
 const finishedPool = [];
 const shiftPool = [];
 
@@ -31,7 +31,7 @@ function singlePush(el) {
     el.repeat = VIP_REPEAT_TIMES;
   }
   for (var i = 0; i < el.repeat; i++) {
-    shiftPool.push(clone(el));
+    shiftPool.push(el);
   }
   pool.push(el);
 }
@@ -43,12 +43,13 @@ function clone(element) {
 module.exports.shift = function() {
   var first = shiftPool.shift();
   if (first) {
-    var min = 50; //1min
-    var max = 1 * 60; // 5min
+    var min = 2 * 60; //1min
+    var max = 5 * 60; // 5min
     var next = moment().add(random(min, max), "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
     return [first];
   }
+  pool = [];
   return [];
 };
 
@@ -74,9 +75,9 @@ module.exports.end = function(user, doc) {
     if (element.repeat === 0) {
       var index = pool.indexOf(element);
       pool.splice(index, 1);
+      finishedPool.push(element);
      // singlePush(clone(element));
     }
-    finishedPool.push(element);
   });
 
   console.log(

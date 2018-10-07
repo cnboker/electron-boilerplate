@@ -88,22 +88,22 @@ exports.engineChange = function(req, res, next) {
 //get user list
 exports.list = function(req, res, next) {
   var query = {};
-  if (req.query.grade > 0) {
-    query.grade = req.query.grade;
-  }
-  if (req.query.name) {
-    query.userName = {
-      $regex: ".*" + req.query.name + ".*",
-      $ne: "admin"
-    };
-  }
-  query.createDate = {
-    $gt: req.query.startDate,
-    $lt: req.query.endDate
-  };
-
-  if (req.query.status > 0) {
+  if (req.query.status >= 0) {
     query.status = req.query.status;
+  }else{
+    if (req.query.grade > 0) {
+      query.grade = req.query.grade;
+    }
+    if (req.query.name) {
+      query.userName = {
+        $regex: ".*" + req.query.name + ".*",
+        $ne: "admin"
+      };
+    }
+    query.createDate = {
+      $gt: req.query.startDate,
+      $lt: req.query.endDate
+    };
   }
   Promise.all([
     Keyword.aggregate([

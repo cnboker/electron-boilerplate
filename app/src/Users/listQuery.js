@@ -10,11 +10,12 @@ export default class UserQuery extends Component {
         super(props)
         this.state = {
             name: '',
-            startDate: moment().subtract(30, "days"),
+            startDate: moment().subtract( "days",360),
             endDate: moment(),
             status: true, //0 all, 1 online, 2 offline
             grade: 0 //0 all, 1 free, 2 vip, 3 enterprise, 4 unknown
         }
+        console.log('startDate', this.state.startDate.format('YYYY-MM-DD'))
         this.query()
     }
 

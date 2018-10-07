@@ -29,11 +29,13 @@ function userJoin(user) {
     User.findOne({userName: user}),
     Keyword.find({
       user,
-      originRank: {
+      'originRank': {
         $gt: 0
       },
-      isValid: true,
-      status: 1
+      'dynamicRank':{
+        $gte: 0
+      },
+      isValid: true
     }, "_id user originRank dynamicRank keyword link polishedCount", {
         sort: {
           polishedCount: 1
@@ -64,7 +66,7 @@ function userJoin(user) {
 //任务完成 user:current user 
 // keyword: polish keyword object
 function polishFinished(user, doc) {
-  if (user !== doc.user) {
+  if (user != doc.user) {
     //current add point
     User.findOneAndUpdate({
       userName: user
