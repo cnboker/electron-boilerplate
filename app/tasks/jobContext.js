@@ -1,60 +1,71 @@
-var jobAction = require('./jobAction')
+var jobAction = require("./jobAction");
 
-var logger = require('../logger')
+var logger = require("../logger");
 
 const jobContext = {
-    busy: false,
-    tasks: [],
-}
+  busy: false,
+  tasks: []
+};
 
 module.exports = jobContext;
 
-jobContext.addTask = function (task) {
-    this.tasks.push(task);
-}
-
-
-jobContext.popTask = function(action){
-    //logger.info('tasks count=',this.tasks.length)
-    var tasks = this.tasks.filter(function (task) {
-        return task.action == action //jobAction.SCAN
+jobContext.addTask = function(task) {
+  if (task.action == jobAction.SCAN) {
+    var items = this.tasks.filter(item => {
+      return (
+        item.doc._id.toString() === task.doc._id.toString() &&
+        item.action == jobAction.SCAN
+      );
     });
-    var task = tasks.shift();
-    if(task){
-        this.removeById(task.doc._id)
+    if (items.length > 0) {
+      logger.info("doc has exists,", task.doc.keyword);
+      return;
     }
-    //logger.info('remove tasks count=',this.tasks.length)
-    return task;
-}
+  }
+  this.tasks.push(task);
+};
 
-jobContext.list = function(action){
-    return this.tasks.filter(function (task) {
-        return task.action === action //jobAction.SCAN
-    });
-}
+jobContext.popTask = function(action) {
+  //logger.info('tasks count=',this.tasks.length)
+  var tasks = this.tasks.filter(function(task) {
+    return task.action == action; //jobAction.SCAN
+  });
+  var task = tasks.shift();
+  if (task) {
+    this.removeById(task.doc._id);
+  }
+  //logger.info('remove tasks count=',this.tasks.length)
+  return task;
+};
 
-jobContext.removeById = function (id) {
-    this.tasks = this.tasks.filter(function (task) {
-        return task.doc._id != id
-    });
-}
+jobContext.list = function(action) {
+  return this.tasks.filter(function(task) {
+    return task.action === action; //jobAction.SCAN
+  });
+};
 
-jobContext.dirty = function(id){
-    var tasks = this.tasks.filter(function(item){
-        return item.doc._id == id
-    });
-    if(tasks.length > 0){
-        tasks[0].doc.state = 'dirty'
-        console.log('dirty', tasks[0].doc)
-    }
-}
+jobContext.removeById = function(id) {
+  this.tasks = this.tasks.filter(function(task) {
+    return task.doc._id != id;
+  });
+};
 
-jobContext.clean = function () {
-    for(var item of this.tasks){
-        item.state = 'dirty'
-    }
-}
+jobContext.dirty = function(id) {
+  var tasks = this.tasks.filter(function(item) {
+    return item.doc._id == id;
+  });
+  if (tasks.length > 0) {
+    tasks[0].doc.state = "dirty";
+    console.log("dirty", tasks[0].doc);
+  }
+};
 
-jobContext.removeTask = function(task){
-    this.tasks.splice(this.tasks.indexOf(task),1)
-}
+jobContext.clean = function() {
+  for (var item of this.tasks) {
+    item.state = "dirty";
+  }
+};
+
+jobContext.removeTask = function(task) {
+  this.tasks.splice(this.tasks.indexOf(task), 1);
+};

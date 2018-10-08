@@ -63,7 +63,7 @@ function main(token) {
 
   schedule.scheduleJob("*/2 * * * *", function() {
     console.log("This runs every 2 minutes");
-
+    scanJober.appStartRun();
     var promise = polishJober.isOnline();
     promise
       .then(response => {
