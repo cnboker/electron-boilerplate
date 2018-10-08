@@ -2,7 +2,6 @@ var boom = require("boom");
 
 var Keyword = require("../api/Keyword/Model");
 var User = require("../api/User/Model");
-var constants = require("./constants");
 
 var sharePool = require('./sharePool')
 /*{
@@ -124,6 +123,11 @@ function req(user) {
   return sharePool.shift();
 }
 
+function isOnline(user){
+  //console.log('isOnline', userPool[user])
+  return  userPool[user] != undefined;
+}
+
 //平衡用户资源分配 新注册用户优先， VIP会员优先，在线优先， 优币>0优先
 
 module.exports = {
@@ -132,5 +136,6 @@ module.exports = {
   userLeave,
   reqTask: req,
   sharePool:sharePool.pool,
-  finishedPool:sharePool.finishedPool
+  finishedPool:sharePool.finishedPool,
+  isOnline:isOnline
 };

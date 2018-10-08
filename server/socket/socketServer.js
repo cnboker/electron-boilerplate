@@ -16,7 +16,7 @@ class SocketServer extends EventEmitter {
     io.on("connection", function(socket) {
       logger.info("a user conneted");
       //加入room
-      socketRoom.join(socket);
+      //socketRoom.join(socket);
 
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
@@ -30,7 +30,8 @@ class SocketServer extends EventEmitter {
       socket.on("disconnect", function() {
         delete clients[socket.nickname];
         //console.log("clients", clients);
-        socketRoom.leave(socket);
+        logger.info(socket.nickname + " leave");
+        //socketRoom.leave(socket);
         pool.userLeave(socket.nickname);
       });
     });

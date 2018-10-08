@@ -89,7 +89,7 @@ class List extends Component {
   }
   getDiff(item){
     let color='green', diffText = '-'
-    if(item.dynamicRank ===0 || item.originRank === 0){
+    if(item.dynamicRank ===0 || item.originRank === 0 || item.dynamicRank === -1){
       color = 'black';
     }else{
       var diff = item.originRank - item.dynamicRank;

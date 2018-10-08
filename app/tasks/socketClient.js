@@ -7,27 +7,32 @@ const messager = require("./ipcSender");
 
 //open debug info
 if (process.env.APP != "web") {
-  //ocalStorage.debug = "*";
+  //localStorage.debug = "*";
 }
 
-auth.waitUtilGetToken(main);
 
-function main(token) {
+
+//var intervalID;
+exports.main = function main(token) {
+  console.log('begin run socket client')
   var io = require("socket.io-client");
-  //console.log(process.env.REACT_APP_API_URL)
-  //require add namespace 'task' otherwise not connect if namespace is 'task'
-  var socket = io.connect(
+  var socket = io(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
-      "force new connection": true,
-     // transports: ['websocket']
-      //"transports": ["xhr-polling"]
+      forceNew: true,
+      autoConnect: false
     }
   );
-  //socket.send('hello world')
+  socket.open();
+
   socket.on("connect", function() {
+    // once client connects, clear the reconnection interval function
+    // if (intervalID) {
+    //   clearInterval(intervalID);
+    // }
+
+    //... do other stuff
     logger.info("socket connected");
-    //socket.send("hello world");
     socket.emit("hello", {
       user: token.userName
     });
@@ -35,19 +40,24 @@ function main(token) {
 
   socket.on("reconnect", function() {
     console.log("reconnect fired!");
-    socket.emit("hello", {
-      user: token.userName
-    });
+    checkNetwork(function(){
+      socket.open();
+    })
   });
 
   socket.on("event", function(data) {
-    logger.info("event...");
+    logger.info("event...", data);
   });
   socket.on("currentStatus", function(data) {
     logger.info(data);
   });
   socket.on("disconnect", function() {
     logger.info("disconnect");
+    
+    checkNetwork(function(){
+      socket.open();
+    })
+    
   });
 
   //pause the keyword polish
@@ -81,4 +91,18 @@ function main(token) {
     console.log("keyword_polish", doc);
     polishJober.singlePush(doc);
   });
+}
+
+function checkNetwork(callback) {
+  var timer = setInterval(function() {
+    require("dns").lookup("www.baidu.com", function(err) {
+      if (err && err.code == "ENOTFOUND") {
+        console.log("No connection");
+      } else {
+        console.log("Connected");
+        clearInterval(timer)
+        if(callback)callback();       
+      }
+    });
+  }, 2000);
 }

@@ -7,6 +7,7 @@ var config = require("../../config");
 var Balance = require("../Balance/Model");
 var User = require("./Model");
 var Keyword = require("../Keyword/Model");
+var keywordPool = require("../../socket/keywordPool");
 
 function userGrade(grade) {
   if (grade == 1) {
@@ -18,6 +19,9 @@ function userGrade(grade) {
   } else {
     return "未知";
   }
+}
+exports.isOnline = function(req,res){
+  return res.send(keywordPool.isOnline(req.user.sub))
 }
 
 exports.update = function(req, res, next) {
