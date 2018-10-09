@@ -1,4 +1,4 @@
-const VIP_REPEAT_TIMES = 3;
+const VIP_REPEAT_TIMES = 2;
 const POOL_MAX_LENGTH = 200;
 
 var moment = require("moment");
@@ -7,7 +7,7 @@ var pool = [];
 const finishedPool = [];
 const shiftPool = [];
 
-module.exports.pool = pool;
+module.exports.pool = shiftPool;
 module.exports.finishedPool = finishedPool;
 
 //如果是vip用户，同一个关键字可以分发3次
@@ -20,7 +20,7 @@ module.exports.push = function(user, keyword) {
     return;
   }
 
-  keyword.isVIP = user.grade === 2;
+  keyword.isVIP = user.grade == 2;
   singlePush(keyword);
 };
 
@@ -40,16 +40,32 @@ function clone(element) {
   return JSON.parse(JSON.stringify(element));
 }
 
-module.exports.shift = function() {
-  var first = shiftPool.shift();
+module.exports.shift = function(user) {
+  var first = shiftPool.find(element => {
+    return element.user != user;
+  });
+  //var first = shiftPool.shift();
+  var inDoTasksTime = (() => {
+    var startTime = 9 * 60;
+    var endTime = 18 * 60 + 30;
+    var d = new Date();
+    var nowTime = d.getHours() * 60 + d.getMinutes();
+    return nowTime > startTime && nowTime < endTime;
+  })();
+  var min = 2 * 60; //1min
+  var max = 5 * 60; // 5min
+  if (!inDoTasksTime) {
+    min = 10 * 60; //1min
+    max = 30 * 60; // 5min
+  }
   if (first) {
-    var min = 2 * 60; //1min
-    var max = 5 * 60; // 5min
     var next = moment().add(random(min, max), "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
+    shiftPool.splice(shiftPool.indexOf(first), 1);
     return [first];
+  } else {
+    pool = [];
   }
-  pool = [];
   return [];
 };
 
@@ -76,7 +92,7 @@ module.exports.end = function(user, doc) {
       var index = pool.indexOf(element);
       pool.splice(index, 1);
       finishedPool.push(element);
-     // singlePush(clone(element));
+      // singlePush(clone(element));
     }
   });
 

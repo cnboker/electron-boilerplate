@@ -120,7 +120,7 @@ function req(user) {
     return [];
   
   //var point = userPool[user].myInfo.point || 0;
-  return sharePool.shift();
+  return sharePool.shift(user);
 }
 
 function isOnline(user){
