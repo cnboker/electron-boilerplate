@@ -109,7 +109,7 @@ async function quickScanClick(page, task) {
   var doc = task.doc;
   try {
     doc.rank = doc.originRank;
-    if (doc.dynamicRank) {
+    if (doc.dynamicRank > 0) {
       doc.rank = doc.dynamicRank;
     }
     var pageIndex = Math.ceil(doc.rank / 10);

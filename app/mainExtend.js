@@ -5,7 +5,7 @@ module.exports = {
 		var minecraftAutoLauncher = new AutoLaunch({
 			name: '易优排名',
 			//isHidden:true,
-			path: (process.platform === 'darwin' ? '/Applications/易优排名.app' : `${process.cwd()}/易优排名.exe`),
+			path: (process.platform === 'darwin' ? '/Applications/易优排名.app' : `${process.env.ApplicationPath}\\易优排名.exe`),
 		});
 
 		minecraftAutoLauncher.enable();

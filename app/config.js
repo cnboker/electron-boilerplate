@@ -1,4 +1,4 @@
-process.env.REACT_APP_DOWNLOAD_URL = 'http://www.ioliz.com';
+process.env.REACT_APP_DOWNLOAD_URL = 'http://www.kwPolish.com';
 //process.env.APP = 'electron';
 console.log('process.env.APP', process.env.APP)
 

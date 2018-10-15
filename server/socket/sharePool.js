@@ -52,16 +52,19 @@ module.exports.shift = function(user) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 2 * 60; //1min
-  var max = 5 * 60; // 5min
+  var min = 3 * 60; //1min
+  var max = 10 * 60; // 5min
   if (!inDoTasksTime) {
     min = 10 * 60; //1min
-    max = 30 * 60; // 5min
+    max = 60 * 60; // 5min
   }
   if (first) {
     var next = moment().add(random(min, max), "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
     shiftPool.splice(shiftPool.indexOf(first), 1);
+    if(first.dynamicRank == -1){
+      first.dynamicRank = first.originRank
+    }
     return [first];
   } else {
     pool = [];
