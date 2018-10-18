@@ -29,7 +29,7 @@ app.use(cors());
 //inject socketServer
 app.use((req,res,next)=>{
   if(!req.socketServer){
-    console.log('inject socketServer')
+    //console.log('inject socketServer')
     req.socketServer = socketServer;
   }
   next();

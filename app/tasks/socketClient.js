@@ -19,8 +19,11 @@ exports.main = function main(token) {
   var socket = io(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
-      forceNew: true,
-      autoConnect: false
+      //forceNew: true,
+      autoConnect: false,
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionAttempts: 10
     }
   );
   socket.open();
@@ -40,22 +43,29 @@ exports.main = function main(token) {
 
   socket.on("reconnect", function() {
     console.log("reconnect fired!");
-    checkNetwork(function(){
-      socket.open();
-    })
+    // checkNetwork(function(){
+    //   socket.open();
+    // })
   });
 
   socket.on("event", function(data) {
     logger.info("event...", data);
   });
+
   socket.on("currentStatus", function(data) {
-    logger.info(data);
+    logger.info('currentStatus' + data);
   });
+
+  socket.on('reconnect_attempt', (attemptNumber) => {
+    // ...
+    console.log('reconnect_attempt',attemptNumber)
+  });
+
   socket.on("disconnect", function() {
     logger.info("disconnect");
     
     checkNetwork(function(){
-      socket.open();
+      socket.connect();
     })
     
   });
@@ -67,11 +77,12 @@ exports.main = function main(token) {
   });
 
   socket.on("error", function(data) {
+    console.log('error', data)
     logger.info(data || "error");
   });
 
   socket.on("connect_failed", function(data) {
-    logger.info(data || "connect_failed");
+    logger.info('connect_failed', data || "connect_failed");
   });
   //clean the keyword polish
   socket.on("keyword_clean", function(data) {
@@ -99,7 +110,7 @@ function checkNetwork(callback) {
       if (err && err.code == "ENOTFOUND") {
         console.log("No connection");
       } else {
-        console.log("Connected");
+        //console.log("Connected");
         clearInterval(timer)
         if(callback)callback();       
       }

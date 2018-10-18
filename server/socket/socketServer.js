@@ -27,12 +27,15 @@ class SocketServer extends EventEmitter {
       });
 
       //socket disconnect
-      socket.on("disconnect", function() {
-        delete clients[socket.nickname];
-        //console.log("clients", clients);
-        logger.info(socket.nickname + " leave");
-        //socketRoom.leave(socket);
-        pool.userLeave(socket.nickname);
+      socket.on("disconnect", function(reason) {
+        console.log('disconnect, ' + reason)
+        if (socket.nickname) {
+          delete clients[socket.nickname];
+          //console.log("clients", clients);
+          logger.info(socket.nickname + " leave,") + reason;
+          //socketRoom.leave(socket);
+          pool.userLeave(socket.nickname);
+        }
       });
     });
 

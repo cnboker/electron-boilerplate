@@ -37,6 +37,7 @@ function userJoin(user) {
       "_id user originRank dynamicRank keyword link polishedCount",
       {
         sort: {
+          createDate: -1,
           polishedCount: 1
         }
       }
@@ -54,7 +55,7 @@ function userJoin(user) {
       mykeywords: keywords
     };
 
-    console.log("user pools keywords=", keywords);
+    //console.log("user pools keywords=", keywords);
 
     var first = keywords.shift();
     if (first) {
@@ -138,7 +139,7 @@ function userLeave(user) {
 
 //用户请求资源
 function req(user) {
-  console.log("userPool[user]=", userPool[user]);
+  //console.log("userPool[user]=", userPool[user]);
   if (userPool[user] === undefined) return [];
 
   //var point = userPool[user].myInfo.point || 0;

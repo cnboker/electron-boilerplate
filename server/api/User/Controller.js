@@ -20,9 +20,9 @@ function userGrade(grade) {
     return "未知";
   }
 }
-exports.isOnline = function(req,res){
-  return res.send(keywordPool.isOnline(req.user.sub))
-}
+exports.isOnline = function(req, res) {
+  return res.send(keywordPool.isOnline(req.user.sub));
+};
 
 exports.update = function(req, res, next) {
   if (req.user.sub !== "admin") {
@@ -94,7 +94,7 @@ exports.list = function(req, res, next) {
   var query = {};
   if (req.query.status >= 0) {
     query.status = req.query.status;
-  }else{
+  } else {
     if (req.query.grade > 0) {
       query.grade = req.query.grade;
     }
@@ -120,7 +120,7 @@ exports.list = function(req, res, next) {
         }
       }
     ]),
-   
+
     User.paginate(
       query,
       {
@@ -158,7 +158,6 @@ exports.list = function(req, res, next) {
         doc.userTypeText = userGrade(doc.grade || 1);
         return doc;
       });
-    
 
       res.json(result);
     })
@@ -242,7 +241,8 @@ exports.signup = function(req, res, next) {
         todayPoint: 50,
         totalPoint: 50,
         lostPoint: 0,
-        engine: "baidu"
+        engine: "baidu",
+        point: 0
       });
 
       return user.save();

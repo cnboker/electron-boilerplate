@@ -1,4 +1,4 @@
-const VIP_REPEAT_TIMES = 2;
+const VIP_REPEAT_TIMES = 1;
 const POOL_MAX_LENGTH = 200;
 
 var moment = require("moment");
@@ -44,21 +44,30 @@ module.exports.shift = function(user) {
   var first = shiftPool.find(element => {
     return element.user != user;
   });
+  
   //var first = shiftPool.shift();
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
-    var endTime = 18 * 60 + 30;
+    var endTime = 20 * 60 + 30;
     var d = new Date();
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 3 * 60; //1min
-  var max = 10 * 60; // 5min
+  var min = 0 * 60; //2min
+  var max = 5 * 60; // 10min
   if (!inDoTasksTime) {
-    min = 10 * 60; //1min
-    max = 60 * 60; // 5min
+    min = 0 * 60; //1min
+    max = 30 * 60; // 60min
   }
   if (first) {
+    if(!first.appendRepeat){
+      first.appendRepeat = 1;
+    }
+    //对于排名倒退的关键字增加优化次数
+    if(first.dynamicRank >= first.originRank && first.appendRepeat < 5){
+      first.appendRepeat += 1;
+      shiftPool.push(first)
+    }
     var next = moment().add(random(min, max), "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
     shiftPool.splice(shiftPool.indexOf(first), 1);
@@ -91,11 +100,13 @@ module.exports.end = function(user, doc) {
       finishedPool.splice(0, finishedPool.length - POOL_MAX_LENGTH);
     }
     element.repeat -= 1;
-    if (element.repeat === 0) {
+    console.log("polish doc repeat=",element.repeat);
+    if (element.repeat <= 0) {
       var index = pool.indexOf(element);
       pool.splice(index, 1);
       finishedPool.push(element);
       // singlePush(clone(element));
+     
     }
   });
 

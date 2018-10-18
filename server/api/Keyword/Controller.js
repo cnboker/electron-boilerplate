@@ -368,7 +368,7 @@ exports.polish = function(req, res, next) {
       );
     })
     .then(function(doc) {
-      console.log("polish doc", doc);
+      console.log("polish doc", doc.keyword, doc.link, doc.originRank, doc.dynamicRank);
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
