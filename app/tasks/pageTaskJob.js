@@ -90,7 +90,7 @@ async function singleTaskProcess(page, task) {
         page.click(nextpageSelector);
 
         if (task.action == jobAction.Polish) {
-          await sleep(random(5000, 10000));
+          await sleep(random(5000, 20000));
         } else {
           await sleep(random(3000, 10000));
         }
@@ -232,6 +232,13 @@ async function findLinkClick(page, keyword) {
       return x.innerText.indexOf(keyword) >= 0;
     });
     if (items.length > 0) {
+      var index = nodes.indexOf(items[0]);
+      var firtClickIndex = 0;
+      if(index > 0){
+        firstClickIndex = random(0,index);
+        nodes[0].getElementsByTagName("a")[0].click();
+        sleep(2000)
+      }
       items[0].getElementsByTagName("a")[0].click();
     }
   }, keyword);

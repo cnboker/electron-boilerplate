@@ -30,6 +30,7 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/keyword">
             排名检查
           </Link>
+         
           <Link className="p-2 text-dark" to="/setting">
             设置
           </Link>
