@@ -1,1 +1,1 @@
-taskkill /f /t /im рвсееецШ.exe
+taskkill /f /t /im О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫.exe
