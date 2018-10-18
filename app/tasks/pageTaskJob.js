@@ -233,10 +233,9 @@ async function findLinkClick(page, keyword) {
     });
     if (items.length > 0) {
       var index = nodes.indexOf(items[0]);
-      var firtClickIndex = 0;
-      if(index > 0){
-        firstClickIndex = random(0,index);
-        nodes[0].getElementsByTagName("a")[0].click();
+     
+      if(index > 0){        
+        nodes[index-1].getElementsByTagName("a")[0].click();
         sleep(2000)
       }
       items[0].getElementsByTagName("a")[0].click();
