@@ -12,6 +12,8 @@ const Dotenv = require("dotenv-webpack");
 require("./config");
 
 console.log("node_env=", process.env.NODE_ENV);
+//var mode = process.env.NODE_ENV || 'production'
+var mode = 'production'
 var config = {
   mode: process.env.NODE_ENV || "development", //production or development
   devtool: "source-map",
@@ -96,7 +98,7 @@ var appConfig = Object.assign({}, config, {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(), //Hot Module Replacement enabled.
     new Dotenv({
-      path: process.env.NODE_ENV === "production"? "./.env.production": "./.env"
+      path: mode === "production"? "./.env.production": "./.env"
     })
     //new BundleAnalyzerPlugin()
   ],

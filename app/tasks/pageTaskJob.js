@@ -11,13 +11,16 @@ async function execute(task) {
   if (jobContext.busy || jobContext.puppeteer == undefined) return;
   jobContext.busy = true;
   task.doc.engine = "baidu";
+  if(jobContext.browser){
+    jobContext.browser.close();
+  }
   const browser = await jobContext.puppeteer.launch({
     headless: process.env.NODE_ENV == "production",
     executablePath: (() => {
       return process.env.ChromePath;
     })()
   });
-
+  jobContext.browser = browser;
   // const browser = await puppeteer.launch({
   //     ignoreHTTPSErrors: true,
   //     args: ['--proxy-server=example.com:8080']
@@ -30,14 +33,19 @@ async function execute(task) {
   const page = await browser.newPage();
   await singleTaskProcess(page, task)
     .then(() => {
-      task.end(task.doc);
+      return task.end(task.doc);
+    })
+    .then(() => {
+      if (task.doc.rank > 0) {
+        if (task.action == jobAction.Polish) {
+          findLinkClick(page, task.doc.link);
+        }
+      }
       messager("message", `新的关键字优化完成`);
       jobContext.busy = false;
-      browser.close();
     })
     .catch(err => {
       jobContext.busy = false;
-      browser.close();
       console.error(err);
     });
 }
@@ -57,10 +65,6 @@ async function singleTaskProcess(page, task) {
     const rank = await pageRank(page, doc.link, pageIndex);
     doc.rank = rank || -1;
     if (doc.rank > 0) {
-      if (task.action == jobAction.Polish) {
-        await findLinkClick(page, doc.link);
-        await sleep(random(3000, 10000));
-      }
       return;
     }
 
@@ -71,7 +75,6 @@ async function singleTaskProcess(page, task) {
       //重新扫描
       pageIndex = 0;
       await inputKeyword(page, doc.keyword);
-      await sleep(2000);
       //如果还找不到逐页扫描
       const nextpageSelector = '#page > a[href$="rsv_page=1"]';
       while (pageIndex < SCAN_MAX_PAGE) {
@@ -79,10 +82,6 @@ async function singleTaskProcess(page, task) {
           const rank = await pageRank(page, doc.link, pageIndex);
           doc.rank = rank || -1;
           if (doc.rank > 0) {
-            if (task.action == jobAction.Polish) {
-              await findLinkClick(page, doc.link);
-              await sleep(random(2000, 10000));
-            }
             break;
           }
         }
@@ -118,7 +117,8 @@ async function quickScanClick(page, task) {
     for (var i = 0; i < quickSeachList.length; i++) {
       pageIndex = quickSeachList[i];
       if (pageIndex <= 1 || pageIndex > 10) continue;
-      await paginationClick(page, task, pageIndex);
+      await goPage(page, pageIndex);
+      doc.rank = await pageRank(page, task.doc.link, pageIndex - 1);
       if (doc.rank > 0) {
         console.log(`当前页${pageIndex}找到排名${doc.rank}`);
         break;
@@ -130,7 +130,8 @@ async function quickScanClick(page, task) {
     for (var i = 0; i < 10; i++) {
       pageIndex = i + 1;
       if (quickSeachList.includes(pageIndex) || pageIndex <= 1) continue;
-      await paginationClick(page, task, pageIndex);
+      await goPage(page, pageIndex);
+      doc.rank = await pageRank(page, task.doc.link, pageIndex);
       if (doc.rank > 0) {
         console.log(`当前页${pageIndex}找到排名${doc.rank}`);
         break;
@@ -140,37 +141,19 @@ async function quickScanClick(page, task) {
     console.error(e);
   }
 }
-
-//打开特定分页
-async function paginationClick(page, task, pageIndex) {
-  try {
-    var doc = task.doc;
-
-    await page.evaluate(pageIndex => {
-      var nodes = document.querySelectorAll("#page > a");
-      var items = [...nodes].filter(x => {
-        return x.innerText == pageIndex;
-      });
-      if (items.length > 0) {
-        items[0].click();
-      }
-    }, pageIndex);
-
-    await sleep(random(2000, 5000));
-    scroll(page);
-
-    const rank = await pageRank(page, doc.link, pageIndex - 1);
-    doc.rank = rank || -1;
-    console.log("doc.rank=", doc.rank);
-    if (doc.rank > 0) {
-      if (task.action == jobAction.Polish) {
-        findLinkClick(page, doc.link);
-        await sleep(random(3000, 10000));
-      }
+async function goPage(page, pageIndex) {
+  await page.evaluate(pageIndex => {
+    var nodes = document.querySelectorAll("#page > a");
+    var items = [...nodes].filter(x => {
+      return x.innerText == pageIndex;
+    });
+    if (items.length > 0) {
+      console.log("ok");
+      items[0].click();
     }
-  } catch (e) {
-    console.log(`第${pageIndex}error`, e);
-  }
+  }, pageIndex);
+  await sleep(random(2000, 5000));
+  scroll(page);
 }
 
 //输入框模拟输入关键字
@@ -190,6 +173,7 @@ async function inputKeyword(page, input) {
 
   //await page.click("#su");
   await page.evaluate(() => document.querySelector("#su").click());
+  await sleep(2000);
   console.log("clicked");
 }
 
@@ -228,21 +212,42 @@ async function pageRank(page, match, pageIndex) {
 async function findLinkClick(page, keyword) {
   await page.evaluate(keyword => {
     var nodes = document.querySelectorAll("div.result.c-container");
-    var items = [...nodes].filter(x => {
+    var arr = [...nodes];
+    var items = arr.filter(x => {
       return x.innerText.indexOf(keyword) >= 0;
     });
     if (items.length > 0) {
-      var index = nodes.indexOf(items[0]);
-     
-      if(index > 0){        
-        nodes[index-1].getElementsByTagName("a")[0].click();
-        sleep(2000)
+      var index = arr.indexOf(items[0]);
+      if (index > 0) {
+        arr[index - 1].getElementsByTagName("a")[0].click();
       }
+    }
+  }, keyword);
+
+  await sleep(2000);
+
+  let pages = await page.browser().pages();
+  var firstPage = pages[pages.length - 1];
+  if(firstPage.url().indexOf('baidu.com') == -1){
+    firstPage.close();
+  }
+ 
+  await page.evaluate(keyword => {
+    var nodes = document.querySelectorAll("div.result.c-container");
+    var arr = [...nodes];
+    var items = arr.filter(x => {
+      return x.innerText.indexOf(keyword) >= 0;
+    });
+    if (items.length > 0) {     
       items[0].getElementsByTagName("a")[0].click();
     }
   }, keyword);
+
 }
 
 exports.execute = execute;
 exports.pageRank = pageRank;
 exports.singleTaskProcess = singleTaskProcess;
+exports.findLinkClick = findLinkClick;
+exports.inputKeyword = inputKeyword;
+exports.goPage = goPage;

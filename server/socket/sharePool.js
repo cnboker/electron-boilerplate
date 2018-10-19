@@ -56,10 +56,10 @@ module.exports.shift = function(user) {
   })();
   var min = 0 * 60; //2min
   var max = 5 * 60; // 10min
-  if (!inDoTasksTime) {
-    min = 0 * 60; //1min
-    max = 30 * 60; // 60min
-  }
+  // if (!inDoTasksTime) {
+  //   min = 0 * 60; //1min
+  //   max = 30 * 60; // 60min
+  // }
   if (first) {
     if(!first.appendRepeat){
       first.appendRepeat = 1;
