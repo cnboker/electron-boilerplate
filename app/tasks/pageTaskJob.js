@@ -224,7 +224,7 @@ async function findLinkClick(page, keyword) {
     }
   }, keyword);
 
-  await sleep(2000);
+  await sleep(5000);
 
   let pages = await page.browser().pages();
   var firstPage = pages[pages.length - 1];
