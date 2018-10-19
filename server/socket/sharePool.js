@@ -89,26 +89,23 @@ module.exports.end = function(user, doc) {
     return e._id.toString() === doc._id.toString();
   });
 
+  doc.tasker = user;
+  
   polishedDocs.forEach(element => {
-    element.tasker = user;
-    element.polishedCount = doc.polishedCount;
-    element.dynamicRank = doc.dynamicRank;
-
+   
     //finishedPool.length = Math.min(finishedPool.length, POOL_MAX_LENGTH)
     //压缩到200长度
     if (finishedPool.length > POOL_MAX_LENGTH) {
       finishedPool.splice(0, finishedPool.length - POOL_MAX_LENGTH);
     }
     element.repeat -= 1;
-    console.log("polish doc repeat=",element.repeat);
     if (element.repeat <= 0) {
       var index = pool.indexOf(element);
       pool.splice(index, 1);
-      finishedPool.push(element);
-      // singlePush(clone(element));
-     
     }
   });
+
+  finishedPool.push(doc);
 
   console.log(
     "sharePool count",

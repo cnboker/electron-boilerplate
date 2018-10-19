@@ -378,7 +378,7 @@ exports.polish = function(req, res, next) {
         ip: ip
       });
       log.save();
-      keywordPool.polishFinished(req.user.sub, doc);
+      keywordPool.polishFinished(req.user.sub, doc.toObject());
 
       res.json(doc);
     })
