@@ -12,7 +12,12 @@ const Dotenv = require("dotenv-webpack");
 require("./config");
 
 console.log("node_env=", process.env.NODE_ENV);
+<<<<<<< HEAD
 var mode = process.env.NODE_ENV || "production";
+=======
+//var mode = process.env.NODE_ENV || 'production'
+var mode = 'production'
+>>>>>>> yoastSEO
 var config = {
   mode: process.env.NODE_ENV || "development", //production or development
   devtool: "source-map",

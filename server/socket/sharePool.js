@@ -44,7 +44,8 @@ module.exports.shift = function(user) {
   var first = shiftPool.find(element => {
     return element.user != user;
   });
-  
+  shiftPool.splice(shiftPool.indexOf(first), 1);
+
   //var first = shiftPool.shift();
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
@@ -70,7 +71,6 @@ module.exports.shift = function(user) {
     }
     var next = moment().add(random(min, max), "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
-    shiftPool.splice(shiftPool.indexOf(first), 1);
     if(first.dynamicRank == -1){
       first.dynamicRank = first.originRank
     }
@@ -91,6 +91,7 @@ module.exports.end = function(user, doc) {
 
   doc.tasker = user;
 
+  
   polishedDocs.forEach(element => {
    
     //finishedPool.length = Math.min(finishedPool.length, POOL_MAX_LENGTH)

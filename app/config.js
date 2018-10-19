@@ -2,16 +2,17 @@ process.env.REACT_APP_DOWNLOAD_URL = 'http://www.kwPolish.com';
 //process.env.APP = 'electron';
 console.log('process.env.APP', process.env.APP)
 
-if (process.env.NODE_ENV == 'production') {
-   process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
-   process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
+process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
+process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
+
+// if (process.env.NODE_ENV == 'production') {
+//    process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
+//    process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
  
-} else {
-     process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
-     process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
-    // process.env.REACT_APP_API_URL = 'http://polish.ioliz.com/api';
-    // process.env.REACT_APP_AUTH_URL = 'http://polish.ioliz.com';
-}
+// } else {
+//      process.env.REACT_APP_API_URL = 'http://localhost:3001/api';
+//      process.env.REACT_APP_AUTH_URL = 'http://localhost:3001';
+// }
 
 var path = require('path');
 

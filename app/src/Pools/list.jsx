@@ -62,9 +62,9 @@ class List extends Component {
   }
 
   renderList() {
-    return this.state.data.map(item => {
+    return this.state.data.map((item,index) => {
       return (
-        <tr key={item._id}>
+        <tr key={index}>
           <td>{item.user}</td>
           <td>{item.keyword}</td>
           <td>{item.link}</td>
