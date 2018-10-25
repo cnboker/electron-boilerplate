@@ -6,6 +6,9 @@ var random = require("../utils/random");
 var pool = [];
 const finishedPool = [];
 const shiftPool = [];
+var User = require("../api/User/Model");
+var Keyword = require("../api/Keyword/Model");
+var boom = require("boom");
 
 module.exports.pool = shiftPool;
 module.exports.finishedPool = finishedPool;
@@ -40,7 +43,57 @@ function clone(element) {
   return JSON.parse(JSON.stringify(element));
 }
 
+function SharePoolPad() {
+  Promise.all([
+    User.find({
+      locked: false,
+      status: 1
+    })
+  ])
+    .then(([onlineUsers]) => {
+      var names = onlineUsers.map(x => {
+        return x.userName;
+      });
+      return Keyword.find(
+        {
+          originRank: {
+            $gt: 0
+          },
+          isValid: true,
+          status: 1,
+          engine: "baidu",
+          user: {
+            $in: names
+          }
+        },
+        "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
+        {
+          sort: {
+            polishedCount: 1
+          }
+        }
+      )
+        .lean()
+        .exec();
+    })
+    .then(docs => {
+      shiftPool.push(...docs)
+      console.log('候补 shiftPool', shiftPool)
+    })
+    .catch(e => {
+      console.log(e)
+      //return next(boom.badRequest(e));
+    });
+}
+
+
 module.exports.shift = function(user) {
+  console.log('shiftPool.length', shiftPool.length)
+  if(shiftPool.length == 0){
+    SharePoolPad();
+    return [];  
+  }
+
   var first = shiftPool.find(element => {
     return element.user != user;
   });
@@ -54,8 +107,8 @@ module.exports.shift = function(user) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 0 * 60; //2min
-  var max = 5 * 60; // 10min
+  var min = 3 * 60; //2min
+  var max = 30 * 60; // 10min
   if (!inDoTasksTime) {
     min = 0 * 60; //1min
     max = 30 * 60; // 60min
@@ -65,7 +118,7 @@ module.exports.shift = function(user) {
       first.appendRepeat = 1;
     }
     //对于排名倒退的关键字增加优化次数
-    if(first.dynamicRank >= first.originRank && first.appendRepeat < 5){
+    if(first.dynamicRank >= first.originRank && first.appendRepeat < 1){
       first.appendRepeat += 1;
       shiftPool.push(first)
     }

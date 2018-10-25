@@ -15,6 +15,7 @@ class SocketServer extends EventEmitter {
     var io = require("socket.io")(server);
     io.on("connection", function(socket) {
       logger.info("a user conneted");
+      console.log('connections',Object.keys(clients).length);
       //加入room
       //socketRoom.join(socket);
 

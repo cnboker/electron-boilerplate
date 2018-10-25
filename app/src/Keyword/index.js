@@ -1,35 +1,24 @@
-import List from './List'
-import New from './New'
-
-import React, { Component } from 'react'
-
-import {Route, Switch } from 'react-router-dom'
-
+import List from "./List";
+import New from "./New";
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
 
 class Index extends Component {
- 
-
   render() {
     return (
-
       <div>
-        
-       
-          <Switch>
-          <Route path="/keyword/:id" component={New}/>
-
-            <Route path="/keyword/new" component={New}/>
+        <Switch>
          
-            <Route path="/keyword" exact component={List}/>
-            {/*<Route path='/svr' extact render={()=><List dispatch={props.dispatch} source={props.svrs} />} />*/}
-          </Switch>
-        
-       
+          <Route path="/keyword/:id" component={New} />
+
+          <Route path="/keyword/new" component={New} />
+
+          <Route path="/keyword" exact component={List} />
+          {/*<Route path='/svr' extact render={()=><List dispatch={props.dispatch} source={props.svrs} />} />*/}
+        </Switch>
       </div>
-    )
+    );
   }
 }
 
-export default Index
-
-
+export default Index;

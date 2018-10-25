@@ -32,7 +32,7 @@ function userJoin(user) {
           $gt: 0
         },
         isValid: true,
-        status:1
+        status: 1
       },
       "_id user originRank dynamicRank keyword link polishedCount",
       {
@@ -145,6 +145,7 @@ function req(user) {
   //var point = userPool[user].myInfo.point || 0;
   return sharePool.shift(user);
 }
+
 
 function isOnline(user) {
   //console.log('isOnline', userPool[user])

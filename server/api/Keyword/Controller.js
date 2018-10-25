@@ -57,6 +57,27 @@ exports.today = function(req, res) {
     });
 };
 
+exports.history = function(req, res) {
+  PolishLog.find(
+    {
+      keyword_id: req.params.id
+    },
+    "dynamicRank createDate",
+    {
+      sort: {
+        createDate: 1
+      }
+    },
+    function(err, data) {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      res.json(data);
+    }
+  );
+};
+
 exports.list = function(req, res) {
   console.log("req.query:", req.query);
   if (req.user.sub === "admin") {
@@ -67,7 +88,7 @@ exports.list = function(req, res) {
 };
 
 function ListByUserName(res, username) {
-  console.log("ListByUserName=", username);
+  //console.log("ListByUserName=", username);
   Keyword.find(
     {
       user: username
@@ -354,7 +375,9 @@ exports.polish = function(req, res, next) {
       if (doc.originRank > 0 && req.body.rank == undefined) {
         throw "skip rank=-1";
       }
-
+      if (doc.originRank <= 50 && req.body.rank == -1) {
+        throw "skip rank=-1";
+      }
       return Keyword.findOneAndUpdate(
         {
           _id: req.body._id
@@ -375,6 +398,7 @@ exports.polish = function(req, res, next) {
         user: req.user.sub,
         keyword: doc.keyword,
         createDate: new Date(),
+        dynamicRank:doc.dynamicRank,
         ip: ip
       });
       log.save();

@@ -47,6 +47,7 @@ require('./api/protected')(app);
 require('./api/Keyword/Route')(app);
 require('./api/User/Route')(app);
 require('./api/Balance/Route')(app);
+require('./api/Event/Route')(app);
 
 //exception handle
 app.use(function (err, req, res, next) {

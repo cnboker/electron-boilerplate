@@ -7,6 +7,8 @@ import moment from "moment";
 import { Switch } from "../Components/Forms/Switch";
 import "../utils/groupBy";
 import Select from 'react-select'
+import { Animated } from "react-animated-css";
+
 class List extends Component {
   constructor() {
     super();
@@ -135,12 +137,12 @@ class List extends Component {
             </td>
         */}
             <td>
-              <Link style={{display:'none'}}
-                to={`/keyword/${item._id}`}
+              <Link 
+                to={`/analysis/${item._id}`}
                 role="button"
                 className="btn btn-success"
               >
-                <i className="fa fa-pencil fa-lg" />
+                <i className="fa fa-cogs fa-lg" />{/*  https://fontawesome.com/v4.7.0/icons/ */}
               </Link>
               {" "}
               <button
@@ -176,7 +178,16 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
-
+        <div className="row">
+           
+           <div className="col-md-12">
+             <Animated className="animated flash  " isVisible={true}>
+               <div id="__messages" className="alert alert-success">
+                 保持程序运行，优化工作正在进行中...
+               </div>
+             </Animated>
+           </div>
+         </div>
         <div className="d-flex justify-content-between">
            <div className="col-md-6">          
            <Select placeholder="域名过滤" value={this.state.filter} onChange={this.onSelect.bind(this)} options={options} id="filter"/>{" "}

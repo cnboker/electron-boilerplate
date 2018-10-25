@@ -7,8 +7,7 @@ import Price from "./Price/index";
 import Contact from "./Price/contact";
 import Charge from "./Price/charge";
 import Users from "./Users/index";
-import SEOChecker from './SEOChecker/index'
-
+import Analysis from './Analysis/index'
 import "./Components/Header.css";
 import { PrivateRoute, refreshClient } from "./lib/check-auth";
 import { connect } from "react-redux";
@@ -18,7 +17,7 @@ import { ToastContainer } from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
 import LoadingBar from "react-redux-loading-bar";
-import { Animated } from "react-animated-css";
+
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
 class App extends Component {
@@ -44,17 +43,7 @@ class App extends Component {
         />
 
         <div className="container">
-          <div className="row">
-           
-            <div className="col-md-12">
-              <Animated className="animated flash  " isVisible={true}>
-                <div id="__messages" className="alert alert-success">
-                  保持程序运行，优化工作正在进行中...
-                </div>
-              </Animated>
-            </div>
-          </div>
-          <hr />
+         
           <Switch>
             <PrivateRoute
               path="/price"
@@ -92,10 +81,11 @@ class App extends Component {
               dispatch={this.props.dispatch}
             />
              <PrivateRoute
-              path="/seochecker"
-              component={SEOChecker}
+              path="/analysis/:id"
+              component={Analysis}
               dispatch={this.props.dispatch}
             />
+           
             <Redirect from="/" to="/keyword" />
           </Switch>
         </div>

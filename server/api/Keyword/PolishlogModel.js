@@ -9,7 +9,8 @@ var polishLogSchema = new Schema({
     keyword:String,
     user:String, //擦亮账号
     ip:String,
-    createDate:Date
+    createDate:Date,
+    dynamicRank:Number
  })
  
  module.exports = mongoose.model('PolishLog', polishLogSchema);

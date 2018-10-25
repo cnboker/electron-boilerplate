@@ -4,6 +4,7 @@ import signup from './Signup/reducer'
 import client from './Client/reducer'
 import login from './Login/reducer'
 import keywordReducer from './Keyword/reducer'
+import eventReducer from './Event/reducer'
 import userReducer from './Users/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 
@@ -15,7 +16,8 @@ const appReducer = combineReducers({
   login,
   keywords: keywordReducer,
   loadingBar: loadingBarReducer,
-  users:userReducer
+  users:userReducer,
+  events: eventReducer,
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store
