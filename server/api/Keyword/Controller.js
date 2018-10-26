@@ -375,7 +375,7 @@ exports.polish = function(req, res, next) {
       if (doc.originRank > 0 && req.body.rank == undefined) {
         throw "skip rank=-1";
       }
-      if (doc.originRank <= 50 && req.body.rank == -1) {
+      if (doc.dynamicRank <= 80 && req.body.rank == -1) {
         throw "skip rank=-1";
       }
       return Keyword.findOneAndUpdate(
