@@ -33,7 +33,8 @@ class PolishJober {
     docs = await this._fetchData();
     //重新启动及时信息服务
     if (docs == "disconnect") {
-      require("./socketClient");
+      var client = require("./socketClient");
+      auth.waitUtilGetToken(client.main);
       return;
     }
     logger.info("fetch tasks length", docs.length);

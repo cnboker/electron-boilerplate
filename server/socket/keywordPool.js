@@ -162,12 +162,12 @@ function userLeave(user) {
 function req(user) {
   var my = userPool[user];
   //console.log("userPool[user]=", userPool[user]);
-  if (my === undefined) return [];
+  if (my === undefined) return 'disconnect';
   var result =  sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
   if(my.rankSet == 2){
     var first = my.mykeywords.shift();
-    var next = moment().add(5, "seconds");
+    var next = moment().add(10, "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
     if (first) {
       result.push(first);
