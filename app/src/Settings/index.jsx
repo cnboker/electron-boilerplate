@@ -9,42 +9,54 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      engine: props.client.token.engine || 'baidu'
+      engine: props.client.token.engine || "baidu",
+      rankSet: props.client.token.rankSet || 1
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.rankSetChange = this.rankSetChange.bind(this);
+    this.engineChange = this.engineChange.bind(this);
   }
 
-  handleChange(event) {
+  engineChange(event) {
     this.setState({
       engine: event.target.value
     });
-    console.log(event.target.value);
+   
+    this.handleSubmit({
+      engine: event.target.value,
+      rankSet:this.state.rankSet
+    });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    var engine = this.state.engine;
-    const url = `${process.env.REACT_APP_API_URL}/user/engineChange`;
+  rankSetChange(event) {
+    this.setState({
+      rankSet: event.target.value
+    });
+    
+    this.handleSubmit({
+      rankSet: event.target.value,
+      engine:this.state.engine
+    });
+  }
+
+  handleSubmit(data) {
+    console.log('submit data', data);
+    const url = `${process.env.REACT_APP_API_URL}/user/setting`;
     console.log("url", url);
     axios({
       url: url,
-      method: "put",
-      data: {
-        engine
-      },
+      method: "post",
+      data,
       headers: {
         Authorization: `Bearer ${this.props.client.token.access_token}`
       }
     })
       .then(response => {
-      
-        this.props.unsetClient();
-        this.props.history.push("/login");
-        toast.success('切换成功', {
+        //this.props.unsetClient();
+        //this.props.history.push("/login");
+        toast.success("设置成功,请退出重新登录生效", {
           position: toast.POSITION.BOTTOM_CENTER
         });
-        this.props.history.push("/keyword");
+        //this.props.history.push("/keyword");
       })
       .catch(e => {
         toast.error(e.response.data.message, {
@@ -56,31 +68,49 @@ class Index extends Component {
   render() {
     return (
       <div className="bd-panel">
-        <p>切换引擎->切换后,系统需要重新登录,关键字统计数据将重置,请谨慎操作,切换到google确保网络通畅.</p>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <input
-              type="radio"
-              value="baidu"
-              checked={this.state.engine === "baidu"}
-              onChange={this.handleChange}
-            />
-            baidu
-          </div>
-          <div className="form-group">
-            <input
-              type="radio"
-              value="google"
-              checked={this.state.engine === "google"}
-              onChange={this.handleChange}
-            />
-            google
-          </div>
+        <div className="alert alert-info">参数修改后，需重新登录生效!</div>
+        <p>排名检查设置</p>
+        <div className="form-group">
+          <input
+            type="radio"
+            value="1"
+            checked={this.state.rankSet == 1}
+            onChange={this.rankSetChange.bind(this)}
+          />
+          排名检测同时优化
+        </div>
+        <div className="form-group">
+          <input
+            type="radio"
+            value="2"
+            checked={this.state.rankSet == 2}
+            onChange={this.rankSetChange.bind(this)}
+          />
+          检测排名不优化
+        </div>
+        <hr />
+        <p>
+          切换引擎->切换后,关键字统计数据将重置,请谨慎操作,切换到google确保网络通畅.
+        </p>
 
-          <button type="submit" className="btn btn-default">
-            确定
-          </button>
-        </form>
+        <div className="form-group">
+          <input
+            type="radio"
+            value="baidu"
+            checked={this.state.engine === "baidu"}
+            onChange={this.engineChange.bind(this)}
+          />
+          baidu
+        </div>
+        <div className="form-group">
+          <input
+            type="radio"
+            value="google"
+            checked={this.state.engine === "google"}
+            onChange={this.engineChange.bind(this)}
+          />
+          google
+        </div>
       </div>
     );
   }
@@ -95,9 +125,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     dispatch,
-    ...bindActionCreators({unsetClient }, dispatch)
-  }
-}
+    ...bindActionCreators({ unsetClient }, dispatch)
+  };
+};
 //state表示reducer, combineReducer包含state和dispatch
 //export default connect(mapStateToProps)(Setting);
 export default connect(

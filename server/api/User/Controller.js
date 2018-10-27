@@ -41,8 +41,24 @@ exports.update = function(req, res, next) {
     });
 };
 
+exports.setting = function(req, res, next) {
+  User.update(
+    { userName: req.user.sub },
+    {
+      engine: req.body.engine,
+      rankSet: req.body.rankSet
+    }
+  )
+    .then(function(doc) {
+      res.json(doc);
+    })
+    .catch(function(e) {
+      return next(boom.badRequest(e));
+    });
+};
+
 //切换引擎
-exports.engineChange = function(req, res, next) {
+function engineChange(req, res, next) {
   User.findOne({ userName: req.user.sub })
     .then(function(doc) {
       console.log(doc);
@@ -87,7 +103,7 @@ exports.engineChange = function(req, res, next) {
     .catch(function(e) {
       return next(boom.badRequest(e));
     });
-};
+}
 
 //get user list
 exports.list = function(req, res, next) {
@@ -269,31 +285,63 @@ exports.login = function(req, res) {
   if (!userName || !password) {
     return res.status(400).send("you must send the userName and the password");
   }
-  var query = User.where({ userName });
+  Promise.all([
+    User.findOne({
+      userName
+    }),
+    Keyword.findOne({
+      user: userName
+    })
+  ])
+    .then(([user, kw]) => {
+      if (!user) {
+        return res.status(400).send(`账号不存在`);
+      }
+      if (user.password != password) {
+        return res.status(400).send(`账号或密码错误`);
+      }
+      var promise = new Promise((resolve, reject) => {
+        if (kw && kw.engine != user.engine) {
+          Keyword.update(
+            {
+              user: userName
+            },
+            {
+              engine: user.engine,
+              originRank: 0,
+              dynamicRank: 0,
+              polishedCount: 0
+            },
+            { multi: true }
+          )
+            .then(() => {
+              console.log('resolve')
+              resolve(user);
+            })
+            .catch(e => {
+              reject(e);
+            });
+        }else{
+          resolve(user)
+        }
+      });
 
-  query.findOne(function(err, doc) {
-    if (err) {
-      return res.status(500).send(err);
-    }
-
-    if (doc) {
-      if (doc.password === password) {
+      promise.then(user => {
         var jwtJson = {
           id_token: createIdToken({ userName, role: "user" }),
           access_token: createAccessToken(userName),
           userName,
-          engine: doc.engine,
+          engine: user.engine,
+          rankSet: user.rankSet,
           role: "user"
         };
         //console.log('jwtJson', jwtJson);
         res.status(200).json(jwtJson);
-      } else {
-        return res.status(400).send(`账号或密码错误`);
-      }
-    } else {
-      return res.status(400).send(`账号或密码错误`);
-    }
-  });
+      });
+    })
+    .catch(e => {
+      console.log(e);
+    });
 };
 
 // ref

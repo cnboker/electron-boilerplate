@@ -88,8 +88,7 @@ class History extends Component {
     });
     //var grp1 = dim.group().reduceSum(dc.pluck('y1'));
 
-    // print_filter(grp1);
-    // print_filter(grp2);
+   
     var grp1 = dim.group().reduce(
       //callback for when data is added to the current filter results
       (p, v) => {
@@ -132,7 +131,8 @@ class History extends Component {
         return { count: 0, total: 0, text: [] };
       }
     );
-
+    print_filter(grp1);
+    print_filter(grp2);
     //print_filter(grp2);
     var minDate = dim.bottom(1)[0].date;
     //var maxDate = dim.top(1)[0].date;
@@ -142,7 +142,7 @@ class History extends Component {
     var chart = dc.compositeChart(this.chart);
     chart
       .width(1024)
-      .height(480)
+      .height(500)
       .brushOn(false)
       .yAxisLabel("动态排名")
       .x(d3.scaleTime().domain([new Date(minDate), new Date(maxDate)]))
@@ -160,7 +160,7 @@ class History extends Component {
         dc
           .bubbleChart(chart)
           .transitionDuration(1500)
-          .margins({ top: 10, right: 50, bottom: 30, left: 40 })
+          //.margins({ top: 10, right: 50, bottom: 30, left: 40 })
           .dimension(dim1)
           .group(grp2, "事件")
 
@@ -189,13 +189,16 @@ class History extends Component {
           .label(p=>{
             return moment(p.key).format("l")
           })
+          //.xAxis().tickFormat(d3.format('.3s'))
          ,
         dc
           .lineChart(chart)
           .dimension(dim)
-          .colors("red")
+          .elasticY(true)
+          //.colors("blue")
+          .xUnits(dc.units.ordinal)
           .group(grp1, "排名")
-          .dashStyle([2, 2])
+          //.dashStyle([2, 2])
           .valueAccessor(p => {
             //console.log('p',p)
             return p.value.count > 0
@@ -207,8 +210,12 @@ class History extends Component {
               p.value.count > 0
                 ? Math.round(p.value.total / p.value.count, 0)
                 : 0;
-            return `时间:${moment(p.key).format("l")}\n排名:${rank}`;
+            return `时间:${moment(p.key).format("MM-DD")}\n排名:${rank}`;
           })
+          //.xAxis().tickFormat(function(d) {return d3.format(',d')(d);})
+          //.xAxis().tickFormat(d3.format('.3s'))
+          //.y(d3.scaleLinear().domain([1, 120]))
+         
       ])
       .render();
   }

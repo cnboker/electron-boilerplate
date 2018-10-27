@@ -43,7 +43,7 @@ module.exports = function (app) {
   app.use('/api/profile',jwtCheck,requireScope('full_access'));
   app.use('/api/pay',jwtCheck,requireScope('full_access'));
   app.use('/api/user/list',jwtCheck,requireScope('full_access'));
-  app.use('/api/user/engineChange', jwtCheck, requireScope('full_access'));
+  app.use('/api/user/setting', jwtCheck, requireScope('full_access'));
   app.use('/api/user/update', jwtCheck, requireScope('full_access'));
   app.use('/api/pool/sharePool', jwtCheck, requireScope('full_access'));
   app.use('/api/pool/finishedPool', jwtCheck, requireScope('full_access'));

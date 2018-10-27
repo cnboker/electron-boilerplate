@@ -35,7 +35,7 @@ class ScanJober {
     }
 
     //程序启动检查是否还有未处理的关键字
-    static async appStartRun(){
+    static async originRankCheck(){
         var arr = await this._fetchData();
         console.log('arr', arr)
         if(arr.length == 0)return;
@@ -68,7 +68,6 @@ class ScanJober {
     static async  _fetchData() {
         try{
             const access_token = auth.getToken().access_token;
-           //const access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJEZW1vX0lzc3VlciIsImF1ZCI6IkRlbW9fQXVkaWVuY2UiLCJleHAiOjE1NjEyNTQzNzYsInNjb3BlIjoiZnVsbF9hY2Nlc3MiLCJzdWIiOiJzY290dCIsImp0aSI6Ik10cW1XdlBCNXBzVXg5NXMiLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzMDE1MDM3Nn0.Ue1pSRuWxE1ojrau9es23rMo7hSMTGlS87k-tflHOOg'
             const url = `${process.env.REACT_APP_API_URL}/keywords`
             logger.info('scanjob-_fetchData-url', url);
             const res = await axios({

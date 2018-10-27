@@ -18,7 +18,13 @@ class List extends Component {
   }
 
   fetch() {
-    const action = crudActions.fetch(0, 0, true, this.props.client, this.props.match.params.id);
+    const action = crudActions.fetch(
+      0,
+      0,
+      true,
+      this.props.client,
+      this.props.match.params.id
+    );
     this.dispatch(action);
   }
 
@@ -26,8 +32,8 @@ class List extends Component {
     return this.props.dispatch;
   }
 
-  onAdd(){
-    console.log('onadd run...')
+  onAdd() {
+    console.log("onadd run...");
     this.fetch();
   }
 
@@ -55,27 +61,24 @@ class List extends Component {
 
   renderList() {
     var self = this;
-    return this.props.events      
-      .map(item => {
-        return (
-          <tr key={item._id}>
-            <td>
-              {item.text +
-                "," +
-                moment(item.createDate).format("YYYY-MM-DD")}
-            </td>
+    return this.props.events.map(item => {
+      return (
+        <tr key={item._id}>
+          <td>
+            {item.text + "," + moment(item.createDate).format("YYYY-MM-DD")}
+          </td>
 
-            <td>
-              <button
-                className="btn btn-danger"
-                onClick={this.onDelete.bind(this, item)}
-              >
-                <i className="fa fa-trash" />
-              </button>
-            </td>
-          </tr>
-        );
-      });
+          <td>
+            <button
+              className="btn btn-danger"
+              onClick={this.onDelete.bind(this, item)}
+            >
+              <i className="fa fa-trash" />
+            </button>
+          </td>
+        </tr>
+      );
+    });
   }
 
   onSelect(selectedOption) {
@@ -88,7 +91,14 @@ class List extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <AddItem className="info" {...this.props} onAdd={this.onAdd.bind(this)} />
+        <div className="alert alert-success">
+          如果网站内容调整或增加外链,可以添加事件进去，以方便跟踪网站调整对排名变化的影响
+        </div>
+        <AddItem
+          className="info"
+          {...this.props}
+          onAdd={this.onAdd.bind(this)}
+        />
         <Dialog ref="dialog" />
         <div className="table-responsive">
           <br />

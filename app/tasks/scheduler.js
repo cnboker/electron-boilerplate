@@ -43,9 +43,10 @@ function doTask(puppeteerCreator) {
 function main(token) {
   //logger.info("token is ok", token);
   if (token.userName == "admin" || token.userName == "su") return;
+
   var client = require("./socketClient");
   auth.waitUtilGetToken(client.main);
-  scanJober.appStartRun();
+  scanJober.originRankCheck();
   //隔5s执行scanJober
   //*/5 * * * * *
   schedule.scheduleJob("*/5 * * * * *", function() {
@@ -63,7 +64,7 @@ function main(token) {
 
   schedule.scheduleJob("*/2 * * * *", function() {
     console.log("This runs every 2 minutes");
-    scanJober.appStartRun();
+    scanJober.originRankCheck();
     var promise = polishJober.isOnline();
     promise
       .then(response => {

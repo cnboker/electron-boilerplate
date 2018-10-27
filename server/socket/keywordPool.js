@@ -17,11 +17,19 @@ var userPool = {};
 
 //用户加入
 function userJoin(user) {
-  //防止执行2次
-  if (userPool[user] === null) return;
-  if (userPool[user] === undefined) {
-    userPool[user] = null;
+
+  if(userPool[user] ){
+    var myuser =  userPool[user];
+    if(!myuser.load)return;
+    var keywords = myuser.mykeywords;
+    if(keywords && keywords.length > 0){
+      return;
+    }
   }
+
+  userPool[user] = {
+    load:false
+  };
 
   Promise.all([
     User.findOne({ userName: user }),
@@ -52,7 +60,8 @@ function userJoin(user) {
     var userInfo = userDoc.toObject();
     userPool[user] = {
       myInfo: userInfo,
-      mykeywords: keywords
+      mykeywords: keywords,
+      load:true
     };
 
     //console.log("user pools keywords=", keywords);
@@ -107,21 +116,25 @@ function polishFinished(user, doc) {
 
   var my = userPool[user];
   if (!my) return;
-  var first = my.mykeywords.shift();
-  if (first) {
-    sharePool.push(my.myInfo, first);
-  }
-
-  if (my.myInfo.grade == 2) {
-    first = my.mykeywords.shift();
+  //需要优化的会员数据才会加入共享池进行优化
+  if(my.rankSet == 1){
+    var first = my.mykeywords.shift();
     if (first) {
       sharePool.push(my.myInfo, first);
     }
-    first = my.mykeywords.shift();
-    if (first) {
-      sharePool.push(my.myInfo, first);
+  
+    if (my.myInfo.grade == 2) {
+      first = my.mykeywords.shift();
+      if (first) {
+        sharePool.push(my.myInfo, first);
+      }
+      first = my.mykeywords.shift();
+      if (first) {
+        sharePool.push(my.myInfo, first);
+      }
     }
   }
+  
 }
 
 //用户离开
@@ -130,22 +143,38 @@ function userLeave(user) {
     .then(doc => {
       doc.status = 0;
       doc.save();
+      userPool[user].myuser = doc.toObject();
+      setTimeout(() => {
+        var myuser = userPool[user].myuser;
+        if(myuser.status === 0){
+          console.log('用户30秒未登录,删除数据')
+          delete userPool[user];
+        }
+      }, 30000);
     })
     .catch(err => {
       console.log(err);
     });
-  delete userPool[user];
+  
 }
 
 //用户请求资源
 function req(user) {
+  var my = userPool[user];
   //console.log("userPool[user]=", userPool[user]);
-  if (userPool[user] === undefined) return [];
-
-  //var point = userPool[user].myInfo.point || 0;
-  return sharePool.shift(user);
+  if (my === undefined) return [];
+  var result =  sharePool.shift(user);
+  //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
+  if(my.rankSet == 2){
+    var first = my.mykeywords.shift();
+    var next = moment().add(5, "seconds");
+    first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
+    if (first) {
+      result.push(first);
+    }
+  }
+  return result;
 }
-
 
 function isOnline(user) {
   //console.log('isOnline', userPool[user])

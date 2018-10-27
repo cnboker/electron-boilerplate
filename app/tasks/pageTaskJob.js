@@ -4,7 +4,7 @@ var random = require("./random");
 var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
 const messager = require("./ipcSender");
-
+const auth = require("../auth");
 const SCAN_MAX_PAGE = 12;
 
 async function execute(task) {
@@ -39,7 +39,8 @@ async function execute(task) {
     })
     .then(() => {
       if (task.doc.rank > 0) {
-        if (task.action == jobAction.Polish) {
+        ////会员本地优化的关键字一律不点击，逻辑上本地接收到自己的关键字优化是因为会员自己设置rankSet=2的结果
+        if (task.action == jobAction.Polish && task.doc.user != auth.userName) { 
           findLinkClick(page, task.doc.link);
         }
       }
@@ -172,14 +173,21 @@ async function inputKeyword(page, input) {
   page.type("#kw", input);
   //await page.$eval("#kw", (el, input) => (el.value = input), input);
   //await page.type("#kw",input)
-  await page.waitFor(2000);
+  //await page.waitFor(2000);
 
   //await page.click("#su");
-  await page.evaluate(() => {
-    window.location.reload();
+  await sleep(5000);
+
+  await page.evaluate(() => {    
     document.querySelector("#su").click();
   });
-  await sleep(2000);
+
+  await sleep(5000);
+
+  // await page.evaluate(() => {    
+  //   window.location.reload();
+  // });
+ //await sleep(5000);
 }
 
 //查找当前页是否包含特定关键字

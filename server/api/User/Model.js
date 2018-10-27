@@ -20,7 +20,8 @@ var userSchema = new Scheam({
   vipExpiredDate: Date, //vip用户到期日期
   lastLoginDate:Date,
   engine:String, //优化引擎,
-  status:Number //1 online, 0 offline
+  status:Number, //1 online, 0 offline,
+  rankSet:Number //1 排名检测同时优化, 2:检测排名不优化
 });
 userSchema.plugin(mongoosePaginate) //pagination function
 module.exports = mongoose.model('User', userSchema);

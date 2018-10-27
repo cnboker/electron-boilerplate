@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
 import LoadingBar from "react-redux-loading-bar";
+import Start from './Container/Start'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
@@ -85,7 +86,11 @@ class App extends Component {
               component={Analysis}
               dispatch={this.props.dispatch}
             />
-           
+             <PrivateRoute
+              path="/start"
+              component={Start}
+              dispatch={this.props.dispatch}
+            />
             <Redirect from="/" to="/keyword" />
           </Switch>
         </div>
