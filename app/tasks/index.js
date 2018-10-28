@@ -20,16 +20,21 @@ var token = {
 var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
 var pageTaskJob = require("./pageTaskJob");
-
+var polishJober = require("./polishJober");
+var logger = require("../logger");
+const auth = require("../auth");
+var client = require("./socketClient");
+process.node_debug = true;
 (async () => {
 
   var task = {
     doc: {
       userName: 'scott',
       engine: 'baidu',
-      link: 'ioliz.com',
-        keyword: '软件定制 广告机 数字标牌',
-        originRank: 20
+      link: 'focusorder.com',
+        keyword: '传统企业转型跨境电商',
+        originRank: 10,
+        dynamicRank:34
     },
     action: jobAction.Polish,
     end:  function (doc) {
@@ -45,8 +50,25 @@ var pageTaskJob = require("./pageTaskJob");
 
   const page = await browser.newPage();
 
- 
   await pageTaskJob.singleTaskProcess( page,task);
+
+//   jobContext.puppeteer = require('puppeteer');
+//  var promise = polishJober.isOnline();
+//     promise
+//       .then(response => {
+//         if (response.data) {
+//           logger.info('check is online, client is online')
+//           polishJober.execute();
+//         } else {
+//           //reconnect
+//           logger.info('check is online, client is offline, reconnect')
+//           auth.waitUtilGetToken(client.main);
+//         }
+//       })
+//       .catch(e => {
+//         ////reconnect
+//         auth.waitUtilGetToken(client.main);
+//       });
 
 })();
 

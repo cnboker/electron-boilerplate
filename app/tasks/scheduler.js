@@ -69,11 +69,12 @@ function main(token) {
     promise
       .then(response => {
         if (response.data) {
-          loggger.info('check is online, client is online')
+         
+          logger.info('check is online, client is online')
           polishJober.execute();
         } else {
           //reconnect
-          loggger.info('check is online, client is offline, reconnect')
+          logger.info('check is online, client is offline, reconnect')
           auth.waitUtilGetToken(client.main);
         }
       })

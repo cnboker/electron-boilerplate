@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "易优排名",
-	"version": "0.3.1",
+	"version": "0.3.3",
 	"private": true,
 	"description": "",
 	"license": "MIT",
@@ -9,7 +9,7 @@
 	"author": {
 		"name": "kwpolish",
 		"email": "google@gmail.com",
-		"url": "http://"
+		"url": "http://kwpolish.com"
 	},
 	"scripts": {
 		"node": "cross-env NODE_ENV=development node ./test.js",

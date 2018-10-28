@@ -40,7 +40,7 @@ async function execute(task) {
     .then(() => {
       if (task.doc.rank > 0) {
         ////会员本地优化的关键字一律不点击，逻辑上本地接收到自己的关键字优化是因为会员自己设置rankSet=2的结果
-        if (task.action == jobAction.Polish && task.doc.user != auth.userName) { 
+        if (task.action == jobAction.Polish && task.doc.user != auth.getToken().userName) { 
           findLinkClick(page, task.doc.link);
         }
       }
@@ -115,11 +115,12 @@ async function quickScanClick(page, task) {
       doc.rank = doc.dynamicRank;
     }
     var pageIndex = Math.ceil(doc.rank / 10);
+    console.log('pageIndex', pageIndex)
     quickSeachList = [pageIndex - 1, pageIndex, pageIndex + 1];
-
+    console.log(quickSeachList)
     for (var i = 0; i < quickSeachList.length; i++) {
       pageIndex = quickSeachList[i];
-      if (pageIndex <= 1 || pageIndex > 10) continue;
+      if (pageIndex <= 1 || pageIndex > SCAN_MAX_PAGE) continue;
       await goPage(page, pageIndex);
       doc.rank = await pageRank(page, task.doc.link, pageIndex - 1);
       if (doc.rank > 0) {
@@ -130,11 +131,11 @@ async function quickScanClick(page, task) {
 
     if (doc.rank > 0) return;
 
-    for (var i = 0; i < 10; i++) {
-      pageIndex = i + 1;
+    for (var i = 1; i < SCAN_MAX_PAGE; i++) {
+      pageIndex = i;
       if (quickSeachList.includes(pageIndex) || pageIndex <= 1) continue;
       await goPage(page, pageIndex);
-      doc.rank = await pageRank(page, task.doc.link, pageIndex);
+      doc.rank = await pageRank(page, task.doc.link, pageIndex - 1);
       if (doc.rank > 0) {
         console.log(`当前页${pageIndex}找到排名${doc.rank}`);
         break;
@@ -217,7 +218,7 @@ async function pageRank(page, match, pageIndex) {
     match
   );
   console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1);
-  if (currentRank >= 0) return pageIndex * 10 + currentRank + 1;
+  if (currentRank >= 0) return pageIndex * 10 + currentRank ;
   return -1;
 }
 

@@ -31,7 +31,7 @@ var logger = {
     //Cross Platform Newline Characters
     log_file.write(util.format(output) + EOL);
     log_stdout.write(util.format(output) + EOL);
-    console.info(output)
+    //console.info(output)
   }
 }
 

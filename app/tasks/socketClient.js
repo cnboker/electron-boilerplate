@@ -1,7 +1,6 @@
 var jobContext = require("./jobContext");
 var scanJober = require("./scanJober");
 var polishJober = require("./polishJober");
-const auth = require("../auth");
 const logger = require("../logger");
 const messager = require("./ipcSender");
 

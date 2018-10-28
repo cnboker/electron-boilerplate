@@ -1,4 +1,3 @@
-import { default as crudActions } from "./actions";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
@@ -19,7 +18,8 @@ class AddItem extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  toggle() {
+  toggle(e) {
+    e.preventDefault();
     this.setState({
       modal: !this.state.modal
     });
@@ -51,7 +51,9 @@ class AddItem extends Component {
         console.log("event.add", e);
       });
 
-    this.toggle();
+      this.setState({
+        modal: !this.state.modal
+      });
   }
 
   render() {

@@ -1,49 +1,74 @@
 import React, { Component } from "react";
-import Event from '../Event/list'
-import Extender from './keywordExtender'
-import Rank from './rankChart'
-
+import Event from "../Event/list";
+import Extender from "./keywordExtender";
+import Rank from "./rankChart";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
+import classnames from 'classnames'
 export default class Index extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      activeTab: '1'
+    };
   }
-  
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  }
+
+
   render() {
     return (
       <div>
-        <ul className="nav nav-tabs" role="tablist">
-          <li className="nav-item">
-            <a
-              className="nav-link active"
-              href="#rank"
-              role="tab"
-              data-toggle="tab"
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "1" })}
+              onClick={() => {
+                this.toggle("1");
+              }}
             >
               排名跟踪
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#event" role="tab" data-toggle="tab">
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "2" })}
+              onClick={() => {
+                this.toggle("2");
+              }}
+            >
               事件
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#keywords" role="tab" data-toggle="tab">
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "3" })}
+              onClick={() => {
+                this.toggle("3");
+              }}
+            >
               拓词
-            </a>
-          </li>
-        </ul>
-
-        <div className="tab-content">
-          <div role="tabpanel" className="tab-pane fade  active show" id="rank">
-            <Rank id={this.props.match.params.id}/>
-          </div>
-          <div role="tabpanel" className="tab-pane fade " id="event">
-            <Event {...this.props}/>
-          </div>
-          <div role="tabpanel" className="tab-pane fade" id="keywords">
-            <Extender/>
-          </div>
-        </div>
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Rank id={this.props.match.params.id} />
+          </TabPane>
+          <TabPane tabId="2">
+            <Event {...this.props} />{" "}
+          </TabPane>
+          <TabPane tabId="3">
+            <Extender />{" "}
+          </TabPane>
+        </TabContent>
       </div>
     );
   }

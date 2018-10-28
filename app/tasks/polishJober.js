@@ -9,6 +9,7 @@ var schedule = require("node-schedule");
 //var store = require('./localStore')
 var taskRouter = require("./taskRouter");
 const messager = require("./ipcSender");
+var client = require("./socketClient");
 
 class PolishJober {
   static async isOnline() {
@@ -26,18 +27,19 @@ class PolishJober {
   static async execute() {
     //var docs = store.getKeywordLocalStorage();
     var docs = jobContext.list(jobAction.Polish);
+   
     if (docs.length > 0) {
       return;
       //store.setKeywordLocalStorage(docs);
     }
+   
     docs = await this._fetchData();
     //重新启动及时信息服务
     if (docs == "disconnect") {
-      var client = require("./socketClient");
       auth.waitUtilGetToken(client.main);
       return;
     }
-    logger.info("fetch tasks length", docs.length);
+    console.log("fetch polish tasks length", docs.length);
     this.itemsPush(docs);
   }
 
@@ -112,6 +114,7 @@ class PolishJober {
   //获取待擦亮关键字列表
   static async _fetchData() {
     const access_token = auth.getToken().access_token;
+    console.log('call',`${process.env.REACT_APP_API_URL}/kwTask/tasks`)
     try {
       const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
       const res = await axios({
