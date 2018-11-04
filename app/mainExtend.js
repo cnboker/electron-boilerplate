@@ -3,9 +3,9 @@ module.exports = {
 	enableAuto: function () {
 		var AutoLaunch = require('auto-launch');
 		var minecraftAutoLauncher = new AutoLaunch({
-			name: '易优排名',
+			name: '钢铁侠',
 			//isHidden:true,
-			path: (process.platform === 'darwin' ? '/Applications/易优排名.app' : `${process.env.ApplicationPath}\\易优排名.exe`),
+			path: (process.platform === 'darwin' ? '/Applications/钢铁侠.app' : `${process.env.ApplicationPath}\\钢铁侠.exe`),
 		});
 
 		minecraftAutoLauncher.enable();

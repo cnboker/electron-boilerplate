@@ -17,18 +17,17 @@ var userPool = {};
 
 //用户加入
 function userJoin(user) {
-
-  if(userPool[user] ){
-    var myuser =  userPool[user];
-    if(!myuser.load)return;
+  if (userPool[user]) {
+    var myuser = userPool[user];
+    if (!myuser.load) return;
     var keywords = myuser.mykeywords;
-    if(keywords && keywords.length > 0){
+    if (keywords && keywords.length > 0) {
       return;
     }
   }
 
   userPool[user] = {
-    load:false
+    load: false
   };
 
   Promise.all([
@@ -61,7 +60,7 @@ function userJoin(user) {
     userPool[user] = {
       myInfo: userInfo,
       mykeywords: keywords,
-      load:true
+      load: true
     };
 
     //console.log("user pools keywords=", keywords);
@@ -117,12 +116,12 @@ function polishFinished(user, doc) {
   var my = userPool[user];
   if (!my) return;
   //需要优化的会员数据才会加入共享池进行优化
-  if(my.myInfo.rankSet == 1){
+  if (my.myInfo.rankSet == 1) {
     var first = my.mykeywords.shift();
     if (first) {
       sharePool.push(my.myInfo, first);
     }
-  
+
     if (my.myInfo.grade == 2) {
       first = my.mykeywords.shift();
       if (first) {
@@ -134,22 +133,21 @@ function polishFinished(user, doc) {
       }
     }
   }
-  
 }
 
 //用户离开
 function userLeave(user) {
-  if(!userPool[user])return;
+  if (!userPool[user]) return;
   User.findOne({ userName: user })
     .then(doc => {
       doc.status = 0;
       doc.save();
       userPool[user].myInfo = doc.toObject();
       setTimeout(() => {
-        if(!userPool[user])return;
+        if (!userPool[user]) return;
         var myuser = userPool[user].myInfo;
-        if(myuser.status === 0){
-          console.log('用户30秒未登录,删除数据')
+        if (myuser.status === 0) {
+          console.log("用户30秒未登录,删除数据");
           delete userPool[user];
         }
       }, 30000);
@@ -157,18 +155,19 @@ function userLeave(user) {
     .catch(err => {
       console.log(err);
     });
-  
 }
 
 //用户请求资源
 function req(user) {
   var my = userPool[user];
   //console.log("userPool[user]=", userPool[user]);
-  if (my === undefined) return 'disconnect';
-  var result =  sharePool.shift(user);
+  if (my === undefined) return "disconnect";
+  var result = sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
-  if(my.myInfo.rankSet == 2){
+  if (my.myInfo.rankSet == 2) {
     var first = my.mykeywords.shift();
+    if (first == undefined) return result;
+    console.log("first", first);
     var next = moment().add(10, "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
     if (first) {

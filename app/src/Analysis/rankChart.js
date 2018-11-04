@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 //import dc from 'dc'
 import axios from "axios";
 import moment from "moment";
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 var d3 = require("d3");
 var dc = require("dc");
@@ -13,9 +14,9 @@ class History extends Component {
   componentDidMount() {
     console.log("this.props.match.params", this.props.id);
     var client = this.props.client;
-
+    const {dispatch} = this.props;
     var that = this;
-
+    dispatch(showLoading())
     Promise.all([
       axios({
         url: `${process.env.REACT_APP_API_URL}/analysis/${this.props.id}`,
@@ -33,6 +34,7 @@ class History extends Component {
       })
     ])
       .then(results => {
+        dispatch(hideLoading())
         console.log(results);
         that.draw(results);
       })
@@ -194,28 +196,25 @@ class History extends Component {
         dc
           .lineChart(chart)
           .dimension(dim)
-          .elasticY(true)
+          //.elasticY(true)
           //.colors("blue")
-          .xUnits(dc.units.ordinal)
+          //.xUnits(dc.units.ordinal)
           .group(grp1, "排名")
           //.dashStyle([2, 2])
           .valueAccessor(p => {
             //console.log('p',p)
             return p.value.count > 0
-              ? Math.round(p.value.total / p.value.count, 0)
+              ? Math.round((p.value.total||0) / p.value.count, 0)
               : 0;
           })
           .title(p => {
             var rank =
               p.value.count > 0
-                ? Math.round(p.value.total / p.value.count, 0)
+                ? Math.round((p.value.total||0) / p.value.count, 0)
                 : 0;
             return `时间:${moment(p.key).format("MM-DD")}\n排名:${rank}`;
           })
-          //.xAxis().tickFormat(function(d) {return d3.format(',d')(d);})
-          //.xAxis().tickFormat(d3.format('.3s'))
-          //.y(d3.scaleLinear().domain([1, 120]))
-         
+  
       ])
       .render();
   }

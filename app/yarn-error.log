@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
   	"name": "app",
-  	"productName": "易优排名",
+  	"productName": "钢铁侠",
   	"version": "0.3.0",
   	"private": true,
   	"description": "",

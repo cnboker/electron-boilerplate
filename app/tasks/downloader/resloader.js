@@ -8,9 +8,10 @@ var fs = require('fs');
 module.exports = function (callback) {
     var dest = path.join(process.env.AppHome, 'puppeteer.zip');
 
-    var output = path.join(process.cwd(), 'resources');
+    var output = path.join(process.env.ApplicationPath, 'resources');
 
-    if (fs.existsSync(process.env.ChromePath)) {
+
+    if (fs.existsSync(path.join(output,'node_modules'))) {
         logger.info('chrome.exe exist')
         // Do something
         if (callback) callback(true);

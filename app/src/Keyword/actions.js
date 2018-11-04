@@ -2,6 +2,7 @@ import axios from 'axios'
 import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
 
@@ -12,7 +13,7 @@ let actionCreators = {
         dispatch(action)
 
         var url = `${process.env.REACT_APP_API_URL}/keywords/today`
-       
+        dispatch(showLoading())
         console.log('actionCreators url',url);
         const promise = axios(
           {
@@ -28,11 +29,11 @@ let actionCreators = {
           const returned = response.data
           const successAction = baseActionCreators.fetchSuccess(returned,{replace:replaceExisting});
           dispatch(successAction)
-        
+          dispatch(hideLoading())
         },function(response){
           const errorAction = baseActionCreators.fetchError(response)
           dispatch(errorAction)
-         
+          dispatch(hideLoading())
         }).catch(function(err){
           console.error(err.toString())
         })
@@ -42,7 +43,7 @@ let actionCreators = {
     return function (dispatch, getState) {
         const action = baseActionCreators.fetchStart()
         dispatch(action)
-
+        dispatch(showLoading())
         var url = `${process.env.REACT_APP_API_URL}/keywords?userName=${userName||''}`
        
         console.log('actionCreators url',url);
@@ -60,11 +61,11 @@ let actionCreators = {
           const returned = response.data
           const successAction = baseActionCreators.fetchSuccess(returned,{replace:replaceExisting});
           dispatch(successAction)
-        
+          dispatch(hideLoading())
         },function(response){
           const errorAction = baseActionCreators.fetchError(response)
           dispatch(errorAction)
-         
+          dispatch(hideLoading())
         }).catch(function(err){
           console.error(err.toString())
         })
@@ -78,7 +79,6 @@ let actionCreators = {
 
         const optimisticAction = baseActionCreators.createStart(entity)
         dispatch(optimisticAction)
-
         //const url ="/server"
         const url = `${process.env.REACT_APP_API_URL}/keywords`
         
@@ -94,12 +94,15 @@ let actionCreators = {
         promise.then(function(response){
             // dispatch the success action
             const returned = response.data
+            //发消息给后台
+            if(sendToBackground){
+              sendToBackground('keyword_create',returned)
+            }
             const successAction = baseActionCreators.createSuccess(returned)
             dispatch(successAction)
         },function(response){
             const errorAction = baseActionCreators.createError(response,entity)
             dispatch(errorAction)
-          
         }).catch(function(err){
            console.error(err.toString())
         })
@@ -148,7 +151,7 @@ let actionCreators = {
 
       //const url = `/server/${svr.id}`;
       const url = `${process.env.REACT_APP_API_URL}/keyword/${entity._id}`
-      
+      dispatch(showLoading())
       const promise = axios({
         url:url,
         method:"delete",
@@ -160,9 +163,11 @@ let actionCreators = {
       promise.then(function(response){
           const optimisticAction = baseActionCreators.deleteSuccess(entity)
           dispatch(optimisticAction);
+          dispatch(hideLoading())
       },function(response){
           const errorAction = baseActionCreators.deleteError(response,entity)
           dispatch(errorAction)
+          dispatch(hideLoading())
       }).catch(function(err){
         console.error(err.toString())
       })

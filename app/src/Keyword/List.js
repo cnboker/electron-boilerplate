@@ -8,6 +8,7 @@ import { Switch } from "../Components/Forms/Switch";
 import "../utils/groupBy";
 import Select from 'react-select'
 import { Animated } from "react-animated-css";
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 class List extends Component {
   constructor() {
@@ -19,6 +20,11 @@ class List extends Component {
   componentDidMount() {
     //mock()
     this.fetch();
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("nextProps", nextProps);
+    
   }
 
   fetch() {
@@ -57,7 +63,7 @@ class List extends Component {
     if (val === true) return "是";
     if (val === false) return "否";
     if (Number.isInteger(val)) {
-      if (val == -1) return "100+";
+      if (val == -1) return "120+";
       return val;
     }
     if (this.isValidDate(val)) {

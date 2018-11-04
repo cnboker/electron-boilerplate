@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta charset="utf-8">
-	<title>易优排名</title>
+	<title>钢铁侠</title>
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="public/css/bootstrap.min.css">
@@ -23,15 +23,18 @@
 
 	</div>
 
-	
+
 	<script src='app.bundle.js'>
 	</script>
 	<script src='<%= htmlWebpackPlugin.options.prefixApp %>.app.bundle.js'></script>
-	<script>
+	<script >
 		try {
+			window.remote = require('electron').remote;
+
 			const ipcRenderer = require('electron').ipcRenderer;
 			// wait for an updateReady message
 			ipcRenderer.on('message', function (event, text) {
+
 				// changes the text of the button
 				var container = document.getElementById('__messages');
 				container.innerHTML = text;
@@ -63,6 +66,12 @@
 
 		} catch (e) {
 
+		}
+
+		//发送消息给后台程序
+		function sendToBackground(event, data) {
+			var processHandler = remote.getGlobal("backgroundProcessHandler");
+			processHandler.sendToIPCRenderer(event, data);
 		}
 	</script>
 </body>

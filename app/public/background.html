@@ -2,30 +2,33 @@
 <html>
 
 <head>
-  <!-- <script>
-    //必须增加该行, 因为在webpack.config.js中没有编译puppeteer,所以需要外部定义
-    global.puppeteerReady = function () {
-      console.log('inject puppeteer')
-      global.puppeteer = require('puppeteer')
-    }
-  </script> -->
+  <meta charset="utf-8">
   <script src='background.bundle.js'>
   </script>
   <script>
-      window.remote = require('electron').remote;
+    window.remote = require('electron').remote;
 
     window.onload = function () {
-       PageJob.doTask(function () {
-          return require('puppeteer')
-        })
+      PageJob.doTask(function () {
+        return {
+          puppeteer:require('puppeteer'),
+          ipc:require('electron').ipcRenderer
+        }
+      })
     }
   </script>
 
   <script>
     var ipc = require('electron').ipcRenderer;
+    
+    ipc.on('ping',  function(event, data){
+      console.log('ping', data)
+    });
+
     window.onerror = function (error, url, line) {
       ipc.send('errorInWindow', error);
     };
+
   </script>
 </head>
 

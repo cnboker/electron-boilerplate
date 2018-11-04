@@ -166,13 +166,13 @@ exports.create = function(req, res, next) {
       return Keyword.collection.insertMany(docs);
     })
     .then(docs => {
-      res.json(docs);
+      res.json(docs.ops);
       // console.log("docs", docs);
 
       //socket send notify
-      for (var doc of docs.ops) {
-        req.socketServer.keywordCreate(doc);
-      }
+      // for (var doc of docs.ops) {
+      //   req.socketServer.keywordCreate(doc);
+      // }
     })
     .catch(e => {
       logger.error(e);
@@ -254,7 +254,7 @@ exports.delete = function(req, res) {
 };
 
 //scan job
-exports.rank = function(req, res) {
+exports.rank = function(req, res, next) {
   //console.log("server rank  body", req.body);
   if (req.body.rank == null) return;
 

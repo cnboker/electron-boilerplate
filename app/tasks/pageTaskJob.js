@@ -5,6 +5,7 @@ var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
 const messager = require("./ipcSender");
 const auth = require("../auth");
+var logger = require("../logger");
 const SCAN_MAX_PAGE = 12;
 
 async function execute(task) {
@@ -46,10 +47,12 @@ async function execute(task) {
       }
       messager("message", `新的关键字优化完成`);
       jobContext.busy = false;
+      
     })
     .catch(err => {
       jobContext.busy = false;
       console.error(err);
+      logger.info(err)
     });
 }
 
@@ -62,8 +65,6 @@ async function singleTaskProcess(page, task) {
   try {
     await inputKeyword(page, doc.keyword);
 
-    await sleep(2000);
-    console.log("sleep");
     //首页处理
     const rank = await pageRank(page, doc.link, pageIndex);
     doc.rank = rank || -1;
@@ -77,7 +78,7 @@ async function singleTaskProcess(page, task) {
     } else {
       //重新扫描
       pageIndex = 0;
-      await inputKeyword(page, doc.keyword);
+      //await inputKeyword(page, doc.keyword);
       //如果还找不到逐页扫描
       const nextpageSelector = '#page > a[href$="rsv_page=1"]';
       while (pageIndex < SCAN_MAX_PAGE) {
@@ -100,6 +101,7 @@ async function singleTaskProcess(page, task) {
       }
     }
   } catch (e) {
+    logger.info(e)
     console.error(e);
   }
 }
@@ -142,6 +144,7 @@ async function quickScanClick(page, task) {
       }
     }
   } catch (e) {
+    logger.info(e)
     console.error(e);
   }
 }
@@ -217,9 +220,13 @@ async function pageRank(page, match, pageIndex) {
     },
     match
   );
-  console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1);
-  if (currentRank >= 0) return pageIndex * 10 + currentRank ;
-  return -1;
+  var rank = -1;
+ 
+  if (currentRank >= 0) {
+    rank = pageIndex * 10 + currentRank + 1;
+  }  
+  console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1, "rank=", rank);
+  return rank;
 }
 
 //查找包含关键字的链接，并同时点击该链接

@@ -31,10 +31,10 @@ process.node_debug = true;
     doc: {
       userName: 'scott',
       engine: 'baidu',
-      link: 'focusorder.com',
-        keyword: '传统企业转型跨境电商',
-        originRank: 10,
-        dynamicRank:34
+      link: 'pandoratech.net',
+        keyword: '盘多拉U盘',
+        originRank: 12,
+        dynamicRank:12
     },
     action: jobAction.Polish,
     end:  function (doc) {

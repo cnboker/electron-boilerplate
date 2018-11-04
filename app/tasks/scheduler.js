@@ -19,7 +19,9 @@ function doTask(puppeteerCreator) {
     if (success) {
       logger.info("download finished...");
       messager("message", "准备就绪优化启动..");
-      jobContext.puppeteer = puppeteerCreator();
+      var obj = puppeteerCreator();
+      jobContext.puppeteer = obj.puppeteer;
+      jobContext.ipc = obj.ipc;
       auth.waitUtilGetToken(main);
     } else {
       logger.info("downloader failure,retry doTask start ...");
@@ -44,6 +46,22 @@ function main(token) {
   //logger.info("token is ok", token);
   if (token.userName == "admin" || token.userName == "su") return;
 
+  //使用进程间通讯替代socket通讯
+  //var ipc = require("electron").ipcRenderer;
+  jobContext.ipc.on("keyword_create", function(event, docs) {
+    
+
+    var doc = docs.shift();
+    if (doc) {
+      console.log("keyword_create", doc);
+      messager("message", `关键字"${doc.keyword}"等待优化`);
+    }
+    while (doc) {
+      scanJober.execute(doc);
+      doc = docs.shift();
+    }
+  });
+
   var client = require("./socketClient");
   auth.waitUtilGetToken(client.main);
   scanJober.originRankCheck();
@@ -64,17 +82,16 @@ function main(token) {
 
   schedule.scheduleJob("*/2 * * * *", function() {
     console.log("This runs every 2 minutes");
-    scanJober.originRankCheck();
+    //scanJober.originRankCheck();
     var promise = polishJober.isOnline();
     promise
       .then(response => {
         if (response.data) {
-         
-          logger.info('check is online, client is online')
+          logger.info("check is online, client is online");
           polishJober.execute();
         } else {
           //reconnect
-          logger.info('check is online, client is offline, reconnect')
+          logger.info("check is online, client is offline, reconnect");
           auth.waitUtilGetToken(client.main);
         }
       })

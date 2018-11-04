@@ -63,8 +63,8 @@ class Login extends Component {
     return (
       <div>
         <div className="jumbotron">
-          <h1 className="display-4">易优排名-让你的网络推广变轻松</h1>
-          <p className="lead">检测优化自家网站排名情况,易优排名好的营销伴侣.</p>
+          <h1 className="display-4">钢铁侠-让你的网络推广变轻松</h1>
+          <p className="lead">检测优化自家网站排名情况,钢铁侠好的营销伴侣.</p>
 
           <p className="lead">
             <a className="btn btn-primary btn-lg" href="#" role="button" onClick={()=>{

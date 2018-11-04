@@ -64,7 +64,7 @@ if (shouldQuit) {
     // 	mainWindow.focus();
     // });
     mainWindow = extender.getStateWindow(
-      "易优排名",
+      "钢铁侠",
       path.join($dirname, "assets/icons/win/logo.png")
     );
 
