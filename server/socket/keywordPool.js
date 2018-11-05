@@ -44,7 +44,7 @@ function userJoin(user) {
       "_id user originRank dynamicRank keyword link polishedCount",
       {
         sort: {
-          createDate: -1,
+          lastPolishedDate: 1,
           polishedCount: 1
         }
       }
@@ -81,6 +81,7 @@ function userJoin(user) {
     }
   });
 }
+
 
 //任务完成 user:current user
 // keyword: polish keyword object

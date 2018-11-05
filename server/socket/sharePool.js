@@ -43,54 +43,16 @@ function clone(element) {
   return JSON.parse(JSON.stringify(element));
 }
 
-function SharePoolPad() {
-  Promise.all([
-    User.find({
-      locked: false,
-      status: 1
-    })
-  ])
-    .then(([onlineUsers]) => {
-      var names = onlineUsers.map(x => {
-        return x.userName;
-      });
-      return Keyword.find(
-        {
-          originRank: {
-            $gt: 0
-          },
-          isValid: true,
-          status: 1,
-          engine: "baidu",
-          user: {
-            $in: names
-          }
-        },
-        "_id user originRank dynamicRank keyword link", //only selecting the "_id" and "keyword" , "engine" "link"fields,
-        {
-          sort: {
-            polishedCount: 1
-          }
-        }
-      )
-        .lean()
-        .exec();
-    })
-    .then(docs => {
-      shiftPool.push(...docs)
-      console.log('候补 shiftPool', shiftPool)
-    })
-    .catch(e => {
-      console.log(e)
-      //return next(boom.badRequest(e));
-    });
-}
-
 
 module.exports.shift = function(user) {
-  console.log('shiftPool.length', shiftPool.length)
+  console.log('shiftPool.length----------', shiftPool.length)
   if(shiftPool.length == 0){
-    SharePoolPad();
+    var strategy = require('../api/Keyword/taskSimpleStrategy')
+    strategy.sortKeywords().then(docs=>{
+     
+      shiftPool.push(...docs)
+      console.log('docs...', shiftPool)
+    })
     return [];  
   }
 
