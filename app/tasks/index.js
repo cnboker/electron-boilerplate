@@ -27,48 +27,48 @@ var client = require("./socketClient");
 process.node_debug = true;
 (async () => {
 
-  var task = {
-    doc: {
-      userName: 'scott',
-      engine: 'baidu',
-      link: 'pandoratech.net',
-        keyword: '盘多拉U盘',
-        originRank: 12,
-        dynamicRank:12
-    },
-    action: jobAction.Polish,
-    end:  function (doc) {
-      console.log('polishjober execute doc rank', doc);
-      //done();
-    },
-  };
-  jobContext.puppeteer = require('puppeteer');
-  const browser = await jobContext.puppeteer.launch({
-    headless: false
-  });
-
-
-  const page = await browser.newPage();
-
-  await pageTaskJob.singleTaskProcess( page,task);
-
+//   var task = {
+//     doc: {
+//       userName: 'scott',
+//       engine: 'baidu',
+//       link: 'pandoratech.net',
+//         keyword: '盘多拉U盘',
+//         originRank: 12,
+//         dynamicRank:12
+//     },
+//     action: jobAction.Polish,
+//     end:  function (doc) {
+//       console.log('polishjober execute doc rank', doc);
+//       //done();
+//     },
+//   };
 //   jobContext.puppeteer = require('puppeteer');
-//  var promise = polishJober.isOnline();
-//     promise
-//       .then(response => {
-//         if (response.data) {
-//           logger.info('check is online, client is online')
-//           polishJober.execute();
-//         } else {
-//           //reconnect
-//           logger.info('check is online, client is offline, reconnect')
-//           auth.waitUtilGetToken(client.main);
-//         }
-//       })
-//       .catch(e => {
-//         ////reconnect
-//         auth.waitUtilGetToken(client.main);
-//       });
+//   const browser = await jobContext.puppeteer.launch({
+//     headless: false
+//   });
+
+
+//   const page = await browser.newPage();
+
+//   await pageTaskJob.singleTaskProcess( page,task);
+
+  jobContext.puppeteer = require('puppeteer');
+ var promise = polishJober.isOnline();
+    promise
+      .then(response => {
+        if (response.data) {
+          logger.info('check is online, client is online')
+          polishJober.execute();
+        } else {
+          //reconnect
+          logger.info('check is online, client is offline, reconnect')
+          auth.waitUtilGetToken(client.main);
+        }
+      })
+      .catch(e => {
+        ////reconnect
+        auth.waitUtilGetToken(client.main);
+      });
 
 })();
 

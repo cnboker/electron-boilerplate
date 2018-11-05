@@ -34,7 +34,8 @@ module.exports = function (callback) {
         logger.info('puppeteer.zip exist', dest)
 
         unrar(dest, output, function (success) {
-            if (callback) callback(success);
+            var result = fs.existsSync(path.join(output,'node_modules'));
+            if (callback) callback(result);
         })
         return;
     }

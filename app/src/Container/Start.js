@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import image1 from "../../public/images/1.png";
 
 export default class Start extends Component {
   constructor(props) {
@@ -20,7 +19,7 @@ export default class Start extends Component {
               1. 安装并启动软件
               <br />
               2. 登录软件后，点击“新建”就可以提交关键词了
-              <img src={image1} className="img-fluid" />
+            
               <dl>
                 <dt>备注</dt>
                 <dd>

@@ -10,7 +10,7 @@ if (process.env.APP != "web") {
 
 //var intervalID;
 exports.main = function main(token) {
-  console.log("begin run socket client");
+  console.log("begin run socket client", token);
   var io = require("socket.io-client");
   var socket = io(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,

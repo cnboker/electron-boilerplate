@@ -16,8 +16,7 @@ module.exports = function (rarFile, outputPath, finished) {
        
     });
     extract.on('close', function () {
-        var success = fs.existsSync(rarFile);
-        if (finished && success) finished(success);
+        if (finished) finished(true);
     })
 
 }
