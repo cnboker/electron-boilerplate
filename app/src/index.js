@@ -22,6 +22,9 @@ import thunk from 'redux-thunk'
 //https://github.com/wwayne/redux-reset
 import reduxReset from 'redux-reset'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
+import {eventRegister} from './communication'
+
+eventRegister();
 //import initReactFastclick from 'react-fastclick'
 
 //initReactFastclick()
@@ -58,7 +61,10 @@ var render =(Component)=>(
     </Router>
   </Provider>
 );
-ReactDOM.render(render(App), document.getElementById('root'))
+var root = document.getElementById('root')
+ReactDOM.render(render(App), root)
+
+
 
 if (module.hot) {
   module.hot.accept('./App', () => {

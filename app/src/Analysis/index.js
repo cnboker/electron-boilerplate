@@ -66,7 +66,7 @@ export default class Index extends Component {
             <Event {...this.props} />{" "}
           </TabPane>
           <TabPane tabId="3">
-            <Extender />{" "}
+            <Extender {...this.props}/>{" "}
           </TabPane>
         </TabContent>
       </div>

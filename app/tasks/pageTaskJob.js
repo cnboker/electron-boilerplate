@@ -16,7 +16,7 @@ async function execute(task) {
     jobContext.browser.close();
   }
   const browser = await jobContext.puppeteer.launch({
-    headless: process.env.NODE_ENV == "production",
+    headless: false, //process.env.NODE_ENV == "production",
     executablePath: (() => {
       return process.env.ChromePath;
     })()
@@ -32,27 +32,27 @@ async function execute(task) {
   // });
 
   const page = await browser.newPage();
-  await page._client.send("Network.clearBrowserCookies");
+  //await page._client.send("Network.clearBrowserCookies");
 
-  await singleTaskProcess(page, task)
+  singleTaskProcess(page, task)
     .then(() => {
-      return task.end(task.doc);
-    })
-    .then(() => {
+      task.end(task.doc);
       if (task.doc.rank > 0) {
         ////会员本地优化的关键字一律不点击，逻辑上本地接收到自己的关键字优化是因为会员自己设置rankSet=2的结果
-        if (task.action == jobAction.Polish && task.doc.user != auth.getToken().userName) { 
+        if (
+          task.action == jobAction.Polish &&
+          task.doc.user != auth.getToken().userName
+        ) {
           findLinkClick(page, task.doc.link);
         }
+        messager("message", `新的关键字优化完成`);
+        jobContext.busy = false;
       }
-      messager("message", `新的关键字优化完成`);
-      jobContext.busy = false;
-      
     })
-    .catch(err => {
+    .catch(e => {
       jobContext.busy = false;
       console.error(err);
-      logger.info(err)
+      logger.info(err);
     });
 }
 
@@ -63,7 +63,7 @@ async function singleTaskProcess(page, task) {
   var pageIndex = 0;
   var doc = task.doc;
   try {
-    await inputKeyword(page, doc.keyword);
+    await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
 
     //首页处理
     const rank = await pageRank(page, doc.link, pageIndex);
@@ -101,7 +101,7 @@ async function singleTaskProcess(page, task) {
       }
     }
   } catch (e) {
-    logger.info(e)
+    logger.info(e);
     console.error(e);
   }
 }
@@ -117,9 +117,9 @@ async function quickScanClick(page, task) {
       doc.rank = doc.dynamicRank;
     }
     var pageIndex = Math.ceil(doc.rank / 10);
-    console.log('pageIndex', pageIndex)
+    console.log("pageIndex", pageIndex);
     quickSeachList = [pageIndex - 1, pageIndex, pageIndex + 1];
-    console.log(quickSeachList)
+    console.log(quickSeachList);
     for (var i = 0; i < quickSeachList.length; i++) {
       pageIndex = quickSeachList[i];
       if (pageIndex <= 1 || pageIndex > SCAN_MAX_PAGE) continue;
@@ -144,7 +144,7 @@ async function quickScanClick(page, task) {
       }
     }
   } catch (e) {
-    logger.info(e)
+    logger.info(e);
     console.error(e);
   }
 }
@@ -164,7 +164,7 @@ async function goPage(page, pageIndex) {
 }
 
 //输入框模拟输入关键字
-async function inputKeyword(page, input) {
+async function inputKeyword(page, input, anyclick) {
   const pageUrl = "https://www.baidu.com/";
   page.setViewport({ width: 960, height: 768 });
   await page.goto(pageUrl, {
@@ -174,24 +174,33 @@ async function inputKeyword(page, input) {
   await page.waitForSelector("#kw", { visible: true });
   await page.focus("#kw");
   //await page.waitFor("#kw");
-  page.type("#kw", input);
+  await page.type("#kw", input);
   //await page.$eval("#kw", (el, input) => (el.value = input), input);
   //await page.type("#kw",input)
   //await page.waitFor(2000);
 
   //await page.click("#su");
-  await sleep(5000);
+  await sleep(2000);
 
-  await page.evaluate(() => {    
+  await page.evaluate(() => {
     document.querySelector("#su").click();
   });
 
-  await sleep(5000);
+  await sleep(2000);
 
-  // await page.evaluate(() => {    
-  //   window.location.reload();
-  // });
- //await sleep(5000);
+  //首页任意点击
+  if (anyclick) {
+    await page.evaluate(() => {
+      var nodes = document.querySelectorAll("div.result.c-container");
+      var arr = [...nodes];
+      var index = Math.floor(Math.random() * arr.length) + 1;
+      if (index > 0) {
+        arr[index - 1].getElementsByTagName("a")[0].click();
+      }
+    });
+
+    await sleep(5000);
+  }
 }
 
 //查找当前页是否包含特定关键字
@@ -221,37 +230,44 @@ async function pageRank(page, match, pageIndex) {
     match
   );
   var rank = -1;
- 
+
   if (currentRank >= 0) {
     rank = pageIndex * 10 + currentRank + 1;
-  }  
-  console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1, "rank=", rank);
+  }
+  console.log(
+    "currentRank=",
+    currentRank,
+    "pageIndex=",
+    pageIndex + 1,
+    "rank=",
+    rank
+  );
   return rank;
 }
 
 //查找包含关键字的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
-  // await page.evaluate(keyword => {
-  //   var nodes = document.querySelectorAll("div.result.c-container");
-  //   var arr = [...nodes];
-  //   var items = arr.filter(x => {
-  //     return x.innerText.indexOf(keyword) >= 0;
-  //   });
-  //   if (items.length > 0) {
-  //     var index = arr.indexOf(items[0]);
-  //     if (index > 0) {
-  //       arr[index - 1].getElementsByTagName("a")[0].click();
-  //     }
-  //   }
-  // }, keyword);
+  await page.evaluate(keyword => {
+    var nodes = document.querySelectorAll("div.result.c-container");
+    var arr = [...nodes];
+    var items = arr.filter(x => {
+      return x.innerText.indexOf(keyword) >= 0;
+    });
+    if (items.length > 0) {
+      var index = arr.indexOf(items[0]);
+      if (index > 0) {
+        arr[index - 1].getElementsByTagName("a")[0].click();
+      }
+    }
+  }, keyword);
 
-  // await sleep(5000);
+  await sleep(5000);
 
-  // let pages = await page.browser().pages();
-  // var firstPage = pages[pages.length - 1];
-  // if (firstPage.url().indexOf("baidu.com") == -1) {
-  //   firstPage.close();
-  // }
+  let pages = await page.browser().pages();
+  var firstPage = pages[pages.length - 1];
+  if (firstPage.url().indexOf("baidu.com") == -1) {
+    firstPage.close();
+  }
 
   await page.evaluate(keyword => {
     var nodes = document.querySelectorAll("div.result.c-container");

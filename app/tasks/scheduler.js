@@ -25,7 +25,7 @@ function doTask(puppeteerCreator) {
       auth.waitUtilGetToken(main);
     } else {
       logger.info("downloader failure,retry doTask start ...");
-      messager("message", "优化离线包下载失败,正在重试..");
+      messager("message", "离线包下载失败,正在重试..");
       window.setTimeout(doTask.bind(null, puppeteerCreator), 30000);
     }
   });
@@ -47,23 +47,10 @@ function main(token) {
   if (token.userName == "admin" || token.userName == "su") return;
 
   //使用进程间通讯替代socket通讯
-  //var ipc = require("electron").ipcRenderer;
-  jobContext.ipc.on("keyword_create", function(event, docs) {
-    
-
-    var doc = docs.shift();
-    if (doc) {
-      console.log("keyword_create", doc);
-      messager("message", `关键字"${doc.keyword}"等待优化`);
-    }
-    while (doc) {
-      scanJober.execute(doc);
-      doc = docs.shift();
-    }
-  });
-
+  require('./frontEvent')(jobContext.ipc)
+  
   var client = require("./socketClient");
-  auth.waitUtilGetToken(client.main);
+  client.main(token)
   scanJober.originRankCheck();
   //隔5s执行scanJober
   //*/5 * * * * *
@@ -92,12 +79,12 @@ function main(token) {
         } else {
           //reconnect
           logger.info("check is online, client is offline, reconnect");
-          auth.waitUtilGetToken(client.main);
+          client.main(token)
         }
       })
       .catch(e => {
         ////reconnect
-        auth.waitUtilGetToken(client.main);
+        //client.main(token)
       });
   });
 
