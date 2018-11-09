@@ -59,6 +59,6 @@ exports.search = async function (input) {
     }
     //remove duplication
     return keywords.filter(function (item, pos) {
-        return keywords.indexOf(item) == pos;
+        return keywords.indexOf(item) == pos && item.length > 3
     })
 }

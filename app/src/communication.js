@@ -1,5 +1,6 @@
 //handle background event data
 export function eventRegister() {
+  if(!window.require)return;
   var EventBus = require("eventing-bus");
 
   var ipcRenderer = window.require("electron").ipcRenderer;
@@ -27,6 +28,7 @@ export function eventRegister() {
 }
 
 export function sendToBackground(event, data) {
+  if(!window.require)return;
   var processHandler = window.require("electron").remote.getGlobal(
     "backgroundProcessHandler"
   );

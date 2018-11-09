@@ -117,18 +117,19 @@ exports.create = function(req, res, next) {
     }),
     Keyword.find({
       user: req.user.sub
-    })
+    }).lean().exec()
   ])
     .then(([user, docs]) => {
       var keywords = req.body.keyword.split("\n").filter(function(val) {
         return val.trim().length > 1;
       });
 
+      var saveKeywords = docs.map(item=>{return item.keyword})
+      console.log('saveKeywords', saveKeywords)
       //remove duplicate
       keywords = keywords.filter(function(item, pos) {
-        return keywords.indexOf(item) == pos;
+        return keywords.indexOf(item) == pos && !(saveKeywords.includes(item))
       });
-
       var grade = user.grade || 1;
       if (grade == 1) {
         if (docs.length + keywords.length > 5) {
@@ -141,12 +142,12 @@ exports.create = function(req, res, next) {
           throw "普通账号只能增加一个域名";
         }
       }
-      exists = docs.filter(function(doc) {
-        return doc.link == req.body.link && keywords.includes(doc.keyword);
-      });
-      if (exists.length > 0) {
-        throw "关键字重复错误";
+      if(keywords.length == 0){
+        res.json([])
+        return;
       }
+      
+      console.log('keywords ---', keywords)
 
       var docs = [];
       for (var keyword of keywords) {
