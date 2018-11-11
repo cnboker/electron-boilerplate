@@ -78,7 +78,7 @@ async function singleTaskProcess(page, task) {
     }
 }
 
-//输入框模拟输入关键字
+//输入框模拟输入关键词
 async function inputKeyword(page, input) {
     const pageUrl = 'http://www.google.com'
     await page.goto(pageUrl, {
@@ -108,7 +108,7 @@ async function pageRank(page, match, pageIndex) {
     return -1;
 }
 
-//查找包含关键字的链接，并同时点击该链接
+//查找包含关键词的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
 
     var selector = '//a[contains(@href, "' + keyword + '")]'

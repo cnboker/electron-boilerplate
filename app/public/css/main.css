@@ -5,6 +5,40 @@
   border-width: .2rem;
 }
 
+hr.star-light {
+  border-color: #fff;
+}
+hr.star-dark, hr.star-light {
+  max-width: 15rem;
+  padding: 0;
+  text-align: center;
+  border: none;
+  border-top: solid .25rem;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header.masthead {
+  padding-top: calc(3rem);
+  padding-bottom: 6rem;
+}
+
+
+header.masthead h2 {
+  font-size: 1.75em;
+}
+header.masthead h2 {
+  font-size: 1.3rem;
+  font-family: Lato;
+}
+.font-weight-light {
+  font-weight: 300!important;
+}
+.mb-0, .my-0 {
+  margin-bottom: 0!important;
+}
 
 .pagination {
   display: flex;

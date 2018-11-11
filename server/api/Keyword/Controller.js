@@ -133,7 +133,7 @@ exports.create = function(req, res, next) {
       var grade = user.grade || 1;
       if (grade == 1) {
         if (docs.length + keywords.length > 5) {
-          throw "普通账号关键字数不能大于5个，请升级为标准账号";
+          throw "你提交的关键词已超出限制。免费版用户默认提交关键词数量为5个。你可以通过持续使用本工具，随着使用时长，系统会自动增加可提交关键词数量。当然，现在升级VIP用户，马上就能提交更多关键词";
         }
         var exists = docs.filter(function(doc) {
           return doc.link == req.body.link;

@@ -13,7 +13,7 @@ var boom = require("boom");
 module.exports.pool = shiftPool;
 module.exports.finishedPool = finishedPool;
 
-//如果是vip用户，同一个关键字可以分发3次
+//如果是vip用户，同一个关键词可以分发3次
 module.exports.push = function(user, keyword) {
   var existItem = pool.filter(item => {
     return item._id.toString() === keyword._id.toString();
@@ -79,7 +79,7 @@ module.exports.shift = function(user) {
     if(!first.appendRepeat){
       first.appendRepeat = 1;
     }
-    //对于排名倒退的关键字增加优化次数
+    //对于排名倒退的关键词增加优化次数
     if(first.dynamicRank >= first.originRank && first.appendRepeat < 1){
       first.appendRepeat += 1;
       shiftPool.push(first)

@@ -20,6 +20,38 @@ function userGrade(grade) {
     return "未知";
   }
 }
+
+exports.forgetpassword = function(req, res,next){
+  console.log(req.body)
+  User.findOne({
+    userName: req.body.userName,
+    email:req.body.mail
+  })
+  .then((doc) => {
+    return res.send(doc != null)
+  })
+  .catch(e=>{
+    return next(boom.badRequest(e));
+  })
+}
+
+exports.resetpassword = function(req, res,next){
+  console.log(req.body)
+  User.findOne({
+    userName: req.body.userName,
+  })
+  .then((doc) => {
+    doc.password = req.body.newpassword;
+    return doc.save();
+  })
+  .then(doc=>{
+    res.json(doc);
+  })
+  .catch(e=>{
+    return next(boom.badRequest(e));
+  })
+}
+
 exports.isOnline = function(req, res) {
   return res.send(keywordPool.isOnline(req.user.sub));
 };

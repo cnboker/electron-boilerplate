@@ -33,7 +33,7 @@ process.node_debug = true;
       userName: "scott1",
       engine: "baidu",
       link: "ioliz.com",
-      keyword: "软件定制服务",
+      keyword: "充电桩软件定制",
       originRank: 1,
       dynamicRank: 1
     },

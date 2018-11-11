@@ -116,7 +116,7 @@ class List extends Component {
             <thead>
               <tr>
                 <th>用户</th>
-                <th>关键字</th>
+                <th>关键词</th>
                 <th>链接</th>
                 <th>原始排名</th>
                 <th>最新排名</th>

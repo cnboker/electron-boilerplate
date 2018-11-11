@@ -3,7 +3,7 @@ import r from 'ramda'
 import reduxCrud from 'redux-crud'
 import {reducerKey} from './constants'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-
+import {sendToBackground} from "../communication";
 var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: '_id'})
 
 let actionCreators = {
@@ -95,9 +95,7 @@ let actionCreators = {
             // dispatch the success action
             const returned = response.data
             //发消息给后台
-            if(sendToBackground){
-              sendToBackground('keyword_create',returned)
-            }
+            sendToBackground('keyword_create',returned)
             const successAction = baseActionCreators.createSuccess(returned)
             dispatch(successAction)
         },function(response){

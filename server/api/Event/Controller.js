@@ -39,7 +39,7 @@ exports.create = function(req, res, next) {
     });
 };
 
-exports.del = function(req, res) {
+exports.del = function(req, res,next) {
   Event.remove({
     _id: req.params.id
   })

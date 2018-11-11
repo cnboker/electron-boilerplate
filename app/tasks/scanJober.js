@@ -26,15 +26,15 @@ class ScanJober {
         // if(unScanItems.length > 0){
         //     notifier.notify({
         //         title: 'kwPolish提示信息',
-        //         message: '优化引擎正在分析您关键字的原始排名,请耐心等待结果...'
+        //         message: '优化引擎正在分析您关键词的原始排名,请耐心等待结果...'
         //       });
-        //     //notifier.notify('优化引擎正在分析您关键字的原始排名,请耐心等待结果...');
+        //     //notifier.notify('优化引擎正在分析您关键词的原始排名,请耐心等待结果...');
         // }
         // this.itemsPush(unScanItems);
        // console.log('execute end...')
     }
 
-    //程序启动检查是否还有未处理的关键字
+    //程序启动检查是否还有未处理的关键词
     static async originRankCheck(){
         var arr = await this._fetchData();
         console.log('arr', arr)

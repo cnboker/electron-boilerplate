@@ -44,7 +44,7 @@ export default class Index extends Component {
                 this.toggle("2");
               }}
             >
-              事件
+              记录
             </NavLink>
           </NavItem>
           <NavItem>
@@ -60,7 +60,7 @@ export default class Index extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Rank id={this.props.match.params.id} />
+            <Rank {...this.props}  />
           </TabPane>
           <TabPane tabId="2">
             <Event {...this.props} />{" "}

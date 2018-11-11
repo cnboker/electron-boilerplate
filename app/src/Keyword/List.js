@@ -6,9 +6,9 @@ import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
 import { Switch } from "../Components/Forms/Switch";
 import "../utils/groupBy";
-import Select from 'react-select'
+import Select from "react-select";
 import { Animated } from "react-animated-css";
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
+import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 class List extends Component {
   constructor() {
@@ -24,7 +24,6 @@ class List extends Component {
 
   componentWillUpdate(nextProps, nextState) {
     console.log("nextProps", nextProps);
-    
   }
 
   fetch() {
@@ -93,26 +92,29 @@ class List extends Component {
     console.log("entity", entity);
     var action = crudActions.update(entity, this.props.client);
     this.props.dispatch(action);
-    
   }
-  getDiff(item){
-    let color='green', diffText = '-'
-    if(item.dynamicRank ===0 || item.originRank === 0 || item.dynamicRank === -1){
-      color = 'black';
-    }else{
+  getDiff(item) {
+    let color = "green",
+      diffText = "-";
+    if (
+      item.dynamicRank === 0 ||
+      item.originRank === 0 ||
+      item.dynamicRank === -1
+    ) {
+      color = "black";
+    } else {
       var diff = item.originRank - item.dynamicRank;
-      if(diff > 0){
-        diffText = '+' + diff
-      }else if(diff === 0){
-        color = 'black';
-        diffText =  diff
+      if (diff > 0) {
+        diffText = "+" + diff;
+      } else if (diff === 0) {
+        color = "black";
+        diffText = diff;
+      } else {
+        color = "red";
+        diffText = diff;
       }
-      else{
-        color = 'red';
-        diffText =  diff
-      }
-    }  
-    return(<span style={{"color":color,'fontWeight': 'bold'}}>{diffText}</span>)
+    }
+    return <span style={{ color: color, fontWeight: "bold" }}>{diffText}</span>;
   }
 
   renderList() {
@@ -143,21 +145,22 @@ class List extends Component {
             </td>
         */}
             <td>
-              <Link 
+              <Link
                 to={`/analysis/${item._id}`}
                 role="button"
-                className="btn btn-success"
+                className="btn btn-info"
               >
-                <i className="fa fa-cogs fa-lg" />{/*  https://fontawesome.com/v4.7.0/icons/ */}
+                <i className="fa fa-signal fa-lg" />
+                {/*  https://fontawesome.com/v4.7.0/icons/ */}
               </Link>
-              {" "}
+            </td>
+            <td>
               <button
                 className="btn btn-danger"
                 onClick={this.onDelete.bind(this, item)}
               >
                 <i className="fa fa-trash" />
-              </button>
-              {" "}
+              </button>{" "}
               <Switch
                 on={item.status == 1}
                 onClick={this.toggleSwitch.bind(this, item)}
@@ -172,63 +175,71 @@ class List extends Component {
     this.setState({
       filter: selectedOption
     });
-    console.log('option select', selectedOption)
+    console.log("option select", selectedOption);
   }
 
   render() {
-    const options = Object.keys(this.props.keywords.groupBy('link')).map((item)=>{
-      return {
-        value:item, label:item
+    const options = Object.keys(this.props.keywords.groupBy("link")).map(
+      item => {
+        return {
+          value: item,
+          label: item
+        };
       }
-    })
+    );
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
         <div className="row">
-           
-           <div className="col-md-12">
-             <Animated className="animated flash  " isVisible={true}>
-               <div id="__messages" className="alert alert-success">
-                 保持程序运行，优化工作正在进行中...
-               </div>
-             </Animated>
-           </div>
-         </div>
-        <div className="d-flex justify-content-between">
-           <div className="col-md-6">          
-           <Select placeholder="域名过滤" value={this.state.filter} onChange={this.onSelect.bind(this)} options={options} id="filter"/>{" "}
-        </div>
-           <div> 
-           <Link to={"/keyword/new"} role="button" className="btn btn-success">
-            新建
-          </Link>{" "}
-          
-          <button id='pageRefresh'
-            onClick={() => {
-              this.fetch();
-            }}
-            role="button"
-            className="btn btn-info"
-          >
-            刷新
-          </button>
+          <div className="col-md-12">
+            <Animated className="animated flash  " isVisible={true}>
+              <div id="__messages" className="alert alert-success">
+                保持程序运行，优化工作正在进行中...
+              </div>
+            </Animated>
           </div>
-         
+        </div>
+        <div className="d-flex justify-content-between">
+          <div className="col-md-6">
+            <Select
+              placeholder="域名过滤"
+              value={this.state.filter}
+              onChange={this.onSelect.bind(this)}
+              options={options}
+              id="filter"
+            />{" "}
+          </div>
+          <div>
+            <Link to={"/keyword/new"} role="button" className="btn btn-success">
+              新建
+            </Link>{" "}
+            <button
+              id="pageRefresh"
+              onClick={() => {
+                this.fetch();
+              }}
+              role="button"
+              className="btn btn-info"
+            >
+              刷新
+            </button>
+          </div>
         </div>
 
         <div className="table-responsive">
-            <br/>
+          <br />
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>关键字</th>
-                <th>匹配链接</th>
+                <th>关键词</th>
+                <th>匹配网址</th>
                 <th>初始排名</th>
                 <th>最新排名</th>
                 <th>变化</th>
                 {/* <th>擦亮次数</th> */}
                 <th>是否有效</th>
                 <th>状态</th>
+                <th>排名跟踪</th>
                 {/*<th>上次擦亮时间</th>
                 <th>创建日期</th>*/}
                 <th />
@@ -236,6 +247,15 @@ class List extends Component {
             </thead>
             <tbody>{this.renderList()}</tbody>
           </table>
+          <p>
+            注：正常情况下，提交关键字后约2分钟出现初始排名数据。 <br />
+            1.如果长时间数据为0表面系统未正常启动检测功能，请查看“帮助"及时处理{" "}
+            <br />
+            2.
+            如果初始排名数据显示为120+则表明当前网页质量较弱，系统不执行优化功能，请查看"帮助"进行解决{" "}
+            <br />
+            3. 初始排名在0~120直接为正常运行，保持挂机状态即可
+          </p>
         </div>
       </div>
     );

@@ -18,6 +18,9 @@ import Setting from "./Settings/index";
 import Pool from './Pools/list'
 import LoadingBar from "react-redux-loading-bar";
 import Start from './Container/Start'
+import Forgetpassword from './ForgetPwd/index'
+import Resetpassword from './ForgetPwd/resetpassword'
+
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
@@ -91,6 +94,16 @@ class App extends Component {
               component={Start}
               dispatch={this.props.dispatch}
             />
+              <Route
+              path="/forgetpassword"
+              component={Forgetpassword}
+              dispatch={this.props.dispatch}
+            />
+              <Route
+              path="/resetpassword"
+              component={Resetpassword}
+              dispatch={this.props.dispatch}
+            />
             <Redirect from="/" to="/keyword" />
           </Switch>
         </div>
@@ -108,7 +121,7 @@ class App extends Component {
             </div>
             <div className="row">
               <div className="col-12">
-                免责声明：易优团队致力于应用AI技术优化网站以适应搜索引擎规则，从而帮助优质网站在搜索引擎获得较好的排名。由于影响关键词具体排名的非可控因素较多，我们不承诺具体排名位置
+                免责声明：IronPower团队致力于应用AI技术优化网站以适应搜索引擎规则，从而帮助优质网站在搜索引擎获得较好的排名。由于影响关键词具体排名的非可控因素较多，我们不承诺具体排名位置
               </div>
             </div>
           </div>
@@ -119,7 +132,6 @@ class App extends Component {
             <div className="update-split">
               <i className="glyphicon glyphicon-refresh" />
             </div>
-            <div className="update-text" id="__messages" />
           </div>
         </div>
       </div>

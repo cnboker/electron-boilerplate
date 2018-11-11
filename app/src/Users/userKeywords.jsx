@@ -203,8 +203,8 @@ class List extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>关键字</th>
-                <th>匹配链接</th>
+                <th>关键词</th>
+                <th>匹配网址</th>
                 <th>原始排名</th>
                 <th>最新排名</th>
                 <th>擦亮次数</th>

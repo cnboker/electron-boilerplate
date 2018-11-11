@@ -8,7 +8,7 @@ export default class Header extends Component {
         <nav className="my-2 my-md-0 mr-md-3">
       
           <Link className="p-2 text-dark" to="/users/keywords/__today__">
-            今日关键字
+            今日关键词
           </Link>
           <Link className="p-2 text-dark" to="/charge">
             充值

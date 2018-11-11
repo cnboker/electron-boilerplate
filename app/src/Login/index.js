@@ -9,7 +9,7 @@ import { required, renderField } from "../utils/fieldLevelValidation";
 // Import the helpers.. that we'll make here in the next step
 import FetchMessage from "../notifications/fetchMessage";
 import resources from "./locals";
-
+import logo from '../../assets/icons/win/logo.png'
 class Login extends Component {
   componentDidMount() {
     console.log("getInterfaceLanguage()", resources.getInterfaceLanguage());
@@ -51,7 +51,7 @@ class Login extends Component {
     }
   }
 
-  openLink(url){
+  openLink(url) {
     event.preventDefault();
     let link = event.target.href;
     require("electron").shell.openExternal(link);
@@ -62,68 +62,74 @@ class Login extends Component {
 
     return (
       <div>
-        <div className="jumbotron">
-          <h1 className="display-4">钢铁侠-让你的网络推广变轻松</h1>
-          <p className="lead">检测优化自家网站排名情况,钢铁侠好的营销伴侣.</p>
+        <header className="masthead text-center">
+          <img
+            className="img-fluid mb-5 d-block mx-auto"
+            style={{ width: "128px" }}
+            src={logo}
+            alt=""
+          />
+          <h1 className="text-uppercase mb-0">钢铁侠-让你的监控推广变轻松</h1>
+          <hr className="star-light" />
+          <h5 className="font-weight-light mb-0">
+          AI底层技术 - 全站综合提权 - 排名逐步提升 - 效果稳定持久{" "}
+          </h5>
+          <h5 className="font-weight-light mb-0">
+          排名批量监控 - 排名走势跟踪 
+          </h5>
+        </header>
+        <div >
+          <form onSubmit={handleSubmit(this.submit)}>
+            <div className="app flex-row align-items-center">
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="col-md-6">
+                    <div className="card mx-4">
+                      <div className="card-block p-4">
+                        {/*<h1>注册</h1>*/}
+                        <p className="text-muted">{resources.login}</p>
+                        <Field
+                          name="userName"
+                          type="text"
+                          labelIcon="icon-user"
+                          className="form-control"
+                          component={renderField}
+                          placeholder={resources.userName}
+                          validate={required}
+                        />
+                        <Field
+                          name="password"
+                          type="password"
+                          labelIcon="icon-lock"
+                          className="form-control"
+                          component={renderField}
+                          placeholder={resources.password}
+                          validate={required}
+                        />
+                        <button
+                          action="submit"
+                          className="btn btn-block btn-success"
+                        >
+                          {resources.login}
+                        </button>
+                        <div>
+                          {resources.formatString(
+                            resources.not_register,
+                            <Link to="/signup">{resources.register}</Link>
+                          )} { }
+                           <Link to="/forgetpassword">忘记密码</Link>
+                        </div>
 
-          <p className="lead">
-            <a className="btn btn-primary btn-lg" href="#" role="button" onClick={()=>{
-              this.openLink('http://kwpolish.com/product.html')
-            }}>
-              了解更多
-            </a>
-   
-          </p>
-      </div>
-      <form onSubmit={handleSubmit(this.submit)}>
-          <div className="app flex-row align-items-center">
-            <div className="container">
-              <div className="row justify-content-center">
-                <div className="col-md-6">
-                  <div className="card mx-4">
-                    <div className="card-block p-4">
-                      {/*<h1>注册</h1>*/}
-                      <p className="text-muted">{resources.login}</p>
-                      <Field
-                        name="userName"
-                        type="text"
-                        labelIcon="icon-user"
-                        className="form-control"
-                        component={renderField}
-                        placeholder={resources.userName}
-                        validate={required}
-                      />
-                      <Field
-                        name="password"
-                        type="password"
-                        labelIcon="icon-lock"
-                        className="form-control"
-                        component={renderField}
-                        placeholder={resources.password}
-                        validate={required}
-                      />
-                      <button
-                        action="submit"
-                        className="btn btn-block btn-success"
-                      >
-                        {resources.login}
-                      </button>
-                      <div>
-                        {resources.formatString(
-                          resources.not_register,
-                          <Link to="/signup">{resources.register}</Link>
-                        )}
+                        <FetchMessage requestState={this.props.login} />
                       </div>
-
-                      <FetchMessage requestState={this.props.login} />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
-       </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }

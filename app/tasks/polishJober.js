@@ -85,8 +85,8 @@ class PolishJober {
     }
   }
 
-  //关键字已擦亮
-  //doc:已经擦亮的关键字
+  //关键词已擦亮
+  //doc:已经擦亮的关键词
   static async taskFinishedCallback(doc) {
     if (doc.rank == null) return;
 
@@ -111,7 +111,7 @@ class PolishJober {
       });
   }
 
-  //获取待擦亮关键字列表
+  //获取待擦亮关键词列表
   static async _fetchData() {
     const access_token = auth.getToken().access_token;
     console.log('call',`${process.env.REACT_APP_API_URL}/kwTask/tasks`)

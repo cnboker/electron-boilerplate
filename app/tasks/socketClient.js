@@ -85,15 +85,15 @@ exports.main = function main(token) {
     //socket.emit('finished')
   });
 
-  //创建关键字,重新扫描排名
+  //创建关键词,重新扫描排名
   // socket.on("keyword_create", function(doc) {
-  //   messager("message", `关键字"${doc.keyword}"等待优化`);
+  //   messager("message", `关键词"${doc.keyword}"等待优化`);
   //   logger.info("socket keyword_create", doc);
   //   scanJober.execute(doc);
   // });
 
 
-  //服务器远程增加新优化关键字
+  //服务器远程增加新优化关键词
   socket.on("keyword_polish", function(doc) {
     console.log("keyword_polish", doc);
     //polishJober.singlePush(doc);

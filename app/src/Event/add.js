@@ -77,7 +77,7 @@ class AddItem extends Component {
               <RowContainer label="内容">
                 <TextareaAutosize
                   rows={1}
-                  placeholder="记录网站当前关键字的优化笔记"
+                  placeholder="记录网站当前关键词的优化笔记"
                   className="form-control"
                   innerRef={ref => (this.textarea = ref)}
                 />

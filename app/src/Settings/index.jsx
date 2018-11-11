@@ -90,7 +90,7 @@ class Index extends Component {
         </div>
         <hr />
         <p>
-          切换引擎->切换后,关键字统计数据将重置,请谨慎操作,切换到google确保网络通畅.
+          切换引擎->切换后,关键词统计数据将重置,请谨慎操作,切换到google确保网络通畅.
         </p>
 
         <div className="form-group">

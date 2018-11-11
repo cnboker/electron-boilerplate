@@ -21,7 +21,7 @@ export default class Index extends Component {
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>优化5个关键字</li>
+                  <li>优化5个关键词</li>
                   <li>优化1网站</li>
                   <li>需安装客户端</li>
                   <li>远程技术支持</li>
@@ -39,7 +39,7 @@ export default class Index extends Component {
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>关键字不限</li>
+                  <li>关键词不限</li>
                   <li>网站不限</li>
                   <li>需安装客户端</li>
                   <li>远程技术支持</li>

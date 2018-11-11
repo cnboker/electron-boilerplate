@@ -48,7 +48,7 @@ class SocketServer extends EventEmitter {
       logger.info(data || "error");
     });
   }
-  //关键字创建， 通知客户端做scan动作
+  //关键词创建， 通知客户端做scan动作
   keywordCreate(doc) {
     //console.log("keywordCreate doc=", doc);
     var socket = this.find(doc.user);
@@ -62,7 +62,7 @@ class SocketServer extends EventEmitter {
     return clients[userName];
   }
 
-  //rank完成，通知在线客户端polish， 对于新用户会给出3个关键字的机会，这样的目的是留住新用户，尽快让用户能看到结果
+  //rank完成，通知在线客户端polish， 对于新用户会给出3个关键词的机会，这样的目的是留住新用户，尽快让用户能看到结果
   keywordRank(doc) {
     if (doc.originRank == -1) return;
     var min = 5; //5s

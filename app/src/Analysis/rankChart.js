@@ -12,21 +12,22 @@ var dc = require("dc");
 
 class History extends Component {
   componentDidMount() {
-    console.log("this.props.match.params", this.props.id);
+    console.log("this.props.match.params", this.props.match.params.id);
+    var id = this.props.match.params.id;
     var client = this.props.client;
     const {dispatch} = this.props;
     var that = this;
     dispatch(showLoading())
     Promise.all([
       axios({
-        url: `${process.env.REACT_APP_API_URL}/analysis/${this.props.id}`,
+        url: `${process.env.REACT_APP_API_URL}/analysis/${id}`,
         method: "get",
         headers: {
           Authorization: `Bearer ${client.token.access_token}`
         }
       }),
       axios({
-        url: `${process.env.REACT_APP_API_URL}/event/${this.props.id}`,
+        url: `${process.env.REACT_APP_API_URL}/event/${id}`,
         method: "get",
         headers: {
           Authorization: `Bearer ${client.token.access_token}`
@@ -41,6 +42,15 @@ class History extends Component {
       .catch(e => {
         console.log(e);
       });
+  }
+
+  getKeyword() {
+    var id = this.props.match.params.id;
+    const {keywords} = this.props;
+    var kw = keywords.filter(x => {
+      return x._id == id;
+    });
+    return kw[0];
   }
 
   draw(results) {
@@ -146,8 +156,10 @@ class History extends Component {
       .width(1024)
       .height(500)
       .brushOn(false)
-      .yAxisLabel("动态排名")
+      .yAxisLabel(this.getKeyword().keyword + "的动态排名")
       .x(d3.scaleTime().domain([new Date(minDate), new Date(maxDate)]))
+      .y(d3.scaleLinear().domain([0,120]))
+      .margins({ top: 30, right: 50, bottom: 30, left: 50 })
       .renderHorizontalGridLines(true)
       .legend(
         dc
@@ -164,7 +176,7 @@ class History extends Component {
           .transitionDuration(1500)
           //.margins({ top: 10, right: 50, bottom: 30, left: 40 })
           .dimension(dim1)
-          .group(grp2, "事件")
+          .group(grp2, "记录")
 
           .colors(d3.scaleOrdinal(d3.schemeCategory10))
           .keyAccessor(function(p) {
@@ -196,9 +208,7 @@ class History extends Component {
         dc
           .lineChart(chart)
           .dimension(dim)
-          //.elasticY(true)
-          //.colors("blue")
-          //.xUnits(dc.units.ordinal)
+          .elasticY(true)     
           .group(grp1, "排名")
           //.dashStyle([2, 2])
           .valueAccessor(p => {
@@ -220,7 +230,13 @@ class History extends Component {
   }
 
   render() {
-    return <div ref={chart => (this.chart = chart)} />;
+    return (
+      <div>
+        <div ref={chart => (this.chart = chart)} />
+        <div>纵轴为排名位置，横轴为时间节点</div>
+      </div>
+    )
+    
   }
 }
 

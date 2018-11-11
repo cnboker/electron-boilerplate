@@ -42,12 +42,17 @@ figure {
     margin-left: 0;
     border-width: .2rem;
 }
+.ml-auto, .mx-auto {
+  margin-left: auto!important;
+}
+
 
 hr {
   box-sizing: content-box;
   height: 0;
   overflow: visible; }
-
+  
+ 
 pre {
   font-family: monospace, monospace;
   font-size: 1em; }
@@ -4018,8 +4023,8 @@ button.close {
   background-color: #dcdddf; }
 
 .bg-primary {
-  background-color: #20a8d8 !important; }
-
+    background-color: #18bc9c!important;
+}
 a.bg-primary:focus, a.bg-primary:hover {
   background-color: #1985ac !important; }
 

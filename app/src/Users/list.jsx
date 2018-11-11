@@ -158,7 +158,7 @@ class List extends Component {
               <tr>
                 <th>用户名称</th>
                 <th>邮箱</th>
-                <th>关键字数</th>
+                <th>关键词数</th>
                 <th>上次登录时间</th>
                 <th>是否在线</th>
                 <th>会员类型</th>

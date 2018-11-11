@@ -23,5 +23,11 @@ module.exports = function(app){
 
   app.route('/api/user/isOnline')
   .get(ctl.isOnline)
+
+  app.route('/api/user/forgetpassword')
+  .post(ctl.forgetpassword);
+  
+  app.route('/api/user/resetpassword')
+  .post(ctl.resetpassword);
 }
 
