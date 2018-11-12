@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import EventBus from "eventing-bus";
 import {sendToBackground} from "../communication";
 import {Link} from 'react-router-dom'
-import {get} from "http";
 class Index extends Component {
   constructor() {
     super();
@@ -11,19 +10,27 @@ class Index extends Component {
       keywords: ["正在获取拓词数据..."],
       selectedKeywords: []
     };
+    this.unmount = false;
   }
+
   componentDidMount() {
     var kw = this.getKeyword();
     //发消息给后台
     sendToBackground("wordQuery", kw.keyword);
     var self = this;
     EventBus.on("wordResponse", function (obj) {
+      if(self.unmount)return;
       console.log("react wordResponse", obj);
       kw = self.getKeyword();
       if (kw.keyword == obj.keyword) {
         self.setState({keywords: obj.result});
       }
     });
+  }
+
+  componentWillUnmount() {
+
+    this.unmount = true;
   }
 
   getKeyword() {
@@ -35,7 +42,7 @@ class Index extends Component {
     return kw[0];
   }
 
-  componentWillUnmount() {}
+
 
   wordReady(keywords) {
     console.log("wordReady", keywords);

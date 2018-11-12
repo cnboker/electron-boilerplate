@@ -1,6 +1,6 @@
 //handle background event data
 export function eventRegister() {
-  if(!window.require)return;
+  if (!window.require) return;
   var EventBus = require("eventing-bus");
 
   var ipcRenderer = window.require("electron").ipcRenderer;
@@ -8,7 +8,9 @@ export function eventRegister() {
   ipcRenderer.on("message", function(event, text) {
     // changes the text of the button
     var container = document.getElementById("__messages");
-    container.innerHTML = text;
+    if (container) {
+      container.innerHTML = text;
+    }
   });
 
   //重新加载页面数据
@@ -28,9 +30,9 @@ export function eventRegister() {
 }
 
 export function sendToBackground(event, data) {
-  if(!window.require)return;
-  var processHandler = window.require("electron").remote.getGlobal(
-    "backgroundProcessHandler"
-  );
+  if (!window.require) return;
+  var processHandler = window
+    .require("electron")
+    .remote.getGlobal("backgroundProcessHandler");
   processHandler.sendToIPCRenderer(event, data);
 }

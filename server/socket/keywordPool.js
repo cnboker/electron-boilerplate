@@ -147,6 +147,7 @@ function userLeave(user) {
       setTimeout(() => {
         if (!userPool[user]) return;
         var myuser = userPool[user].myInfo;
+        if(!myuser)return;
         if (myuser.status === 0) {
           console.log("用户30秒未登录,删除数据");
           delete userPool[user];

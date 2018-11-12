@@ -156,9 +156,9 @@ class History extends Component {
       .width(1024)
       .height(500)
       .brushOn(false)
-      .yAxisLabel(this.getKeyword().keyword + "的动态排名")
+      .yAxisLabel( "动态排名")
       .x(d3.scaleTime().domain([new Date(minDate), new Date(maxDate)]))
-      .y(d3.scaleLinear().domain([0,120]))
+      .y(d3.scaleLinear().domain([120,-5]))
       .margins({ top: 30, right: 50, bottom: 30, left: 50 })
       .renderHorizontalGridLines(true)
       .legend(
@@ -231,7 +231,10 @@ class History extends Component {
 
   render() {
     return (
-      <div>
+      <div className="row">
+      
+        <p className="mx-auto h-100 justify-content-center text-center"><h3>{`"${this.getKeyword().keyword}"排名走势`}</h3></p>
+     
         <div ref={chart => (this.chart = chart)} />
         <div>纵轴为排名位置，横轴为时间节点</div>
       </div>

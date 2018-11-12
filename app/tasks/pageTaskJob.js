@@ -197,7 +197,7 @@ async function inputKeyword(page, input, anyclick) {
       }
     });
 
-    await sleep(5000);
+    await sleep(10000);
     let pages = await page.browser().pages();
     pages[pages.length - 1].close();
   }
