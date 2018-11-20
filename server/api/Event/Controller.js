@@ -27,7 +27,7 @@ exports.list = function(req, res, next) {
 
 exports.create = function(req, res, next) {
     delete req.body._id;
-    console.log('req.body',req.body)
+    //console.log('req.body',req.body)
   var doc = Event(req.body);
   doc
     .save()

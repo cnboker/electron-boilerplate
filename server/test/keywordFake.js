@@ -78,5 +78,5 @@ var json = [{
 ]
 
 
-      var tss = require('../api/Keyword/taskSimpleStrategy')
-     tss(json)
+    //   var tss = require('../api/Keyword/taskSimpleStrategy')
+    //  tss(json)

@@ -27,10 +27,10 @@ describe('keyword', () => {
         .set('Authorization', `Bearer ${access_token}`)
         .end((err, res) => {
           res.should.have.status(200);
-          console.log('res.body', res.body);
+          //console.log('res.body', res.body);
           expect(err).to.be.null;
           expect(res).to.be.json;
-          expect(res.body).to.have.lengthOf(1);
+         // expect(res.body).to.have.lengthOf(1);
           done();
         });
     })
@@ -50,7 +50,7 @@ describe('keyword', () => {
       });
       keyword.save()
         .then((doc) => {
-          console.log('rank', doc)
+         // console.log('rank', doc)
           if (doc) {
             chai.request(server)
               .post('/api/kwTask/rank')
@@ -60,7 +60,7 @@ describe('keyword', () => {
                 rank: 30
               })
               .end((err, res) => {
-                console.log('body', err)
+                //console.log('body', err)
                 res.should.have.status(200);
                 expect(err).to.be.null;
                 expect(res.body.originRank).to.be.equal(30);
@@ -88,7 +88,7 @@ describe('keyword', () => {
         })
         .then((doc) => {
 
-          console.log('polish:', doc.toObject())
+          //console.log('polish:', doc.toObject())
           if (doc) {
             chai.request(server)
               .post('/api/kwTask/polish')
@@ -100,6 +100,7 @@ describe('keyword', () => {
               .end((err, res) => {
                 //console.log('body----', res.body)
                 res.should.have.status(200);
+                
                 expect(err).to.be.null;
                 expect(res.body.dynamicRank).to.be.equal(20);
                 expect(res.body.polishedCount).to.be.equal(1);
@@ -111,6 +112,85 @@ describe('keyword', () => {
     })
   })
   
+  //检查用户rank设置是否正常
+  describe('/api/kwTask/polish', () => {
+    it('set polish rank = 20, user rank =10', (done) => {
+
+      Keyword.create({
+          keyword: '软件开发公司',
+          link: 'ioliz.com',
+          user: 'scott',
+          createDate: new Date(),
+          dynamicRank:30,
+          originRank:30
+        })
+        .then((doc) => {
+
+          //console.log('polish:', doc.toObject())
+          if (doc) {
+            chai.request(server)
+              .post('/api/kwTask/polish')
+              .set('Authorization', `Bearer ${access_token}`)
+              .send({
+                _id: doc._id,
+                rank: 20
+              })
+              .end((err, res) => {
+                res.should.have.status(200);
+                chai.request(server)
+                .get('/api/profile')
+                .set('Authorization', `Bearer ${access_token}`)
+                .end((err, res) => {
+                  res.should.have.status(200)
+                  expect(res.body.rank).to.be.equal(10);
+                  done();
+                });
+              });
+          }
+
+        });
+    })
+  })
+
+  //检查用户rank设置是否正常
+  describe('/api/kwTask/polish', () => {
+    it('set polish rank = 60, user rank =-30', (done) => {
+
+      Keyword.create({
+          keyword: '软件开发公司',
+          link: 'ioliz.com',
+          user: 'scott',
+          createDate: new Date(),
+          dynamicRank:30,
+          originRank:30
+        })
+        .then((doc) => {
+
+          //console.log('polish:', doc.toObject())
+          if (doc) {
+            chai.request(server)
+              .post('/api/kwTask/polish')
+              .set('Authorization', `Bearer ${access_token}`)
+              .send({
+                _id: doc._id,
+                rank: 60
+              })
+              .end((err, res) => {
+                res.should.have.status(200);
+                chai.request(server)
+                .get('/api/profile')
+                .set('Authorization', `Bearer ${access_token}`)
+                .end((err, res) => {
+                  res.should.have.status(200)
+                  expect(res.body.rank).to.be.equal(-30);
+                  done();
+                });
+              });
+          }
+
+        });
+    })
+  })
 
   // describe('test sort', ()=>{
   //   it('print',(done)=>{

@@ -21,7 +21,8 @@ var userSchema = new Scheam({
   lastLoginDate:Date,
   engine:String, //优化引擎,
   status:Number, //1 online, 0 offline,
-  rankSet:Number //1 排名检测同时优化, 2:检测排名不优化
+  rankSet:Number,//1 排名检测同时优化, 2:检测排名不优化
+  rank:Number //点击排名下降，rank对应减值，点击排名上升，rank对于增值
 });
 userSchema.plugin(mongoosePaginate) //pagination function
 module.exports = mongoose.model('User', userSchema);

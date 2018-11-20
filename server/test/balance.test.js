@@ -33,8 +33,8 @@ describe('balance', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          //console.log(JSON.stringify(res));
-          expect(res.body.message).to.be.equal('付费金额不能小于单价');
+     
+          res.body.message.should.eql('付费金额不能小于单价');
           done();
         })
     });
@@ -49,7 +49,7 @@ describe('balance', () => {
           amount: 199
         })
         .end((err, res) => {
-          console.log(res.body)
+          //console.log(res.body)
           res.should.have.status(200);
           expect(res.body.grade).to.be.equal(2);
           done();
@@ -66,7 +66,7 @@ describe('balance', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
-          console.log('expireddate=', res.body.vipExpiredDate)
+          //console.log('expireddate=', res.body.vipExpiredDate)
           var s1 = moment(res.body.vipExpiredDate, 'YYYY-MM-DD');
           var current = moment().startOf('day');
           var days = moment.duration(s1.diff(current)).asDays();

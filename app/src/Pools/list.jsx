@@ -66,7 +66,7 @@ class List extends Component {
       return (
         <tr key={index}>
           <td>{item.user}</td>
-          <td>{item.keyword}</td>
+          <td style={{overflow: 'hidden','white-space': 'initial'}}>{item.keyword}</td>
           <td>{item.link}</td>
           <td>{this.stringFormat(item.originRank)}</td>
           <td>{this.stringFormat(item.dynamicRank)}</td>
@@ -116,7 +116,7 @@ class List extends Component {
             <thead>
               <tr>
                 <th>用户</th>
-                <th>关键词</th>
+                <th style={{width:'22%'}}>关键词</th>
                 <th>链接</th>
                 <th>原始排名</th>
                 <th>最新排名</th>

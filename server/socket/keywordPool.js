@@ -159,6 +159,7 @@ function userLeave(user) {
     });
 }
 
+
 //用户请求资源
 function req(user) {
   var my = userPool[user];

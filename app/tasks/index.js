@@ -28,29 +28,29 @@ const auth = require("../auth");
 var client = require("./socketClient");
 process.node_debug = true;
 (async () => {
-  // var task = {
-  //   doc: {
-  //     userName: "scott1",
-  //     engine: "baidu",
-  //     link: "ioliz.com",
-  //     keyword: "充电桩软件定制",
-  //     originRank: 1,
-  //     dynamicRank: 1
-  //   },
-  //   action: jobAction.Polish,
-  //   end: function(doc) {
-  //     console.log("polishjober execute doc rank", doc);
-  //     //done();
-  //   }
-  // };
-  // jobContext.puppeteer = require("puppeteer");
+  var task = {
+    doc: {
+      userName: "scott1",
+      engine: "baidu",
+      link: "ioliz.com",
+      keyword: "数字标牌内容发布系统 定制开发",
+      originRank: 64,
+      dynamicRank: 0
+    },
+    action: jobAction.Polish,
+    end: function(doc) {
+      console.log("polishjober execute doc rank", doc);
+      //done();
+    }
+  };
+  jobContext.puppeteer = require("puppeteer");
   // const browser = await jobContext.puppeteer.launch({
   //   headless: false
   // });
 
-  //const page = await browser.newPage();
+  // const page = await browser.newPage();
 
-  //await pageTaskJob.execute(task);
+  await pageTaskJob.execute(task);
   //await pageTaskJob.singleTaskProcess(page,task);
 
   //   jobContext.puppeteer = require('puppeteer');
@@ -71,10 +71,10 @@ process.node_debug = true;
   //         ////reconnect
   //         auth.waitUtilGetToken(client.main);
   //       });
-  jobContext.puppeteer = require("puppeteer");
-  const worder = require("./wordExtender");
-  var result = await worder
-  .search('软件定制')
-  logger.info("wordQuery result",result);
+  // jobContext.puppeteer = require("puppeteer");
+  // const worder = require("./wordExtender");
+  // var result = await worder
+  // .search('软件定制')
+  // logger.info("wordQuery result",result);
 
 })();

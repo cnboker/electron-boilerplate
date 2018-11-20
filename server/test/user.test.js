@@ -36,7 +36,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           res.should.have.status(400);
-          console.log(err);
+          //console.log(err);
           done();
         })
     })
@@ -54,7 +54,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           //console.log('err', err)
-          console.log('body', res.body);
+          //console.log('body', res.body);
           res.should.have.status(201);
           done();
         })
@@ -83,7 +83,7 @@ describe('Users', () => {
               })
               .end((err, res) =>{
                 //assert
-                console.log('err', err);
+                //console.log('err', err);
                 res.should.have.status(400);
                 done();
               });
@@ -119,7 +119,7 @@ describe('Users', () => {
               })
               .end((err, res) =>{
                 //assert
-                console.log('body', res.body);
+                //console.log('body', res.body);
                 res.should.have.status(200);
                 done();
               });

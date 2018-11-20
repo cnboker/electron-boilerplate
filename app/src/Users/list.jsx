@@ -91,7 +91,7 @@ class List extends Component {
 
   stringFormatTime(val) {
     if (!val) return "";
-    return moment(val).format("MM-DD HH:mm:ss");
+    return moment(val).format("MM-DD HH:mm");
   }
 
   isValidDate(value) {
@@ -134,6 +134,7 @@ class List extends Component {
           <td>{item.userTypeText}</td>
           <td>{this.stringFormat(item.vipExpiredDate)}</td>
           <td>{item.point}</td>
+          <td>{item.rank||0}</td>
           <td>
             <Switch
               on={item.locked}
@@ -158,12 +159,13 @@ class List extends Component {
               <tr>
                 <th>用户名称</th>
                 <th>邮箱</th>
-                <th>关键词数</th>
-                <th>上次登录时间</th>
-                <th>是否在线</th>
+                <th>词数</th>
+                <th>登录时间</th>
+                <th>在线?</th>
                 <th>会员类型</th>
                 <th>到期日期</th>
                 <th>积分</th>
+                <th>Rank</th>
                 <th>拉黑</th>
               </tr>
             </thead>

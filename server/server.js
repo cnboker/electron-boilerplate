@@ -55,7 +55,7 @@ app.use(function (err, req, res, next) {
     // log the error... probably you don't want to log unauthorized access or do
     // you?
   }
-  logger.error('err', err);
+  //logger.error('err', err);
   if (err.status == 401) {
     return res
       .status(err.status)

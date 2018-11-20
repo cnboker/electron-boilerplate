@@ -1,8 +1,11 @@
 "use strict";
 var path = require("path");
-require("./config");
 
 const electron = require("electron");
+const app = electron.app; // Module to control application life.
+
+require("./config");
+
 
 const { autoUpdater } = require("electron-updater");
 //引用远程未注册模块
@@ -10,7 +13,8 @@ const main = require("./node_modules/electron-process/src/main");
 var extender = require("./mainExtend");
 extender.enableAuto();
 
-const app = electron.app; // Module to control application life.
+
+
 const crashReporter = electron.crashReporter;
 crashReporter.start({
   productName: "kwpolish",

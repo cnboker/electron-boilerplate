@@ -117,18 +117,22 @@ exports.create = function(req, res, next) {
     }),
     Keyword.find({
       user: req.user.sub
-    }).lean().exec()
+    })
+      .lean()
+      .exec()
   ])
     .then(([user, docs]) => {
       var keywords = req.body.keyword.split("\n").filter(function(val) {
         return val.trim().length > 1;
       });
 
-      var saveKeywords = docs.map(item=>{return item.keyword})
-      console.log('saveKeywords', saveKeywords)
+      var saveKeywords = docs.map(item => {
+        return item.keyword;
+      });
+      console.log("saveKeywords", saveKeywords);
       //remove duplicate
       keywords = keywords.filter(function(item, pos) {
-        return keywords.indexOf(item) == pos && !(saveKeywords.includes(item))
+        return keywords.indexOf(item) == pos && !saveKeywords.includes(item);
       });
       var grade = user.grade || 1;
       if (grade == 1) {
@@ -142,12 +146,12 @@ exports.create = function(req, res, next) {
           throw "普通账号只能增加一个域名";
         }
       }
-      if(keywords.length == 0){
-        res.json([])
+      if (keywords.length == 0) {
+        res.json([]);
         return;
       }
-      
-      console.log('keywords ---', keywords)
+
+      console.log("keywords ---", keywords);
 
       var docs = [];
       for (var keyword of keywords) {
@@ -276,7 +280,7 @@ exports.rank = function(req, res, next) {
     }
   )
     .then(doc => {
-      console.log("rank doc", doc);
+      //console.log("rank doc", doc);
       req.socketServer.keywordRank(doc);
       res.json(doc);
     })
@@ -363,22 +367,38 @@ exports.polish = function(req, res, next) {
       polishedCount: 1
     }
   };
-
-  Keyword.findOne({
-    _id: req.body._id
-  })
-    .then(function(doc) {
-      // console.log('polish doc', doc)
-      //if (doc.dynamicRank == null) throw "dynamicRank is not null";
-      if (!doc.originRank) {
-        doc.originRank = req.body.rank || -1;
+  var lastDynamicRank = 0;
+  Promise.all([
+    Keyword.findOne({
+      _id: req.body._id
+    }),
+    User.findOne({
+      userName: req.user.sub
+    })
+  ])
+    .then(([keyword, user]) => {
+      lastDynamicRank = keyword.dynamicRank;
+      if (!keyword.originRank) {
+        keyword.originRank = req.body.rank || -1;
       }
-      if (doc.originRank > 0 && req.body.rank == undefined) {
+      if (keyword.originRank > 0 && req.body.rank == undefined) {
         throw "skip rank=-1";
       }
-      if (doc.dynamicRank <= 80 && req.body.rank == -1) {
+      if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
         throw "skip rank=-1";
       }
+      return { keyword, user };
+    })
+    .then(result => {
+      var rankDiff = (result.keyword.dynamicRank || 0) - req.body.rank;
+      if (!result.user.rank) {
+        result.user.rank = 0;
+      }
+      result.user.rank += rankDiff;
+      result.user.save();
+      return result;
+    })
+    .then(result => {
       return Keyword.findOneAndUpdate(
         {
           _id: req.body._id
@@ -392,23 +412,77 @@ exports.polish = function(req, res, next) {
       );
     })
     .then(function(doc) {
-      console.log("polish doc", doc.keyword, doc.link, doc.originRank, doc.dynamicRank);
+      // console.log(
+      //   "polish doc",
+      //   doc.keyword,
+      //   doc.link,
+      //   doc.originRank,
+      //   doc.dynamicRank
+      // );
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
         user: req.user.sub,
         keyword: doc.keyword,
         createDate: new Date(),
-        dynamicRank:doc.dynamicRank,
+        dynamicRank: doc.dynamicRank,
+        lastDynamicRank,
         ip: ip
       });
       log.save();
       keywordPool.polishFinished(req.user.sub, doc.toObject());
-
       res.json(doc);
     })
     .catch(e => {
       logger.error(e);
       return next(boom.badRequest(e));
     });
+
+  // Keyword.findOne({
+  //   _id: req.body._id
+  // })
+  //   .then(function(doc) {
+  //     // console.log('polish doc', doc)
+  //     //if (doc.dynamicRank == null) throw "dynamicRank is not null";
+  //     if (!doc.originRank) {
+  //       doc.originRank = req.body.rank || -1;
+  //     }
+  //     if (doc.originRank > 0 && req.body.rank == undefined) {
+  //       throw "skip rank=-1";
+  //     }
+  //     if (doc.dynamicRank <= 80 && req.body.rank == -1) {
+  //       throw "skip rank=-1";
+  //     }
+  //     return Keyword.findOneAndUpdate(
+  //       {
+  //         _id: req.body._id
+  //       },
+  //       upsertData,
+  //       {
+  //         //同时设置这2个参数，否则doc返回null
+  //         upsert: true,
+  //         new: true //return the modified document rather than the original. defaults to false
+  //       }
+  //     );
+  //   })
+  //   .then(function(doc) {
+  //     console.log("polish doc", doc.keyword, doc.link, doc.originRank, doc.dynamicRank);
+  //     var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  //     var log = new PolishLog({
+  //       keyword_id: req.body._id,
+  //       user: req.user.sub,
+  //       keyword: doc.keyword,
+  //       createDate: new Date(),
+  //       dynamicRank:doc.dynamicRank,
+  //       ip: ip
+  //     });
+  //     log.save();
+  //     keywordPool.polishFinished(req.user.sub, doc.toObject());
+
+  //     res.json(doc);
+  //   })
+  //   .catch(e => {
+  //     logger.error(e);
+  //     return next(boom.badRequest(e));
+  //   });
 };

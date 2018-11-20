@@ -45,6 +45,8 @@ async function execute(task) {
           findLinkClick(page, task.doc.link).then(() => {
             jobContext.busy = false;
           });
+        } else {
+          jobContext.busy = false;
         }
       } else {
         jobContext.busy = false;
@@ -167,7 +169,7 @@ async function goPage(page, pageIndex) {
 
 //输入框模拟输入关键词
 async function inputKeyword(page, input, anyclick) {
-  const pageUrl = "https://www.baidu.com/";
+  const pageUrl = "https://www.baidu.com/#1";
   page.setViewport({ width: 960, height: 768 });
   await page.goto(pageUrl, {
     waitUtil: "load"
@@ -175,7 +177,7 @@ async function inputKeyword(page, input, anyclick) {
 
   await page.waitForSelector("#kw", { visible: true });
   await page.focus("#kw");
-  await page.waitFor("#kw");
+  //await page.waitFor("#kw");
   await page.$eval("#kw", (el, input) => (el.value = input), input);
 
   await sleep(2000);
@@ -187,20 +189,20 @@ async function inputKeyword(page, input, anyclick) {
   await sleep(2000);
 
   //首页任意点击
-  if (anyclick) {
-    await page.evaluate(() => {
-      var nodes = document.querySelectorAll("div.result.c-container");
-      var arr = [...nodes];
-      var index = Math.floor(Math.random() * arr.length) + 1;
-      if (index > 0) {
-        arr[index - 1].getElementsByTagName("a")[0].click();
-      }
-    });
+  // if (anyclick) {
+  //   await page.evaluate(() => {
+  //     var nodes = document.querySelectorAll("div.result.c-container");
+  //     var arr = [...nodes];
+  //     var index = Math.floor(Math.random() * arr.length) + 1;
+  //     if (index > 0) {
+  //       arr[index - 1].getElementsByTagName("a")[0].click();
+  //     }
+  //   });
 
-    await sleep(10000);
-    let pages = await page.browser().pages();
-    pages[pages.length - 1].close();
-  }
+  //   await sleep(10000);
+  //   let pages = await page.browser().pages();
+  //   pages[pages.length - 1].close();
+  // }
 }
 
 //查找当前页是否包含特定关键词
@@ -247,31 +249,31 @@ async function pageRank(page, match, pageIndex) {
 
 //查找包含关键词的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
-  await page.evaluate(keyword => {
-    var nodes = document.querySelectorAll("div.result.c-container");
-    var arr = [...nodes];
-    var items = arr.filter(x => {
-      return x.innerText.indexOf(keyword) >= 0;
-    });
-    if (items.length > 0) {
-      var index = arr.indexOf(items[0]);
-      if (index > 0) {
-        arr[index - 1].getElementsByTagName("a")[0].click();
-      }
-    }
-  }, keyword);
+  // await page.evaluate(keyword => {
+  //   var nodes = document.querySelectorAll("div.result.c-container");
+  //   var arr = [...nodes];
+  //   var items = arr.filter(x => {
+  //     return x.innerText.indexOf(keyword) >= 0;
+  //   });
+  //   if (items.length > 0) {
+  //     var index = arr.indexOf(items[0]);
+  //     if (index > 0) {
+  //       arr[index - 1].getElementsByTagName("a")[0].click();
+  //     }
+  //   }
+  // }, keyword);
 
-  await sleep(5000);
+  // await sleep(5000);
 
-  let pages = await page.browser().pages();
+  // let pages = await page.browser().pages();
 
-  var firstPage = pages[pages.length - 1];
-  if (firstPage.url().indexOf("baidu.com") == -1) {
-    firstPage.close();
-  }
+  // var firstPage = pages[pages.length - 1];
+  // if (firstPage.url().indexOf("baidu.com") == -1) {
+  //   firstPage.close();
+  // }
 
-  page.bringToFront();
-  await sleep(2000);
+  // page.bringToFront();
+  // await sleep(2000);
 
   await page.evaluate(keyword => {
     var nodes = document.querySelectorAll("div.result.c-container");

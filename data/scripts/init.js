@@ -7,8 +7,8 @@ function initdb(cb) {
       console.log(`err:${err}`);
       return;
     }
-    console.log(`stdout:${stdout}`);
-    console.log(`stderr:${stderr}`);
+    //console.log(`stdout:${stdout}`);
+   //console.log(`stderr:${stderr}`);
     cb();
   });
 }

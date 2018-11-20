@@ -22,7 +22,7 @@ function userGrade(grade) {
 }
 
 exports.forgetpassword = function(req, res,next){
-  console.log(req.body)
+  //console.log(req.body)
   User.findOne({
     userName: req.body.userName,
     email:req.body.mail
@@ -36,7 +36,7 @@ exports.forgetpassword = function(req, res,next){
 }
 
 exports.resetpassword = function(req, res,next){
-  console.log(req.body)
+ // console.log(req.body)
   User.findOne({
     userName: req.body.userName,
   })
@@ -93,7 +93,7 @@ exports.setting = function(req, res, next) {
 function engineChange(req, res, next) {
   User.findOne({ userName: req.user.sub })
     .then(function(doc) {
-      console.log(doc);
+      //console.log(doc);
       if (doc.engine !== req.body.engine) {
         doc.engine = req.body.engine;
         doc.save();
@@ -102,7 +102,7 @@ function engineChange(req, res, next) {
       throw "not update";
     })
     .then(function(doc) {
-      console.log("req.body.engine=", req.body.engine, doc.userName);
+      //console.log("req.body.engine=", req.body.engine, doc.userName);
       return Keyword.update(
         {
           user: doc.userName
@@ -121,7 +121,7 @@ function engineChange(req, res, next) {
         .lean()
         .exec((err, docs) => {
           if (err) {
-            console.log("err", err);
+           // console.log("err", err);
             res.send(err);
             return;
           }
@@ -231,7 +231,7 @@ exports.profile = function(req, res, next) {
       profile.grade = userGrade(doc.grade);
       profile.gradeValue = doc.grade;
       profile.expiredDate = doc.vipExpiredDate;
-
+      profile.rank = doc.rank;
       return profile;
     })
     .then(function(profile) {
@@ -297,12 +297,12 @@ exports.signup = function(req, res, next) {
     })
     .then(doc => {
       if (doc) {
-        console.log("signup", doc);
+        //console.log("signup", doc);
         var jwtJson = {
           id_token: createIdToken({ userName, role: "user" }),
           access_token: createAccessToken(userName)
         };
-        console.log("jwtJson", jwtJson);
+        //console.log("jwtJson", jwtJson);
         res.status(201).json(jwtJson);
       }
     })
@@ -347,7 +347,7 @@ exports.login = function(req, res) {
             { multi: true }
           )
             .then(() => {
-              console.log('resolve')
+              //console.log('resolve')
               resolve(user);
             })
             .catch(e => {

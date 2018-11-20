@@ -128,7 +128,7 @@ class List extends Component {
       .map(item => {
         return (
           <tr key={item._id}>
-            <td>{item.keyword}</td>
+            <td style={{overflow: 'hidden','white-space': 'initial'}}>{item.keyword}</td>
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
@@ -231,7 +231,7 @@ class List extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>关键词</th>
+                <th style={{width:'22%',overflow: 'hidden','text-overflow': 'ellipsis'}}>关键词</th>
                 <th>匹配网址</th>
                 <th>初始排名</th>
                 <th>最新排名</th>

@@ -74,7 +74,7 @@ class SocketServer extends EventEmitter {
       ...doc.toObject(),
       runTime: next.format("YYYY-MM-DD HH:mm:ss")
     };
-    console.log("keywordRank mergeDoc=", mergeDoc);
+    //console.log("keywordRank mergeDoc=", mergeDoc);
     if (!this.userPtr) {
       this.userPtr = 0;
     }

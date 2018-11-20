@@ -10,6 +10,7 @@ var polishLogSchema = new Schema({
     user:String, //擦亮账号
     ip:String,
     createDate:Date,
+    lastDynamicRank:Number,
     dynamicRank:Number
  })
  

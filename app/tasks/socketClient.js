@@ -7,11 +7,11 @@ const messager = require("./ipcSender");
 if (process.env.APP != "web") {
   //localStorage.debug = "*";
 }
+var io = require("socket.io-client");
 
 //var intervalID;
 exports.main = function main(token) {
   console.log("begin run socket client", token);
-  var io = require("socket.io-client");
   var socket = io(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
@@ -54,7 +54,7 @@ exports.main = function main(token) {
 
   socket.on("reconnect_attempt", attemptNumber => {
     // ...
-    console.log("reconnect_attempt", attemptNumber);
+    logger.info("reconnect_attempt", attemptNumber);
   });
 
   socket.on("disconnect", function() {

@@ -69,8 +69,8 @@ module.exports.shift = function(user) {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 3 * 60; //2min
-  var max = 30 * 60; // 10min
+  var min = 0 * 60; //2min
+  var max = 20 * 60; // 10min
   if (!inDoTasksTime) {
     min = 0 * 60; //1min
     max = 30 * 60; // 60min
@@ -123,10 +123,10 @@ module.exports.end = function(user, doc) {
 
   finishedPool.push(doc);
 
-  console.log(
-    "sharePool count",
-    pool.length,
-    ",finishedPool count=",
-    finishedPool.length
-  );
+  // console.log(
+  //   "sharePool count",
+  //   pool.length,
+  //   ",finishedPool count=",
+  //   finishedPool.length
+  // );
 };

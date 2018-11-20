@@ -61,32 +61,24 @@ exports.pay = function (req, res, next) {
       return doc;
     })
     .then((user) => {
-      if (user.vipExpiredDate == undefined) {
-        user.vipExpiredDate = new Date();
-      }
       
       var balance = new Balance({
         user: req.body.userName,
         amount: req.body.amount,
         createDate: new Date(),
-        serviceDate: user.vipExpiredDate,
+        serviceDate: user.vipExpiredDate || new Date(),
         days: serviceDays,
         remark: `vip充值金额${req.body.amount}`
       });
       balance.save()
-      return user;
-    })
-    .then((user) => {
+
       user.grade = 2;
-      user.upgradeGradeDate = new Date();
-      if (user.vipExpiredDate == undefined) {
-        user.vipExpiredDate = new Date();
-      }
-      user.vipExpiredDate = moment(user.vipExpiredDate).add(serviceDays, 'days')
+      user.upgradeGradeDate = new Date();     
+      user.vipExpiredDate = moment(user.vipExpiredDate || new Date()).add(serviceDays, 'days')
       return user.save()
-    })
-    .then(function (updateUser) {
-      res.json(updateUser)
+    })    
+    .then(function (doc) {
+      res.json(doc)
     })
     .catch(function (e) {
       return next(boom.badRequest(e));
