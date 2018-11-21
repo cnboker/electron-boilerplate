@@ -32,9 +32,9 @@ process.node_debug = true;
     doc: {
       userName: "scott1",
       engine: "baidu",
-      link: "ioliz.com",
-      keyword: "数字标牌内容发布系统 定制开发",
-      originRank: 64,
+      link: "6281866.com",
+      keyword: "烟台格力风管机",
+      originRank: 6,
       dynamicRank: 0
     },
     action: jobAction.Polish,

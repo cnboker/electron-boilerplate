@@ -70,7 +70,7 @@ module.exports.shift = function(user) {
     return nowTime > startTime && nowTime < endTime;
   })();
   var min = 0 * 60; //2min
-  var max = 20 * 60; // 10min
+  var max = 10 * 60; // 10min
   if (!inDoTasksTime) {
     min = 0 * 60; //1min
     max = 30 * 60; // 60min

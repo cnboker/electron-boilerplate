@@ -11,7 +11,7 @@ var io = require("socket.io-client");
 
 //var intervalID;
 exports.main = function main(token) {
-  console.log("begin run socket client", token);
+  console.log("begin run socket client");
   var socket = io(
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
