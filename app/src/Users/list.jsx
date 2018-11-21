@@ -80,7 +80,7 @@ class List extends Component {
     if (val == undefined) return "-";
 
     if (Number.isInteger(val)) {
-      if (val == -1) return "100+";
+      if (val == -1) return "120+";
       return val;
     }
     if (this.isValidDate(val)) {
@@ -88,7 +88,7 @@ class List extends Component {
     }
     return val;
   }
-
+  
   stringFormatTime(val) {
     if (!val) return "";
     return moment(val).format("MM-DD HH:mm");
@@ -161,7 +161,7 @@ class List extends Component {
                 <th>邮箱</th>
                 <th>词数</th>
                 <th>登录时间</th>
-                <th>在线?</th>
+                <th>在线</th>
                 <th>会员类型</th>
                 <th>到期日期</th>
                 <th>积分</th>

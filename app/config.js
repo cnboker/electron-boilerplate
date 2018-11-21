@@ -40,7 +40,11 @@ process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = true;
 // var appRoot = path.join(process.cwd(),'resources','app');
 // process.env.ChromePath = path.join(appRoot, 'output', 'node_modules','puppeteer',
 //     '.local-chromium', 'win64-564778', 'chrome-win32', 'chrome.exe');
-process.env.ApplicationPath = path.join(process.env.LOCALAPPDATA,'Programs','App');
+if(process.platform === 'darwin'){
+    process.env.ApplicationPath = path.join(process.env.HOME,'KwPolish');
+}else{
+    process.env.ApplicationPath = path.join(process.env.LOCALAPPDATA,'Programs','App');
+}
 console.log('apppath',process.env.ApplicationPath)
 
 var appRoot = path.join(process.env.ApplicationPath, 'resources');
