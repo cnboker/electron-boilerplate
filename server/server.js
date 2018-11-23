@@ -1,75 +1,73 @@
-var express = require('express'),
-app = express(),
-cors = require('cors'),
-port = process.env.PORT || 3001;
+var express = require("express"),
+  app = express(),
+  cors = require("cors"),
+  port = process.env.PORT || 3001;
 
 //receive crash info
-var http = require('http').Server(app)
-var logger = require('./logger')
+var http = require("http").Server(app);
+var logger = require("./logger");
 
-var cookieParser = require('cookie-parser')
-app.use(cookieParser())
+var cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
-var mongoose = require('mongoose') //.set('debug', true);
+var mongoose = require("mongoose"); //.set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
-mongoose.Promise = require('bluebird');
+mongoose.Promise = require("bluebird");
 //mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/kwPolish');
+mongoose.connect("mongodb://localhost/kwPolish");
 
-require('./appCrashReporter')(app)
+require("./appCrashReporter")(app);
 
-var SocketServer = require('./socket/socketServer');
-const socketServer = new SocketServer(http)
+var SocketServer = require("./socket/socketServer");
+const socketServer = new SocketServer(http);
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: true}))
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 // Adding body-parser middleware to parser JSON data
 app.use(bodyParser.json());
 app.use(cors());
 //inject socketServer
-app.use((req,res,next)=>{
-  if(!req.socketServer){
+app.use((req, res, next) => {
+  if (!req.socketServer) {
     //console.log('inject socketServer')
     req.socketServer = socketServer;
   }
   next();
-})
-
-app.get('/404', function (req, res) {
-  throw new NotFound;
 });
 
-app.get('/500', function (req, res) {
-  throw new Error('keyboard cat!');
+app.get("/404", function(req, res) {
+  throw new NotFound();
 });
 
-require('./api/protected')(app);
-require('./api/Keyword/Route')(app);
-require('./api/User/Route')(app);
-require('./api/Balance/Route')(app);
-require('./api/Event/Route')(app);
+app.get("/500", function(req, res) {
+  throw new Error("keyboard cat!");
+});
+
+require("./api/protected")(app);
+require("./api/Keyword/Route")(app);
+require("./api/User/Route")(app);
+require("./api/Balance/Route")(app);
+require("./api/Event/Route")(app);
 
 //exception handle
-app.use(function (err, req, res, next) {
-  if (err.isServer) {
-    // log the error... probably you don't want to log unauthorized access or do
-    // you?
+app.use(function(err, req, res, next) {
+  
+  if(err){
+    if (err.status) {
+      return res.status(err.status).json(err);
+    } else if (err.output) {
+      res.status(err.output.statusCode).json(err.output.payload);
+    } else {
+      console.info('err',err)
+      res.send(err);
+    }
   }
-  //logger.error('err', err);
-  if (err.status == 401) {
-    return res
-      .status(err.status)
-      .json(err);
-  }
-  return res
-    .status(err.output.statusCode)
-    .json(err.output.payload);
-
-})
+  
+});
 
 //var server = app.listen(port)
-http.listen(port, function () {
-  logger.info('restfull api start...' + port)
-})
+http.listen(port, function() {
+  logger.info("restfull api start..." + port);
+});
 
 module.exports = app;

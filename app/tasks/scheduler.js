@@ -68,26 +68,8 @@ function main(token) {
   });
 
   schedule.scheduleJob("*/2 * * * *", function() {
-    //console.log("This runs every 2 minutes");
-    //scanJober.originRankCheck();
-    var promise = polishJober.isOnline();
-    promise
-      .then(response => {
-        if (response.data) {
-          //logger.info("check is online, client is online");
-          polishJober.execute();
-        } else {
-          //reconnect
-          //logger.info("check is online, client is offline, reconnect");
-          client.main(token)
-        }
-      })
-      .catch(e => {
-        ////reconnect
-        //client.main(token)
-      });
+    polishJober.execute();
   });
-
   //end
 }
 

@@ -68,7 +68,7 @@ class PolishJober {
         console.log("schedule time polish", doc);
 
         taskRouter.execute(task).then(() => {
-          messager("pageRefresh");
+          //messager("pageRefresh");
           jobContext.removeTask(task);
           console.log("jobContext.removeTask ", jobContext.tasks);
           //store.removeItem(doc._id);
@@ -101,7 +101,7 @@ class PolishJober {
       }
     })
       .then(function(response) {
-        messager("pageRefresh");
+        //messager("pageRefresh");
         messager("message", `已赚到一个优币,保持程序运行,继续赚优币!`);
         //console.log(response)
         logger.info("polish post", response.data);

@@ -87,6 +87,20 @@ exports.list = function(req, res) {
   }
 };
 
+//获取没有初始排名数据
+exports.unRankKeywords = function(req, res) {
+  Keyword.find(
+    {
+      user: req.user.sub,
+      originRank: 0
+    })
+    .then(docs=>{
+      res.json(docs)
+    }).catch(e=>{
+      res.send(e);
+    });  
+};
+
 function ListByUserName(res, username) {
   //console.log("ListByUserName=", username);
   Keyword.find(
@@ -271,7 +285,9 @@ exports.rank = function(req, res, next) {
       originRank: req.body.rank,
       dynamicRank: req.body.rank,
       engine: req.body.engine,
-      isValid: req.body.rank != -1
+      isValid: req.body.rank != -1,
+      lastPolishedDate: new Date(),
+      polishedCount: 0
     },
     {
       //同时设置这2个参数，否则doc返回null
@@ -378,6 +394,7 @@ exports.polish = function(req, res, next) {
   ])
     .then(([keyword, user]) => {
       lastDynamicRank = keyword.dynamicRank;
+
       if (!keyword.originRank) {
         keyword.originRank = req.body.rank || -1;
       }

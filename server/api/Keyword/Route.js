@@ -33,4 +33,6 @@ module.exports = function(app){
   app.route('/api/analysis/:id')
   .get(ctl.history)
 
+  app.route('/api/unRankKeywords')
+  .get(ctl.unRankKeywords)
 }

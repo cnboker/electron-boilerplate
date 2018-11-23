@@ -88,7 +88,7 @@ class List extends Component {
     }
     return val;
   }
-  
+
   stringFormatTime(val) {
     if (!val) return "";
     return moment(val).format("MM-DD HH:mm");
@@ -134,7 +134,7 @@ class List extends Component {
           <td>{item.userTypeText}</td>
           <td>{this.stringFormat(item.vipExpiredDate)}</td>
           <td>{item.point}</td>
-          <td>{item.rank||0}</td>
+          <td>{item.rank || 0}</td>
           <td>
             <Switch
               on={item.locked}
@@ -150,6 +150,14 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
+        <p>
+          在线用户数:
+          {
+            this.state.data.filter(x => {
+              return x.status == 1;
+            }).length
+          }        
+        </p>
         <UserQuery query={this.query.bind(this)} />
 
         <div className="table-responsive">

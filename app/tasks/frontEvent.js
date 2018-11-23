@@ -2,18 +2,20 @@ var scanJober = require("./scanJober");
 const messager = require("./ipcSender");
 const worder = require("./wordExtender");
 const logger = require("../logger");
+
 module.exports = function(ipc) {
   ipc.on("keyword_create", function(event, docs) {
     var doc = docs.shift();
     if (doc) {
-      console.log("keyword_create", doc);
       messager("message", `关键词"${doc.keyword}"等待优化`);
     }
     while (doc) {
+      console.log("keyword_create", doc);
       scanJober.execute(doc);
       doc = docs.shift();
     }
   });
+
   //拓词
   ipc.on("wordQuery", async function(event, keyword) {
     logger.info("wordQuery", keyword);
@@ -24,7 +26,6 @@ module.exports = function(ipc) {
       setCache(keyword, result);
     }
     messager("wordResponse", { keyword, result });
-
   });
 };
 

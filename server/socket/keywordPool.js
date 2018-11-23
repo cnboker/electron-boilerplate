@@ -44,7 +44,7 @@ function userJoin(user) {
       "_id user originRank dynamicRank keyword link polishedCount",
       {
         sort: {
-          lastPolishedDate: 1,
+          lastPolishedDate: -1,
           polishedCount: 1
         }
       }
@@ -63,7 +63,7 @@ function userJoin(user) {
       load: true
     };
 
-    //console.log("user pools keywords=", keywords);
+    console.log("user pools keywords=", keywords);
 
     var first = keywords.shift();
     if (first) {
@@ -74,10 +74,10 @@ function userJoin(user) {
       if (first) {
         sharePool.push(userInfo, first);
       }
-      first = keywords.shift();
-      if (first) {
-        sharePool.push(userInfo, first);
-      }
+      // first = keywords.shift();
+      // if (first) {
+      //   sharePool.push(userInfo, first);
+      // }
     }
   });
 }

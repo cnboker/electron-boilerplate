@@ -1,5 +1,4 @@
 var jobContext = require("./jobContext");
-var polishJober = require("./polishJober");
 const logger = require("../logger");
 const messager = require("./ipcSender");
 
@@ -16,21 +15,14 @@ exports.main = function main(token) {
     `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
     {
       //forceNew: true,
-      autoConnect: false,
+      autoConnect: true,
       reconnection: true,
       reconnectionDelay: 1000,
-      reconnectionAttempts: 10
+      //reconnectionAttempts: 10
     }
   );
-  socket.open();
-
+ 
   socket.on("connect", function() {
-    // once client connects, clear the reconnection interval function
-    // if (intervalID) {
-    //   clearInterval(intervalID);
-    // }
-
-    //... do other stuff
     logger.info("socket connected");
     socket.emit("hello", {
       user: token.userName
@@ -38,10 +30,7 @@ exports.main = function main(token) {
   });
 
   socket.on("reconnect", function() {
-    console.log("reconnect fired!");
-    // checkNetwork(function(){
-    //   socket.open();
-    // })
+    console.log("reconnect fired!");  
   });
 
   socket.on("event", function(data) {
@@ -71,6 +60,11 @@ exports.main = function main(token) {
     jobContext.dirty(data._id);
   });
 
+  socket.on("refreshPage", function(data) {
+    logger.info("refreshPage...");
+    messager('pageRefresh')
+  });
+
   socket.on("error", function(data) {
     console.log("error", data);
     logger.info(data || "error");
@@ -84,13 +78,6 @@ exports.main = function main(token) {
     jobContext.clean();
     //socket.emit('finished')
   });
-
-  //创建关键词,重新扫描排名
-  // socket.on("keyword_create", function(doc) {
-  //   messager("message", `关键词"${doc.keyword}"等待优化`);
-  //   logger.info("socket keyword_create", doc);
-  //   scanJober.execute(doc);
-  // });
 
 
   //服务器远程增加新优化关键词

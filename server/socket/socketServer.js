@@ -18,12 +18,16 @@ class SocketServer extends EventEmitter {
       console.log('connections',Object.keys(clients).length);
       //加入room
       //socketRoom.join(socket);
-
+      var cc = io.sockets.clients();
+      console.log('clients',Object.keys(cc.sockets))
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
         socket.nickname = data.user;
+        // if(clients[data.user]){
+        //   clients[data.user].disconnect();
+        // }
         clients[data.user] = socket;
-        //更新poo;
+        //更新pool;
         pool.userJoin(data.user);
       });
 
@@ -64,29 +68,12 @@ class SocketServer extends EventEmitter {
 
   //rank完成，通知在线客户端polish， 对于新用户会给出3个关键词的机会，这样的目的是留住新用户，尽快让用户能看到结果
   keywordRank(doc) {
-    if (doc.originRank == -1) return;
-    var min = 5; //5s
-    var max = 60; // 20s
-    var next = moment().add(random(min, max), "seconds");
-    doc.runTime = next.format("YYYY-MM-DD HH:mm:ss");
-
-    var mergeDoc = {
-      ...doc.toObject(),
-      runTime: next.format("YYYY-MM-DD HH:mm:ss")
-    };
-    //console.log("keywordRank mergeDoc=", mergeDoc);
-    if (!this.userPtr) {
-      this.userPtr = 0;
-    }
-    var keys = Object.keys(clients);
-    if (this.userPtr >= keys.length) {
-      this.userPtr = 0;
-    }
-    var socket = clients[keys[this.userPtr]];
+    var socket = clients[doc.user];
     if (socket) {
-      socket.emit("keyword_polish", mergeDoc);
+      socket.emit("refreshPage");
     }
   }
+
   //用户关键暂停或删除，通知其他用户不再polish
   keywordPause(user, _id) {
     var socket = this.find(user);

@@ -37,11 +37,9 @@ class ScanJober {
     //程序启动检查是否还有未处理的关键词
     static async originRankCheck(){
         var arr = await this._fetchData();
-        console.log('arr', arr)
         if(arr.length == 0)return;
         
         arr.forEach(function(item){
-            console.log('scan items', item)
             ScanJober.execute(item)
         })
     }
@@ -57,7 +55,7 @@ class ScanJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function(response){
-            messager('pageRefresh')
+            //messager('pageRefresh')
            // console.log(response)
            logger.info('scan post', response.data)
         }).then(function(err){
@@ -68,7 +66,7 @@ class ScanJober {
     static async  _fetchData() {
         try{
             const access_token = auth.getToken().access_token;
-            const url = `${process.env.REACT_APP_API_URL}/keywords`
+            const url = `${process.env.REACT_APP_API_URL}/unRankKeywords`
             logger.info('scanjob-_fetchData-url', url);
             const res = await axios({
                 method:'get',
@@ -78,11 +76,8 @@ class ScanJober {
                 }
             })
             const json =  res.data;
-           // console.log(json)
-            if(json == undefined)return [];
-            return json.filter(function (item, index) {
-                return item.originRank == 0;
-            })
+            console.log('unrankkeywords',json)
+           return json;
         }catch(e){
             console.log(e)
             return [];

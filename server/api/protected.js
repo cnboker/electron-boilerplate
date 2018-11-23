@@ -33,6 +33,7 @@ module.exports = function (app) {
     };
   }
 
+  app.use('/api/unRankKeywords', jwtCheck, requireScope('full_access'));
   app.use('/api/keywords', jwtCheck, requireScope('full_access'));
   app.use('/api/keywords/today', jwtCheck, requireScope('full_access'));
   app.use('/api/keyword', jwtCheck, requireScope('full_access'));

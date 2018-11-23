@@ -32,9 +32,9 @@ process.node_debug = true;
     doc: {
       userName: "scott1",
       engine: "baidu",
-      link: "6281866.com",
-      keyword: "烟台格力风管机",
-      originRank: 6,
+      link: "saisente.com",
+      keyword: "东莞水压试验台",
+      originRank: 38,
       dynamicRank: 0
     },
     action: jobAction.Polish,
