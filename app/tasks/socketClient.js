@@ -18,6 +18,8 @@ exports.main = function main(token) {
       autoConnect: true,
       reconnection: true,
       reconnectionDelay: 1000,
+      //transports: ['websocket'], //resolve 503 error
+      //rejectUnauthorized: false
       //reconnectionAttempts: 10
     }
   );
