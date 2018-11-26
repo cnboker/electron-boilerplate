@@ -19,7 +19,7 @@ class SocketServer extends EventEmitter {
       //加入room
       //socketRoom.join(socket);
       var cc = io.sockets.clients();
-      console.log('clients',Object.keys(cc.sockets), Object.keys(cc.sockets).length)
+      console.log('clients', Object.keys(cc.sockets).length)
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
         socket.nickname = data.user;

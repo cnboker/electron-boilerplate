@@ -63,7 +63,7 @@ function userJoin(user) {
       load: true
     };
 
-    console.log("user pools keywords=", keywords);
+   // console.log("user pools keywords=", keywords);
 
     var first = keywords.shift();
     if (first) {

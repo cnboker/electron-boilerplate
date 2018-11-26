@@ -51,7 +51,7 @@ module.exports.shift = function(user) {
     strategy.sortKeywords().then(docs=>{
      
       shiftPool.push(...docs)
-      console.log('docs...', shiftPool)
+      //console.log('docs...', shiftPool)
     })
     return [];  
   }
@@ -63,14 +63,14 @@ module.exports.shift = function(user) {
 
   //var first = shiftPool.shift();
   var inDoTasksTime = (() => {
-    var startTime = 9 * 60;
+    var startTime = 8 * 60;
     var endTime = 20 * 60 + 30;
     var d = new Date();
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 0 * 60; //2min
-  var max = 10 * 60; // 10min
+  var min = 5 * 60; //2min
+  var max = 30 * 60; // 10min
   if (!inDoTasksTime) {
     min = 0 * 60; //1min
     max = 30 * 60; // 60min
