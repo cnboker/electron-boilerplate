@@ -1,7 +1,7 @@
 {
 	"name": "app",
 	"productName": "钢铁侠",
-	"version": "0.3.9",
+	"version": "0.4.0",
 	"private": true,
 	"description": "",
 	"license": "MIT",

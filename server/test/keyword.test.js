@@ -160,7 +160,7 @@ describe('keyword', () => {
           keyword: '软件开发公司',
           link: 'ioliz.com',
           user: 'scott',
-          createDate: new Date(),
+          createDate: '2018-11-26 12:00:00',
           dynamicRank:30,
           originRank:30
         })

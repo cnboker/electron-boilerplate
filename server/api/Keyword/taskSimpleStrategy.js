@@ -78,7 +78,6 @@ module.exports.strategy = function(docs) {
 
 function sort(docs) {
   var newDocs = [];
-  console.info("doc type", docs);
   var arr = docs.filter(function(doc) {
     return doc.originRank != -1;
   });
