@@ -20,10 +20,11 @@ var sha512 = function(password, salt){
   }
 }
 
-module.exports = function(password){
+module.exports.hash = function(password){
   var salt = radmonString(16);
   return sha512(password,salt);
 }
 
+module.exports.radmon = radmonString;
 
 

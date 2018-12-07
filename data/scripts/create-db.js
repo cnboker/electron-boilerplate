@@ -151,3 +151,12 @@ db.keywords.insert({
   status: 1
 });
 
+db.SN.insert({
+  userName:'agent1',
+  mobile:'13410332234',
+  sn:'123456',
+  createDate:new Date(),
+  actived:0,
+  isPaid:0,
+  Price:200
+})
