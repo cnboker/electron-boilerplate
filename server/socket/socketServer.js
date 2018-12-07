@@ -1,13 +1,12 @@
 var User = require("../api/User/Model");
 
 var logger = require("../logger");
-var socketRoom = require("./socketRoom");
 
 const EventEmitter = require("events");
 const clients = {};
-var moment = require("moment");
-var random = require("../utils/random");
+
 var pool = require("./keywordPool");
+var sharePool = require("./sharePool");
 
 class SocketServer extends EventEmitter {
   constructor(server) {
@@ -75,6 +74,7 @@ class SocketServer extends EventEmitter {
     if (socket) {
       socket.emit("refreshPage");
     }
+    sharePool.push(doc)
   }
 
   //用户关键暂停或删除，通知其他用户不再polish

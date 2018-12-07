@@ -1,5 +1,3 @@
-var boom = require("boom");
-
 var Keyword = require("../api/Keyword/Model");
 var User = require("../api/User/Model");
 var moment = require("moment");
@@ -70,7 +68,7 @@ function userJoin(user) {
 
     var first = keywords.shift();
     if (first) {
-      sharePool.push(userInfo, first);
+      sharePool.push(first);
     }
   });
 }
@@ -113,7 +111,7 @@ function polishFinished(user, doc) {
   if (rankSet == 1) {
     var first = my.mykeywords.shift();
     if (first) {
-      sharePool.push(my.myInfo, first);
+      sharePool.push(first);
     }
   }
 }

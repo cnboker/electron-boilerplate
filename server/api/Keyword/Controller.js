@@ -19,6 +19,10 @@ exports.sharePool = function(req, res) {
   return res.json(keywordPool.sharePool);
 };
 
+exports.userPool = function(req, res){
+  return res.json(keywordPool.userPool)
+}
+
 exports.today = function(req, res) {
   //var today = moment().startOf('day')
   //var tomorrow = moment(today).endOf('day')
@@ -436,13 +440,7 @@ exports.polish = function(req, res, next) {
       );
     })
     .then(function(doc) {
-      // console.log(
-      //   "polish doc",
-      //   doc.keyword,
-      //   doc.link,
-      //   doc.originRank,
-      //   doc.dynamicRank
-      // );
+    
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
@@ -462,51 +460,5 @@ exports.polish = function(req, res, next) {
       return next(boom.badRequest(e));
     });
 
-  // Keyword.findOne({
-  //   _id: req.body._id
-  // })
-  //   .then(function(doc) {
-  //     // console.log('polish doc', doc)
-  //     //if (doc.dynamicRank == null) throw "dynamicRank is not null";
-  //     if (!doc.originRank) {
-  //       doc.originRank = req.body.rank || -1;
-  //     }
-  //     if (doc.originRank > 0 && req.body.rank == undefined) {
-  //       throw "skip rank=-1";
-  //     }
-  //     if (doc.dynamicRank <= 80 && req.body.rank == -1) {
-  //       throw "skip rank=-1";
-  //     }
-  //     return Keyword.findOneAndUpdate(
-  //       {
-  //         _id: req.body._id
-  //       },
-  //       upsertData,
-  //       {
-  //         //同时设置这2个参数，否则doc返回null
-  //         upsert: true,
-  //         new: true //return the modified document rather than the original. defaults to false
-  //       }
-  //     );
-  //   })
-  //   .then(function(doc) {
-  //     console.log("polish doc", doc.keyword, doc.link, doc.originRank, doc.dynamicRank);
-  //     var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  //     var log = new PolishLog({
-  //       keyword_id: req.body._id,
-  //       user: req.user.sub,
-  //       keyword: doc.keyword,
-  //       createDate: new Date(),
-  //       dynamicRank:doc.dynamicRank,
-  //       ip: ip
-  //     });
-  //     log.save();
-  //     keywordPool.polishFinished(req.user.sub, doc.toObject());
-
-  //     res.json(doc);
-  //   })
-  //   .catch(e => {
-  //     logger.error(e);
-  //     return next(boom.badRequest(e));
-  //   });
+  
 };

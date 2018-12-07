@@ -8,7 +8,7 @@ const shiftPool = [];
 module.exports.pool = shiftPool;
 module.exports.finishedPool = finishedPool;
 
-module.exports.push = function(user, keyword) {
+module.exports.push = function(keyword) {
   var existItem = shiftPool.filter(item => {
     return item._id.toString() === keyword._id.toString();
   });
