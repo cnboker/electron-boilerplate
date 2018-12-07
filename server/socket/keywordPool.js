@@ -57,27 +57,20 @@ function userJoin(user) {
     userDoc.save();
 
     var userInfo = userDoc.toObject();
+    //黑名单用户不优化
+    if (userInfo.locked) {
+      keywords = [];
+    }
+
     userPool[user] = {
       myInfo: userInfo,
       mykeywords: keywords,
       load: true
     };
 
-    // console.log("user pools keywords=", keywords);
-
     var first = keywords.shift();
     if (first) {
       sharePool.push(userInfo, first);
-    }
-    if (userInfo.grade == 2) {
-      first = keywords.shift();
-      if (first) {
-        sharePool.push(userInfo, first);
-      }
-      // first = keywords.shift();
-      // if (first) {
-      //   sharePool.push(userInfo, first);
-      // }
     }
   });
 }
@@ -122,14 +115,6 @@ function polishFinished(user, doc) {
     if (first) {
       sharePool.push(my.myInfo, first);
     }
-
-    if (my.myInfo.grade == 2) {
-      first = my.mykeywords.shift();
-      if (first) {
-        sharePool.push(my.myInfo, first);
-      }
-     
-    }
   }
 }
 
@@ -159,7 +144,6 @@ function userLeave(user) {
 //用户请求资源
 function req(user) {
   var my = userPool[user];
-  //console.log("userPool[user]=", userPool[user]);
   if (my === undefined) return "disconnect";
   var result = sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
@@ -167,18 +151,14 @@ function req(user) {
   if (rankSet == 2) {
     var first = my.mykeywords.shift();
     if (first == undefined) return result;
-    console.log("first", first);
     var next = moment().add(10, "seconds");
     first.runTime = next.format("YYYY-MM-DD HH:mm:ss");
-    if (first) {
-      result.push(first);
-    }
+    result.push(first);
   }
   return result;
 }
 
 function isOnline(user) {
-  //console.log('isOnline', userPool[user])
   return userPool[user] != undefined;
 }
 
