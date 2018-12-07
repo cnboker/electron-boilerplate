@@ -89,16 +89,16 @@ exports.list = function(req, res) {
 
 //获取没有初始排名数据
 exports.unRankKeywords = function(req, res) {
-  Keyword.find(
-    {
-      user: req.user.sub,
-      originRank: 0
+  Keyword.find({
+    user: req.user.sub,
+    originRank: 0
+  })
+    .then(docs => {
+      res.json(docs);
     })
-    .then(docs=>{
-      res.json(docs)
-    }).catch(e=>{
+    .catch(e => {
       res.send(e);
-    });  
+    });
 };
 
 function ListByUserName(res, username) {
@@ -143,7 +143,6 @@ exports.create = function(req, res, next) {
       var saveKeywords = docs.map(item => {
         return item.keyword;
       });
-      console.log("saveKeywords", saveKeywords);
       //remove duplicate
       keywords = keywords.filter(function(item, pos) {
         return keywords.indexOf(item) == pos && !saveKeywords.includes(item);
@@ -403,6 +402,14 @@ exports.polish = function(req, res, next) {
       }
       if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
         throw "skip rank=-1";
+      }
+      var hours = moment().diff(moment(keyword.createDate), "hours");
+      console.log('hours',hours)
+      if (hours < 24 && req.body.rank > keyword.dynamicRank) {
+        throw "24 error";
+      }
+      if (hours >= 24 && hours < 72 && (req.body.rank - keyword.dynamicRank) > 5) {
+        throw "72&5 error";
       }
       return { keyword, user };
     })

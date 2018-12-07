@@ -63,7 +63,7 @@ function userJoin(user) {
       load: true
     };
 
-    console.log("user pools keywords=", keywords);
+    // console.log("user pools keywords=", keywords);
 
     var first = keywords.shift();
     if (first) {
@@ -81,7 +81,6 @@ function userJoin(user) {
     }
   });
 }
-
 
 //任务完成 user:current user
 // keyword: polish keyword object
@@ -117,7 +116,8 @@ function polishFinished(user, doc) {
   var my = userPool[user];
   if (!my) return;
   //需要优化的会员数据才会加入共享池进行优化
-  if (my.myInfo.rankSet == 1) {
+  var rankSet = my.myInfo.rankSet || 1;
+  if (rankSet == 1) {
     var first = my.mykeywords.shift();
     if (first) {
       sharePool.push(my.myInfo, first);
@@ -128,10 +128,7 @@ function polishFinished(user, doc) {
       if (first) {
         sharePool.push(my.myInfo, first);
       }
-      first = my.mykeywords.shift();
-      if (first) {
-        sharePool.push(my.myInfo, first);
-      }
+     
     }
   }
 }
@@ -147,7 +144,7 @@ function userLeave(user) {
       setTimeout(() => {
         if (!userPool[user]) return;
         var myuser = userPool[user].myInfo;
-        if(!myuser)return;
+        if (!myuser) return;
         if (myuser.status === 0) {
           console.log("用户30秒未登录,删除数据");
           delete userPool[user];
@@ -159,7 +156,6 @@ function userLeave(user) {
     });
 }
 
-
 //用户请求资源
 function req(user) {
   var my = userPool[user];
@@ -167,7 +163,8 @@ function req(user) {
   if (my === undefined) return "disconnect";
   var result = sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
-  if (my.myInfo.rankSet == 2) {
+  var rankSet = my.myInfo.rankSet || 1;
+  if (rankSet == 2) {
     var first = my.mykeywords.shift();
     if (first == undefined) return result;
     console.log("first", first);

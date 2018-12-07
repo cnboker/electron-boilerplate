@@ -4,9 +4,16 @@ require("../../utils/groupBy");
 var sortBy = require("../../utils/sort_by");
 var User = require("../User/Model");
 var Keyword = require("./Model");
+var orderKeywords = [];
 
 module.exports.sortKeywords = function() {
   return new Promise((resolve, reject) => {
+    if (orderKeywords.length > 0) {
+      resolve([orderKeywords.shift()]);
+      console.log('orderKeywords len', orderKeywords.length)
+      return;
+    }
+
     Promise.all([
       User.find({
         locked: false,
@@ -40,8 +47,8 @@ module.exports.sortKeywords = function() {
           .exec();
       })
       .then(docs => {
-        var keywords = sort(docs);
-        resolve(keywords);
+        orderKeywords = sort(docs);
+        resolve([orderKeywords.shift()]);
       })
       .catch(e => {
         reject(e);
@@ -71,7 +78,6 @@ module.exports.strategy = function(docs) {
 
 function sort(docs) {
   var newDocs = [];
-  console.info("doc type", docs);
   var arr = docs.filter(function(doc) {
     return doc.originRank != -1;
   });

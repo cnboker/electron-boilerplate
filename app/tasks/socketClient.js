@@ -12,12 +12,14 @@ var io = require("socket.io-client");
 exports.main = function main(token) {
   console.log("begin run socket client");
   var socket = io(
-    `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`,
+    `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`.replace('http://','ws://'),
     {
       //forceNew: true,
       autoConnect: true,
       reconnection: true,
       reconnectionDelay: 1000,
+      //transports: ['websocket'], //resolve 503 error
+      //rejectUnauthorized: false
       //reconnectionAttempts: 10
     }
   );

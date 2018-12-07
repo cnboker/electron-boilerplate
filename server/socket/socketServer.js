@@ -19,7 +19,9 @@ class SocketServer extends EventEmitter {
       //加入room
       //socketRoom.join(socket);
       var cc = io.sockets.clients();
-      console.log('clients',Object.keys(cc.sockets))
+      console.log('clients', Object.keys(cc.sockets).length)
+      //var clientIp = socket.request.connection.remoteAddress;
+    
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
         socket.nickname = data.user;
@@ -34,6 +36,7 @@ class SocketServer extends EventEmitter {
       //socket disconnect
       socket.on("disconnect", function(reason) {
         console.log('disconnect, ' + reason)
+        socket.disconnect();
         if (socket.nickname) {
           delete clients[socket.nickname];
           //console.log("clients", clients);
