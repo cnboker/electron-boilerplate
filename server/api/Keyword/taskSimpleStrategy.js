@@ -95,14 +95,7 @@ function sort(docs) {
       if (val) {
         newDocs.push(val);
       }
-      val = arr.shift();
-      if (val) {
-        newDocs.push(val);
-      }
-      // val = arr.shift();
-      // if (val) {
-      //   newDocs.push(val);
-      // }
+    
       if (arr.length == 0) {
         delete gd[key];
       }

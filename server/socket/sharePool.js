@@ -20,6 +20,7 @@ module.exports.push = function(keyword) {
   shiftPool.push(keyword);
 };
 
+
 function clone(element) {
   return JSON.parse(JSON.stringify(element));
 }
@@ -52,7 +53,7 @@ module.exports.shift = function(user) {
 function getRunTime() {
   var inDoTasksTime = (() => {
     var startTime = 8 * 60;
-    var endTime = 20 * 60 + 30;
+    var endTime = 19 * 60 + 30;
     var d = new Date();
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
@@ -60,8 +61,8 @@ function getRunTime() {
   var min = 5 * 60; //2min
   var max = 40 * 60; // 10min
   if (!inDoTasksTime) {
-    min = 0 * 60; //1min
-    max = 30 * 60; // 60min
+    min = 30 * 60; //1min
+    max = 60 * 60; // 60min
   }
 
   var next = moment().add(random(min, max), "seconds");

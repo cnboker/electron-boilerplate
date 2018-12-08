@@ -51,9 +51,9 @@ exports.main = function main(token) {
   socket.on("disconnect", function() {
     logger.info("disconnect");
 
-    checkNetwork(function() {
-      socket.connect();
-    });
+    // checkNetwork(function() {
+    //   socket.connect();
+    // });
   });
 
   //pause the keyword polish

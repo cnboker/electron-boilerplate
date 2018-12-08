@@ -18,6 +18,7 @@ function userJoin(user) {
   if (userPool[user]) {
     var myuser = userPool[user];
     if (!myuser.load) return;
+    myuser.myInfo.status = 1;
     var keywords = myuser.mykeywords;
     if (keywords && keywords.length > 0) {
       return;
@@ -42,7 +43,6 @@ function userJoin(user) {
       "_id user originRank dynamicRank keyword link polishedCount",
       {
         sort: {
-          lastPolishedDate: -1,
           polishedCount: 1
         }
       }
@@ -123,16 +123,16 @@ function userLeave(user) {
     .then(doc => {
       doc.status = 0;
       doc.save();
-      userPool[user].myInfo = doc.toObject();
+      var myuser = userPool[user].myInfo;
+      myuser.status = 0;
       setTimeout(() => {
-        if (!userPool[user]) return;
-        var myuser = userPool[user].myInfo;
+        if (!userPool[user]) return;     
         if (!myuser) return;
         if (myuser.status === 0) {
-          console.log("用户30秒未登录,删除数据");
+          console.log(user + ",用户60秒未登录,删除数据");
           delete userPool[user];
         }
-      }, 30000);
+      }, 60000);
     })
     .catch(err => {
       console.log(err);
@@ -143,6 +143,8 @@ function userLeave(user) {
 function req(user) {
   var my = userPool[user];
   if (my === undefined) return "disconnect";
+  if (my.myInfo === undefined) return "disconnect";
+  if (my.myInfo.locked) return []; //拉黑的用户不分配任务
   var result = sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
   var rankSet = my.myInfo.rankSet || 1;
@@ -169,5 +171,6 @@ module.exports = {
   reqTask: req,
   sharePool: sharePool.pool,
   finishedPool: sharePool.finishedPool,
+  userPool,
   isOnline: isOnline
 };

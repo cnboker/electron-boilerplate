@@ -39,7 +39,7 @@ class List extends Component {
     crudActions
       .fetch(ps, this.props.client)
       .then(result => {
-        self.setState({ data: result.data.docs, pageCount: result.data.pages });
+        self.setState({ total:result.data.total, data: result.data.docs, pageCount: result.data.pages });
       })
       .catch(e => {
         console.log(e);
@@ -153,9 +153,7 @@ class List extends Component {
         <p>
           在线用户数:
           {
-            this.state.data.filter(x => {
-              return x.status == 1;
-            }).length
+            this.state.total
           }        
         </p>
         <UserQuery query={this.query.bind(this)} />

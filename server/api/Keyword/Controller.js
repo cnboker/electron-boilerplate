@@ -299,7 +299,6 @@ exports.rank = function(req, res, next) {
     }
   )
     .then(doc => {
-      //console.log("rank doc", doc);
       req.socketServer.keywordRank(doc);
       res.json(doc);
     })
@@ -397,7 +396,9 @@ exports.polish = function(req, res, next) {
   ])
     .then(([keyword, user]) => {
       lastDynamicRank = keyword.dynamicRank;
-
+      if(user.locked){
+        throw `${req.user.sub},${keyword.keyword},black user exception`;
+      }
       if (!keyword.originRank) {
         keyword.originRank = req.body.rank || -1;
       }
@@ -410,10 +411,10 @@ exports.polish = function(req, res, next) {
       var hours = moment().diff(moment(keyword.createDate), "hours");
       console.log('hours',hours)
       if (hours < 24 && req.body.rank > keyword.dynamicRank) {
-        throw "24 error";
+        throw `${req.user.sub},${keyword.keyword},24 error`;
       }
       if (hours >= 24 && hours < 72 && (req.body.rank - keyword.dynamicRank) > 5) {
-        throw "72&5 error";
+        throw `${req.user.sub},${keyword.keyword},72&5 error`;
       }
       return { keyword, user };
     })

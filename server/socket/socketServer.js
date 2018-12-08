@@ -11,31 +11,41 @@ var sharePool = require("./sharePool");
 class SocketServer extends EventEmitter {
   constructor(server) {
     super();
+    //reset user status
+    User.update(
+      {},
+      {
+        status: 0
+      },
+      { multi: true }
+    ).then(docs=>{
+      console.log('user update', docs)
+    })
     var io = require("socket.io")(server);
     io.on("connection", function(socket) {
-      logger.info("a user conneted");
-      console.log('connections',Object.keys(clients).length);
-      //加入room
-      //socketRoom.join(socket);
-      var cc = io.sockets.clients();
-      console.log('clients', Object.keys(cc.sockets).length)
-      //var clientIp = socket.request.connection.remoteAddress;
-    
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
+        if (clients[data.user]) {
+          //socket.disconnect();
+          return;
+        }
+
         socket.nickname = data.user;
-        // if(clients[data.user]){
-        //   clients[data.user].disconnect();
-        // }
         clients[data.user] = socket;
         //更新pool;
         pool.userJoin(data.user);
+
+        var cc = io.sockets.clients();
+        console.log(
+          `connections:${Object.keys(clients).length},clients:${
+            Object.keys(cc.sockets).length
+          }`
+        );
       });
 
       //socket disconnect
       socket.on("disconnect", function(reason) {
-        console.log('disconnect, ' + reason)
-        socket.disconnect();
+        console.log(`disconnect, ${socket.nickname || "unknown"}`);
         if (socket.nickname) {
           delete clients[socket.nickname];
           //console.log("clients", clients);
@@ -68,13 +78,13 @@ class SocketServer extends EventEmitter {
     return clients[userName];
   }
 
-  //rank完成，通知在线客户端polish， 对于新用户会给出3个关键词的机会，这样的目的是留住新用户，尽快让用户能看到结果
+  //rank完成，通知在线客户端polish
   keywordRank(doc) {
     var socket = clients[doc.user];
     if (socket) {
       socket.emit("refreshPage");
     }
-    sharePool.push(doc)
+    //sharePool.push(doc)
   }
 
   //用户关键暂停或删除，通知其他用户不再polish
