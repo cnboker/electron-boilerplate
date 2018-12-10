@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
 import "../utils/groupBy";
 import Select from "react-select";
-import {default as crudActions} from "../Keyword/actions";
+import { default as crudActions } from "../Keyword/actions";
 
 class List extends Component {
   constructor() {
@@ -33,7 +33,7 @@ class List extends Component {
      */
     if (this.state.id != this.props.match.params.id) {
       this.load();
-      this.setState({id: this.props.match.params.id});
+      this.setState({ id: this.props.match.params.id });
     }
   }
 
@@ -45,7 +45,13 @@ class List extends Component {
     }
   }
   fetch() {
-    const action = crudActions.fetch(0, 0, true, this.props.client, this.props.match.params.id);
+    const action = crudActions.fetch(
+      0,
+      0,
+      true,
+      this.props.client,
+      this.props.match.params.id
+    );
     this.dispatch(action);
   }
 
@@ -61,38 +67,31 @@ class List extends Component {
   onDelete(entity, event) {
     event.preventDefault();
 
-    this
-      .refs
-      .dialog
-      .show({
-        title: "提示",
-        body: "确定要删除此项吗?",
-        actions: [
-          Dialog.CancelAction(() => {
-            console.log("dialog cancel");
-          }),
-          Dialog.OKAction(() => {
-            const action = crudActions.delete(entity, this.props.client);
-            this.dispatch(action);
-          })
-        ],
-        bsSize: "small",
-        onHide: dialog => {
-          dialog.hide();
-        }
-      });
+    this.refs.dialog.show({
+      title: "提示",
+      body: "确定要删除此项吗?",
+      actions: [
+        Dialog.CancelAction(() => {
+          console.log("dialog cancel");
+        }),
+        Dialog.OKAction(() => {
+          const action = crudActions.delete(entity, this.props.client);
+          this.dispatch(action);
+        })
+      ],
+      bsSize: "small",
+      onHide: dialog => {
+        dialog.hide();
+      }
+    });
   }
 
   stringFormat(val) {
-    if (val == undefined) 
-      return "-";
-    if (val === true) 
-      return "是";
-    if (val === false) 
-      return "否";
+    if (val == undefined) return "-";
+    if (val === true) return "是";
+    if (val === false) return "否";
     if (Number.isInteger(val)) {
-      if (val == -1) 
-        return "120+";
+      if (val == -1) return "120+";
       return val;
     }
     if (this.isValidDate(val)) {
@@ -107,10 +106,8 @@ class List extends Component {
   }
 
   statusFormat(value) {
-    if (value == 1) 
-      return "运行";
-    if (value == 2) 
-      return "停止";
+    if (value == 1) return "运行";
+    if (value == 2) return "停止";
     return "未知";
   }
 
@@ -118,21 +115,21 @@ class List extends Component {
     var entity = {
       ...item,
       ...{
-        status: item.status == 1
-          ? 2
-          : 1
+        status: item.status == 1 ? 2 : 1
       }
     };
     console.log("entity", entity);
     var action = actions.update(entity, this.props.client);
-    this
-      .props
-      .dispatch(action);
+    this.props.dispatch(action);
   }
   getDiff(item) {
     let color = "green",
       diffText = "-";
-    if (item.dynamicRank === 0 || item.originRank === 0 || item.dynamicRank === -1) {
+    if (
+      item.dynamicRank === 0 ||
+      item.originRank === 0 ||
+      item.dynamicRank === -1
+    ) {
       color = "black";
     } else {
       var diff = item.originRank - item.dynamicRank;
@@ -146,19 +143,23 @@ class List extends Component {
         diffText = diff;
       }
     }
-    return <span style={{
-      color: color,
-      fontWeight: "bold"
-    }}>{diffText}</span>;
+    return (
+      <span
+        style={{
+          color: color,
+          fontWeight: "bold"
+        }}
+      >
+        {diffText}
+      </span>
+    );
   }
   dateDuration(date) {
-    return moment().diff(moment(date), 'days')
+    return moment().diff(moment(date), "days");
   }
   renderList() {
     var self = this;
-    return this
-      .props
-      .keywords
+    return this.props.keywords
       .filter(item => {
         return self.state.filter == null
           ? true
@@ -169,24 +170,26 @@ class List extends Component {
           <tr key={item._id}>
             <td
               style={{
-              overflow: 'hidden',
-              'whiteSpace': 'initial'
-            }}>{item.keyword}</td>
+                overflow: "hidden",
+                whiteSpace: "initial"
+              }}
+            >
+              {item.keyword}
+            </td>
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.getDiff(item)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
-            <td>{this.stringFormat(item.isValid)}</td>
+            <td>{this.stringFormat(item.isValid && item.shield != 1)}</td>
             <td>{this.dateDuration(item.createDate)}</td>
             <td>{this.statusFormat(item.status)}</td>
             <td>
               <button
                 className="btn btn-danger"
-                onClick={this
-                .onDelete
-                .bind(this, item)}>
-                <i className="fa fa-trash"/>
+                onClick={this.onDelete.bind(this, item)}
+              >
+                <i className="fa fa-trash" />
               </button>
             </td>
           </tr>
@@ -195,61 +198,65 @@ class List extends Component {
   }
 
   onSelect(selectedOption) {
-    this.setState({filter: selectedOption});
+    this.setState({ filter: selectedOption });
     console.log("option select", selectedOption);
   }
 
- 
   render() {
-    const options = Object
-      .keys(this.props.keywords.groupBy("link"))
-      .map(item => {
-        return {value: item, label: item};
-      });
+    const options = Object.keys(this.props.keywords.groupBy("link")).map(
+      item => {
+        return { value: item, label: item };
+      }
+    );
     return (
       <div className="animated fadeIn">
-        <Dialog ref="dialog"/>
+        <Dialog ref="dialog" />
 
         <div className="d-flex justify-content-between">
           <div className="col-md-6">
             <Select
               placeholder="域名过滤"
               value={this.state.filter}
-              onChange={this
-              .onSelect
-              .bind(this)}
+              onChange={this.onSelect.bind(this)}
               options={options}
-              id="filter"/>{" "}
+              id="filter"
+            />{" "}
           </div>
           <div>
             <button
               onClick={() => {
-              this.props.history.goBack()
-            }}
+                this.props.history.goBack();
+              }}
               role="button"
-              className="btn btn-primary">
+              className="btn btn-primary"
+            >
               返回
-            </button>{' '}
+            </button>{" "}
             <button
               onClick={() => {
-              this.load();
-            }}
+                this.load();
+              }}
               role="button"
-              className="btn btn-info">
+              className="btn btn-info"
+            >
               刷新
             </button>
           </div>
         </div>
 
         <div className="table-responsive">
-          <br/>
+          <br />
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th style={{
-                  width: '18%'
-                }}>关键词</th>
-                <th style={{width:'18%'}}>匹配网址</th>
+                <th
+                  style={{
+                    width: "18%"
+                  }}
+                >
+                  关键词
+                </th>
+                <th style={{ width: "18%" }}>匹配网址</th>
                 <th>始排名</th>
                 <th>新排名</th>
                 <th>差异</th>
@@ -257,7 +264,7 @@ class List extends Component {
                 <th>有效</th>
                 <th>天数</th>
                 <th>状态</th>
-                <th/>
+                <th />
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>
@@ -269,7 +276,7 @@ class List extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {keywords: state.keywords, client: state.client};
+  return { keywords: state.keywords, client: state.client };
 };
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(List);

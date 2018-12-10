@@ -1,2 +1,2 @@
-export const PAGE_SIZE = 30
+export const PAGE_SIZE = 100
 export const reducerKey = 'sn'

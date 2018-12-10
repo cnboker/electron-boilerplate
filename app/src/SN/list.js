@@ -7,6 +7,7 @@ import ReactPaginate from "react-paginate";
 import {PAGE_SIZE} from "./constants";
 import Select from "react-select";
 import "../utils/groupBy";
+import Query from "./listQuery";
 
 class List extends Component {
   constructor() {
@@ -78,7 +79,7 @@ class List extends Component {
   stringFormatTime(val) {
     if (!val) 
       return "";
-    return moment(val).format("MM-DD HH:mm");
+    return moment(val).format("YYYY-MM-DD HH:mm");
   }
 
   isValidDate(value) {
@@ -108,16 +109,13 @@ class List extends Component {
             <td>
               <Link to={`/sn/create/${item.userName}`}>{item.userName}</Link>
             </td>
-            <td>{item.mobile}</td>
             <td>{item.sn}</td>
             <td style={{textAlign:'right'}}>{item.agentPrice.toFixed(2)}</td>
             <td>{this.stringFormatTime(item.createDate)}</td>
-            <td>{this.stringBoolean(item.status)}</td>
-
+            <td>{this.stringBoolean(item.actived)}</td>
             <td>{this.stringFormatTime(item.activedDate)}</td>
             <td>{item.activedUser}</td>
             <td>{this.stringBoolean(item.isPaid)}</td>
-            <td>{item.address}</td>
             <td>{item.remark}</td>
           </tr>
         );
@@ -130,14 +128,7 @@ class List extends Component {
       <div className="animated fadeIn">
         <div className="d-flex justify-content-between">
           <div className="col-md-6">
-            <Select
-              placeholder="代理商"
-              value={this.state.filter}
-              onChange={this
-              .onSelect
-              .bind(this)}
-              options={this.options}
-              id="filter"/>{" "}
+          <Query query={this.query.bind(this)} />
           </div>
 
           <div>
@@ -152,21 +143,22 @@ class List extends Component {
             <thead>
               <tr>
                 <th>代理商姓名</th>
-                <th>手机号</th>
                 <th>充值码</th>
                 <th>代理商单价</th>
                 <th>生成日期</th>
                 <th>是否激活</th>
                 <th>激活日期</th>
                 <th>激活用户</th>
-                <th>是否收款</th>
-                <th>地址</th>
+                <th>是否收款</th>
                 <th>备注</th>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>
           </table>
           <br/>
+          <div>合计:{this.state.data.reduce((accumulator, currentValue)=>{
+            return accumulator + currentValue.agentPrice
+            },0).toFixed(2)}</div>
           <div className="pull-right">
             <ReactPaginate
               previousLabel={"上一页"}
