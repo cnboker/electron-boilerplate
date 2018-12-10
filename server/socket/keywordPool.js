@@ -38,7 +38,10 @@ function userJoin(user) {
           $gt: 0
         },
         isValid: true,
-        status: 1
+        status: 1,
+        shield: { //过滤过期会员无效的关键字
+          $ne: 1
+        }
       },
       "_id user originRank dynamicRank keyword link polishedCount",
       {
@@ -86,7 +89,8 @@ function polishFinished(user, doc) {
         $inc: {
           point: 1
         }
-      }
+      },
+      { upsert: true }
     );
 
     //keyword user decrease point
@@ -98,7 +102,8 @@ function polishFinished(user, doc) {
         $inc: {
           point: -1
         }
-      }
+      },
+      { upsert: true }
     );
   }
 
@@ -126,7 +131,7 @@ function userLeave(user) {
       var myuser = userPool[user].myInfo;
       myuser.status = 0;
       setTimeout(() => {
-        if (!userPool[user]) return;     
+        if (!userPool[user]) return;
         if (!myuser) return;
         if (myuser.status === 0) {
           console.log(user + ",用户60秒未登录,删除数据");

@@ -15,6 +15,11 @@ require('../utils/groupBy')
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 var vipJob = require('./vipcheckJob')
+var mongoose = require("mongoose"); //.set('debug', true);
+//mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
+mongoose.Promise = require("bluebird");
+//mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost/kwPolish");
 
 function doJob() {
   //隔5s执行scanJober */5 * * * * *
@@ -29,4 +34,6 @@ function doJob() {
   //end
 }
 
-doJob();
+//doJob();
+vipJob();
+

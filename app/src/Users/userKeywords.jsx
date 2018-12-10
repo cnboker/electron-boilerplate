@@ -170,7 +170,7 @@ class List extends Component {
             <td
               style={{
               overflow: 'hidden',
-              'white-space': 'initial'
+              'whiteSpace': 'initial'
             }}>{item.keyword}</td>
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>

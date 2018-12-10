@@ -23,7 +23,7 @@ class List extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log("nextProps", nextProps);
+   
   }
 
   fetch() {
@@ -128,13 +128,13 @@ class List extends Component {
       .map(item => {
         return (
           <tr key={item._id}>
-            <td style={{overflow: 'hidden','white-space': 'initial'}}>{item.keyword}</td>
+            <td style={{overflow: 'hidden','whiteSpace': 'initial'}}>{item.keyword}</td>
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.getDiff(item)}</td>
             {/* <td>{this.stringFormat(item.polishedCount)}</td> */}
-            <td>{this.stringFormat(item.isValid)}</td>
+            <td>{this.stringFormat(item.isValid && (item.shield != 1))}</td>
             <td>{this.statusFormat(item.status)}</td>
             {/*}
             <td>
@@ -194,8 +194,13 @@ class List extends Component {
           <div className="col-md-12">
             <Animated className="animated flash  " isVisible={true}>
               <div id="__messages" className="alert alert-success">
-                保持程序运行，优化工作正在进行中...
+                保持程序运行，优化工作正在进行中... 
               </div>
+              {(this.props.keywords.filter(e=>{return e.shield == 1}).length> 0)&&
+              <div className="alert alert-danger">
+                VIP会员资格已过期, 快去<Link to="/sn/snActive">升级</Link>吧!
+              </div>
+              }
             </Animated>
           </div>
         </div>
@@ -231,7 +236,7 @@ class List extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th style={{width:'22%',overflow: 'hidden','text-overflow': 'ellipsis'}}>关键词</th>
+                <th style={{width:'22%',overflow: 'hidden','textOverflow': 'ellipsis'}}>关键词</th>
                 <th>匹配网址</th>
                 <th>初始排名</th>
                 <th>最新排名</th>

@@ -66,7 +66,7 @@ class List extends Component {
       return (
         <tr key={index}>
           <td>{item.user}</td>
-          <td style={{overflow: 'hidden','white-space': 'initial'}}>{item.keyword}</td>
+          <td style={{overflow: 'hidden','whiteSpace': 'initial'}}>{item.keyword}</td>
           <td>{item.link}</td>
           <td>{this.stringFormat(item.originRank)}</td>
           <td>{this.stringFormat(item.dynamicRank)}</td>

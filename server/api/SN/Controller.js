@@ -1,46 +1,59 @@
-var boom = require('boom')
-var moment = require('moment')
-var ph = require('../../utils/passwordHash')
-var SN = require('./Model')
-var User = require('../User/Model')
-var Balance = require('../Balance/Model')
+var boom = require("boom");
+var moment = require("moment");
+var ph = require("../../utils/passwordHash");
+var SN = require("./Model");
+var User = require("../User/Model");
+var Balance = require("../Balance/Model");
+var Keyword = require("../Keyword/Model");
 
-
-exports.agent = function (req, res, next) {
-  SN
-    .findOne({userName: req.params.id})
+exports.agent = function(req, res, next) {
+  SN.findOne({ userName: req.params.id })
     .then(doc => {
-      res.json(doc)
+      res.json(doc);
     })
     .catch(e => {
-      return next(boom.badRequest(e))
-    })
-}
+      return next(boom.badRequest(e));
+    });
+};
 
-exports.list = function (req, res, next) {
+exports.list = function(req, res, next) {
   var query = {};
   if (req.query.id) {
-    query.userName = req.query.id
+    query.userName = req.query.id;
   }
-  SN.paginate(query, {
-    page: req.query.page + 1,
-    limit: + req.query.limit
-  }, null, {
-    sort: {
-      userName: -1
+  SN.paginate(
+    query,
+    {
+      page: req.query.page + 1,
+      limit: +req.query.limit
+    },
+    null,
+    {
+      sort: {
+        userName: -1
+      }
     }
-  }).then(docs => {
-    res.json(docs)
-  }).catch(e => {
-    return next(boom.badRequest(e))
-  })
-}
+  )
+    .then(docs => {
+      res.json(docs);
+    })
+    .catch(e => {
+      return next(boom.badRequest(e));
+    });
+};
 
-exports.snCreate = function (req, res, next) {
+exports.snCreate = function(req, res, next) {
   var docs = [];
-  for (var i = 0; i < + req.body.snCount; i++) {
+  for (var i = 0; i < +req.body.snCount; i++) {
     var sn = ph.radmon(16);
-    sn = sn.slice(0, 4) + '-' + sn.slice(4, 8) + '-' + sn.slice(8, 12) + '-' + sn.slice(12)
+    sn =
+      sn.slice(0, 4) +
+      "-" +
+      sn.slice(4, 8) +
+      "-" +
+      sn.slice(8, 12) +
+      "-" +
+      sn.slice(12);
     var doc = {
       userName: req.body.userName,
       mobile: req.body.mobile,
@@ -53,58 +66,78 @@ exports.snCreate = function (req, res, next) {
       isPaid: 1,
       price: 199,
       agentPrice: req.body.agentPrice
-    }
-    docs.push(doc)
+    };
+    docs.push(doc);
   }
 
-  SN
-    .collection
+  SN.collection
     .insertMany(docs)
     .then(docs => {
-      res.json(docs.ops)
+      res.json(docs.ops);
     })
     .catch(e => {
-      return next(boom.badRequest(e))
-    })
-
-}
-
-exports.snActivate = function (req, res, next) {
-  Promise.all([
-    SN.findOne({sn: req.body.sn}),
-    User.findOne({userName: req.user.sub})
-  ]).then(([sn, user]) => {
-    if (!sn) {
-      throw `sn '${req.body.sn}' 不存在`
-    }
-    if (sn.actived == 1) {
-      throw `${req.body.sn}已被使用,激活失败`
-    }
-    sn.actived = 1;
-    sn.activedUser = req.user.sub;
-    sn.activedDate = new Date();
-    sn.save();
-
-    var serviceDays = 30;
-    var balance = new Balance({
-      user: req.user.sub,
-      amount: sn.price,
-      createDate: new Date(),
-      serviceDate: user.vipExpiredDate || new Date(),
-      days: serviceDays,
-      remark: `vip充值金额${sn.price}`
+      return next(boom.badRequest(e));
     });
-    balance.save()
+};
 
-    user.grade = 2;
-    user.upgradeGradeDate = new Date();
-    user.vipExpiredDate = moment(user.vipExpiredDate || new Date()).add(serviceDays, 'days')
-    return user.save()
-  }).then(doc => {
-    res.json(doc)
-  }).catch(e => {
-    console.log(e)
-    return next(boom.badRequest(e))
-  })
+exports.snActivate = function(req, res, next) {
+  Promise.all([
+    SN.findOne({ sn: req.body.sn }),
+    User.findOne({ userName: req.user.sub })
+  ])
+    .then(([sn, user]) => {
+      if (!sn) {
+        throw `sn '${req.body.sn}' 不存在`;
+      }
+      if (sn.actived == 1) {
+        throw `${req.body.sn}已被使用,激活失败`;
+      }
+      sn.actived = 1;
+      sn.activedUser = req.user.sub;
+      sn.activedDate = new Date();
+      sn.save();
 
-}
+      var serviceDays = 30;
+      var start = moment();
+      if (
+        user.vipExpiredDate &&
+        moment().diff(moment(user.vipExpiredDate), "hours") < 0
+      ) {
+        start = user.vipExpiredDate;
+      }
+      var balance = new Balance({
+        user: req.user.sub,
+        amount: sn.price,
+        createDate: new Date(),
+        serviceDate: start,
+        days: serviceDays,
+        remark: `vip充值金额${sn.price}`
+      });
+      balance.save();
+
+      user.grade = 2;
+      user.upgradeGradeDate = new Date();
+      user.vipExpiredDate = moment(start).add(serviceDays, "days");
+      user.save();
+
+      return Keyword.updateMany(
+        {
+          user: req.user.sub,
+          shield: 1
+        },
+        {
+          shield: 0
+        },
+        {
+          multi: true
+        }
+      );
+    })
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(e => {
+      console.log(e);
+      return next(boom.badRequest(e));
+    });
+};

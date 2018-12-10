@@ -1,8 +1,9 @@
 var schedule = require("node-schedule");
 var logger = require("../logger");
-var User = require('../api/User/Model')
-var Keyword = require('../api/Keyword/Model')
-require('../utils/groupBy')
+var User = require("../api/User/Model");
+var Keyword = require("../api/Keyword/Model");
+var moment = require("moment");
+require("../utils/groupBy");
 /*
 *    *    *    *    *    *
 ┬    ┬    ┬    ┬    ┬    ┬
@@ -14,50 +15,63 @@ require('../utils/groupBy')
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
-
+var mongoose = require("mongoose"); //.set('debug', true);
 function doJob() {
-  User
-    .find({
+  var now = moment
+    .utc()
+    .endOf("day")
+    .toDate();
+  User.find({
     grade: 2,
     vipExpiredDate: {
       $lt: new Date()
     }
   })
     .then(users => {
-      var usernames = users.map(x => {
-        return x.userName
+      return users.map(x => {
+        return x.userName;
       });
-      return usernames;
     })
     .then(names => {
+      console.info("users" + names);
       return Keyword.find({
         user: {
-          $in: usernames
+          $in: names
         }
-      })
+      });
     })
     .then(keywords => {
-      var userKeywords = keywords.groupby('user');
+      var userKeywords = keywords.groupBy("user");
       var keys = Object.keys(userKeywords);
+      var updateIds = [];
       for (var key of keys) {
         var uks = userKeywords[key];
         if (uks.length > 5) {
-          var uksids = uks
-            .splice(5)
-            .map(x => {
-              return x._id;
-            })
-          Keyword.updateMany({
-            _id: {
-              $in: uksids
-            }
-          }, {
-            Shield: 1
-          }, {multi: true})
+          var uksids = uks.splice(5).map(x => {
+            return x._id;
+          });
+          console.info("uids:" + key, uksids.join(","));
+          updateIds.push(...uksids);
         }
       }
-
+      return updateIds;
     })
+    .then(ids => {
+      return Keyword.updateMany(
+        {
+          _id: {
+            $in: ids
+          }
+        },
+        {
+          shield: 1
+        },
+        { multi: true, upsert: true }
+      );
+    })
+    .then(() => {
+      mongoose.disconnect();
+    });
 }
 
 module.exports = doJob;

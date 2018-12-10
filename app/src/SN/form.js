@@ -87,7 +87,7 @@ class Form extends Component {
           name="snCount"
           type="number"
           parse={value => Number(value)}
-          label="充值码个数"
+          label="充值码个数"
           component={renderField}
           validate={required}
           placeholder="0"/>
@@ -95,17 +95,17 @@ class Form extends Component {
           name="agentPrice"
           type="number"
           parse={value => Number(value)}
-          label="充值码单价"
+          label="充值码单价"
           component={renderField}
           validate={required}
-          placeholder="给代理商的价格"/>
+          placeholder="代理商价格"/>
         <button
           action="submit"
           className="btn btn-block btn-success"
           disabled={this.submitStart}>
           提交
         </button>
-        <hr/>
+        <hr/>
         <div className="form-group row">
         <label className="col-md-3 form-control-label" htmlFor="sns">充值码</label>
         <div className="col-md-9">
