@@ -6,6 +6,7 @@ var snSchema = new Schema({
    mobile:String,
    idCard:String,//身份证
    address:String, //地址
+   remark:String, //备注
    gender:String, //性别
    province:String, //省份
    sn:String,//激活码
@@ -15,7 +16,7 @@ var snSchema = new Schema({
    activedUser:String,//激活用户
    isPaid:Boolean, //是否已经付款
    price:Number, //市场价格
-   payPrice:Number, //实际付款价格
+   agentPrice:Number, //代理商价格
 })
 
 snSchema.plugin(mongoosePaginate)

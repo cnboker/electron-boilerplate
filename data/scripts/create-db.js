@@ -4,6 +4,18 @@ var db = connect('localhost:27017/kwPolish');
 db.dropDatabase();
 
 db.users.insert({
+  userName: 'admin',
+  password: '1',
+  email: '1123@qq.com',
+  locked: false,
+  createDate: new Date(),
+  actived: true,
+  todayPoint: 0,
+  totalPoint: 0,
+  lostPoint: 0
+});
+
+db.users.insert({
   userName: 'scott',
   password: '1',
   email: '1@qq.com',
@@ -151,12 +163,3 @@ db.keywords.insert({
   status: 1
 });
 
-db.SN.insert({
-  userName:'agent1',
-  mobile:'13410332234',
-  sn:'123456',
-  createDate:new Date(),
-  actived:0,
-  isPaid:0,
-  Price:200
-})

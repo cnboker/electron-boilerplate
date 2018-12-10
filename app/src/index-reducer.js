@@ -7,6 +7,7 @@ import keywordReducer from './Keyword/reducer'
 import eventReducer from './Event/reducer'
 import userReducer from './Users/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
+import snReducer from './SN/reducer'
 
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   loadingBar: loadingBarReducer,
   users:userReducer,
   events: eventReducer,
+  sn:snReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

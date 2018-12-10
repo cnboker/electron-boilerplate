@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
 import moment from "moment";
-
+import {Link} from "react-router-dom";
 
 export default class Profile extends Component {
 
@@ -9,7 +8,7 @@ export default class Profile extends Component {
     return this.props.model.balance.map(item => {
       return (
         <tr key={item._id}>
-          <td>{item.amount}</td>
+          <td>{(item.amount||0).toFixed(2)}</td>
           <td>{moment(item.createDate).format("YYYY-MM-DD")}</td>
           <td>
             {moment(item.serviceDate)
@@ -27,7 +26,7 @@ export default class Profile extends Component {
       <div>
         <ul className="list-group">
           <li className="list-group-item active">{model.grade}</li>
-          <li className="list-group-item">{model.userName}</li>
+          <li className="list-group-item">{model.userName} <span className="float-right"><Link to="/sn/snActive" className="btn btn-primary">充值</Link></span></li>
           <li className="list-group-item">
             到期日期 :{" "}
             {moment(model.expiredDate).format("YYYY-MM-DD")}

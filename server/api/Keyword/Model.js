@@ -17,7 +17,7 @@ var keywordSchema =new Schema({
   polishedCount:Number, //总擦亮次数,
   everyDayMaxPolishedCount:Number, //每天最大擦亮次数
   status:Number, //1. 运行, 2.暂停,
-  Shield:Boolean //被管理员屏蔽
+  Shield:Number //被管理员屏蔽 0.正常, 1.vip过期屏蔽
 });
 
 module.exports = mongoose.model('Keyword', keywordSchema);

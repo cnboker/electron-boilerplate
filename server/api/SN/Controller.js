@@ -4,12 +4,30 @@ var ph = require('../../utils/passwordHash')
 var SN = require('./Model')
 var User = require('../User/Model')
 var Balance = require('../Balance/Model')
+
+
+exports.agent = function (req, res, next) {
+  SN
+    .findOne({userName: req.params.id})
+    .then(doc => {
+      res.json(doc)
+    })
+    .catch(e => {
+      return next(boom.badRequest(e))
+    })
+}
+
 exports.list = function (req, res, next) {
-  SN.find({
-    userName: req.params.id
+  var query = {};
+  if (req.query.id) {
+    query.userName = req.query.id
+  }
+  SN.paginate(query, {
+    page: req.query.page + 1,
+    limit: + req.query.limit
   }, null, {
     sort: {
-      createDate: -1
+      userName: -1
     }
   }).then(docs => {
     res.json(docs)
@@ -21,18 +39,20 @@ exports.list = function (req, res, next) {
 exports.snCreate = function (req, res, next) {
   var docs = [];
   for (var i = 0; i < + req.body.snCount; i++) {
-    var doc =  {
+    var sn = ph.radmon(16);
+    sn = sn.slice(0, 4) + '-' + sn.slice(4, 8) + '-' + sn.slice(8, 12) + '-' + sn.slice(12)
+    var doc = {
       userName: req.body.userName,
       mobile: req.body.mobile,
       idCard: req.body.idCard,
       address: req.body.address,
       gender: req.body.gender,
-      sn: ph.radmon(6),
+      sn,
       createDate: new Date(),
       actived: 0,
-      isPaid: 0,
-      price: req.body.price,
-      payPrice: req.body.payPrice
+      isPaid: 1,
+      price: 199,
+      agentPrice: req.body.agentPrice
     }
     docs.push(doc)
   }
@@ -54,7 +74,7 @@ exports.snActivate = function (req, res, next) {
     SN.findOne({sn: req.body.sn}),
     User.findOne({userName: req.user.sub})
   ]).then(([sn, user]) => {
-    if(!sn){
+    if (!sn) {
       throw `sn '${req.body.sn}' 不存在`
     }
     if (sn.actived == 1) {
@@ -67,7 +87,7 @@ exports.snActivate = function (req, res, next) {
 
     var serviceDays = 30;
     var balance = new Balance({
-      user: req.body.userName,
+      user: req.user.sub,
       amount: sn.price,
       createDate: new Date(),
       serviceDate: user.vipExpiredDate || new Date(),
