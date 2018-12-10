@@ -45,7 +45,7 @@ export default class Index extends Component {
                   <li>远程技术支持</li>
                   <li>&nbsp;</li>
                 </ul>
-                <Link to="/contact" className="btn btn-lg btn-block btn-primary">升级为标准账号</Link>
+                <Link to="/sn/snActive" className="btn btn-lg btn-block btn-primary">升级为标准账号</Link>
               </div>
             </div>
             <div className="card mb-4 box-shadow">

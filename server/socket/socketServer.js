@@ -2,15 +2,14 @@ var User = require("../api/User/Model");
 
 var logger = require("../logger");
 
-const EventEmitter = require("events");
 const clients = {};
 
 var pool = require("./keywordPool");
 var sharePool = require("./sharePool");
 
-class SocketServer extends EventEmitter {
+class SocketServer {
   constructor(server) {
-    super();
+    //super();
     //reset user status
     User.update(
       {},

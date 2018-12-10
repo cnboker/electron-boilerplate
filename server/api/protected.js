@@ -58,4 +58,5 @@ module.exports = function (app) {
   app.use('/api/sn/list',jwtCheck,requireScope('full_access'));
   app.use('/api/sn/snActivate',jwtCheck, requireScope('full_access'));
   app.use('/api/sn/snCreate',jwtCheck,requireScope('full_access'));
+  app.use('/api/agent',jwtCheck,requireScope('full_access'));
 }
