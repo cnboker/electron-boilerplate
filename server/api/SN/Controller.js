@@ -18,9 +18,22 @@ exports.agent = function(req, res, next) {
 
 exports.list = function(req, res, next) {
   var query = {};
-  if (req.query.id) {
-    query.userName = req.query.id;
+
+  query.createDate = {
+    $gt: req.query.startDate,
+    $lt: req.query.endDate
+  };
+  if (req.query.name) {
+    query.userName = {
+      $regex: ".*" + req.query.name + ".*",
+      $ne: "admin"
+    };
   }
+  if(req.query.actived == 'true'){
+    query.actived = true;
+  }
+
+  console.info('query',query)
   SN.paginate(
     query,
     {
@@ -34,8 +47,8 @@ exports.list = function(req, res, next) {
       }
     }
   )
-    .then(docs => {
-      res.json(docs);
+    .then(doc => {
+      res.json(doc);
     })
     .catch(e => {
       return next(boom.badRequest(e));

@@ -396,6 +396,9 @@ exports.polish = function(req, res, next) {
     })
   ])
     .then(([keyword, user]) => {
+      if(!keyword){
+        throw keyword.keyword + " not found";
+      }
       lastDynamicRank = keyword.dynamicRank;
       if(user.locked){
         throw `${req.user.sub},${keyword.keyword},black user exception`;
@@ -404,10 +407,10 @@ exports.polish = function(req, res, next) {
         keyword.originRank = req.body.rank || -1;
       }
       if (keyword.originRank > 0 && req.body.rank == undefined) {
-        throw "skip rank=-1";
+        throw keyword.keyword + ",skip rank=-1";
       }
       if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
-        throw "skip rank=-1";
+        throw keyword.keyword + ",skip rank=-1";
       }
       var hours = moment().diff(moment(keyword.createDate), "hours");
       console.log('hours',hours)

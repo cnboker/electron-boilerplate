@@ -1,4 +1,3 @@
-var schedule = require("node-schedule");
 var logger = require("../logger");
 var User = require("../api/User/Model");
 var Keyword = require("../api/Keyword/Model");
@@ -15,7 +14,7 @@ require("../utils/groupBy");
 │    └──────────────────── minute (0 - 59)
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
-var mongoose = require("mongoose"); //.set('debug', true);
+
 function doJob() {
   var now = moment
     .utc()
@@ -68,10 +67,12 @@ function doJob() {
         },
         { multi: true, upsert: true }
       );
-    })
-    .then(() => {
-      mongoose.disconnect();
     });
 }
 
-module.exports = doJob;
+module.exports = function() {
+  return new Promise((resolve, reject) => {
+    doJob();
+    resolve();
+  });
+};
