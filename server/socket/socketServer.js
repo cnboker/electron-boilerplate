@@ -25,7 +25,7 @@ class SocketServer {
       socket.on("hello", function(data) {
         logger.info(`user ${data.user} hello`);
         if (clients[data.user]) {
-          //socket.disconnect();
+          socket.disconnect();
           return;
         }
 

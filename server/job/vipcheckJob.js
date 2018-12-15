@@ -15,64 +15,68 @@ require("../utils/groupBy");
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 
-function doJob() {
+module.exports =  function () {
   var now = moment
     .utc()
     .endOf("day")
     .toDate();
-  User.find({
-    grade: 2,
-    vipExpiredDate: {
-      $lt: new Date()
-    }
-  })
-    .then(users => {
-      return users.map(x => {
-        return x.userName;
-      });
-    })
-    .then(names => {
-      console.info("users" + names);
-      return Keyword.find({
-        user: {
-          $in: names
-        }
-      });
-    })
-    .then(keywords => {
-      var userKeywords = keywords.groupBy("user");
-      var keys = Object.keys(userKeywords);
-      var updateIds = [];
-      for (var key of keys) {
-        var uks = userKeywords[key];
-        if (uks.length > 5) {
-          var uksids = uks.splice(5).map(x => {
-            return x._id;
-          });
-          console.info("uids:" + key, uksids.join(","));
-          updateIds.push(...uksids);
-        }
+  return new Promise((resolve, reject) => {
+    User
+      .find({
+      grade: 2,
+      vipExpiredDate: {
+        $lt: new Date()
       }
-      return updateIds;
     })
-    .then(ids => {
-      return Keyword.updateMany(
-        {
+      .then(users => {
+        return users.map(x => {
+          return x.userName;
+        });
+      })
+      .then(names => {
+        console.info("users:" + names);
+        return Keyword.find({
+          user: {
+            $in: names
+          }
+        });
+      })
+      .then(keywords => {
+        var userKeywords = keywords.groupBy("user");
+        var keys = Object.keys(userKeywords);
+        var updateIds = [];
+        for (var key of keys) {
+          var uks = userKeywords[key];
+          if (uks.length > 5) {
+            var uksids = uks
+              .splice(5)
+              .map(x => {
+                return x._id;
+              });
+            console.info("uids:" + key, uksids.join(","));
+            updateIds.push(...uksids);
+          }
+        }
+        return updateIds;
+      })
+      .then(ids => {
+        return Keyword.updateMany({
           _id: {
             $in: ids
           }
-        },
-        {
+        }, {
           shield: 1
-        },
-        { multi: true, upsert: true }
-      );
-    });
-}
+        }, {
+          multi: true,
+          upsert: true
+        });
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch(e => {
+        reject(e)
+      })
+  })
 
-module.exports = function() {
-  return new Promise((resolve, reject) => {
-    doJob();
-    resolve();
-  });
-};
+}

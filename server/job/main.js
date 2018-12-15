@@ -15,25 +15,30 @@ require('../utils/groupBy')
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 var vipJob = require('./vipcheckJob')
+var resetTodayPolishJob = require('./resetTodayPolishCount')
 var mongoose = require("mongoose"); //.set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
 mongoose.Promise = require("bluebird");
 //mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/kwPolish");
 
-function doJob() {
-  //隔5s执行scanJober */5 * * * * *
+(function  doJob() {
+  //run every day at 23:00
   schedule
-    .scheduleJob("*/5 * * * * *", function () {
-      console.log('vip job')
-      vipJob();
-      console.log('vip job end')
+    .scheduleJob("00 00 23 * * 0-6", function () {
+      mongoose.connect("mongodb://localhost/kwPolish");
+      vipJob().then(()=>{
+        console.log('reset')
+        return resetTodayPolishJob();
+      }).catch(e=>{
+        console.log(e)
+      }).then(()=>{
+        console.log('disconnect')
+        mongoose.disconnect();
+      })
     });
+
   //per m
   schedule.scheduleJob("*/2 * * * *", function () {});
   //end
-}
-
-//doJob();
-vipJob();
+})();
 
