@@ -30,14 +30,14 @@ process.node_debug = true;
 (async () => {
   var task = {
     doc: {
-      userName: "scott1",
+      userName: "scott",
       engine: "baidu",
-      link: "saisente.com",
-      keyword: "东莞水压试验台",
-      originRank: 38,
-      dynamicRank: 0
+      link: "ioliz.com",
+      keyword: "软件定制服务",
+      originRank: 10,
+      dynamicRank: 10
     },
-    action: jobAction.Polish,
+    action: jobAction.SCAN,
     end: function(doc) {
       console.log("polishjober execute doc rank", doc);
       //done();
@@ -49,8 +49,11 @@ process.node_debug = true;
   // });
 
   // const page = await browser.newPage();
-
+  // await pageTaskJob.inputKeyword(page,'软件定制服务',false);
+  // var count = await pageTaskJob.adIndexer(page);
+  //console.log('adindex:', count)
   await pageTaskJob.execute(task);
+  //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
 
   //   jobContext.puppeteer = require('puppeteer');
