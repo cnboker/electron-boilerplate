@@ -1,5 +1,5 @@
 var moment = require("moment");
-var random = require("../../utils/random");
+var time = require('../../utils/time')
 require("../../utils/groupBy");
 var sortBy = require("../../utils/sort_by");
 var User = require("../User/Model");
@@ -58,20 +58,15 @@ module.exports.sortKeywords = function() {
 };
 
 module.exports.strategy = function(docs) {
-  var min = 3 * 60; //5min
-  var max = 8 * 60; // 20min
-  var next = moment().add(random(min, max), "seconds"); //hours,minutes,seconds
+  
   var objs = [];
   var sortDocs = sort(docs);
   for (let doc of sortDocs) {
     //var obj = {...doc, time:next.format('YYYY-MM-DD HH:mm:ss')};
     const obj = Object.assign({}, doc, {
-      runTime: next.format("YYYY-MM-DD HH:mm:ss")
+      runTime: time.getRuntime()
     });
     objs.push(obj);
-    //doc.runTime = next.format('YYYY-MM-DD HH:mm:ss');
-    next = next.add(random(min, max), "seconds");
-    //console.log(obj)
   }
   return objs;
 };

@@ -149,7 +149,7 @@ function req(user) {
   var my = userPool[user];
   if (my === undefined) return "disconnect";
   if (my.myInfo === undefined) return "disconnect";
-  if (my.myInfo.locked) return []; //拉黑的用户不分配任务
+  //if (my.myInfo.locked) return []; //拉黑的用户不分配任务
   var result = sharePool.shift(user);
   //只检查的用户，一次获取1条共享池数据同时获取一条自己的数据检查排名
   var rankSet = my.myInfo.rankSet || 1;
