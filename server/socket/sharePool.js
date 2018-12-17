@@ -1,6 +1,5 @@
 const POOL_MAX_LENGTH = 200;
 
-var moment = require("moment");
 var time = require('../utils/time')
 const finishedPool = [];
 const shiftPool = [];
@@ -43,7 +42,7 @@ module.exports.shift = function(user) {
 
   shiftPool.splice(shiftPool.indexOf(first), 1);
 
-  first.runTime = time.getRunTime();
+  first.runTime = time.getRuntime();
   if (first.dynamicRank == -1) {
     first.dynamicRank = first.originRank;
   }

@@ -114,7 +114,7 @@ class PolishJober {
   //获取待擦亮关键词列表
   static async _fetchData() {
     const access_token = auth.getToken().access_token;
-    console.log('call',`${process.env.REACT_APP_API_URL}/kwTask/tasks`)
+    //console.log('call',`${process.env.REACT_APP_API_URL}/kwTask/tasks`)
     try {
       const url = `${process.env.REACT_APP_API_URL}/kwTask/tasks`;
       const res = await axios({

@@ -154,6 +154,17 @@ class List extends Component {
       </span>
     );
   }
+  getFire(item){
+    if(item.adIndexer == undefined)return <span>-</span>
+    var indexer = item.adIndexer ;
+    if(indexer > 0){
+      return [...Array(item.adIndexer)].map((e,i)=>{
+        return <i className="fa fa-tint fa-lg" style={{color:'red'}}/>
+      })
+    }else{
+      return  <span>0</span>
+    }
+  }
   dateDuration(date) {
     return moment().diff(moment(date), "days");
   }
@@ -181,6 +192,11 @@ class List extends Component {
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.getDiff(item)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
+            <td>
+                {
+                 this.getFire(item)
+                }
+            </td>
             <td>{this.stringFormat(item.isValid && item.shield != 1)}</td>
             <td>{this.dateDuration(item.createDate)}</td>
             <td>{this.statusFormat(item.status)}</td>
@@ -261,6 +277,8 @@ class List extends Component {
                 <th>新排名</th>
                 <th>差异</th>
                 <th>点击</th>
+                <th>商业热度</th>
+                <th>跟踪</th>
                 <th>有效</th>
                 <th>天数</th>
                 <th>状态</th>

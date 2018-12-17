@@ -116,13 +116,14 @@ class List extends Component {
   }
 
   getFire(item){
-    var indexer = item.adIndexer || 0;
-    if(indexer){
+    if(item.adIndexer == undefined)return <span>-</span>
+    var indexer = item.adIndexer ;
+    if(indexer > 0){
       return [...Array(item.adIndexer)].map((e,i)=>{
         return <i className="fa fa-tint fa-lg" style={{color:'red'}}/>
       })
     }else{
-      return <i className="fa fa-frown-o fa-lg"></i>
+      return  <span>0</span>
     }
   }
   renderList() {
@@ -265,10 +266,10 @@ class List extends Component {
                 <th>初始排名</th>
                 <th>最新排名</th>
                 <th>变化</th>
-                <th>热度</th>
-                <th>是否有效</th>
+                <th>商业热度</th>
+                <th>有效</th>
                 <th>状态</th>
-                <th>排名跟踪</th>
+                <th>跟踪</th>
                 {/*<th>上次擦亮时间</th>
                 <th>创建日期</th>*/}
                 <th />

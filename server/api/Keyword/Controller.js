@@ -399,7 +399,7 @@ exports.polish = function(req, res, next) {
   ])
     .then(([keyword, user]) => {
       if(!keyword){
-        throw keyword.keyword + " not found";
+        throw "keyword not found";
       }
       lastDynamicRank = keyword.dynamicRank;
       if(user.locked){

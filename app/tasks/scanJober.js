@@ -67,7 +67,7 @@ class ScanJober {
         try{
             const access_token = auth.getToken().access_token;
             const url = `${process.env.REACT_APP_API_URL}/unRankKeywords`
-            logger.info('scanjob-_fetchData-url', url);
+            //logger.info('scanjob-_fetchData-url', url);
             const res = await axios({
                 method:'get',
                 url,

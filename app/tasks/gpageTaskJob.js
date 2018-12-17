@@ -116,6 +116,7 @@ async function pageRank(page, match, pageIndex) {
 
 //查找包含关键词的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
+
     var selector = 'a[href*="' + keyword + '"]'
     ///const linkHandler = (await page.$x(selector))[0];
     await page.evaluate((selector)=>document.querySelector(selector).click(), selector)
