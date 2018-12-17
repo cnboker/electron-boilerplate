@@ -22,6 +22,7 @@ var token = {
 var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
 var pageTaskJob = require("./pageTaskJob");
+var gpageTaskJober = require("./gpageTaskJob");
 var polishJober = require("./polishJober");
 var logger = require("../logger");
 const auth = require("../auth");
@@ -31,15 +32,15 @@ process.node_debug = true;
   var task = {
     doc: {
       userName: "scott",
-      engine: "baidu",
-      link: "ioliz.com",
-      keyword: "软件定制服务",
+      engine: "google",
+      link: "kwpolish.com",
+      keyword: "钢铁侠 网络推广",
       originRank: 10,
       dynamicRank: 10
     },
-    action: jobAction.SCAN,
+    action: jobAction.Polish,
     end: function(doc) {
-      console.log("polishjober execute doc rank", doc);
+      //console.log("polishjober execute doc rank", doc);
       //done();
     }
   };
@@ -50,9 +51,9 @@ process.node_debug = true;
 
   // const page = await browser.newPage();
   // await pageTaskJob.inputKeyword(page,'软件定制服务',false);
-  // var count = await pageTaskJob.adIndexer(page);
-  //console.log('adindex:', count)
-  await pageTaskJob.execute(task);
+  
+  //await pageTaskJob.execute(task);
+  await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
 

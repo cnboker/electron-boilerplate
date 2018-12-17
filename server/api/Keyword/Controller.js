@@ -291,7 +291,8 @@ exports.rank = function(req, res, next) {
       engine: req.body.engine,
       isValid: req.body.rank != -1,
       lastPolishedDate: new Date(),
-      polishedCount: 0
+      polishedCount: 0,
+      adIndexer:(req.body.adIndexer || 0) 
     },
     {
       //同时设置这2个参数，否则doc返回null
@@ -380,6 +381,7 @@ exports.polish = function(req, res, next) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
+      adIndexer: (req.body.adIndexer || 0) ,
       lastPolishedDate: new Date()
     },
     $inc: {

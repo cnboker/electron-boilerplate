@@ -22,9 +22,7 @@ class List extends Component {
     this.fetch();
   }
 
-  componentWillUpdate(nextProps, nextState) {
-   
-  }
+  componentWillUpdate(nextProps, nextState) {}
 
   fetch() {
     const action = crudActions.fetch(0, 0, true, this.props.client);
@@ -117,6 +115,16 @@ class List extends Component {
     return <span style={{ color: color, fontWeight: "bold" }}>{diffText}</span>;
   }
 
+  getFire(item){
+    var indexer = item.adIndexer || 0;
+    if(indexer){
+      return [...Array(item.adIndexer)].map((e,i)=>{
+        return <i className="fa fa-tint fa-lg" style={{color:'red'}}/>
+      })
+    }else{
+      return <i className="fa fa-frown-o fa-lg"></i>
+    }
+  }
   renderList() {
     var self = this;
     return this.props.keywords
@@ -128,13 +136,19 @@ class List extends Component {
       .map(item => {
         return (
           <tr key={item._id}>
-            <td style={{overflow: 'hidden','whiteSpace': 'initial'}}>{item.keyword}</td>
+            <td style={{ overflow: "hidden", whiteSpace: "initial" }}>
+              {item.keyword}
+            </td>
             <td>{item.link}</td>
             <td>{this.stringFormat(item.originRank)}</td>
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.getDiff(item)}</td>
-            {/* <td>{this.stringFormat(item.polishedCount)}</td> */}
-            <td>{this.stringFormat(item.isValid && (item.shield != 1))}</td>
+            <td>
+                {
+                 this.getFire(item)
+                }
+            </td>
+            <td>{this.stringFormat(item.isValid && item.shield != 1)}</td>
             <td>{this.statusFormat(item.status)}</td>
             {/*}
             <td>
@@ -194,13 +208,15 @@ class List extends Component {
           <div className="col-md-12">
             <Animated className="animated flash  " isVisible={true}>
               <div id="__messages" className="alert alert-success">
-                保持程序运行，优化工作正在进行中... 
+                保持程序运行，优化工作正在进行中...
               </div>
-              {(this.props.keywords.filter(e=>{return e.shield == 1}).length> 0)&&
-              <div className="alert alert-danger">
-                VIP会员资格已过期, 快去<Link to="/sn/snActive">升级</Link>吧!
-              </div>
-              }
+              {this.props.keywords.filter(e => {
+                return e.shield == 1;
+              }).length > 0 && (
+                <div className="alert alert-danger">
+                  VIP会员资格已过期, 快去<Link to="/sn/snActive">升级</Link>吧!
+                </div>
+              )}
             </Animated>
           </div>
         </div>
@@ -236,12 +252,20 @@ class List extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th style={{width:'22%',overflow: 'hidden','textOverflow': 'ellipsis'}}>关键词</th>
+                <th
+                  style={{
+                    width: "22%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
+                  }}
+                >
+                  关键词
+                </th>
                 <th>匹配网址</th>
                 <th>初始排名</th>
                 <th>最新排名</th>
                 <th>变化</th>
-                {/* <th>擦亮次数</th> */}
+                <th>热度</th>
                 <th>是否有效</th>
                 <th>状态</th>
                 <th>排名跟踪</th>
@@ -257,9 +281,11 @@ class List extends Component {
             1.初始排名数据在1~120之间，则表明系统正常运行，将软件最小化即可.{" "}
             <br />
             2.
-            若较长时间后，初始排名数据仍为0，表明系统未正常启动检测功能。请查看“帮助" 及时处理.{" "}
-            <br />
-            3. 若初始排名数据显示为120+，则表明目标网页排名在12页以后，页面质量较弱，系统停止检测，请查看 "帮助" 进行针对性解决.
+            若较长时间后，初始排名数据仍为0，表明系统未正常启动检测功能。请查看“帮助"
+            及时处理. <br />
+            3.
+            若初始排名数据显示为120+，则表明目标网页排名在12页以后，页面质量较弱，系统停止检测，请查看
+            "帮助" 进行针对性解决.
           </p>
         </div>
       </div>

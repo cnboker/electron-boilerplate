@@ -68,7 +68,8 @@ async function singleTaskProcess(page, task) {
   var doc = task.doc;
   try {
     await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
-
+    doc.adIndexer = await adIndexer(page);
+ 
     //首页处理
     const rank = await pageRank(page, doc.link, pageIndex);
     doc.rank = rank || -1;
@@ -195,6 +196,8 @@ async function inputKeyword(page, input, anyclick) {
 
   await sleep(2000);
 
+  
+  
   // 首页任意点击 if (anyclick) {   await page.evaluate(() => {     var nodes =
   // document.querySelectorAll("div.result.c-container");     var arr =
   // [...nodes];     var index = Math.floor(Math.random() * arr.length) + 1;
@@ -261,14 +264,14 @@ async function findLinkClick(page, keyword) {
   }, keyword);
 }
 
-async function adIndexer(page, keyword) {
-  var selector = '#content_left';
+async function adIndexer(page) {
   var adCount = await page.evaluate(() => {
-    var nodes = document.querySelectorAll('#content_left>div')
-    nodes = nodes.filter(e => {
-      return e.attribute('cmatchid') != undefined
+    var nodes = document.querySelectorAll('#content_left>div>div')
+    var arr = [...nodes];
+    arr = arr.filter(e => {
+      return e.getAttribute('cmatchid') != undefined
     })
-    return nodes.length;
+    return arr.length;
   })
   return adCount;
 }

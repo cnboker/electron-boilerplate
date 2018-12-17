@@ -3,7 +3,7 @@ var scroll = require('./scroll')
 var random = require('./random')
 var jobAction = require('./jobAction')
 var jobContext = require('./jobContext')
-const SCAN_MAX_PAGE = 10;
+const SCAN_MAX_PAGE = 15;
 
 async function execute(task) {
     if (jobContext.busy || jobContext.puppeteer == undefined) return;
@@ -41,7 +41,7 @@ async function singleTaskProcess(page, task) {
     try {
         await inputKeyword(page, keyword);
 
-        const nextpageSelector = '#pnnext'
+        var nextpageSelector = '#pnnext'
 
         await sleep(2000);
 
@@ -52,15 +52,16 @@ async function singleTaskProcess(page, task) {
             doc.rank = rank;
             if (rank != -1) {
                 if (task.action == jobAction.Polish) {
-                    findLinkClick(page, doc.link)
+                    await findLinkClick(page, doc.link)
                     await sleep(random(10000, 20000))
                 }
                 break;
             }
 
-            scroll(page);
+            //scroll(page);
             //page.click(nextpageSelector);
-            await page.evaluate(()=>document.querySelector(nextpageSelector).click())
+            await page.evaluate((nextpageSelector)=>document.querySelector(nextpageSelector).click(),nextpageSelector)
+            //console.log('click page next')
             //wait load new page
             await page.waitForNavigation({
                 waitUntil: 'load'
@@ -84,41 +85,40 @@ async function inputKeyword(page, input) {
     await page.goto(pageUrl, {
         waitUtil: 'load'
     });
+    const inputSelector = 'input[name=q]'
+    await page.focus(inputSelector)
+   // await page.waitFor('#lst-ib');
 
-    await page.focus('#lst-ib')
-    await page.waitFor('#lst-ib');
+    await page.$eval(inputSelector, (el, input) => el.value = input, input);
 
-    await page.$eval('#lst-ib', (el, input) => el.value = input, input);
-
-    await page.click('#tsf > div.tsf-p > div.jsb > center > input[type="submit"]:nth-child(1)');
+   // await page.click('input[name=btnK]');
+    await page.evaluate(() => {
+        document
+          .querySelector("input[name=btnK]")
+          .click();
+      });
 }
 
 //检查当前页是否包含特定链接
 //match:特定链接，比如ioliz.com,pageIndex:分页
 //return -1 表示为找到匹配链接
 async function pageRank(page, match, pageIndex) {
-    const selector = 'div > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > cite'
+    const selector = 'cite'
     var currentRank = await page.$$eval(selector, (links, match) => {
         return links.findIndex(function (element) {
             return element.innerText.indexOf(match) >= 0
         });
     }, match);
-    console.log('currentRank=', currentRank)
+    console.log('currentRank=', currentRank, ',currentpage=', pageIndex)
     if (currentRank >= 0) return pageIndex * 10 + currentRank + 1;
     return -1;
 }
 
 //查找包含关键词的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
-
-    var selector = '//a[contains(@href, "' + keyword + '")]'
-    const linkHandler = (await page.$x(selector))[0];
-    if (linkHandler) {
-        await linkHandler.click();
-    } else {
-        throw new Error(`Link not found`);
-    }
-
+    var selector = 'a[href*="' + keyword + '"]'
+    ///const linkHandler = (await page.$x(selector))[0];
+    await page.evaluate((selector)=>document.querySelector(selector).click(), selector)
 }
 
 exports.execute = execute;
