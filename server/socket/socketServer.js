@@ -5,7 +5,6 @@ var logger = require("../logger");
 const clients = {};
 
 var pool = require("./keywordPool");
-var sharePool = require("./sharePool");
 
 class SocketServer {
   constructor(server) {

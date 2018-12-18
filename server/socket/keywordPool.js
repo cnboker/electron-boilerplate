@@ -17,17 +17,12 @@ var userPool = {};
 function userJoin(user) {
   if (userPool[user]) {
     var myuser = userPool[user];
-    if (!myuser.load) return;
     myuser.myInfo.status = 1;
     var keywords = myuser.mykeywords;
     if (keywords && keywords.length > 0) {
       return;
     }
   }
-
-  userPool[user] = {
-    load: false
-  };
 
   Promise.all([
     User.findOne({ userName: user }),
@@ -65,8 +60,7 @@ function userJoin(user) {
 
     userPool[user] = {
       myInfo: userInfo,
-      mykeywords: keywords,
-      load: true
+      mykeywords: keywords
     };
 
     var first = keywords.shift();
