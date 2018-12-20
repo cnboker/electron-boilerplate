@@ -94,7 +94,7 @@ class Login extends Component {
                           labelIcon="icon-user"
                           className="form-control"
                           component={renderField}
-                          placeholder={resources.userName}
+                          placeholder={"手机号"}
                           validate={required}
                         />
                         <Field

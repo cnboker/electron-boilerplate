@@ -25,7 +25,7 @@ class Signup extends Component {
   componentWillUpdate(nextProps,nextState){
     console.log("signup nextProps", nextProps)
     if(!nextProps.signup.requesting && nextProps.signup.successful){
-      nextProps.history.push('/login')
+      nextProps.history.push('/')
     }
   }
   render() {

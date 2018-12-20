@@ -1,6 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { SIGNUP_REQUESTING, SIGNUP_SUCCESS, SIGNUP_ERROR } from './constants'
 import { ResponseHandle } from "../utils/ResponseHandle"
+import { setClient } from "../Client/action";
+import Cookies from "js-cookie";
 
 const signupUrl = `${process.env.REACT_APP_AUTH_URL}/api/signup`
 
@@ -36,6 +38,15 @@ function* signupFlow(action) {
     // from our dispatched signup action, and will PAUSE
     // here until the API async function, is complete!
     const response = yield call(signupApi, userName, email, password)
+
+    var token = { ...response, userName }
+    yield put(setClient(token));
+
+    var tokenString = JSON.stringify(token);
+    localStorage.setItem("token", tokenString);
+
+    Cookies.set("token", tokenString, { expires: 360, path: ""});
+
     // when the above api call has completed it will "put",
     // or dispatch, an action of type SIGNUP_SUCCESS with
     // the successful response.

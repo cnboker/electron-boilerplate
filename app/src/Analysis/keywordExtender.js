@@ -74,7 +74,7 @@ class Index extends Component {
     return (
       <div>
         <div className="alert alert-success">
-          点击左边列表关键词后添加到右边列表，再点击“添加到排名列表”完成操作
+          请等待托词数据全部出现，点击选择相应关键词，然后点击“添加到排名列表”完成操作
         </div>
         <div className="row">
           <div className="col-sm">

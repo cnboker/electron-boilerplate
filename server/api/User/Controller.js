@@ -154,6 +154,7 @@ exports.list = function (req, res, next) {
       $lt: req.query.endDate
     };
   }
+  console.log('query:',query)
   Promise.all([
     Keyword.aggregate([
       {
@@ -270,7 +271,11 @@ exports.signup = function (req, res, next) {
       //console.log("signup", doc);
       var jwtJson = {
         id_token: createIdToken({userName, role: "user"}),
-        access_token: createAccessToken(userName)
+        access_token: createAccessToken(userName),
+        userName,
+        engine:'baidu',
+        rankSet: 1,
+        role: "user"
       };
       //console.log("jwtJson", jwtJson);
       res
