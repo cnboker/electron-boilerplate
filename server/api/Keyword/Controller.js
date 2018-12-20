@@ -10,6 +10,7 @@ var User = require("../User/Model");
 var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
 var keywordPool = require("../../socket/keywordPool");
+var time = require('../../utils/time')
 
 exports.finishedPool = function(req, res) {
   return res.json(keywordPool.finishedPool);
@@ -387,6 +388,20 @@ exports.polish = function(req, res, next) {
       polishedCount: 1
     }
   };
+
+  if(time.isWorktime()){
+    upsertData = {
+      $set: {
+        dynamicRank: req.body.rank,
+        lastPolishedDate: new Date(),
+        adIndexer:(req.body.adIndexer || 0)
+      },
+      $inc: {
+        polishedCount: 1
+      }
+    };
+  }
+  
   var lastDynamicRank = 0;
   Promise.all([
     Keyword.findOne({
@@ -399,11 +414,6 @@ exports.polish = function(req, res, next) {
     .then(([keyword, user]) => {
       if(!keyword){
         throw "keyword not found";
-      }
-      var time = require('../../utils/time')
-      if(time.isWorktime()){
-        keyword.adIndexer = (req.body.adIndexer || 0);
-        keyword.save();
       }
       lastDynamicRank = keyword.dynamicRank;
       if(user.locked){
