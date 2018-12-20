@@ -381,7 +381,6 @@ exports.polish = function(req, res, next) {
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
-      adIndexer: (req.body.adIndexer || 0) ,
       lastPolishedDate: new Date()
     },
     $inc: {
@@ -400,6 +399,11 @@ exports.polish = function(req, res, next) {
     .then(([keyword, user]) => {
       if(!keyword){
         throw "keyword not found";
+      }
+      var time = require('../../utils/time')
+      if(time.isWorktime()){
+        keyword.adIndexer = (req.body.adIndexer || 0);
+        keyword.save();
       }
       lastDynamicRank = keyword.dynamicRank;
       if(user.locked){

@@ -120,8 +120,6 @@ function userLeave(user) {
   if (!userPool[user]) return;
   User.findOne({ userName: user })
     .then(doc => {
-      doc.status = 0;
-      doc.save();
       var myuser = userPool[user].myInfo;
       myuser.status = 0;
       setTimeout(() => {
@@ -129,6 +127,8 @@ function userLeave(user) {
         if (!myuser) return;
         if (myuser.status === 0) {
           console.log(user + ",用户60秒未登录,删除数据");
+          doc.status = 0;
+          doc.save();
           delete userPool[user];
         }
       }, 60000);
