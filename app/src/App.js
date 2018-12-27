@@ -21,6 +21,8 @@ import Start from './Container/Start'
 import Forgetpassword from './ForgetPwd/index'
 import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './SN/index'
+import Quora from './Quora/components/index'
+import '../public/scss/app.scss'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
@@ -96,6 +98,10 @@ class App extends Component {
             <Route
               path="/resetpassword"
               component={Resetpassword}
+              dispatch={this.props.dispatch}/>
+            <Route
+              path="/qa"
+              component={Quora}
               dispatch={this.props.dispatch}/>
             <Redirect from="/" to="/keyword"/>
           </Switch>

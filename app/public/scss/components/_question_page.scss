@@ -1,0 +1,132 @@
+////////////////////////////  Answer Form /////////////////////////////////
+
+.answer-form-container {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.65098);
+  height: 100%;
+  width: 100%;
+  z-index: 9001;
+  top: 0;
+  left:0;
+}
+
+.public-DraftEditor-content { min-height: 110px; }
+
+.answer-form {
+
+  padding: 18px 18px;
+  width: 800px;
+  border-radius: 4px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.7);
+  display: block;
+  z-index: 9001;
+  opacity: 1;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  margin-top: 12px;
+  min-height: 320px;
+}
+
+
+
+.answer-form-header h1{
+  font-family: 'q_serif',Georgia,Times,"Times New Roman",serif;
+  font-weight: bold;
+  line-height: 1.3;
+  font-size: 26px;
+}
+
+.answer-form-header h2{
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #999;
+}
+
+
+
+///////////////////         Question Page         /////////////////////
+
+.question-page .right-sidebar{
+  height: 500px;
+  position: fixed;
+  top: 83px;
+  width: 314px;
+  min-height: 1px;
+  font-size: 13px;
+}
+
+.question-page .right-sidebar h2{
+  border-bottom: 1px solid rgb(226, 226, 226);
+  padding: 0px 0px 8px 0px;
+}
+
+.question-page .right-sidebar li{
+  display: block;
+  padding-bottom: 16px;
+  padding-top: 8px;
+  color: rgb(43, 109, 173);
+}
+
+.question-page .right-sidebar > a{
+  color: rgb(153, 153, 153);
+  padding-bottom: 32px;
+  display: block;
+}
+
+.answers-list-header{
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 8px;
+  font-size: 18px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.question-info-header{
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e2e2e2;
+  clear: both;
+}
+
+.question-info-header h2{
+  color: rgb(51, 51, 51);
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.question-info-header .question-toolbar {
+  padding: 16px 0 0 0;
+}
+
+.question-tags {
+  display: inline-block;
+}
+
+.question-tag {
+  position: relative;
+  padding: 4px 8px;
+  background: #f4f4fa;
+  border-radius: 12px;
+  cursor: pointer;
+  float: left;
+  margin-right: 4px;
+  margin-bottom: 8px;
+}
+
+.question-tag:hover {
+  background-color: #ededf7;
+}
+
+.question-tag a {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.2em;
+  font-size: 13px;
+  color: #808393;
+}
