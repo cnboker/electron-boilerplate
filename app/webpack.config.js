@@ -18,7 +18,7 @@ var mode = process.env.NODE_ENV || 'development'
 
 var config = {
   mode: process.env.NODE_ENV || "development", //production or development
-  devtool: "source-map",
+  devtool: "inline-source-map",
   performance: {
     hints: process.env.NODE_ENV !== "production" ? "warning" : false
   }
@@ -49,7 +49,21 @@ var appConfig = Object.assign({}, config, {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader?modules"]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader" // creates style nodes from JS strings
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+            loader: "sass-loader" // compiles Sass to CSS
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,

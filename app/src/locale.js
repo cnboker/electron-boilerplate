@@ -12,7 +12,7 @@ const GR = new LocalizedStrings({
     device_count:'Device Count',
     pay:'Payment',
     search:'Search',
-    tip:'Tip',
+    tip:'Tip', 
     info:'Infomation',
     confirmInfo:'Are you sure this operation?',
     none:'None',

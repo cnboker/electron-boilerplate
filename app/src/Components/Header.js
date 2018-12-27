@@ -22,7 +22,7 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/sn">
             充值码
           </Link>
-        
+
         </nav>
       );
     } else {
@@ -31,7 +31,9 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/keyword">
             排名监控
           </Link>
-
+          <Link className="p-2 text-dark" to="/qa">
+            问答
+          </Link>
           <Link className="p-2 text-dark" to="/setting">
             设置
           </Link>

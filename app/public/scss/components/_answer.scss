@@ -1,0 +1,49 @@
+.answer{
+  padding: 16px 0 16px 0;
+  border-bottom: 1px solid #e2e2e2;
+  display: block;
+  font-size: 15px;
+  line-height: 24px;
+  text-size-adjust: 100%;
+}
+
+.answer a{
+  color: rgb(153, 153, 153);
+  display: inline;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  margin-right: 5px;
+}
+
+.answer-header{
+  padding-bottom: 5px;
+  vertical-align: middle;
+}
+
+.answer-header img{
+  float: left;
+  margin-bottom: 5px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.answer-header span {
+  display: table-cell;
+  vertical-align: middle;
+  height: 40px;
+  padding-left: 8px;
+}
+
+.answer-comments {
+  padding: 8px;
+  margin-top: 8px;
+  background-color: rgb(246, 246, 246);
+
+}
+
+
+
+.comment-list {
+  list-style: none;
+}

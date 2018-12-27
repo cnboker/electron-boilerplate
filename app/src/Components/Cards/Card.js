@@ -51,7 +51,7 @@ export const Card = (props) => {
 
     <div className={classNames(className, classes)} >
       <CardHeader {...headerProps} />
-      <div className="card-block">{children}</div>
+      <div className="card-body">{children}</div>
       <If test={footerTitle !== undefined && footerTitle !== ""}>
         <div className="card-footer">{footerTitle}</div>
       </If>
