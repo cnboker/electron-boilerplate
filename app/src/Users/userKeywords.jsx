@@ -278,7 +278,6 @@ class List extends Component {
                 <th>差异</th>
                 <th>点击</th>
                 <th>商业热度</th>
-                <th>跟踪</th>
                 <th>有效</th>
                 <th>天数</th>
                 <th>状态</th>

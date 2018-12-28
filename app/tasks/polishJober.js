@@ -88,6 +88,9 @@ class PolishJober {
   //关键词已擦亮
   //doc:已经擦亮的关键词
   static async taskFinishedCallback(doc) {
+    //作废，polish由localScanJober执行
+    return;
+
     if (doc.rank == null) return;
 
     const access_token = auth.getToken().access_token;
@@ -104,7 +107,7 @@ class PolishJober {
         //messager("pageRefresh");
         messager("message", `已赚到一个优币,保持程序运行,继续赚优币!`);
         //console.log(response)
-        logger.info("polish post", response.data);
+        //logger.info("polish post", response.data);
       })
       .then(function(err) {
         logger.info(err);

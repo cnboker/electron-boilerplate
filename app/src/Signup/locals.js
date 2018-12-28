@@ -22,7 +22,7 @@ const resources = new LocalizedStrings({
     email:'邮箱',
     password:'密码',
     confirm_password:'确认密码',
-    registerd:'已注册?点击{0}',
+    registered:'已注册?点击{0}',
     login:'登录',
     create:'创建'
   }

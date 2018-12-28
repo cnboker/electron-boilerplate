@@ -47,7 +47,7 @@ class ScanJober {
     static async taskFinishedCallback(doc){
         const access_token = auth.getToken().access_token;
         const url = `${process.env.REACT_APP_API_URL}/kwTask/rank`
-        const res = axios({
+        axios({
             method:'post',
             url,
             data:doc,
@@ -55,9 +55,8 @@ class ScanJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function(response){
-            //messager('pageRefresh')
-           // console.log(response)
-           logger.info('scan post', response.data)
+            messager("message", `${doc.keyword}排名检测完成`);
+       
         }).then(function(err){
            // console.error(err)
         })
@@ -82,9 +81,8 @@ class ScanJober {
             console.log(e)
             return [];
         }
-       
-       
     }
+
 }
 
 module.exports = ScanJober;

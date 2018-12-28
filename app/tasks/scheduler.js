@@ -9,6 +9,7 @@ var logger = require("../logger");
 const auth = require("../auth");
 const messager = require("./ipcSender");
 var jobAction = require("./jobAction");
+var localScanJober = require('./localScanJober');
 
 function doTask(puppeteerCreator) {
   logger.info("doTask start ...");
@@ -18,7 +19,6 @@ function doTask(puppeteerCreator) {
   downloader(function(success) {
     if (success) {
       logger.info("download finished...");
-      messager("message", "准备就绪优化启动..");
       var obj = puppeteerCreator();
       jobContext.puppeteer = obj.puppeteer;
       jobContext.ipc = obj.ipc;
@@ -45,6 +45,7 @@ function doTask(puppeteerCreator) {
 function main(token) {
   logger.info("token is ok", token);
   if (token.userName == "admin" || token.userName == "su") return;
+  messager("message", "准备就绪优化启动..");
 
   //使用进程间通讯替代socket通讯
   require('./frontEvent')(jobContext.ipc)
@@ -69,6 +70,11 @@ function main(token) {
 
   schedule.scheduleJob("*/2 * * * *", function() {
     polishJober.execute();
+  });
+
+  //本地查询排名
+  schedule.scheduleJob("*/1 * * * *", function() {
+    localScanJober.scan();
   });
   //end
 }

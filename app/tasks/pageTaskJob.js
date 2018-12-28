@@ -22,6 +22,7 @@ async function execute(task) {
     .puppeteer
     .launch({
       headless: process.env.NODE_ENV == "production",
+      devtools:true,
       executablePath: (() => {
         return process.env.ChromePath;
       })()
@@ -34,6 +35,8 @@ async function execute(task) {
   // Buffer.from('user:pass').toString('base64'), });
 
   const page = await browser.newPage();
+  //无痕窗口
+  page.setExtraHTTPHeaders({ DNT: "1" });
   await page
     ._client
     .send("Network.clearBrowserCookies");
@@ -59,6 +62,10 @@ async function execute(task) {
   });
 }
 
+async function urlNaviage(page,url){
+  await page.goto(url, {waitUtil: "load"});
+  await sleep(2000);
+}
 //从第一页到第二页逐页扫描
 async function singleTaskProcess(page, task) {
   if (task === undefined) 
@@ -67,7 +74,12 @@ async function singleTaskProcess(page, task) {
   var pageIndex = 0;
   var doc = task.doc;
   try {
-    await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
+    if(doc.navUrl){
+      urlNaviage(page,doc.navUrl)
+    }else{
+      await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
+    }
+    
     doc.adIndexer = await adIndexer(page);
  
     //首页处理
@@ -177,8 +189,8 @@ async function goPage(page, pageIndex) {
 
 //输入框模拟输入关键词
 async function inputKeyword(page, input, anyclick) {
-  const pageUrl = "https://www.baidu.com/#1";
-  page.setViewport({width: 960, height: 768});
+  const pageUrl = "https://www.baidu.com";
+  //page.setViewport({width: 960, height: 768});
   await page.goto(pageUrl, {waitUtil: "load"});
 
   await page.waitForSelector("#kw", {visible: true});
@@ -193,11 +205,15 @@ async function inputKeyword(page, input, anyclick) {
       .querySelector("#su")
       .click();
   });
-
+  //
   await sleep(2000);
+ 
+  //await page.keyboard.press('Enter')
 
-  
-  
+  // let pages = await page.browser().pages();
+  // var url = pages[pages.length - 1].url();
+  // await page.goto(url+'&t=1233', {waitUtil: "load"});
+  // await sleep(2000);
   // 首页任意点击 if (anyclick) {   await page.evaluate(() => {     var nodes =
   // document.querySelectorAll("div.result.c-container");     var arr =
   // [...nodes];     var index = Math.floor(Math.random() * arr.length) + 1;

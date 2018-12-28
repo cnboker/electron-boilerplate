@@ -235,8 +235,9 @@ class History extends Component {
       
         <p className="mx-auto h-100 justify-content-center text-center"><h3>{`"${this.getKeyword().keyword}"排名走势`}</h3></p>
      
-        <div ref={chart => (this.chart = chart)} />
-        <div>统计时间</div>
+        <div ref={chart => (this.chart = chart)} style={{width:"100%"}} />
+       
+        <p>统计时间</p>
       </div>
     )
     
