@@ -22,7 +22,9 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/sn">
             充值码
           </Link>
-
+          <Link className="p-2 text-dark" to="/commission">
+          佣金
+        </Link>
         </nav>
       );
     } else {

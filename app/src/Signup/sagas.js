@@ -7,14 +7,14 @@ import Cookies from "js-cookie";
 const signupUrl = `${process.env.REACT_APP_AUTH_URL}/api/signup`
 
 //json exception handle
-function signupApi(userName, email, password) {
-  console.log('signupApi', `userName:${userName},email:${email},password:${password}`)
+function signupApi(terms) {
+  //console.log('signupApi', `userName:${userName},email:${email},password:${password}`)
   return fetch(signupUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ userName, email, password })
+    body: JSON.stringify(terms)
   })
     // .then(response => {
     //   return response.json().then(json => {
@@ -33,13 +33,13 @@ function signupApi(userName, email, password) {
 
 function* signupFlow(action) {
   try {
-    const { userName, email, password } = action
+    const { terms } = action
     // pulls "calls" to our signupApi with our email and password
     // from our dispatched signup action, and will PAUSE
     // here until the API async function, is complete!
-    const response = yield call(signupApi, userName, email, password)
+    const response = yield call(signupApi, terms)
 
-    var token = { ...response, userName }
+    var token = { ...response, userName:terms.userName }
     yield put(setClient(token));
 
     var tokenString = JSON.stringify(token);

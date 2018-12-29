@@ -1,18 +1,15 @@
 import axios from "axios";
 import r from "ramda";
 import reduxCrud from "redux-crud";
-import { reducerKey } from "./constants";
+import {reducerKey} from "./constants";
 
-var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {
-  key: "_id"
-});
+var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {key: "_id"});
 
 let actionCreators = {
-  agent(id,client){
-   
+  agent(id, client) {
+
     const url = `${
-      process.env.REACT_APP_API_URL
-    }/agent/${id}`;
+    process.env.REACT_APP_API_URL}/agent/${id}`;
 
     console.log("actionCreators url", url);
     const promise = axios({
@@ -24,33 +21,35 @@ let actionCreators = {
     });
 
     return promise;
-  
+
   },
   fetch(queryParameters, client) {
-  
-      var query = Object.keys(queryParameters).map((key)=>{
+
+    var query = Object
+      .keys(queryParameters)
+      .map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(queryParameters[key])
-      }).join('&')
-      const url = `${
-        process.env.REACT_APP_API_URL
-      }/sn/list?${query}`;
-      console.log("actionCreators url", url);
-      const promise = axios({
-        url: url,
-        method: "get",
-        headers: {
-          Authorization: `Bearer ${client.token.access_token}`
-        }
-      });
+      })
+      .join('&')
+    const url = `${
+    process.env.REACT_APP_API_URL}/sn/list?${query}`;
+    console.log("actionCreators url", url);
+    const promise = axios({
+      url: url,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${client.token.access_token}`
+      }
+    });
 
-      return promise;
-    
+    return promise;
+
   },
-
+  
   create(entity, client) {
-    return function(dispatch) {
+    return function (dispatch) {
       //const cid = cuid()
-      entity = r.merge(entity, { _id: "" });
+      entity = r.merge(entity, {_id: ""});
 
       const optimisticAction = baseActionCreators.createStart(entity);
       dispatch(optimisticAction);
@@ -67,23 +66,52 @@ let actionCreators = {
         }
       });
 
-      promise
-        .then(
-          function(response) {
-            // dispatch the success action
-            const returned = response.data;
-            const successAction = baseActionCreators.createSuccess(returned);
-            dispatch(successAction);
-          },
-          function(response) {
-            const errorAction = baseActionCreators.createError(
-              response,
-              entity
-            );
-            dispatch(errorAction);
-          }
-        )
-        .catch(function(err) {
+      promise.then(function (response) {
+        // dispatch the success action
+        const returned = response.data;
+        const successAction = baseActionCreators.createSuccess(returned);
+        dispatch(successAction);
+      }, function (response) {
+        const errorAction = baseActionCreators.createError(response, entity);
+        dispatch(errorAction);
+      })
+        .catch(function (err) {
+          console.error(err.toString());
+        });
+
+      return promise;
+    };
+  },
+  update(entity, client) {
+    return function (dispatch) {
+      //const cid = cuid()
+      entity = r.merge(entity, {_id: ""});
+
+      const optimisticAction = baseActionCreators.createStart(entity);
+      dispatch(optimisticAction);
+
+      //const url ="/server"
+      const url = `${process.env.REACT_APP_API_URL}/sn/commission`;
+
+      const promise = axios({
+        url: url,
+        method: "put",
+        data: entity,
+        headers: {
+          Authorization: `Bearer ${client.token.access_token}`
+        }
+      });
+
+      promise.then(function (response) {
+        // dispatch the success action
+        const returned = response.data;
+        const successAction = baseActionCreators.createSuccess(returned);
+        dispatch(successAction);
+      }, function (response) {
+        const errorAction = baseActionCreators.createError(response, entity);
+        dispatch(errorAction);
+      })
+        .catch(function (err) {
           console.error(err.toString());
         });
 

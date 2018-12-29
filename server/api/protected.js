@@ -64,4 +64,6 @@ module.exports = function (app) {
   app.use('/api/answers',jwtCheck,requireScope('full_access'));
   app.use('/api/topics',jwtCheck,requireScope('full_access'));
   app.use('/api/comments',jwtCheck,requireScope('full_access'));
+  app.use('/api/commissions',jwtCheck,requireScope('full_access'));
+  app.use('/api/commissionPay',jwtCheck,requireScope('full_access'));
 }

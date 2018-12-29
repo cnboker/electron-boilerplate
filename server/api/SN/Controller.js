@@ -5,7 +5,7 @@ var SN = require("./Model");
 var User = require("../User/Model");
 var Balance = require("../Balance/Model");
 var Keyword = require("../Keyword/Model");
-
+var config = require('../../config')
 exports.agent = function(req, res, next) {
   SN.findOne({ userName: req.params.id })
     .then(doc => {
@@ -93,12 +93,13 @@ exports.snCreate = function(req, res, next) {
     });
 };
 
-exports.snActivate = function(req, res, next) {
+
+exports.snActivate =  function(req, res, next) {
   Promise.all([
     SN.findOne({ sn: req.body.sn }),
     User.findOne({ userName: req.user.sub })
   ])
-    .then(([sn, user]) => {
+    .then(async([sn, user]) => {
       if (!sn) {
         throw `sn '${req.body.sn}' 不存在`;
       }
@@ -108,7 +109,7 @@ exports.snActivate = function(req, res, next) {
       sn.actived = 1;
       sn.activedUser = req.user.sub;
       sn.activedDate = new Date();
-      sn.save();
+      await sn.save();
 
       var serviceDays = 30;
       var start = moment();
@@ -124,14 +125,29 @@ exports.snActivate = function(req, res, next) {
         createDate: new Date(),
         serviceDate: start,
         days: serviceDays,
-        remark: `vip充值金额${sn.price}`
+        remark: `vip充值金额${sn.price}`,
+        payType:1,
+        status : 1 //已付款
       });
-      balance.save();
+      await balance.save();
+
+      //注册包括推荐人且用户第一次开通vip推荐人获取佣金
+      if(user.reference && user.grade === 1){
+        balance = new Balance({
+          user:user.reference,
+          amount:sn.price * config.reference_commission,
+          createDate:new Date(),
+          remark:`用户${user.userName}开通VIP佣金`,
+          payType:2, //commission
+          status : 0 //未付款
+        })
+        await balance.save();
+      }
 
       user.grade = 2;
       user.upgradeGradeDate = new Date();
       user.vipExpiredDate = moment(start).add(serviceDays, "days");
-      user.save();
+      await user.save();
 
       return Keyword.updateMany(
         {

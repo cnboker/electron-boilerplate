@@ -146,7 +146,7 @@ class List extends Component {
                 <th>充值码</th>
                 <th>代理商单价</th>
                 <th>生成日期</th>
-                <th>是否激活</th>
+                <th>激活</th>
                 <th>激活日期</th>
                 <th>激活用户</th>
                 <th>是否收款</th>

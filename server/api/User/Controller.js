@@ -154,7 +154,7 @@ exports.list = function (req, res, next) {
       $lt: req.query.endDate
     };
   }
-  console.log('query:',query)
+  console.log('query:', query)
   Promise.all([
     Keyword.aggregate([
       {
@@ -232,14 +232,25 @@ exports.profile = function (req, res, next) {
   })
 };
 
-exports.signup = function (req, res, next) {
+exports.signup = async function (req, res, next) {
+  console.log('signup',req.body)
   var userName = req.body.userName;
   var password = req.body.password;
   var email = req.body.email;
   if (!userName || !password || !email) {
     return res
       .status(400)
-      .send("you must send the userName , the password, the email");
+      .send("必须输入手机号或邮箱");
+  }
+
+  if (req.body.reference) {
+    var reference = await User.findOne({userName: req.body.reference})
+    if (!reference) {
+       res
+        .status(400)
+        .send(`推荐用户${req.body.reference}不存在`);
+        return;
+    }
   }
 
   User.findOne({
@@ -252,6 +263,7 @@ exports.signup = function (req, res, next) {
     if (doc) {
       throw `用户${userName}或${email}已存在`;
     }
+
     var user = new User({
       ...req.body,
       createDate: new Date(),
@@ -273,7 +285,7 @@ exports.signup = function (req, res, next) {
         id_token: createIdToken({userName, role: "user"}),
         access_token: createAccessToken(userName),
         userName,
-        engine:'baidu',
+        engine: 'baidu',
         rankSet: 1,
         role: "user"
       };

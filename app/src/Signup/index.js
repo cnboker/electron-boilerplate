@@ -46,6 +46,7 @@ class Signup extends Component {
                     <Field name="email" type="text" label="@" className="form-control" component={renderField} placeholder={resources.email} validate={[required, email]} />
                     <Field name="password" type="password" labelIcon="icon-lock" className="form-control" component={renderField} placeholder={resources.password} validate={[required, minLength6]} />
                     <Field name="repeatPassword" type="password" labelIcon="icon-lock" className="form-control" component={renderField} placeholder={resources.confirm_password} validate={[required, minLength6]} />
+                    <Field name="reference" type="text" labelIcon="icon-user" className="form-control" component={renderField} placeholder='推荐人' />
                     <button action="submit" className="btn btn-block btn-success">{resources.create}</button>
     
                     <div>{resources.formatString(resources.registered,<Link to="/login">{resources.login}</Link>)}</div>

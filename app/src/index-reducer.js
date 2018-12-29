@@ -10,6 +10,8 @@ import { loadingBarReducer } from 'react-redux-loading-bar'
 import snReducer from './SN/reducer'
 import questionReducer from './Quora/reducers/question_reducer'
 import topicReducer from './Quora/reducers/topics_reducer'
+import commissionReducer from './commission/reducer'
+
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -22,7 +24,8 @@ const appReducer = combineReducers({
   events: eventReducer,
   sn:snReducer,
   questions:questionReducer,
-  topic:topicReducer
+  topic:topicReducer,
+  commissions: commissionReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

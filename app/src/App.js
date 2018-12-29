@@ -22,6 +22,8 @@ import Forgetpassword from './ForgetPwd/index'
 import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './SN/index'
 import Quora from './Quora/components/index'
+import Commission from './commission/container'
+
 import '../public/scss/app.scss'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
@@ -76,6 +78,11 @@ class App extends Component {
               path="/pool"
               role="admin"
               component={Pool}
+              dispatch={this.props.dispatch}/>
+              <PrivateRoute
+              path="/commission"
+              role="admin"
+              component={Commission}
               dispatch={this.props.dispatch}/>
             <PrivateRoute
               path="/keyword"
