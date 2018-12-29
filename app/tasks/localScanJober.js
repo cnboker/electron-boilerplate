@@ -21,7 +21,6 @@ class LocalScanJober {
     }
     if (docs.length == 0) return null;
     var doc = docs.shift();
-    doc.navUrl = `https://www.baidu.com/s?wd=${doc.keyword}`;
     store.setKeywordLocalStorage(docs);
     var task = {
       doc,
@@ -33,7 +32,7 @@ class LocalScanJober {
 
   //每5分钟执行一次
   static async scan() {
-      
+
     if (store.isTodayEmpty()) return;
     const browser = await jobContext.puppeteer.launch({
       headless: process.env.NODE_ENV == "production",
