@@ -9,7 +9,7 @@ import Charge from "./Price/charge";
 import Users from "./Users/index";
 import Analysis from './Analysis/index'
 import "./Components/Header.css";
-import {PrivateRoute, refreshClient} from "./lib/check-auth";
+import {PrivateRoute, refreshClient,UserRoute} from "./lib/check-auth";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {unsetClient} from "./Client/action";
@@ -106,7 +106,7 @@ class App extends Component {
               path="/resetpassword"
               component={Resetpassword}
               dispatch={this.props.dispatch}/>
-            <Route
+            <UserRoute
               path="/qa"
               component={Quora}
               dispatch={this.props.dispatch}/>

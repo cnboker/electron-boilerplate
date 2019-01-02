@@ -29,7 +29,7 @@ module.exports.Comment = mongoose.model('Comment',CommentSchema)
 
 var FollowSchema = new Schema({
    user:String,
-   topic_id:Number,
+   topic:String,
    create_at:Date,
    update_at:Date
 })

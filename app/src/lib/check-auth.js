@@ -1,15 +1,17 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { setClient, unsetClient } from '../Client/action'
+import {Route, Redirect} from 'react-router-dom'
+import {setClient, unsetClient} from '../Client/action'
 
 export function authHeader() {
   // return authorization header with jwt token
   let user = JSON.parse(localStorage.getItem('token'));
 
   if (user && user) {
-      return { 'Authorization': 'Bearer ' + user.access_token };
+    return {
+      'Authorization': 'Bearer ' + user.access_token
+    };
   } else {
-      return {};
+    return {};
   }
 }
 
@@ -23,13 +25,13 @@ export function refreshClient(client) {
     var jsTicks = (new Date()).getTime() * 10000 + 621355968000000000
     // if the token has expired return false
     console.log('span time', (token.expired - jsTicks) / 10000)
-   // if (token.expired > jsTicks) {
-      client.token = token
-   // }
+    // if (token.expired > jsTicks) {
+    client.token = token
+    // }
   }
 }
 
-export function checkAuthorization(dispatch,next) {
+export function checkAuthorization(dispatch, next) {
   // attempt to grab the token from localstorage
   const storedToken = localStorage.getItem('token')
 
@@ -44,7 +46,7 @@ export function checkAuthorization(dispatch,next) {
       dispatch(unsetClient())
       return false
     }
-    if(next && next.role == 'admin' &&  token.userName != 'admin'){
+    if (next && next.role == 'admin' && token.userName != 'admin') {
       dispatch(unsetClient())
       return false;
     }
@@ -55,17 +57,39 @@ export function checkAuthorization(dispatch,next) {
   return false
 }
 
+//读用户cookie资料
+export function UserRoute({
+  component: Component,
+  dispatch,
+  state,
+  ...rest
+}) {
 
+  checkAuthorization(dispatch, rest)
+  return (
+    <Route {...rest} render={(props) => <Component {...props}/>}/>
+  )
+}
 
-export function PrivateRoute({ component: Component, dispatch, state, ...rest }) {
+export function PrivateRoute({
+  component: Component,
+  dispatch,
+  state,
+  ...rest
+}) {
 
-  const authed = checkAuthorization(dispatch,rest)
+  const authed = checkAuthorization(dispatch, rest)
   return (
     <Route
       {...rest}
       render={(props) => authed === true
-        ? <Component {...props} />
-        : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
-    />
+      ? <Component {...props}/>
+      : <Redirect
+        to={{
+        pathname: '/login',
+        state: {
+          from: props.location
+        }
+      }}/>}/>
   )
 }

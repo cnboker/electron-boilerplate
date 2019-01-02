@@ -26,6 +26,10 @@ class CommentForm extends React.Component {
     this
       .props
       .createComment(comment);
+      this.setState({
+        content:''
+      })
+      this.toggleExpand();
   }
 
   updateContent(e) {
@@ -41,9 +45,10 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.addComment}>
+      <br/>
         <div className="form-row">
           <div className="col-10">
-            <textarea rows="1" onChange={this.updateContent} className="form-control"/>
+            <textarea rows="1" onChange={this.updateContent} className="form-control" value={this.state.content}/>
           </div>
           <div className="col">
             <input type="submit" value="回复" className="btn btn-outline-secondary"/>

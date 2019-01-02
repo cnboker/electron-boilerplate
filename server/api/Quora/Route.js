@@ -34,8 +34,15 @@ module.exports = function(app){
 
   app.route('/api/topics')
   .get(topicCtl.list) //searchTerm
+
+  app.route('/api/topics/cloud')
+  .get(topicCtl.cloud)
+
   app.route('/api/topics/:id')
   .get(topicCtl.list)
+
+  app.route('/api/topic/update')
+  .post(topicCtl.update)
 
   app.route('/api/follows')
   .post(followCtl.list) //searchTerm

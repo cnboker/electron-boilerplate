@@ -5928,6 +5928,7 @@ a.text-danger:focus, a.text-danger:hover {
   color: #263238 !important; }
 
 a.text-gray-dark:focus, a.text-gray-dark:hover {
+  font-size:18pt;
   color: #11171a !important; }
 
 .text-hide {

@@ -22,6 +22,12 @@ export const receiveAllQuestions = (questions) => {
   };
 };
 
+//通过topic获取问题列表
+export const fetchTopic = (id) => dispatch => (
+  APIUtil.fetchTopic(id)
+    .then(questions => dispatch(receiveAllQuestions(questions.data)))
+);
+
 export const removeQuestion = (question) => {
   return {
     type: REMOVE_QUESTION,

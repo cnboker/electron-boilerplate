@@ -15,6 +15,13 @@ export const fetchAllQuestions = () => {
   });
 };
 
+export const fetchTopic = (id) => {
+  return axios({
+    method: 'GET',
+    url: `${process.env.REACT_APP_API_URL}/questions?topic=${id}`
+  });
+};
+
 export const createQuestion = (question) => {
   return axios({
     method: "post",

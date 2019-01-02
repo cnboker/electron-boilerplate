@@ -21,8 +21,6 @@ class TopicSearchBar extends React.Component {
     }
   }
 
-
-
   filterTopics(){
     this.props.fetchAllTopics(this.state.topicName);
   }

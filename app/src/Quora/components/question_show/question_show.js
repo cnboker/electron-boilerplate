@@ -74,10 +74,9 @@ class QuestionShow extends React.Component {
         <QueryBar createQuestion={this.props.createQuestion}/>
 
         <div className="question-tags">
-          {this.props.question.topics && Object
-            .keys(this.props.question.topics)
+          {this.props.question.topics && this.props.question.topics
             .map((key) => <div key={key} className="question-tag">
-              <a href={`/#/topic/${key}`}>{this.props.question.topics[key].name}</a>
+              <a href={`/#/topic/${key}`}>{key}</a>
             </div>)
 }
         </div>

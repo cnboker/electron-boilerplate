@@ -22,7 +22,6 @@ export default class Query extends Component {
       endDate: moment(),
       actived: false
     };
-    this.query();
   }
 
   query() {
