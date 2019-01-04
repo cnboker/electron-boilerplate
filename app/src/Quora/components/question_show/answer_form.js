@@ -15,6 +15,7 @@ class AnswerForm extends React.Component {
     this.answerQuestion = this
       .answerQuestion
       .bind(this);
+      
   }
 
   answerQuestion(e) {

@@ -5,15 +5,17 @@ import {
   createAnswer,
   createComment,
   deleteQuestion,
-  deleteAnswer
+  deleteAnswer,
+  deleteComment
 } from '../../actions/questions_actions';
+import {fetchVotes, like, dislike} from '../../../Vote/actions'
 import QuestionShow from './question_show';
 
 const mapStateToProps = (state, ownProps) => {
   return ({
-    currentUser:state.client.token,
-    question: state
-      .questions[ownProps.match.params.id]
+    currentUser: state.client.token,
+    question: state.questions[ownProps.match.params.id],
+    votes: state.votes
   });
 };
 
@@ -23,9 +25,12 @@ const mapDispatchToProps = (dispatch) => {
     createQuestion: question => dispatch(createQuestion(question)),
     deleteQuestion: id => dispatch(deleteQuestion(id)),
     deleteAnswer: id => dispatch(deleteAnswer(id)),
-    deleteComent: id => dispatch(deleteComment(id)),
+    deleteComment: id => dispatch(deleteComment(id)),
     createAnswer: answer => dispatch(createAnswer(answer)),
-    createComment: comment => dispatch(createComment(comment))
+    createComment: comment => dispatch(createComment(comment)),
+    like: id => dispatch(like(id)),
+    dislike: id => dispatch(dislike(id)),
+    fetchVotes: (id) => dispatch(fetchVotes(id))
   };
 };
 

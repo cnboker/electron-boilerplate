@@ -50,6 +50,7 @@
 		"react-bootstrap": "^0.30.3",
 		"react-datepicker": "^1.6.0",
 		"react-dom": "15.5.4",
+		"react-event-timeline": "^1.6.2",
 		"react-hot-loader": "^4.3.0",
 		"react-localization": "^1.0.10",
 		"react-paginate": "^5.2.4",

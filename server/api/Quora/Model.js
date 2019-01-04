@@ -8,8 +8,7 @@ var AnswerSchema =new Schema({
   question_id:Schema.Types.ObjectId,
   author:String, //
   create_at:Date, //创建日期
-  update_at:Date, //更新日期
-  upvotes:Number//投票
+  update_at:Date//更新日期
 });
 
 module.exports.Answer = mongoose.model('Answer', AnswerSchema);
@@ -22,8 +21,7 @@ var CommentSchema = new Schema({
   question_id:Schema.Types.ObjectId,
   author:String,
   create_at:Date,
-  update_at:Date,
-  upvotes:Number
+  update_at:Date
 })
 module.exports.Comment = mongoose.model('Comment',CommentSchema)
 
@@ -41,7 +39,6 @@ var QuestionSchema = new Schema({
   author:String,
   create_at:Date,
   update_at:Date,
-  vpvotes:Number,
   topics:[{type:String}]
 })
 
@@ -54,3 +51,4 @@ var TopicSchema = new Schema({
   update_at:Date
 })
 module.exports.Topic = mongoose.model('Topic',TopicSchema)
+

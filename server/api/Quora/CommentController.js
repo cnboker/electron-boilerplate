@@ -5,23 +5,17 @@ var moment = require("moment");
 
 var Comment = require("./Model").Comment;
 
-
-
-exports.create = function(req, res, next) {
-    //console.log('req.body',req.body)
+exports.create = function (req, res, next) {
+  //console.log('req.body',req.body)
   var doc = Comment({
-    author:req.user.sub,
-    content:req.body.content,
-    commentable_id:req.body.commentable_id, //评论主体
-    commentable_type:req.body.commentable_type||'Answer',
-    create_at:new Date(),
-    vpvotes:0,
-    question_id:req.body.question_id
+    author: req.user.sub, content: req.body.content, commentable_id: req.body.commentable_id, //评论主体
+    commentable_type: req.body.commentable_type || 'Answer',
+    create_at: new Date(),
+    question_id: req.body.question_id
   });
   doc
     .save()
     .then(doc => {
-
       res.json(doc);
     })
     .catch(e => {
@@ -29,10 +23,9 @@ exports.create = function(req, res, next) {
     });
 };
 
-exports.del = function(req, res,next) {
-  Comment.remove({
-    _id: req.params.id
-  })
+exports.del = function (req, res, next) {
+  Comment
+    .findOneAndDelete({_id: req.params.id})
     .then(doc => {
       res.json(doc);
     })

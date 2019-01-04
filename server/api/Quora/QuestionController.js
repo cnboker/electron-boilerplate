@@ -62,8 +62,7 @@ exports.read = function (req, res, next) {
       .lean()
       .exec()
   ]).then(([question, answers, comments]) => {
-    var doc = question;
-    console.log('answers.....', answers)
+    var doc = question.toObject();
     if (answers) {
       doc.answers = answers.reduce((map, obj) => {
         map[obj._id] = obj;

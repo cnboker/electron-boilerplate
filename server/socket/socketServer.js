@@ -17,7 +17,7 @@ class SocketServer {
       },
       { multi: true }
     ).then(docs=>{
-      console.log('user update', docs)
+      //console.log('user update', docs)
     })
     var io = require("socket.io")(server);
     io.on("connection", function(socket) {

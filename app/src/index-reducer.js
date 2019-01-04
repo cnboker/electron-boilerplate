@@ -11,7 +11,7 @@ import snReducer from './SN/reducer'
 import questionReducer from './Quora/reducers/question_reducer'
 import topicReducer from './Quora/reducers/topics_reducer'
 import commissionReducer from './commission/reducer'
-
+import voteReducer from './Vote/reducer'
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -25,7 +25,8 @@ const appReducer = combineReducers({
   sn:snReducer,
   questions:questionReducer,
   topic:topicReducer,
-  commissions: commissionReducer
+  commissions: commissionReducer,
+  votes:voteReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

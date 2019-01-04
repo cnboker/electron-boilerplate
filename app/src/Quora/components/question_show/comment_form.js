@@ -19,10 +19,17 @@ class CommentForm extends React.Component {
       .addComment
       .bind(this);
   }
-
+  
+  componentDidMount(){
+    this.messageInput.focus();
+  }
   addComment(e) {
     e.preventDefault();
     const comment = this.state;
+    if(this.state.content == ''){
+      this.messageInput.focus();
+      return;
+    }
     this
       .props
       .createComment(comment);
@@ -48,10 +55,10 @@ class CommentForm extends React.Component {
       <br/>
         <div className="form-row">
           <div className="col-10">
-            <textarea rows="1" onChange={this.updateContent} className="form-control" value={this.state.content}/>
+            <textarea rows="1" onChange={this.updateContent} className="form-control" value={this.state.content} ref= {(input)=>this.messageInput=input}/>
           </div>
           <div className="col">
-            <input type="submit" value="回复" className="btn btn-outline-secondary"/>
+            <input type="submit" value="回复" className="btn btn-outline-secondary" />
           </div>
         </div>
 

@@ -23,7 +23,8 @@ var userSchema = new Scheam({
   status:Number, //1 online, 0 offline,
   rankSet:Number,//1 排名检测同时优化, 2:检测排名不优化
   rank:Number, //点击排名下降，rank对应减值，点击排名上升，rank对于增值，
-  reference:String //推荐人
+  reference:String, //推荐s人
+  votes:String //用户投票数据
 });
 
 userSchema.plugin(mongoosePaginate) //pagination function

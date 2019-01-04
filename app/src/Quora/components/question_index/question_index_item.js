@@ -19,7 +19,7 @@ class QuestionIndexItem extends React.Component {
             <strong
               className="text-gray-dark"
               style={{
-              fontSize: "15pt"
+              fontSize: "14pt"
             }}>
               <Link to={`/qa/${this.props.question._id}`}>{question.title}</Link>
             </strong>

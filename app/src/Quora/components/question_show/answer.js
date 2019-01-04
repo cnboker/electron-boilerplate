@@ -3,6 +3,8 @@ import CommentForm from './comment_form';
 import Comment from './comment';
 import {Card} from '../../../Components/Cards/Card'
 import moment from 'moment'
+import {Timeline} from 'react-event-timeline'
+import Upvote from '../../../Components/Buttons/Upvote'
 class HtmlBody extends React.Component {
   rawMarkup() {
     var rawMarkup = this.props.content
@@ -40,16 +42,19 @@ class Answer extends React.Component {
   }
 
   deleteAnswer() {
-    if (this.props.answer.author === this.props.currentUser.userName) {
-      this
+    this
         .props
         .deleteAnswer(this.props.answer._id);
-    }
   }
+
   htmlRender() {
     var decode = require('js-htmlencode').htmlDecode;
 
     return decode(this.props.answer.content)
+  }
+
+  enableDelete() {
+    return (this.props.answer.author === this.props.currentUser.userName) || this.props.currentUser.userName === 'admin'
   }
   render() {
     if (!this.props.answer) {
@@ -64,34 +69,49 @@ class Answer extends React.Component {
         className="card-outline-info">
         <div className="answer-body">
           <HtmlBody content={this.htmlRender()}/>
-
         </div>
-        <hr/>
         <div className="answer-footer">
-          <a onClick={this.toggleComments} className="btn btn-outline-primary">评论</a>{" "} {this.props.answer.author === this.props.currentUser.userName && <button onClick={this.deleteAnswer} className="btn btn-danger">删除回答</button>}
+          <Upvote
+            vote={this.props.votes[this.props.answer._id]}
+            onDislike={()=>this.props.dislike(this.props.answer._id)}
+            onLike={()=>this.props.like(this.props.answer._id)}
+           
+            delProps={{
+            display: this.enableDelete(),
+            onDelete: this.deleteAnswer,
+            id:this.props.answer._id
+          }}
+            commentProps={{
+            display: true,
+            onComment: this.toggleComments
+          }}/>
         </div>
+
         {this.state.showComments && <CommentForm
           question={this.props.question}
           createComment={this.props.createComment}
           commentableType={"Answer"}
           commentableId={this.props.answer._id}
           currentUser={this.props.currentUser}/>
-        }
-        {this.props.answer.comments && <div className="answer-comments">
-          <div className="comment-list">
-            {Object
-              .keys(this.props.answer.comments)
-              .map(key => <Comment
-                key={key}
-                comment={this.props.answer.comments[key]}
-                question={this.props.question}
-                createComment={this.props.createComment}
-                deleteComment={this.props.deleteComment}
-                commentableType={"Answer"}
-                commentableId={this.props.answer.id}
-                currentUser={this.props.currentUser}/>)}
-          </div>
-        </div>}
+      }
+        <hr/> {(this.props.answer.comments && Object.keys(this.props.answer.comments).length > 0) && <Timeline>
+          {Object
+            .keys(this.props.answer.comments)
+            .map(key => <Comment
+              key={key}
+              comment={this.props.answer.comments[key]}
+              question={this.props.question}
+              createComment={this.props.createComment}
+              deleteComment={this.props.deleteComment}
+              commentableType={"Answer"}
+              commentableId={this.props.answer.id}
+              currentUser={this.props.currentUser}
+              votes={this.props.votes}
+              like={this.props.like}
+              dislike={this.props.dislike}
+              />)}
+        </Timeline>
+}
       </Card>
 
     );

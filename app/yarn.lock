@@ -5186,10 +5186,6 @@ memoize-one@^4.0.0:
   version "4.0.2"
   resolved "http://registry.npm.taobao.org/memoize-one/download/memoize-one-4.0.2.tgz#3fb8db695aa14ab9c0f1644e1585a8806adc1aee"
 
-memory-cache@^0.2.0:
-  version "0.2.0"
-  resolved "http://registry.npm.taobao.org/memory-cache/download/memory-cache-0.2.0.tgz#7890b01d52c00c8ebc9d533e1f8eb17e3034871a"
-
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "http://registry.npm.taobao.org/memory-fs/download/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -6725,6 +6721,12 @@ react-dom@16.4.2:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react-event-timeline@^1.6.2:
+  version "1.6.2"
+  resolved "http://registry.npm.taobao.org/react-event-timeline/download/react-event-timeline-1.6.2.tgz#e96e6614e69663a3a85584bab0597d304f53746d"
+  dependencies:
     prop-types "^15.6.0"
 
 react-hot-loader@^4.3.0:

@@ -18,13 +18,15 @@ class QuestionShow extends React.Component {
     this.deleteQuestion = this
       .deleteQuestion
       .bind(this);
-    console.log('qeustion show load...', this.props.question)
   }
 
   componentDidMount() {
     this
       .props
       .fetchQuestion(this.props.match.params.id);
+    this
+      .props
+      .fetchVotes(this.props.question._id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,7 +56,7 @@ class QuestionShow extends React.Component {
         .props
         .history
         .push('/qa')
-        
+
     }
   }
 
@@ -73,22 +75,25 @@ class QuestionShow extends React.Component {
         {this.state.showAnswerForm && answerform}
         <QueryBar createQuestion={this.props.createQuestion}/>
 
-        <div className="question-tags">
-          {this.props.question.topics && this.props.question.topics
-            .map((key) => <div key={key} className="question-tag">
-              <a href={`/#/topic/${key}`}>{key}</a>
-            </div>)
+        <p>
+          {this.props.question.topics && this
+            .props
+            .question
+            .topics
+            .map((key) => <span key={key} className="badge badge-primary badge-pill">
+              {key}
+            </span>)
 }
-        </div>
-        <h1>{this.props.question.title}</h1>
+        </p>
+        <h3>{this.props.question.title}</h3>
         <h2>{this.props.question.description}</h2>
         <p className="lead">
           <button
             className="btn btn-primary"
             type="button"
-            onClick={this.toggleAnswerForm}>回答</button>{" "}
-          {this.props.question.author === this.props.currentUser.userName&&<button className="btn btn-danger" type="button" onClick={this.deleteQuestion}>删除</button>}
-
+            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.props.question.author === this.props.currentUser.userName &&< button className = "btn btn-danger" type = "button" onClick = {
+            this.deleteQuestion
+          } > 删除 < /button>}
         </p>
 
         <hr/> {this.props.question.answers && <AnswerList
@@ -98,7 +103,10 @@ class QuestionShow extends React.Component {
           createComment={this.props.createComment}
           deleteAnswer={this.props.deleteAnswer}
           deleteComment={this.props.deleteComment}
-          toggleAnswerForm={this.toggleAnswerForm}/>
+          toggleAnswerForm={this.toggleAnswerForm}
+          votes={this.props.votes}
+          like={this.props.like}
+          dislike={this.props.dislike}/>
 }
 
       </div>

@@ -23,8 +23,12 @@ class AnswerList extends React.Component {
             currentUser={this.props.currentUser}
             createComment={this.props.createComment}
             deleteAnswer={this.props.deleteAnswer}
-            deleteComment={this.props.createComment}
-            receiveAnswer={this.props.receiveAnswer}/>)}
+            deleteComment={this.props.deleteComment}
+            receiveAnswer={this.props.receiveAnswer}
+            votes={this.props.votes}
+            like={this.props.like}
+          dislike={this.props.dislike}
+            />)}
         </div>
       </div>
     );

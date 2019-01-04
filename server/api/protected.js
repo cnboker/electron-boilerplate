@@ -23,7 +23,6 @@ module.exports = function (app) {
   // Check for scope
   function requireScope(scope) {
     return function (req, res, next) {
-      console.log('user',req.user)
       var has_scopes = req.user.scope === scope;
       if (!has_scopes) {  
         res.sendStatus(401);
@@ -66,4 +65,6 @@ module.exports = function (app) {
   app.use('/api/comments',jwtCheck,requireScope('full_access'));
   app.use('/api/commissions',jwtCheck,requireScope('full_access'));
   app.use('/api/commissionPay',jwtCheck,requireScope('full_access'));
+
+  app.use('/api/vote/create',jwtCheck,requireScope('full_access'));
 }
