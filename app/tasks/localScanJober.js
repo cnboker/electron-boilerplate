@@ -34,6 +34,11 @@ class LocalScanJober {
   static async scan() {
 
     if (store.isTodayEmpty()) return;
+    var task = await this.getTask();
+    if (task == null) return;
+
+    console.log('task doc', task.doc)
+
     const browser = await jobContext.puppeteer.launch({
       headless: process.env.NODE_ENV == "production",
       devtools:true,
@@ -46,14 +51,16 @@ class LocalScanJober {
     //无痕窗口
     await page.setExtraHTTPHeaders({ DNT: "1" });
     await page.setCacheEnabled(true)
-    //await page._client.send("Network.clearBrowserCookies");
+    await page._client.send("Network.clearBrowserCookies");
 
-    var task = await this.getTask();
-    if (task == null) return;
-    console.log('task doc', task.doc)
     taskJob.singleTaskProcess(page, task).then(() => {
       task.end(task.doc);
       browser.close();
+      //查询完毕刷新界面
+      if(store.isTodayEmpty()){
+        console.log('pagerefresh')
+        messager("pageRefresh");
+      }
     });
   }
 

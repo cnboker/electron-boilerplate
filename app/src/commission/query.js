@@ -9,8 +9,8 @@ export default class Query extends Component {
 
     this.state = {
       name: "",
-      startDate: moment().add(-30, 'days'),
-      endDate: moment().add(1, 'days'),
+      startDate: moment().add('days',-90),
+      endDate: moment().add('days',1),
       status: false
     };
     this.query();

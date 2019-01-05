@@ -38,7 +38,7 @@ export default class Upvote extends Component {
         <p>
           <button
             type="button"
-            className="btn btn-outline-primary"
+            className="btn btn-outline-primary btn-sm"
             style={{
             marginRight: "15px"
           }}
@@ -48,7 +48,7 @@ export default class Upvote extends Component {
           </button>
           <button
             type="button"
-            className="btn btn-outline-dark"
+            className="btn btn-outline-dark btn-sm"
             style={{
             marginRight: "15px"
           }}
@@ -56,10 +56,10 @@ export default class Upvote extends Component {
             <i className="icon-dislike"></i>
             {" "}{vote.dislike}
           </button>
-          {commentProps.display &&<button type = "button" className = "btn btn-outline-info" style = {{marginRight:"15px"}} onClick = {
+          {commentProps.display &&<button type = "button" className = "btn btn-outline-info btn-sm" style = {{marginRight:"15px"}} onClick = {
             commentProps.onComment
           } > <i className="icon-speech"></i> </button>}
-          {delProps.display && <button type = "button" className = "btn btn-outline-danger" style = {{marginRight:"15px"}} onClick = {
+          {delProps.display && <button type = "button" className = "btn btn-outline-danger btn-sm" style = {{marginRight:"15px"}} onClick = {
             this
               .onDelete
               .bind(this, delProps.id)

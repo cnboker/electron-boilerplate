@@ -68,11 +68,13 @@ function main(token) {
     }
   });
 
+  //2/min
   schedule.scheduleJob("*/2 * * * *", function() {
     polishJober.execute();
   });
 
   //本地查询排名
+  //1/min
   schedule.scheduleJob("*/1 * * * *", function() {
     localScanJober.scan();
   });

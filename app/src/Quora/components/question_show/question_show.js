@@ -73,8 +73,7 @@ class QuestionShow extends React.Component {
 
       <div className="question-page">
         {this.state.showAnswerForm && answerform}
-        <QueryBar createQuestion={this.props.createQuestion}/>
-
+       
         <p>
           {this.props.question.topics && this
             .props
@@ -91,9 +90,9 @@ class QuestionShow extends React.Component {
           <button
             className="btn btn-primary"
             type="button"
-            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.props.question.author === this.props.currentUser.userName &&< button className = "btn btn-danger" type = "button" onClick = {
+            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.props.question.author === this.props.currentUser.userName &&<button className = "btn btn-danger" type = "button" onClick = {
             this.deleteQuestion
-          } > 删除 < /button>}
+          } > 删除 </button>}
         </p>
 
         <hr/> {this.props.question.answers && <AnswerList

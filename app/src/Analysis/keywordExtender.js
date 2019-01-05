@@ -7,13 +7,22 @@ class Index extends Component {
   constructor() {
     super();
     this.state = {
-      keywords: ["正在获取拓词数据..."],
-      selectedKeywords: []
+      keywords: [],
+      selectedKeywords: [],
+      searchButtonStatus:false
     };
     this.unmount = false;
   }
 
   componentDidMount() {
+  }
+
+  findKeywords(){
+    this.setState({
+      keywords: ["正在获取拓词数据..."],
+      searchButtonStatus:true
+    })
+
     var kw = this.getKeyword();
     //发消息给后台
     sendToBackground("wordQuery", kw.keyword);
@@ -41,8 +50,6 @@ class Index extends Component {
     });
     return kw[0];
   }
-
-
 
   wordReady(keywords) {
     console.log("wordReady", keywords);
@@ -78,6 +85,7 @@ class Index extends Component {
         </div>
         <div className="row">
           <div className="col-sm">
+            <button className="btn btn-primary" disabled={this.state.searchButtonStatus} onClick={this.findKeywords.bind(this)}>获取拓词数据</button>
             <ul className="list-group">
               {this
                 .state

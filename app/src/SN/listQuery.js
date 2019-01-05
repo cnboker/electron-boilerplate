@@ -12,14 +12,11 @@ import {
 export default class Query extends Component {
   constructor(props) {
     super(props);
-    var now = moment();
-    var month = now.format("MM");
-    var year = now.format("YYYY");
-
+   
     this.state = {
       name: "",
-      startDate: moment(year + "-" + month + "-01"),
-      endDate: moment(),
+      startDate: moment().add('days',-90),
+      endDate: moment().add('days',1),
       actived: false
     };
   }

@@ -105,7 +105,7 @@ class PolishJober {
     })
       .then(function(response) {
         //messager("pageRefresh");
-        messager("message", `已赚到一个优币,保持程序运行,继续赚优币!`);
+        //messager("message", `已赚到一个优币,保持程序运行,继续赚优币!`);
         //console.log(response)
         //logger.info("polish post", response.data);
       })
