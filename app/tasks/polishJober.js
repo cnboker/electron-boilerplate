@@ -88,9 +88,7 @@ class PolishJober {
   //关键词已擦亮
   //doc:已经擦亮的关键词
   static async taskFinishedCallback(doc) {
-    //作废，polish由localScanJober执行
-    return;
-
+    
     if (doc.rank == null) return;
 
     const access_token = auth.getToken().access_token;

@@ -21,7 +21,9 @@ class Comment extends React.Component {
       showCommentForm: !this.state.showCommentForm
     });
   }
-
+  shortAuthor(author){
+    return author.length > 6? author.substring(author.length - 6):author
+  }
   enableDelete() {
     return (this.props.comment.author === this.props.currentUser.userName) || this.props.currentUser.userName === 'admin'
   }
@@ -29,7 +31,7 @@ class Comment extends React.Component {
     return (
       <div>
         <TimelineEvent
-          title={this.props.comment.author}
+          title={this.shortAuthor(this.props.comment.author)}
           createdAt={moment(this.props.comment.create_at).format('YYYY-MM-DD HH:mm')}
           icon={<i className = "icon-speech" > </i>}>
           {this.props.comment.content}

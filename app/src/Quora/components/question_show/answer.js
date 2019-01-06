@@ -56,6 +56,11 @@ class Answer extends React.Component {
   enableDelete() {
     return (this.props.answer.author === this.props.currentUser.userName) || this.props.currentUser.userName === 'admin'
   }
+
+  shortAuthor(author){
+    return author.length > 6? author.substring(author.length - 6):author
+  }
+
   render() {
     if (!this.props.answer) {
       return (
@@ -65,12 +70,12 @@ class Answer extends React.Component {
 
     return (
       <Card
-        headerTitle={moment(this.props.answer.create_at).format('YYYY-MM-DD') + '@' + this.props.answer.author}
+        headerTitle={moment(this.props.answer.create_at).format('YYYY-MM-DD') + '@' + this.shortAuthor(this.props.answer.author)}
         className="card-outline-info">
         <div className="answer-body">
           <HtmlBody content={this.htmlRender()}/>
         </div>
-        <div className="answer-footer">
+        <div >
           <Upvote
             vote={this.props.votes[this.props.answer._id]}
             onDislike={()=>this.props.dislike(this.props.answer._id)}

@@ -52,7 +52,6 @@ class LocalScanJober {
     await page.setExtraHTTPHeaders({ DNT: "1" });
     await page.setCacheEnabled(true)
     await page._client.send("Network.clearBrowserCookies");
-
     taskJob.singleTaskProcess(page, task).then(() => {
       task.end(task.doc);
       browser.close();
@@ -70,7 +69,7 @@ class LocalScanJober {
     axios({
       method: "post",
       url,
-      data: doc,
+      data: {opt:'localScan',...doc},
       headers: {
         Authorization: `Bearer ${access_token}`
       }

@@ -6,7 +6,9 @@ class QuestionIndexItem extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  shortAuthor(author){
+    return author.length > 6? author.substring(author.length - 6):author
+  }
   render() {
     let question = this.props.question;
     return (
@@ -30,7 +32,7 @@ class QuestionIndexItem extends React.Component {
           <div >
             {question.topics&&question.topics.map(x=><span key={x} onClick={()=>this.props.fetchTopic(x)} className="badge badge-pill badge-primary">{x}</span>)}
         </div>
-          <span className="d-block">{moment(question.create_at).format("YYYY-MM-DD")}@{question.author}</span>
+          <span className="d-block">{moment(question.create_at).format("YYYY-MM-DD")}@{this.shortAuthor(question.author)}</span>
         </div>
         {question.bestAnswer && <div className="best-answer">
           <div className="best-answer-header">

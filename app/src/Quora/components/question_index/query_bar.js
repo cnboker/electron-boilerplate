@@ -71,7 +71,8 @@ class QueryBar extends React.Component {
     };
   }
 
-  toggleExpand() {
+  toggleExpand(event) {
+    event.preventDefault();
     this.setState({
       expanded: !this.state.expanded
     });
@@ -143,7 +144,7 @@ class QueryBar extends React.Component {
     return (
       <div className="d-flex justify-content-between align-items-center w-100">
         <strong className="text-gray-dark"></strong>
-        <a href="#" onClick={this.toggleExpand}>我要提问</a>
+        <a href="#" onClick={this.toggleExpand.bind(this)}>我要提问</a>
       </div>
     );
 
