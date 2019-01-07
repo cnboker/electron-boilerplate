@@ -41,7 +41,7 @@ class LocalScanJober {
 
     const browser = await jobContext.puppeteer.launch({
       headless: process.env.NODE_ENV == "production",
-      devtools:true,
+      //devtools:true,
       executablePath: (() => {
         return process.env.ChromePath;
       })()

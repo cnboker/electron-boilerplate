@@ -22,7 +22,7 @@ async function execute(task) {
     .puppeteer
     .launch({
       headless: process.env.NODE_ENV == "production",
-      devtools:true,
+      //devtools:true,
       executablePath: (() => {
         return process.env.ChromePath;
       })()

@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import RichTextEditor from 'react-rte';
+import {Alert} from 'react-bootstrap'
 
 class AnswerForm extends React.Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class AnswerForm extends React.Component {
   answerQuestion(e) {
     e.preventDefault();
     var htmlEncode = require('js-htmlencode').htmlEncode;
-
     this
       .props
       .createAnswer({
@@ -54,7 +54,9 @@ class AnswerForm extends React.Component {
         </div>
         <RichTextEditor value={this.state.content}
         onChange={this.updateContent}
+      
       />
+      <Alert bsStyle="warning">少于20个字无法提交</Alert> 
         <br/>
         <p>
           <input type="submit" className="btn btn-primary" value="提交"/>{" "}

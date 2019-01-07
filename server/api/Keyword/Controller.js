@@ -10,7 +10,7 @@ var User = require("../User/Model");
 var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
 var keywordPool = require("../../socket/keywordPool");
-var time = require('../../utils/time')
+var time = require("../../utils/time");
 
 exports.finishedPool = function(req, res) {
   return res.json(keywordPool.finishedPool);
@@ -20,9 +20,9 @@ exports.sharePool = function(req, res) {
   return res.json(keywordPool.sharePool);
 };
 
-exports.userPool = function(req, res){
-  return res.json(keywordPool.userPool)
-}
+exports.userPool = function(req, res) {
+  return res.json(keywordPool.userPool);
+};
 
 exports.today = function(req, res) {
   //var today = moment().startOf('day')
@@ -84,7 +84,7 @@ exports.history = function(req, res) {
 };
 
 exports.list = function(req, res) {
-  console.log("req.query:", req.query);
+  //console.log("req.query:", req.query);
   if (req.user.sub === "admin") {
     ListByUserName(res, req.query.userName);
   } else {
@@ -293,7 +293,7 @@ exports.rank = function(req, res, next) {
       isValid: req.body.rank != -1,
       lastPolishedDate: new Date(),
       polishedCount: 0,
-      adIndexer:(req.body.adIndexer || 0) 
+      adIndexer: req.body.adIndexer || 0
     },
     {
       //同时设置这2个参数，否则doc返回null
@@ -378,7 +378,33 @@ exports.tasksv1 = function(req, res, next) {
 
 //关键字擦亮结果处理
 exports.polish = function(req, res, next) {
-  //console.log('polish body', req.body)
+  if (req.body.opt === "localScan") {
+    var upsertData = {
+      $set: {
+        dynamicRank: req.body.rank,
+        lastPolishedDate: new Date()
+      },
+      $inc: {
+        polishedCount: 1
+      }
+    };
+    Keyword.findOneAndUpdate(
+      {
+        _id: req.body._id
+      },
+      upsertData,
+      {
+        //同时设置这2个参数，否则doc返回null
+        upsert: true,
+        new: true //return the modified document rather than the original. defaults to false
+      }
+    ).then(doc => {
+      console.log('localscan', doc)
+      res.json(doc);
+    });
+    return;
+  }
+
   var upsertData = {
     $set: {
       dynamicRank: req.body.rank,
@@ -389,19 +415,19 @@ exports.polish = function(req, res, next) {
     }
   };
 
-  if(time.isWorktime()){
+  if (time.isWorktime()) {
     upsertData = {
       $set: {
         dynamicRank: req.body.rank,
         lastPolishedDate: new Date(),
-        adIndexer:(req.body.adIndexer || 0)
+        adIndexer: req.body.adIndexer || 0
       },
       $inc: {
         polishedCount: 1
       }
     };
   }
-  
+
   var lastDynamicRank = 0;
   Promise.all([
     Keyword.findOne({
@@ -412,11 +438,11 @@ exports.polish = function(req, res, next) {
     })
   ])
     .then(([keyword, user]) => {
-      if(!keyword){
+      if (!keyword) {
         throw "keyword not found";
       }
       lastDynamicRank = keyword.dynamicRank;
-      if(user.locked){
+      if (user.locked) {
         throw `${req.user.sub},${keyword.keyword},black user exception`;
       }
       if (!keyword.originRank) {
@@ -429,11 +455,15 @@ exports.polish = function(req, res, next) {
       //   throw keyword.keyword + ",skip rank=-1";
       // }
       var hours = moment().diff(moment(keyword.createDate), "hours");
-      console.log('hours',hours)
+      console.log("hours", hours);
       if (hours < 24 && req.body.rank > keyword.dynamicRank) {
         throw `${req.user.sub},${keyword.keyword},24 error`;
       }
-      if (hours >= 24 && hours < 72 && (req.body.rank - keyword.dynamicRank) > 5) {
+      if (
+        hours >= 24 &&
+        hours < 72 &&
+        req.body.rank - keyword.dynamicRank > 5
+      ) {
         throw `${req.user.sub},${keyword.keyword},72&5 error`;
       }
       return { keyword, user };
@@ -461,7 +491,6 @@ exports.polish = function(req, res, next) {
       );
     })
     .then(function(doc) {
-    
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
@@ -480,6 +509,4 @@ exports.polish = function(req, res, next) {
       logger.error(e);
       return next(boom.badRequest(e));
     });
-
-  
 };

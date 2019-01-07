@@ -48,7 +48,7 @@ class QuestionShow extends React.Component {
   }
 
   deleteQuestion() {
-    if (this.props.question.author === this.props.currentUser.userName) {
+    if (this.enableDelete()) {
       this
         .props
         .deleteQuestion(this.props.question._id);
@@ -59,7 +59,9 @@ class QuestionShow extends React.Component {
 
     }
   }
-
+  enableDelete() {
+    return (this.props.question.author === this.props.currentUser.userName) || this.props.currentUser.userName === 'admin'
+  }
   render() {
     let answerform = <div className="answer-form-container">
       <AnswerForm
@@ -90,7 +92,7 @@ class QuestionShow extends React.Component {
           <button
             className="btn btn-primary"
             type="button"
-            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.props.question.author === this.props.currentUser.userName &&<button className = "btn btn-danger" type = "button" onClick = {
+            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.enableDelete() &&<button className = "btn btn-danger" type = "button" onClick = {
             this.deleteQuestion
           } > 删除 </button>}
         </p>

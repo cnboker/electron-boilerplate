@@ -125,7 +125,7 @@ exports.update = function (req, res, next) {
 
 exports.del = function (req, res, next) {
   Promise.all([
-    Question.remove({_id: req.params.id}),
+    Question.findOneAndRemove({_id: req.params.id}),
     Answer.deleteMany({question_id: req.params.id}),
     Comment.deleteMany({question_id: req.params.id})
   ]).then(([q, a, c]) => {

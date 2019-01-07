@@ -8,7 +8,8 @@ var AnswerSchema =new Schema({
   question_id:Schema.Types.ObjectId,
   author:String, //
   create_at:Date, //创建日期
-  update_at:Date//更新日期
+  update_at:Date,//更新日期
+  upvote:Number
 });
 
 module.exports.Answer = mongoose.model('Answer', AnswerSchema);

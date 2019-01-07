@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router';
 import Select from "react-select";
+import {Alert} from 'react-bootstrap'
 
 class QueryBar extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class QueryBar extends React.Component {
       showDescription: false,
       expanded: false,
       displayedQuestions: [],
-      topics: []
+      topics: [],
+      showAlert:false
     };
     this.askQuestion = this
       .askQuestion
@@ -34,7 +36,12 @@ class QueryBar extends React.Component {
   askQuestion(e) {
     e.preventDefault();
     const question = this.state;
-    console.log('ask question',question)
+    if(question.title.length <10){
+      this.setState({'showAlert':true})
+      this.refs.title.focus();
+      return;
+    }
+    this.setState({'showAlert':false})
     this
       .props
       .createQuestion(question)
@@ -90,6 +97,14 @@ class QueryBar extends React.Component {
     })
   }
 
+  handleDismiss() {
+    this.setState({ showAlert: false });
+  }
+
+  handleShow() {
+    this.setState({ showAlert: true });
+  }
+
   render() {
     let descriptionField = "";
     if (this.state.showDescription) {
@@ -105,7 +120,8 @@ class QueryBar extends React.Component {
         <div className="expanded-query-bar-container">
           <form className="expanded-query-bar" onSubmit={this.askQuestion.bind(this)} onClick={null}>
             <div className="expanded-ask-bar">
-              <textarea rows="1" onChange={this.update("title")} className="form-control"/> {descriptionField}
+              {this.state.showAlert&&<Alert bsStyle="danger">不能为空或字数太少</Alert>}
+              <textarea rows="1" onChange={this.update("title")} className="form-control" ref='title'/> {descriptionField}
               <Select
                 placeholder="标签"
                 onChange={this
@@ -129,6 +145,7 @@ class QueryBar extends React.Component {
             </div>
             <div className="expanded-tool-bar">
               <input type="submit" value="提交" className="btn btn-primary"/>
+              <input type="button" value="取消" className="btn btn-default" onClick={this.toggleExpand}/>
               <button
                 type="button"
                 className="btn btn-link"

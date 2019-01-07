@@ -25,9 +25,9 @@ class QuestionIndexItem extends React.Component {
             }}>
               <Link to={`/qa/${this.props.question._id}`}>{question.title}</Link>
             </strong>
-            <a href="#">
+            <span>
               <i className="icon-speech"></i>{" "}
-              {question.answerCount}</a>
+              {question.answerCount}</span>
           </div>
           <div >
             {question.topics&&question.topics.map(x=><span key={x} onClick={()=>this.props.fetchTopic(x)} className="badge badge-pill badge-primary">{x}</span>)}
