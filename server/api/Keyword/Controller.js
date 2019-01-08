@@ -451,9 +451,9 @@ exports.polish = function(req, res, next) {
       if (keyword.originRank > 0 && req.body.rank == undefined) {
         throw keyword.keyword + ",skip rank=-1";
       }
-      // if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
-      //   throw keyword.keyword + ",skip rank=-1";
-      // }
+      if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
+        throw keyword.keyword + ",skip rank=-1";
+      }
       var hours = moment().diff(moment(keyword.createDate), "hours");
       console.log("hours", hours);
       if (hours < 24 && req.body.rank > keyword.dynamicRank) {

@@ -1,5 +1,6 @@
-var time = require('./utils/time')
-var moment = require('moment')
-var now = moment();
-console.log(now.day())
-console.log(time.isWorktime())
+var pi = require('./job/perfomanceIndex')
+var mongoose = require("mongoose"); //.set('debug', true);
+mongoose.connect("mongodb://localhost/kwPolish");
+pi().then(docs=>{
+    console.log(docs);
+});
