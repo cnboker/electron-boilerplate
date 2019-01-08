@@ -4,11 +4,9 @@ var User = require("../api/User/Model");
 module.exports = function () {
   return new Promise((resolve, reject) => {
     PolishLog.aggregate([
-
       {
         $group: {
           _id: {
-            user: "$user",
             keyword_id: "$keyword_id"
           },
           avg_dynamicRank: {
@@ -26,11 +24,10 @@ module.exports = function () {
         $unwind: '$keyword_docs'
       }, {
         $project: {
-          user: '$_id.user',
+          user: '$keyword_docs.user',
           keyword: '$keyword_docs.keyword',
           originRank: '$keyword_docs.originRank',
-          dynamicRank: '$avg_dynamicRank',
-          as: 'output'
+          dynamicRank: '$avg_dynamicRank'
         }
       }, {
         $match: {
@@ -44,10 +41,10 @@ module.exports = function () {
       }, {
         $group: {
           _id: '$user',
-          sum_originRank: {
+          avg_originRank: {
             $avg: '$originRank'
           },
-          sum_dynamicRank: {
+          avg_dynamicRank: {
             $avg: '$dynamicRank'
           }
         }
@@ -59,7 +56,7 @@ module.exports = function () {
           userName: doc._id
         }, {
           $set: {
-            performanceIndex: (doc.sum_originRank - doc.sum_dynamicRank) / doc.sum_originRank
+            performanceIndex: (doc.avg_originRank - doc.avg_dynamicRank) * 100 / doc.avg_originRank 
           }
         }, {
           //同时设置这2个参数，否则doc返回null

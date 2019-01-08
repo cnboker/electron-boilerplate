@@ -134,7 +134,7 @@ class List extends Component {
           <td>{item.userTypeText}</td>
           <td>{this.stringFormat(item.vipExpiredDate)}</td>
           <td>{item.point}</td>
-          <td>{item.rank || 0}</td>
+          <td>{(item.performanceIndex || 0).toFixed(2)}</td>
           <td>
             <Switch
               on={item.locked}
@@ -171,7 +171,7 @@ class List extends Component {
                 <th>会员类型</th>
                 <th>到期日期</th>
                 <th>积分</th>
-                <th>Rank</th>
+                <th>优化指数</th>
                 <th>拉黑</th>
               </tr>
             </thead>
