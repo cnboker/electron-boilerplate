@@ -120,7 +120,7 @@ class List extends Component {
     var indexer = item.adIndexer ;
     if(indexer > 0){
       return [...Array(item.adIndexer)].map((e,i)=>{
-        return <i className="fa fa-tint fa-lg" style={{color:'red'}}/>
+        return <i className="fa fa-diamond " style={{color:'red'}}/>
       })
     }else{
       return  <span>0</span>

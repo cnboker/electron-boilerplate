@@ -23,7 +23,7 @@ import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './SN/index'
 import Quora from './Quora/components/index'
 import Commission from './commission/container'
-
+import Rewards from './Price/reward'
 import '../public/scss/app.scss'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
@@ -91,6 +91,10 @@ class App extends Component {
             <PrivateRoute
               path="/setting"
               component={Setting}
+              dispatch={this.props.dispatch}/>
+              <PrivateRoute
+              path="/reward"
+              component={Rewards}
               dispatch={this.props.dispatch}/>
             <PrivateRoute
               path="/analysis/:id"

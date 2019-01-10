@@ -6,9 +6,9 @@ export default class Header extends Component {
     if (this.props.userName === "admin") {
       return (
         <nav className="my-2 my-md-0 mr-md-3">
-        <Link className="p-2 text-dark" to="/qa">
-        问答
-      </Link>
+          <Link className="p-2 text-dark" to="/qa">
+            问答
+          </Link>
           <Link className="p-2 text-dark" to="/users/keywords/__today__">
             今日关键词
           </Link>
@@ -16,7 +16,7 @@ export default class Header extends Component {
             充值
           </Link>
           <Link className="p-2 text-dark" to="/users">
-            会员列表
+            用户列表
           </Link>
           <Link className="p-2 text-dark" to="/pool">
             任务池
@@ -25,8 +25,8 @@ export default class Header extends Component {
             充值码
           </Link>
           <Link className="p-2 text-dark" to="/commission">
-          佣金
-        </Link>
+            佣金
+          </Link>
         </nav>
       );
     } else {
@@ -35,14 +35,15 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/keyword">
             排名监控
           </Link>
-          <Link className="p-2 text-dark" to="/qa">
+          {/*<Link className="p-2 text-dark" to="/qa">
             问答
-          </Link>
+      </Link>*/}
+          <Link className="p-2 text-dark" to="/reward">推荐奖励<span className="badge badge-success">新</span></Link>
           <Link className="p-2 text-dark" to="/setting">
             设置
           </Link>
           <Link className="p-2 text-dark" to="/price">
-            会员
+            用户
           </Link>
           <Link className="p-2 text-dark" to="/start">
             帮助
