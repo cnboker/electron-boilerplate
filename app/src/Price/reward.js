@@ -1,7 +1,22 @@
 import React, { Component } from "react";
 import Account from "./account";
 import axiox from "axios";
-export default class Reward extends Component {
+import { connect } from "react-redux";
+
+ class Reward extends Component {
+  constructor() {
+    super();
+    this.state = {
+      profile: {
+        grade: "",
+        rewardCode:'',
+        userName: "",
+        expiredDate: Date.now(),
+        balance: []
+      }
+    };
+  }
+
   componentDidMount() {
     console.log(this.props.client);
     var $this = this;
@@ -16,7 +31,7 @@ export default class Reward extends Component {
         $this.setState({
           profile: res.data
         });
-        $this.forceUpdate()
+       // $this.forceUpdate()
       })
       .catch(function(e) {
         toast.error(e.response.data.message, {
@@ -43,6 +58,8 @@ export default class Reward extends Component {
               50元/人
             </strong>
             奖金拿，奖励随时提现.
+            <br/><br/>
+            <span style={{fontStyle: "italic"}}>不要忘记告诉新注册用户注册的时候输入你的推荐码哟!</span>
           </p>
         </div>
 
@@ -55,11 +72,11 @@ export default class Reward extends Component {
               marginLeft:'15px'
             }}
           >
-            xzftk
+            {this.state.profile.rewardCode}
           </span>
         </p>
           
-        <Account balance={model.balance.filter(x=>x.payType == 2)} />
+        <Account balance={this.state.profile.balance.filter(x=>x.payType == 2)} />
      
       </div>
     );
@@ -70,5 +87,6 @@ export default class Reward extends Component {
 const mapStateToProps = (state, ownProps) => {
   return { client: state.client };
 };
+
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(Reward);

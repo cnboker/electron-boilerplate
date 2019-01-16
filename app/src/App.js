@@ -150,8 +150,7 @@ class App extends Component {
 }
 
 // referene
-// https://stackoverflow.com/questions/36559661/how-can-i-dispatch-from-child-co
-// m ponents-in-react-redux
+// https://stackoverflow.com/questions/36559661/how-can-i-dispatch-from-child-com ponents-in-react-redux
 const mapStateToProps = state => {
   // if(!state.client.token){   refreshClient(state.client) }
   return state.client;

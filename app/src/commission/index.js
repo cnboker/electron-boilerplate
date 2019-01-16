@@ -81,6 +81,7 @@ class Index extends Component {
             <td>{this.stringFormatTime(item.createDate)}</td>
             <td>{this.stringFormatTime(item.updateDate)}</td>
             <td>{this.getStatus(item.status)}</td>
+            <td>{item.remark}</td>
             <td>{(item.status===0)&&<button className="btn btn-primary" value="付款" onClick={this.pay.bind(this,item._id)}>付款</button>}</td>
           </tr>
         );
@@ -109,11 +110,12 @@ class Index extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>收款用户</th>
+                <th>推荐人用户</th>
                 <th>佣金</th>
                 <th>生成日期</th>
                 <td>付款日期</td>
                 <th>状态</th>
+                <th>备注</th>
                 <th>操作</th>
               </tr>
             </thead>

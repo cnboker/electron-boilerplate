@@ -4,7 +4,7 @@ import moment from "moment";
 export default class Account extends Component {
   getFeeType(val) {
     if (val == undefined || val === 1) return "充值";
-    if (val === 2) return "佣金";
+    if (val === 2) return "奖励";
     return "未知";
   }
 
@@ -35,6 +35,7 @@ export default class Account extends Component {
               .format("YYYY-MM-DD")}
           </td>
           <td>{this.getStatus(item)}</td>
+          <td>{item.remark}</td>
         </tr>
       );
     });
@@ -49,10 +50,11 @@ export default class Account extends Component {
             <thead>
               <tr>
                 <th>费用类型</th>
-                <th>充值金额</th>
-                <th>充值日期</th>
-                <th>到期日期</th>
+                <th>金额</th>
+                <th>创建日期</th>
+                <th>到期/付款日期</th>
                 <td>状态</td>
+                <td>备注</td>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>

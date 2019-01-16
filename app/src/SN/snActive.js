@@ -71,12 +71,9 @@ class SNActive extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return { client: state.client };
-};
+
+
 //state表示reducer, combineReducer包含state和dispatch
-export default connect(mapStateToProps)(
-  reduxForm({
-    form: "form"
-  })(SNActive)
-);
+export default reduxForm({
+  form: "form"
+})(SNActive)
