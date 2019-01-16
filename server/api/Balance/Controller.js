@@ -32,7 +32,7 @@ exports.commissions = function (req, res, next) {
     limit: + req.query.limit
   }, null, {
     sort: {
-      createDate: -1
+      createDate: 1
     }
   }).then(result => {
     console.log('result',result)

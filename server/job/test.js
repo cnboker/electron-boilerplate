@@ -9,15 +9,22 @@ rewardJob()
   .then(codes => {
     return [User.find({}), codes];
   })
-  .spread(async (users, codes) => {
-    await users.map(async doc => {
-      var rc = codes.pop();
-      rc.isUsed = true;
-      await rc.save();
-      doc.rewardCode = rc.code;
-      await doc.save();
-      console.log(doc);
-    });
+  .spread((users, codes) => {
+    return new Promise(async (resolve,reject)=>{
+      await users.map(async doc => {
+        var rc = codes.pop();
+        rc.isUsed = true;
+        doc.rewardCode = rc.code;
+        Promise.all([
+          rc.save(),
+          doc.save()
+        ]).then(()=>{
+          console.log(doc)
+        })
+       
+      });
+      resolve();
+    })
   })
   .then(() => {
     console.log('close.....')

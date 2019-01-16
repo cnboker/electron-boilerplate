@@ -8,6 +8,7 @@ var Balance = require("../Balance/Model");
 var User = require("./Model");
 var Keyword = require("../Keyword/Model");
 var keywordPool = require("../../socket/keywordPool");
+var RewardCode = require('./RewardModel');
 
 function userGrade(grade) {
   if (grade == 1) {
@@ -225,6 +226,7 @@ exports.profile = function (req, res, next) {
     profile.gradeValue = user.grade;
     profile.expiredDate = user.vipExpiredDate;
     profile.rank = user.rank;
+    profile.rewardCode = user.rewardCode;
     profile.balance = list
     res.json(profile)
   }).catch(e => {
@@ -233,7 +235,6 @@ exports.profile = function (req, res, next) {
 };
 
 exports.signup = async function (req, res, next) {
-  console.log('signup',req.body)
   var userName = req.body.userName;
   var password = req.body.password;
   var email = req.body.email;
@@ -244,11 +245,11 @@ exports.signup = async function (req, res, next) {
   }
 
   if (req.body.reference) {
-    var reference = await User.findOne({userName: req.body.reference})
+    var reference = await User.findOne({rewardCode: req.body.reference})
     if (!reference) {
        res
         .status(400)
-        .send(`推荐用户${req.body.reference}不存在`);
+        .send(`推荐码${req.body.reference}不存在`);
         return;
     }
   }
@@ -259,11 +260,14 @@ exports.signup = async function (req, res, next) {
       }, {
         email
       }]
-  }).then(doc => {
+  }).then(async doc => {
     if (doc) {
       throw `用户${userName}或${email}已存在`;
     }
-
+    var rc = await RewardCode.findOne({isUsed:false})
+    rc.isUsed =true;
+    await rc.save();
+    console.log('rewardCode=', rc)
     var user = new User({
       ...req.body,
       createDate: new Date(),
@@ -274,7 +278,8 @@ exports.signup = async function (req, res, next) {
       totalPoint: 50,
       lostPoint: 0,
       engine: "baidu",
-      point: 0
+      point: 0,
+      rewardCode:rc.code
     });
 
     return user.save();
