@@ -25,8 +25,11 @@ var userSchema = new Scheam({
   rank:Number, //点击排名下降，rank对应减值，点击排名上升，rank对于增值，
   reference:String, //推荐s人
   votes:String, //用户投票数据
-  performanceIndex:Number //排名综合指数
+  performanceIndex:Number, //排名综合指数,
+  rewardCode:String,
+  weixinPayCode:String //微信收款码
 });
 
 userSchema.plugin(mongoosePaginate) //pagination function
 module.exports = mongoose.model('User', userSchema);
+

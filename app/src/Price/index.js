@@ -1,9 +1,7 @@
 import React, {
   Component
 } from 'react'
-import {
-  Link
-} from 'react-router-dom'
+
 import Profile from './profile'
 import Price from './price'
 import { connect } from "react-redux";

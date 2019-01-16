@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var password = '12345'
 var ph = require('../utils/passwordHash')
+var rewardCode = require('../api/User/RewardModel')
 
 describe('passwordHash()',function(){
   it('should note equal',function(){
@@ -21,4 +22,15 @@ describe('passwordHash()',function(){
     });
     expect(arr.length).to.equal(newArray.length)
   })
+})
+
+describe('create reward code',function(){
+  it('should return 1000 results',function(){
+      var data =[];
+      for(var i = 0; i < 20000; i++){
+        arr.push(ph.radmon(6));
+      }
+      
+  })
+
 })

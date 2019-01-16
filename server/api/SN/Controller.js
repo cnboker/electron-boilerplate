@@ -6,6 +6,7 @@ var User = require("../User/Model");
 var Balance = require("../Balance/Model");
 var Keyword = require("../Keyword/Model");
 var config = require('../../config')
+
 exports.agent = function(req, res, next) {
   SN.findOne({ userName: req.params.id })
     .then(doc => {

@@ -1,48 +1,74 @@
-import React, {Component} from 'react'
-
+import React, { Component } from "react";
+import Account from "./account";
+import axiox from "axios";
 export default class Reward extends Component {
+  componentDidMount() {
+    console.log(this.props.client);
+    var $this = this;
+    const url = `${process.env.REACT_APP_API_URL}/profile`;
+    axiox({
+      url,
+      headers: {
+        Authorization: `Bearer ${this.props.client.token.access_token}`
+      }
+    })
+      .then(function(res) {
+        $this.setState({
+          profile: res.data
+        });
+        $this.forceUpdate()
+      })
+      .catch(function(e) {
+        toast.error(e.response.data.message, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
+      });
+  }
+
   render() {
+    const model = this.props.model;
     return (
       <div>
         <div className="alert alert-success" role="alert">
-          <h3>推荐新用户赚奖励！</h3>
-          <hr/>
+          <h3>分享越多收获越多！</h3>
+          <hr />
           <p className="mb-0">
-            把您的推荐码告诉新用户，新用户注册的时候输入您的推荐码，注册成功一旦激活VIP身份，你就能获得<strong style={{
-        color: 'red'
-      }}>50元</strong>奖励,奖励的金额可以提现.
-          </p>
-        </div>
-        <div className="bd-callout bd-callout-info">
-          <p>您的推荐码是
-            <code
-              class="highlighter-rouge"
+            把好用的钢铁侠推荐给更多人使用，你会有更多收获，经你推荐的注册用户，一旦激活VIP身份，你就能有
+            <strong
               style={{
-              fontSize: '18px'
-            }}>xzftk</code>
-            赶快推荐给您的好友赚奖励吧!
+                color: "red"
+              }}
+            >
+            
+              50元/人
+            </strong>
+            奖金拿，奖励随时提现.
           </p>
         </div>
-        <div className="bd-callout bd-callout-info">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">输入您的个人微信收款码，方便工作人员给您付款</label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="个人微信收款码"/>
-          </div>
 
-          <div class="form-group">
-            <button className="btn btn-primary">提交</button>
-          </div>
-        </div>
+        <p>
+          您的推荐码:
+          <span
+            style={{
+              fontSize: "36px",
+              color:"red",
+              marginLeft:'15px'
+            }}
+          >
+            xzftk
+          </span>
+        </p>
+          
+        <Account balance={model.balance.filter(x=>x.payType == 2)} />
      
-        <div className="alert alert-info" role="alert" style={{color:'red'}}>
-          你邀请注册的用户中有XXX位用户升级VIP，在本月成绩榜中处于中上水平，继续加油。
-        </div>
-        </div>
-    )
+      </div>
+    );
   }
-
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+  return { client: state.client };
+};
+//state表示reducer, combineReducer包含state和dispatch
+export default connect(mapStateToProps)(Reward);
