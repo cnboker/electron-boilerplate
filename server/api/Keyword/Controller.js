@@ -142,7 +142,7 @@ exports.create = function(req, res, next) {
   ])
     .then(([user, docs]) => {
       var keywords = req.body.keyword.split("\n").filter(function(val) {
-        return val.trim().length > 3;
+        return val.trim().length > 1;
       });
 
       //remove duplicate

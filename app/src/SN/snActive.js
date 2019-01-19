@@ -47,7 +47,7 @@ class SNActive extends Component {
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
        <div className="alert alert-success">
-          你可以联系销售商购买充值码，每个充值码有效期1个月（30天）。如需使用一个季度，这里提交3个激活码。如需使用半年，这里提交6个充值码即可。以此类推
+          你可以联系销售商购买充值码，每个充值码有效期1个月（30天）。如需使用一个季度，这里提交3个激活码。如需使用半年，这里提交6个充值码即可，以此类推。推荐购买VIP年度套餐，优惠更多。
         </div>
         <Field
           name="sn"

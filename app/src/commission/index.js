@@ -111,7 +111,7 @@ class Index extends Component {
             <thead>
               <tr>
                 <th>推荐人用户</th>
-                <th>佣金</th>
+                <th>奖励</th>
                 <th>生成日期</th>
                 <td>付款日期</td>
                 <th>状态</th>

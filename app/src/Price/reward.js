@@ -94,7 +94,7 @@ class Reward extends Component {
           </span>
         </p>
         <hr/>
-        <Account balance={balance} >
+        <Account balance={balance} onlyReward={true}>
         <h5>我的分享收益</h5>
           <div className="text-right">
             总收益:
@@ -103,6 +103,7 @@ class Reward extends Component {
             {stats.unPaidAmount.toFixed(2)}
           </div>
         </Account>
+        <p>群号：340828020</p>
       </div>
     );
   }

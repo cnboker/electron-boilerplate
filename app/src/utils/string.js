@@ -45,3 +45,7 @@ if (!String.prototype.trim) {
       };
   })();
 }
+
+export function shortAuthor(user){
+  return (user.length > 4? user.substring(author.length - 4) :user) + '***';
+}

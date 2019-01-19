@@ -109,7 +109,7 @@ exports.snActivate = function (req, res, next) {
       createDate: new Date(),
       serviceDate: start,
       days: serviceDays,
-      remark: `vip充值金额${sn.price}`,
+      remark: `VIP充值金额${sn.price}`,
       payType: 1,
       status: 1 //已付款
     });
@@ -122,7 +122,7 @@ exports.snActivate = function (req, res, next) {
         user: referUser.userName, //推荐人
         amount: 50,
         createDate: new Date(),
-        remark: `用户${user.userName}开通VIP佣金`,
+        remark: `用户${shortAuthor(user.userName)}开通VIP奖励`,
         payType: 2, //commission
         status: 0 //未付款
       })
@@ -147,3 +147,8 @@ exports.snActivate = function (req, res, next) {
     return next(boom.badRequest(e));
   });
 };
+
+
+function shortAuthor(user){
+  return  '***' + (user.length > 4? user.substring(user.length - 4) :user) ;
+}

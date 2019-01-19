@@ -39,7 +39,7 @@ export default class Account extends Component {
                 <th>费用类型</th>
                 <th>金额</th>
                 <th>创建日期</th>
-                <th>到期/付款日期</th>
+                <th>{this.props.onlyReward?'提现日期':'VIP到期/提现日期'}</th>
                 <td>状态</td>
                 <td>备注</td>
               </tr>
