@@ -1,40 +1,27 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { getFeeType, getStatus } from "./contants";
+import If from "../lib/If";
 
 export default class Account extends Component {
-  getFeeType(val) {
-    if (val == undefined || val === 1) return "充值";
-    if (val === 2) return "奖励";
-    return "未知";
-  }
-
-  getStatus(item) {
-    var val = item.status;
-    if (val === 0) return "未付款";
-    if (val == undefined || val === 1) {
-      if (item.payType == 2) {
-        return "已收款";
-      } else {
-        return "已付款";
-      }
-    }
-
-    return "未知";
-  }
-
   renderList() {
     return this.props.balance.map(item => {
       return (
         <tr key={item._id}>
-          <td>{this.getFeeType(item.payType)}</td>
+          <td>{getFeeType(item.payType)}</td>
           <td>{(item.amount || 0).toFixed(2)}</td>
           <td>{moment(item.createDate).format("YYYY-MM-DD HH:mm")}</td>
           <td>
-            {moment(item.serviceDate)
-              .add(item.days, "days")
-              .format("YYYY-MM-DD")}
+            <If test={item.payType === 1 || item.payType == undefined}>
+              <span>{moment(item.serviceDate)
+                .add(item.days, "days")
+                .format("YYYY-MM-DD")}</span>
+            </If>
+            <If test={item.payType === 2 && item.updateDate!= undefined}>
+             <span> {moment(item.updateDate).format("YYYY-MM-DD HH:mm")}</span>
+            </If>
           </td>
-          <td>{this.getStatus(item)}</td>
+          <td>{getStatus(item)}</td>
           <td>{item.remark}</td>
         </tr>
       );
@@ -43,8 +30,8 @@ export default class Account extends Component {
 
   render() {
     return (
-      <div className="bd-example">
-        <p>账单</p>
+      <div >
+        <div>{this.props.children}</div>
         <div className="table-responsive">
           <table className="table table-bordered table-striped">
             <thead>

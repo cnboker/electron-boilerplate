@@ -142,16 +142,22 @@ exports.create = function(req, res, next) {
   ])
     .then(([user, docs]) => {
       var keywords = req.body.keyword.split("\n").filter(function(val) {
-        return val.trim().length > 1;
+        return val.trim().length > 3;
       });
 
-      var saveKeywords = docs.map(item => {
-        return item.keyword;
-      });
       //remove duplicate
       keywords = keywords.filter(function(item, pos) {
-        return keywords.indexOf(item) == pos && !saveKeywords.includes(item);
+        return keywords.indexOf(item) == pos && docs.filter(x=>{
+          return (x.link == req.body.link && x.keyword == item)
+        }).length == 0
       });
+
+
+      console.info("keywords", keywords);
+      if (keywords.length == 0) {
+        throw "重复或无效关键字";
+      }
+
       var grade = user.grade || 1;
       var hours = moment().diff(moment(user.vipExpiredDate), "hours");
       if (grade == 1 || hours > 0) {
@@ -166,11 +172,10 @@ exports.create = function(req, res, next) {
         }
       }
       if (keywords.length == 0) {
-        res.json([]);
-        return;
+        throw "没有可用关键字";
       }
 
-      console.log("keywords ---", keywords);
+      console.info("keywords ---", keywords);
 
       var docs = [];
       for (var keyword of keywords) {
@@ -399,7 +404,7 @@ exports.polish = function(req, res, next) {
         new: true //return the modified document rather than the original. defaults to false
       }
     ).then(doc => {
-      console.log('localscan', doc)
+      console.log("localscan", doc);
       res.json(doc);
     });
     return;

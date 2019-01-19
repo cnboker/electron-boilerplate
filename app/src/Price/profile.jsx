@@ -22,7 +22,9 @@ export default class Profile extends Component {
             到期日期 : {moment(model.expiredDate).format("YYYY-MM-DD")}
           </li>
         </ul>
-        <Account balance={model.balance} />
+        <Account balance={model.balance} >
+          <div>账单</div>
+        </Account>
       </div>
     );
   }
