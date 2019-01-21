@@ -16,6 +16,8 @@ require('../utils/groupBy')
 */
 var vipJob = require('./vipcheckJob')
 var resetTodayPolishJob = require('./resetTodayPolishCount')
+var performanceIndex = require('./perfomanceIndex');
+
 var mongoose = require("mongoose"); //.set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
 mongoose.Promise = require("bluebird");
@@ -29,11 +31,17 @@ mongoose.Promise = require("bluebird");
       vipJob().then(()=>{
         console.log('reset')
         return resetTodayPolishJob();
-      }).catch(e=>{
-        console.log(e)
-      }).then(()=>{
+      })
+      .then(()=>{
+        console.log('performanceIndex')
+        return performanceIndex();
+      })
+      .then(()=>{
         console.log('disconnect')
         mongoose.disconnect();
+      })
+      .catch(e=>{
+        console.log(e)        
       })
     });
 

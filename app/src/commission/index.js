@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
-import Select from "react-select";
 import Dialog from "../Components/Modals/Dialog";
 import Query from './query'
 
