@@ -383,7 +383,13 @@ exports.tasksv1 = function(req, res, next) {
 
 //关键字擦亮结果处理
 exports.polish = function(req, res, next) {
+ 
+
   if (req.body.opt === "localScan") {
+    if (req.body.rank == undefined || req.body.rank == -1) {
+      res.send('invalid polish')
+      return;
+    }
     var upsertData = {
       $set: {
         dynamicRank: req.body.rank,
