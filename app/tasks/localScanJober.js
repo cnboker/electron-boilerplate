@@ -5,10 +5,8 @@ var jobAction = require("./jobAction");
 var axios = require("axios");
 
 const auth = require("../auth");
-var logger = require("../logger");
 const messager = require("./ipcSender");
-var taskJob = require("./pageTaskJob");
-var store = require('./localStore');
+var store = require("./localStore");
 //本地检测排名
 class LocalScanJober {
   constructor() {}
@@ -30,37 +28,45 @@ class LocalScanJober {
     return task;
   }
 
+  
   //每5分钟执行一次
   static async scan() {
-
     if (store.isTodayEmpty()) return;
     var task = await this.getTask();
     if (task == null) return;
 
-    console.log('task doc', task.doc)
+    console.log("task doc", task.doc);
+    var cheer = require("./cheerioPageTaskJob");
+    var result = await cheer(jobContext.puppeteer, task.doc);
+    task.doc.rank = result.pageIndex;
+    task.doc.adIndexer = result.adIndexer;
+    task.end(task.doc);
 
-    const browser = await jobContext.puppeteer.launch({
-      headless: process.env.NODE_ENV == "production",
-      //devtools:true,
-      executablePath: (() => {
-        return process.env.ChromePath;
-      })()
-    });
+    if (store.isTodayEmpty()) {
+      console.log("pagerefresh");
+      messager("pageRefresh");
+    }
 
-    const page = await browser.newPage();
+    // const browser = await jobContext.puppeteer.launch({
+    //   headless: process.env.NODE_ENV == "production",
+    //   //devtools:true,
+    //   executablePath: (() => {
+    //     return process.env.ChromePath;
+    //   })()
+    // });
+
+    // const page = await browser.newPage();
     //无痕窗口
-    await page.setExtraHTTPHeaders({ DNT: "1" });
-    await page.setCacheEnabled(true)
-    await page._client.send("Network.clearBrowserCookies");
-    taskJob.singleTaskProcess(page, task).then(() => {
-      task.end(task.doc);
-      browser.close();
-      //查询完毕刷新界面
-      if(store.isTodayEmpty()){
-        console.log('pagerefresh')
-        messager("pageRefresh");
-      }
-    });
+
+    // taskJob.singleTaskProcess(page, task).then(() => {
+    //   task.end(task.doc);
+    //   browser.close();
+    //   //查询完毕刷新界面
+    //   if(store.isTodayEmpty()){
+    //     console.log('pagerefresh')
+    //     messager("pageRefresh");
+    //   }
+    // });
   }
 
   static async taskFinishedCallback(doc) {
@@ -69,19 +75,22 @@ class LocalScanJober {
     axios({
       method: "post",
       url,
-      data: {opt:'localScan',...doc},
+      data: { opt: "localScan", ...doc },
       headers: {
         Authorization: `Bearer ${access_token}`
       }
     })
       .then(function(response) {
-        messager("pageRefresh");
+        //messager("pageRefresh");
         // console.log(response)
         //logger.info("scan post", response.data);
       })
       .then(function(err) {
         // console.error(err)
-      });
+      })
+      .catch(e=>{
+        console.error(e)
+      })
   }
 
   static async _fetchData() {
@@ -97,7 +106,7 @@ class LocalScanJober {
         }
       });
       const json = res.data;
-      return json;
+      return json.filter(x => x.originRank > 0);
     } catch (e) {
       console.log(e);
       return [];

@@ -25,6 +25,7 @@ import Quora from './Quora/components/index'
 import Commission from './commission/container'
 import Rewards from './Price/reward'
 import '../public/scss/app.scss'
+import CustomKeywordExtender from './Analysis/customKeywordExtender'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 
@@ -102,6 +103,8 @@ class App extends Component {
               dispatch={this.props.dispatch}/>
             <PrivateRoute path="/start" component={Start} dispatch={this.props.dispatch}/>
             <PrivateRoute path="/sn" component={SN} dispatch={this.props.dispatch}/>
+            <PrivateRoute path="/customkw" component={CustomKeywordExtender} dispatch={this.props.dispatch}/>
+            
             <Route
               path="/forgetpassword"
               component={Forgetpassword}

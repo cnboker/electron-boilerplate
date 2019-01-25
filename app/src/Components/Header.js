@@ -37,7 +37,10 @@ export default class Header extends Component {
           </Link>
           {/*<Link className="p-2 text-dark" to="/qa">
             问答
-      </Link>*/}
+      </Link>*/}         
+          <Link className="p-2 text-dark" to="/customkw">
+            拓词
+          </Link>
           <Link className="p-2 text-dark" to="/reward">推荐奖励<span className="badge badge-success">新</span></Link>
           <Link className="p-2 text-dark" to="/setting">
             设置

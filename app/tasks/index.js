@@ -15,36 +15,27 @@ var token = {
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InNjb3R0Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE1Mjc0MzQ3ODgsImV4cCI6MTUzMDAyNjc4OH0.8E_zpIhjdk-sXeVutOg9bjdwTJENngRp-Xgaz2uiBzQ",
   userName: "scott"
 };
-//app.main(token)
-// schedule.scheduleJob('*/5 * * * * *', function () {
-//     console.log(moment().format('HH:mm:ss'))
-// })
-var jobAction = require("./jobAction");
+
 var jobContext = require("./jobContext");
-var pageTaskJob = require("./pageTaskJob");
-var gpageTaskJober = require("./gpageTaskJob");
-var polishJober = require("./polishJober");
-var logger = require("../logger");
-const auth = require("../auth");
-var client = require("./socketClient");
+require("../config");
 process.node_debug = true;
 (async () => {
-  var task = {
-    doc: {
-      userName: "scott",
-      engine: "baidu",
-      link: "ioliz.com",
-      keyword: "数字标牌内容发布系统 定制开发",
-      originRank: 5,
-      dynamicRank: 1,
-      navUrl:`https://www.baidu.com/s?wd=数字标牌内容发布系统 定制开发`
-    },
-    action: jobAction.SCAN,
-    end: function(doc) {
-      //console.log("polishjober execute doc rank", doc);
-      //done();
-    }
-  };
+  // var task = {
+  //   doc: {
+  //     userName: "scott",
+  //     engine: "baidu",
+  //     link: "ioliz.com",
+  //     keyword: "数字标牌内容发布系统 定制开发",
+  //     originRank: 5,
+  //     dynamicRank: 1,
+  //     navUrl:`https://www.baidu.com/s?wd=数字标牌内容发布系统 定制开发`
+  //   },
+  //   action: jobAction.SCAN,
+  //   end: function(doc) {
+  //     //console.log("polishjober execute doc rank", doc);
+  //     //done();
+  //   }
+  // };
   jobContext.puppeteer = require("puppeteer");
   // const browser = await jobContext.puppeteer.launch({
   //   headless: false

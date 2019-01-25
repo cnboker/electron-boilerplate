@@ -4,7 +4,8 @@ import Extender from "./keywordExtender";
 import Rank from "./rankChart";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from 'classnames'
-export default class Index extends Component {
+import { connect } from "react-redux";
+ class Index extends Component {
   constructor(props) {
     super(props);
 
@@ -22,6 +23,19 @@ export default class Index extends Component {
     }
   }
 
+  getKeyword() {
+    var id = "";
+    if (this.props.match) {
+      id = this.props.match.params.id;
+      const { keywords } = this.props;
+      var kw = keywords.filter(x => {
+        return x._id == id;
+      });
+      return kw[0];
+    }
+
+    return id;
+  }
 
   render() {
     return (
@@ -66,10 +80,17 @@ export default class Index extends Component {
             <Event {...this.props} />{" "}
           </TabPane>
           <TabPane tabId="3">
-            <Extender {...this.props}/>{" "}
+            <Extender keyword={this.getKeyword()} displaySearchBtn={true}/>{" "}
           </TabPane>
         </TabContent>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return { keywords: state.keywords, client: state.client };
+};
+//state表示reducer, combineReducer包含state和dispatch
+export default connect(mapStateToProps)(Index);
+

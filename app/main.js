@@ -99,8 +99,13 @@ if (shouldQuit) {
     mainWindow.on("hide", () => {
       tray.setHighlightMode("never");
     });
-
-    mainWindow.loadURL("file://" + $dirname + "/index.html");
+    var url = require('url')
+    //mainWindow.loadURL("file://" + $dirname + "/index.html");
+    mainWindow.loadURL(url.format({
+      pathname: path.join($dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
 
     const backgroundURL = "file://" + $dirname + "/background.html";
     backgroundProcessHandler = main.createBackgroundProcess(

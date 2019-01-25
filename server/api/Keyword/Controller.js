@@ -147,11 +147,13 @@ exports.create = function(req, res, next) {
 
       //remove duplicate
       keywords = keywords.filter(function(item, pos) {
-        return keywords.indexOf(item) == pos && docs.filter(x=>{
-          return (x.link == req.body.link && x.keyword == item)
-        }).length == 0
+        return (
+          keywords.indexOf(item) == pos &&
+          docs.filter(x => {
+            return x.link == req.body.link && x.keyword == item;
+          }).length == 0
+        );
       });
-
 
       console.info("keywords", keywords);
       if (keywords.length == 0) {
@@ -381,23 +383,76 @@ exports.tasksv1 = function(req, res, next) {
     });
 };
 
-//关键字擦亮结果处理
 exports.polish = function(req, res, next) {
- 
+  if (req.body.rank == undefined ) {
+    res.send("invalid polish");
+    return;
+  }
+  var updateData = {
+    lastPolishedDate: new Date()
+  };
+  if (req.body.opt === "localScan") {
+    updateData["dynamicRank"] = req.body.rank;
+  }
+  if (time.isWorktime()) {
+    updateData["adIndexer"] = req.body.adIndexer || 0;
+  }
 
   if (req.body.opt === "localScan") {
-    if (req.body.rank == undefined || req.body.rank == -1) {
-      res.send('invalid polish')
-      return;
-    }
     var upsertData = {
-      $set: {
-        dynamicRank: req.body.rank,
-        lastPolishedDate: new Date()
+      $set: updateData
+    };
+    Keyword.findOneAndUpdate(
+      {
+        _id: req.body._id
       },
-      $inc: {
-        polishedCount: 1
+      upsertData,
+      {
+        //同时设置这2个参数，否则doc返回null
+        upsert: true,
+        new: true //return the modified document rather than the original. defaults to false
       }
+    ).then(doc => {
+      console.log("localscan", doc);
+      var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+      var log = new PolishLog({
+        keyword_id: req.body._id,
+        user: req.user.sub,
+        keyword: doc.keyword,
+        createDate: new Date(),
+        dynamicRank: doc.dynamicRank,
+        ip: ip
+      });
+      log.save();
+      res.json(doc);
+    });
+  } else {
+    Keyword.findOne({ _id: req.body._id }).then(doc => {
+      keywordPool.polishFinished(req.user.sub, doc.toObject());
+    });
+  }
+};
+
+//关键字擦亮结果处理
+exports.polishv1 = function(req, res, next) {
+  if (req.body.rank == undefined || req.body.rank == -1) {
+    res.send("invalid polish");
+    return;
+  }
+
+  var updateData = {
+    lastPolishedDate: new Date()
+  };
+  if (req.body.opt === "localScan") {
+    updateData["dynamicRank"] = req.body.rank;
+  }
+  if (time.isWorktime()) {
+    updateData["adIndexer"] = req.body.adIndexer || 0;
+  }
+
+  if (req.body.opt === "localScan") {
+    var upsertData = {
+      $set: updateData
     };
     Keyword.findOneAndUpdate(
       {
@@ -418,26 +473,13 @@ exports.polish = function(req, res, next) {
 
   var upsertData = {
     $set: {
-      dynamicRank: req.body.rank,
+      //dynamicRank: req.body.rank,
       lastPolishedDate: new Date()
     },
     $inc: {
       polishedCount: 1
     }
   };
-
-  if (time.isWorktime()) {
-    upsertData = {
-      $set: {
-        dynamicRank: req.body.rank,
-        lastPolishedDate: new Date(),
-        adIndexer: req.body.adIndexer || 0
-      },
-      $inc: {
-        polishedCount: 1
-      }
-    };
-  }
 
   var lastDynamicRank = 0;
   Promise.all([

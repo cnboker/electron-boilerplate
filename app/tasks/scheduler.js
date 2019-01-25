@@ -75,7 +75,7 @@ function main(token) {
 
   //本地查询排名
   //1/min
-  schedule.scheduleJob("*/3 * * * *", function() {
+  schedule.scheduleJob("*/1 * * * *", function() {
     localScanJober.scan();
   });
   //end

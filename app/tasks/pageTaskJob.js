@@ -8,7 +8,20 @@ const auth = require("../auth");
 var logger = require("../logger");
 const SCAN_MAX_PAGE = 12;
 
+async function scanExecute(task){
+  var cheer = require("./cheerioPageTaskJob");
+  var result = await cheer(jobContext.puppeteer, task.doc);
+  task.doc.rank = result.pageIndex;
+  task.doc.adIndexer = result.adIndexer;
+  task.end(task.doc);
+}
+
 async function execute(task) {
+  if(task.action == jobAction.SCAN){
+     scanExecute(task);
+     return;
+  }
+
   if (jobContext.busy || jobContext.puppeteer == undefined) 
     return;
   jobContext.busy = true;
