@@ -28,7 +28,6 @@ class LocalScanJober {
     return task;
   }
 
-  
   //每5分钟执行一次
   static async scan() {
     if (store.isTodayEmpty()) return;
@@ -40,6 +39,7 @@ class LocalScanJober {
     var result = await cheer(jobContext.puppeteer, task.doc);
     task.doc.rank = result.pageIndex;
     task.doc.adIndexer = result.adIndexer;
+    task.doc.title = result.title;
     task.end(task.doc);
 
     if (store.isTodayEmpty()) {
@@ -88,9 +88,9 @@ class LocalScanJober {
       .then(function(err) {
         // console.error(err)
       })
-      .catch(e=>{
-        console.error(e)
-      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 
   static async _fetchData() {

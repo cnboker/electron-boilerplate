@@ -4446,10 +4446,10 @@ function-bind@^1.1.1:
   resolved "http://registry.npm.taobao.org/function-bind/download/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0=
 
-fuzzyset.js@^0.0.8:
-  version "0.0.8"
-  resolved "http://registry.npm.taobao.org/fuzzyset.js/download/fuzzyset.js-0.0.8.tgz#398311fb54a5f84221db2cb143ac8cf1e523ae50"
-  integrity sha1-OYMR+1Sl+EIh2yyxQ6yM8eUjrlA=
+fuse.js@^3.3.0:
+  version "3.3.0"
+  resolved "http://registry.npm.taobao.org/fuse.js/download/fuse.js-3.3.0.tgz#1e4fe172a60687230fb54a5cb247eb96e2e7e885"
+  integrity sha1-Hk/hcqYGhyMPtUpcskfrluLn6IU=
 
 gauge@~2.7.3:
   version "2.7.4"

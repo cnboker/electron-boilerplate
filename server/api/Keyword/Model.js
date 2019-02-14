@@ -21,6 +21,7 @@ var keywordSchema =new Schema({
   adIndexer:Number, //首页广告数量
   mOriginRank:Number, //移动端：系统开始排名，-1表示已扫描未找到
   mDynamicRank:Number, //移动端：当前页数
+  title:String //百家号的网站通过title匹配
 });
 
 module.exports = mongoose.model('Keyword', keywordSchema);

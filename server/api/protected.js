@@ -49,6 +49,7 @@ module.exports = function (app) {
   app.use('/api/pool/finishedPool', jwtCheck, requireScope('full_access'));
   app.use('/api/pool/userPool', jwtCheck, requireScope('full_access'));
   app.use('/api/user/isOnline', jwtCheck, requireScope('full_access'));
+  app.use('/api/analysis/:id', jwtCheck, requireScope('full_access'));
 
   app.use('/api/event/del', jwtCheck, requireScope('full_access'));
   app.use('/api/event/create', jwtCheck, requireScope('full_access'));

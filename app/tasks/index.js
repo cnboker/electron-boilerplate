@@ -17,6 +17,8 @@ var token = {
 };
 
 var jobContext = require("./jobContext");
+var jobAction = require("./jobAction");
+var pageTaskJob = require('./pageTaskJob')
 require("../config");
 process.node_debug = true;
 (async () => {
@@ -36,14 +38,14 @@ process.node_debug = true;
   //     //done();
   //   }
   // };
-  jobContext.puppeteer = require("puppeteer");
+  //jobContext.puppeteer = require("puppeteer");
   // const browser = await jobContext.puppeteer.launch({
   //   headless: false
   // });
 
   // const page = await browser.newPage();
   // await pageTaskJob.inputKeyword(page,'软件定制服务',false);
-  
+
   //await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
@@ -73,6 +75,101 @@ process.node_debug = true;
   // .search('软件定制')
   // logger.info("wordQuery result",result);
 
-  var localScanJober = require('./localScanJober');
-  localScanJober.scan();
+  //  var localScanJober = require('./localScanJober');
+  //  localScanJober.scan();
+  await linkClickTest();
+  //await titleClickTest();
 })();
+
+async function cheerTest(){
+  var cheer = require("./cheerioPageTaskJob");
+     //var result = await cheer(jobContext.puppeteer, {link:'ioliz.com',keyword:'软件定制'});
+     var result = await cheer(jobContext.puppeteer, {link:'dashengpeizi.com',keyword:'最大的配资网站'});
+    console.log('result',result)
+}
+
+//通过链接匹配点击测试
+async function  linkClickTest(){
+   var task = {
+    doc: {
+      userName: "scott",
+      engine: "baidu",
+      link: "ioliz.com",
+      keyword: "充电桩运营系统 软件定制",
+      originRank: 5,
+      dynamicRank: 1
+    },
+    action: jobAction.Polish,
+    end: function(doc) {
+      console.log("polishjober execute doc rank", doc);
+      //done();
+    }
+  };
+  jobContext.puppeteer = require("puppeteer");
+  // const browser = await jobContext.puppeteer.launch({
+  //   headless: false
+  // });
+
+  // const page = await browser.newPage();
+  // await pageTaskJob.inputKeyword(page,'软件定制服务',false);
+
+  await pageTaskJob.execute(task);
+  //await gpageTaskJober.execute(task)
+  //await pageTaskJob.adIndexer()
+  //await pageTaskJob.singleTaskProcess(page,task);
+}
+
+//通过百家号title点击测试
+async function titleClickTest(){
+  var task = {
+    doc: {
+      userName: "scott",
+      engine: "baidu",
+      link: "dashengpeizi.com",
+      keyword: "最大的配资网站",
+      title:'圣配资-股票配资平台_期货配资_在线配资网',
+      originRank: 5,
+      dynamicRank: 1
+    },
+    action: jobAction.Polish,
+    end: function(doc) {
+      console.log("polishjober execute doc rank", doc);
+      //done();
+    }
+  };
+  jobContext.puppeteer = require("puppeteer");
+
+  await pageTaskJob.execute(task);
+}
+
+//百家号标题提交
+async function titleSubmitTest(){
+
+}
+
+function fuzzy(title, stringArray) {
+  var index = 1;
+  var list = stringArray.map(x => {
+    return {
+      title: x,
+      index: index++
+    };
+  });
+  var options = {
+    shouldSort: true,
+    threshold: 0.6,
+    location: 0,
+    distance: 100,
+    maxPatternLength: 32,
+    minMatchCharLength: 1,
+    keys: ["title"]
+  };
+  var fuse = new Fuse(list, options); // "list" is the item array
+  var result = fuse.search(title);
+  console.info(result)
+  var pageIndex = -1;
+  if (result.length > 0) {
+    pageIndex = result[0].index;
+  }
+  return pageIndex;
+}

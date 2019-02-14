@@ -56,7 +56,7 @@ function main(token) {
   //隔5s执行scanJober
   //*/5 * * * * *
   schedule.scheduleJob("*/5 * * * * *", function() {
-    if (jobContext.busy || jobContext.puppeteer == undefined) return;
+    //if (jobContext.busy || jobContext.puppeteer == undefined) return;
     var task = jobContext.popTask(jobAction.SCAN);
     if (task != null) {
       try {

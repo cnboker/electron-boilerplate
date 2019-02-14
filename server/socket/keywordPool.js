@@ -38,7 +38,7 @@ function userJoin(user) {
           $ne: 1
         }
       },
-      "_id user originRank dynamicRank keyword link polishedCount",
+      "_id user originRank dynamicRank keyword link polishedCount title",
       {
         sort: {
           polishedCount: 1

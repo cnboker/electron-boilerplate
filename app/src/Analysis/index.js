@@ -74,7 +74,7 @@ import { connect } from "react-redux";
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Rank {...this.props}  />
+            <Rank {...this.props}  keyword={this.getKeyword().keyword}/>
           </TabPane>
           <TabPane tabId="2">
             <Event {...this.props} />{" "}

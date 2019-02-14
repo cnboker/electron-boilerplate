@@ -65,7 +65,8 @@ exports.today = function(req, res) {
 exports.history = function(req, res) {
   PolishLog.find(
     {
-      keyword_id: req.params.id
+      keyword: req.params.id,
+      user:req.user.sub
     },
     "dynamicRank createDate",
     {
@@ -288,20 +289,23 @@ exports.delete = function(req, res) {
 exports.rank = function(req, res, next) {
   //console.log("server rank  body", req.body);
   if (req.body.rank == null) return;
-
+  var upinsert = {
+    originRank: req.body.rank,
+    dynamicRank: req.body.rank,
+    engine: req.body.engine,
+    isValid: req.body.rank != -1,
+    lastPolishedDate: new Date(),
+    polishedCount: 0,
+    adIndexer: req.body.adIndexer || 0,
+  };
+  if(!req.body.title){
+    upinsert['title'] = req.body.title;
+  }
   Keyword.findOneAndUpdate(
     {
       _id: req.body._id
     },
-    {
-      originRank: req.body.rank,
-      dynamicRank: req.body.rank,
-      engine: req.body.engine,
-      isValid: req.body.rank != -1,
-      lastPolishedDate: new Date(),
-      polishedCount: 0,
-      adIndexer: req.body.adIndexer || 0
-    },
+    upinsert,
     {
       //同时设置这2个参数，否则doc返回null
       new: true,
