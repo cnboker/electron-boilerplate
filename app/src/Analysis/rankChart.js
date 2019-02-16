@@ -20,7 +20,7 @@ class History extends Component {
     dispatch(showLoading());
     Promise.all([
       axios({
-        url: `${process.env.REACT_APP_API_URL}/analysis/${this.props.keyword}`,
+        url: `${process.env.REACT_APP_API_URL}/analysis/${id}`,
         method: "get",
         headers: {
           Authorization: `Bearer ${client.token.access_token}`

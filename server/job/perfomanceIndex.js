@@ -32,7 +32,8 @@ module.exports = function () {
       }, {
         $match: {
           originRank: {
-            $ne: 0
+            $ne: 0,
+            $ne: -1
           },
           dynamicRank: {
             $ne: -1

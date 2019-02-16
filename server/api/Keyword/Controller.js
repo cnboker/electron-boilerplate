@@ -65,8 +65,7 @@ exports.today = function(req, res) {
 exports.history = function(req, res) {
   PolishLog.find(
     {
-      keyword: req.params.id,
-      user:req.user.sub
+      keyword_id: req.params.id
     },
     "dynamicRank createDate",
     {
@@ -287,7 +286,7 @@ exports.delete = function(req, res) {
 
 //scan job
 exports.rank = function(req, res, next) {
-  //console.log("server rank  body", req.body);
+  console.log("server rank  body", req.body);
   if (req.body.rank == null) return;
   var upinsert = {
     originRank: req.body.rank,
@@ -395,14 +394,17 @@ exports.polish = function(req, res, next) {
   var updateData = {
     lastPolishedDate: new Date()
   };
-  if (req.body.opt === "localScan") {
-    updateData["dynamicRank"] = req.body.rank;
-  }
+
   if (time.isWorktime()) {
     updateData["adIndexer"] = req.body.adIndexer || 0;
   }
-
+  
   if (req.body.opt === "localScan") {
+    updateData.dynamicRank = req.body.rank;
+    if(req.body.title){
+      updateData.title = req.body.title;
+    }
+    console.info('polish updatedate---------', updateData)
     var upsertData = {
       $set: updateData
     };
