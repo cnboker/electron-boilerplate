@@ -140,21 +140,20 @@ exports.list = function (req, res, next) {
   var query = {};
   if (req.query.status >= 0) {
     query.status = req.query.status;
-  } else {
-    if (req.query.grade > 0) {
-      query.grade = req.query.grade;
-    }
-    if (req.query.name) {
-      query.userName = {
-        $regex: ".*" + req.query.name + ".*",
-        $ne: "admin"
-      };
-    }
-    query.createDate = {
-      $gt: req.query.startDate,
-      $lt: req.query.endDate
+  }
+  if (req.query.grade > 0) {
+    query.grade = req.query.grade;
+  }
+  if (req.query.name) {
+    query.userName = {
+      $regex: ".*" + req.query.name + ".*",
+      $ne: "admin"
     };
   }
+  query.createDate = {
+    $gt: req.query.startDate,
+    $lt: req.query.endDate
+  };
   console.log('query:', query)
   Promise.all([
     Keyword.aggregate([
@@ -170,8 +169,7 @@ exports.list = function (req, res, next) {
 
     User.paginate(query, {
       page: + req.query.page + 1,
-      limit: + req.query.limit
-    }, {
+      limit: + req.query.limit,
       sort: {
         createDate: -1
       }
@@ -247,10 +245,10 @@ exports.signup = async function (req, res, next) {
   if (req.body.reference) {
     var reference = await User.findOne({rewardCode: req.body.reference})
     if (!reference) {
-       res
+      res
         .status(400)
         .send(`推荐码${req.body.reference}不存在`);
-        return;
+      return;
     }
   }
 
@@ -264,8 +262,8 @@ exports.signup = async function (req, res, next) {
     if (doc) {
       throw `用户${userName}或${email}已存在`;
     }
-    var rc = await RewardCode.findOne({isUsed:false})
-    rc.isUsed =true;
+    var rc = await RewardCode.findOne({isUsed: false})
+    rc.isUsed = true;
     await rc.save();
     console.log('rewardCode=', rc)
     var user = new User({
@@ -279,7 +277,7 @@ exports.signup = async function (req, res, next) {
       lostPoint: 0,
       engine: "baidu",
       point: 0,
-      rewardCode:rc.code
+      rewardCode: rc.code
     });
 
     return user.save();

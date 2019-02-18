@@ -132,6 +132,7 @@ class List extends Component {
           <td>{this.stringFormatTime(item.lastLoginDate)}</td>
           <td>{this.isOnline(item.status)}</td>
           <td>{item.userTypeText}</td>
+          <td>{this.stringFormat(item.createDate)}</td>
           <td>{this.stringFormat(item.vipExpiredDate)}</td>
           <td>{item.point}</td>
           <td>{(item.performanceIndex || 0).toFixed(2)}</td>
@@ -151,7 +152,7 @@ class List extends Component {
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
         <p>
-          在线用户数:
+          合计:
           {
             this.state.total
           }        
@@ -169,6 +170,7 @@ class List extends Component {
                 <th>登录时间</th>
                 <th>在线</th>
                 <th>会员类型</th>
+                <th>注册日期</th>
                 <th>到期日期</th>
                 <th>积分</th>
                 <th>优化指数</th>

@@ -21,32 +21,32 @@ var performanceIndex = require('./perfomanceIndex');
 var mongoose = require("mongoose"); //.set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE
 mongoose.Promise = require("bluebird");
-//mongoose.Promise = global.Promise;
 
-(function  doJob() {
+(function doJob() {
+  mongoose.connect("mongodb://localhost/kwPolish");
+ 
+  performanceIndex().then(() => {
+    console.log('perfomance end'),
+    mongoose.disconnect();
+  })
   //run every day at 23:00
-  schedule
-    .scheduleJob("00 00 23 * * 0-6", function () {
-      mongoose.connect("mongodb://localhost/kwPolish");
-      vipJob().then(()=>{
-        console.log('reset')
-        return resetTodayPolishJob();
-      })
-      .then(()=>{
-        console.log('performanceIndex')
-        return performanceIndex();
-      })
-      .then(()=>{
-        console.log('disconnect')
-        mongoose.disconnect();
-      })
-      .catch(e=>{
-        console.log(e)        
-      })
-    });
+  schedule.scheduleJob("00 00 23 * * 0-6", function () {
+
+    vipJob().then(() => {
+      console.log('reset')
+      return resetTodayPolishJob();
+    }).then(() => {
+      console.log('performanceIndex')
+      return performanceIndex();
+    }).then(() => {
+      console.log('disconnect')
+      mongoose.disconnect();
+    }).catch(e => {
+      console.log(e)
+    })
+  });
 
   //per m
   schedule.scheduleJob("*/2 * * * *", function () {});
   //end
 })();
-
