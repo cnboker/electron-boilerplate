@@ -54,8 +54,10 @@ module.exports.shift = function(user) {
 //user:username
 module.exports.end = function(user, doc) {
   doc.tasker = user;
+  doc.update = new Date();
   finishedPool.push(doc);
   if (finishedPool.length > POOL_MAX_LENGTH) {
     finishedPool.splice(0, finishedPool.length - POOL_MAX_LENGTH);
   }
+
 };

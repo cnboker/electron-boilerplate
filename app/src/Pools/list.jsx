@@ -71,7 +71,8 @@ class List extends Component {
           <td>{this.stringFormat(item.originRank)}</td>
           <td>{this.stringFormat(item.dynamicRank)}</td>
           <td>{this.stringFormat(item.polishedCount)}</td>
-          <td>{this.stringFormat(item.tasker)}</td>     
+          <td>{this.stringFormat(item.tasker)}</td>   
+          <td>{this.stringFormat(item.update)}</td>   
         </tr>
       );
     });
@@ -110,7 +111,7 @@ class List extends Component {
 
         <div className="table-responsive">
           <br />
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped   table-sm">
             <thead>
               <tr>
                 <th>用户</th>
@@ -120,6 +121,7 @@ class List extends Component {
                 <th>最新排名</th>
                 <th>擦亮次数</th>
                 <th>执行人</th>
+                <th>更新日期</th>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>

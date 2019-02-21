@@ -312,7 +312,7 @@ exports.rank = function(req, res, next) {
     }
   )
     .then(doc => {
-      req.socketServer.keywordRank(doc);
+      req.socketServer.refreshPage(doc);
       res.json(doc);
     })
     .catch(e => {

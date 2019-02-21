@@ -77,12 +77,12 @@ class SocketServer {
   }
 
   //rank完成，通知在线客户端polish
-  keywordRank(doc) {
-    var socket = clients[doc.user];
+  //doc:keyword
+  refreshPage(keyword) {
+    var socket = clients[keyword.user];
     if (socket) {
       socket.emit("refreshPage");
     }
-    //sharePool.push(doc)
   }
 
   //用户关键暂停或删除，通知其他用户不再polish

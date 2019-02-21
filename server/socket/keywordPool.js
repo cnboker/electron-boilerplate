@@ -75,32 +75,35 @@ function userJoin(user) {
 // keyword: polish keyword object
 function polishFinished(user, doc) {
   if (user != doc.user) {
+    Promise.all([
+      User.findOneAndUpdate(
+        {
+          userName: user
+        },
+        {
+          $inc: {
+            point: 1,
+            todayPolishedCount: 1
+          }
+        },
+        { upsert: true, new: true }
+      ),
+      //keyword user decrease point
+      User.findOneAndUpdate(
+        {
+          userName: doc.user
+        },
+        {
+          $inc: {
+            point: -1
+          }
+        },
+        { upsert: true, new: true }
+      )
+    ]).then(([a, b]) => {
+      console.log("update user point");
+    });
     //current add point
-    User.findOneAndUpdate(
-      {
-        userName: user
-      },
-      {
-        $inc: {
-          point: 1,
-          todayPolishedCount: 1
-        }
-      },
-      { upsert: true, new: true }
-    );
-
-    //keyword user decrease point
-    User.findOneAndUpdate(
-      {
-        userName: doc.user
-      },
-      {
-        $inc: {
-          point: -1
-        }
-      },
-      { upsert: true,new: true }
-    );
   }
 
   sharePool.end(user, doc);
