@@ -27,7 +27,7 @@ module.exports = function () {
           $and: [
             {
               originRank: {
-                $nin: [0, -1]
+                $nin: [0, -1, undefined]
               }
             }, {
               dynamicRank: {

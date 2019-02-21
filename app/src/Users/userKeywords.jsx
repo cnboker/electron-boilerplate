@@ -192,6 +192,7 @@ class List extends Component {
             <td>{this.stringFormat(item.dynamicRank)}</td>
             <td>{this.getDiff(item)}</td>
             <td>{this.stringFormat(item.polishedCount)}</td>
+            <td>{this.stringFormat(item.todayPolishedCount)}</td>
             <td>
                 {
                  this.getFire(item)
@@ -262,7 +263,7 @@ class List extends Component {
 
         <div className="table-responsive">
           <br />
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped  table-sm">
             <thead>
               <tr>
                 <th
@@ -277,6 +278,7 @@ class List extends Component {
                 <th>新排名</th>
                 <th>差异</th>
                 <th>点击</th>
+                <th>今击</th>
                 <th>商业热度</th>
                 <th>有效</th>
                 <th>天数</th>

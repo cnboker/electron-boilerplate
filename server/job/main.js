@@ -25,10 +25,7 @@ mongoose.Promise = require("bluebird");
 (function doJob() {
   mongoose.connect("mongodb://localhost/kwPolish");
  
-  performanceIndex().then(() => {
-    console.log('perfomance end'),
-    mongoose.disconnect();
-  })
+
   //run every day at 23:00
   schedule.scheduleJob("00 00 23 * * 0-6", function () {
 

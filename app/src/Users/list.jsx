@@ -16,30 +16,33 @@ class List extends Component {
       pageCount: 1,
       data: []
     };
-    this.page = 0;
   }
 
   pagination = data => {
-    this.page = data.selected;
+    this.terms.page = data.selected;
     this.query();
   };
 
   query(terms) {
     this.terms = terms || this.terms;
     this.fetch({
-      page: this.page,
-      limit: PAGE_SIZE,
-      ...this.terms
+      ...this.terms,
+      limit: PAGE_SIZE
     });
   }
 
   fetch(ps) {
-    //console.log('paramters',ps)
+    console.log("paramters", ps);
+
     var self = this;
     crudActions
       .fetch(ps, this.props.client)
       .then(result => {
-        self.setState({ total:result.data.total, data: result.data.docs, pageCount: result.data.pages });
+        self.setState({
+          total: result.data.total,
+          data: result.data.docs,
+          pageCount: result.data.pages
+        });
       })
       .catch(e => {
         console.log(e);
@@ -91,7 +94,7 @@ class List extends Component {
 
   stringFormatTime(val) {
     if (!val) return "";
-    return moment(val).format("MM-DD HH:mm");
+    return moment(val).format("HH:mm");
   }
 
   isValidDate(value) {
@@ -122,8 +125,13 @@ class List extends Component {
     return this.state.data.map(item => {
       return (
         <tr key={item._id}>
+          <td>
+            <Switch
+              on={item.locked}
+              onClick={this.toggleSwitch.bind(this, item)}
+            />
+          </td>
           <td>{item.userName}</td>
-          <td>{item.email}</td>
           <td>
             <Link to={`/users/keywords/${item.userName}`}>
               {this.stringFormat(item.keywordCount)}
@@ -136,12 +144,9 @@ class List extends Component {
           <td>{this.stringFormat(item.vipExpiredDate)}</td>
           <td>{item.point}</td>
           <td>{(item.performanceIndex || 0).toFixed(2)}</td>
-          <td>
-            <Switch
-              on={item.locked}
-              onClick={this.toggleSwitch.bind(this, item)}
-            />
-          </td>
+          <td>{item.todayPolishedCount || 0}</td>
+
+          <td>{item.email}</td>
         </tr>
       );
     });
@@ -153,28 +158,27 @@ class List extends Component {
         <Dialog ref="dialog" />
         <p>
           合计:
-          {
-            this.state.total
-          }        
+          {this.state.total}
         </p>
         <UserQuery query={this.query.bind(this)} />
 
         <div className="table-responsive">
           <br />
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped  table-sm">
             <thead>
               <tr>
+                <th>拉黑</th>
                 <th>用户名称</th>
-                <th>邮箱</th>
                 <th>词数</th>
-                <th>登录时间</th>
+                <th>登录</th>
                 <th>在线</th>
                 <th>会员类型</th>
                 <th>注册日期</th>
                 <th>到期日期</th>
                 <th>积分</th>
                 <th>优化指数</th>
-                <th>拉黑</th>
+                <th>今点</th>
+                <th>邮箱</th>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>

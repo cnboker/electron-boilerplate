@@ -37,7 +37,8 @@ export default class UserQuery extends Component {
                         .format('YYYY-MM-DD'),
                     status: this.state.status.value,
                     name: this.state.name,
-                    grade: this.state.grade.value
+                    grade: this.state.grade.value,
+                    page:0
                 })
         }
     }

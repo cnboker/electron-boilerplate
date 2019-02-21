@@ -163,15 +163,15 @@ class List extends Component {
               <Link
                 to={`/analysis/${item._id}`}
                 role="button"
-                className="btn btn-info"
+                className="btn btn-info btn-sm"
               >
-                <i className="fa fa-signal fa-lg" />
+                <i className="fa fa-signal fa-small" />
                 {/*  https://fontawesome.com/v4.7.0/icons/ */}
               </Link>
             </td>
             <td>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger btn-sm"
                 onClick={this.onDelete.bind(this, item)}
               >
                 <i className="fa fa-trash" />
@@ -250,7 +250,7 @@ class List extends Component {
 
         <div className="table-responsive">
           <br />
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
                 <th
@@ -270,6 +270,7 @@ class List extends Component {
                 <th>有效</th>
                 <th>状态</th>
                 <th>跟踪</th>
+               
                 {/*<th>上次擦亮时间</th>
                 <th>创建日期</th>*/}
                 <th />

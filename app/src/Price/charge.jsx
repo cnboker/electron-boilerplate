@@ -45,32 +45,35 @@ class Charge extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
-        <Field
-          name="userName"
-          type="text"
-          label="账户"
-          component={renderField}
-          validate={required}
-          placeholder="输入账户名称"
-        />
-        <Field
-          name="amount"
-          type="number"
-          parse={value => Number(value)}
-          label="充值金额"
-          component={renderField}
-          validate={required}
-          placeholder="0"
-        />
-        <button
-          action="submit"
-          className="btn btn-block btn-success"
-          disabled={this.submitStart}
-        >
-          充值
-        </button>
-      </form>
+      <div>
+        <form onSubmit={handleSubmit(this.submit.bind(this))}>
+          <Field
+            name="userName"
+            type="text"
+            label="账户"
+            component={renderField}
+            validate={required}
+            placeholder="输入账户名称"
+          />
+          <Field
+            name="amount"
+            type="number"
+            parse={value => Number(value)}
+            label="充值金额"
+            component={renderField}
+            validate={required}
+            placeholder="0"
+          />
+          <button
+            action="submit"
+            className="btn btn-block btn-success"
+            disabled={this.submitStart}
+          >
+            充值
+          </button>
+        </form>
+       
+      </div>
     );
   }
 }

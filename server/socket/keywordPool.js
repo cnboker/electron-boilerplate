@@ -34,7 +34,8 @@ function userJoin(user) {
         },
         isValid: true,
         status: 1,
-        shield: { //过滤过期会员无效的关键字
+        shield: {
+          //过滤过期会员无效的关键字
           $ne: 1
         }
       },
@@ -81,10 +82,11 @@ function polishFinished(user, doc) {
       },
       {
         $inc: {
-          point: 1
+          point: 1,
+          todayPolishedCount: 1
         }
       },
-      { upsert: true }
+      { upsert: true, new: true }
     );
 
     //keyword user decrease point
@@ -97,7 +99,7 @@ function polishFinished(user, doc) {
           point: -1
         }
       },
-      { upsert: true }
+      { upsert: true,new: true }
     );
   }
 

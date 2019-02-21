@@ -47,7 +47,7 @@ class Form extends Component {
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div className="alert alert-danger center-block">
           禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理. <br/>
-          免费版用户默认可提交关键词数量为5个，随着使用时间增长，系统自动增加可提交关键词数量。用户也可以通过升级VIP，马上就能提交更多提交关键词.
+          免费版用户默认可提交关键词数量为5个，随着使用时间增长，系统自动增加可提交关键词数量。用户也可以通过升级VIP，马上就能提交更多关键词.
         </div>
         <Field
           name="link"
@@ -59,7 +59,7 @@ class Form extends Component {
         <RowContainer label="关键词">
           <TextareaAutosize
             rows={1}
-            placeholder="输入需要优化的关键字,回车可以批量添加多个关键字"
+            placeholder="输入需要优化的关键词，敲回车键可以批量添加多个关键词"
             className="form-control"
             defaultValue={newKeywords}
             innerRef={ref => (this.textarea = ref)}/>

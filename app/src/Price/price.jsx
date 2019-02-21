@@ -1,11 +1,12 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Index extends Component {
   render() {
     const authenticated = localStorage.getItem("token") != undefined;
+    const linkAction =
+      this.props.action == undefined ? true : this.props.action;
     return (
-     
       <div>
         <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
           <p className="lead">升级为付费会员优先排.</p>
@@ -17,7 +18,8 @@ export default class Index extends Component {
                 <h4 className="my-0 font-weight-normal">免费帐户</h4>
               </div>
               <div className="card-body">
-                <h1 className="card-title pricing-card-title">¥0
+                <h1 className="card-title pricing-card-title">
+                  ¥0
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
@@ -27,7 +29,14 @@ export default class Index extends Component {
                   <li>远程技术支持</li>
                   <li>&nbsp;</li>
                 </ul>
-                {!authenticated&&<Link to="/login" className="btn btn-lg btn-block btn-outline-primary">注册</Link>}
+                {!authenticated && (
+                  <Link
+                    to="/login"
+                    className="btn btn-lg btn-block btn-outline-primary"
+                  >
+                    注册
+                  </Link>
+                )}
               </div>
             </div>
             <div className="card mb-4 box-shadow">
@@ -35,7 +44,8 @@ export default class Index extends Component {
                 <h4 className="my-0 font-weight-normal">VIP帐户</h4>
               </div>
               <div className="card-body">
-                <h1 className="card-title pricing-card-title">¥199
+                <h1 className="card-title pricing-card-title">
+                  ¥199
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
@@ -45,32 +55,44 @@ export default class Index extends Component {
                   <li>远程技术支持</li>
                   <li>&nbsp;</li>
                 </ul>
-                <Link to="/sn/snActive" className="btn btn-lg btn-block btn-primary">升级为标准账号</Link>
+                {linkAction && (
+                  <Link
+                    to="/sn/snActive"
+                    className="btn btn-lg btn-block btn-primary"
+                  >
+                    升级为标准账号
+                  </Link>
+                )}
               </div>
             </div>
             <div className="card mb-4 box-shadow">
               <div className="card-header">
-                <h4 className="my-0 font-weight-normal">企业帐户
-                </h4>
+                <h4 className="my-0 font-weight-normal">企业帐户</h4>
               </div>
               <div className="card-body">
-                <h1 className="card-title pricing-card-title">？
-                  <small className="text-muted"></small>
+                <h1 className="card-title pricing-card-title">
+                  ？<small className="text-muted" />
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                <li>根据客户需求定制收费</li>
-                <li>无需安装客户端</li>
-                <li>&nbsp;</li>
-                <li>&nbsp;</li>
-                <li>&nbsp;</li>
+                  <li>根据客户需求定制收费</li>
+                  <li>无需安装客户端</li>
+                  <li>&nbsp;</li>
+                  <li>&nbsp;</li>
+                  <li>&nbsp;</li>
                 </ul>
-                <Link to="/contact" className="btn btn-lg btn-block btn-primary">联系我们</Link>
+                {linkAction && (
+                  <Link
+                    to="/contact"
+                    className="btn btn-lg btn-block btn-primary"
+                  >
+                    联系我们
+                  </Link>
+                )}
               </div>
             </div>
           </div>
-
         </div>
       </div>
-    )
+    );
   }
 }
