@@ -14,12 +14,12 @@ async function indexOf(urls, matchLink) {
     var response = await axios.get(url);
     // Load the web page source code into a cheerio instance
     const $ = cheerio.load(response.data);
-    
-    const urlElems = $("div.result", "#content_left");
+   // console.log(response.data)
+    const urlElems = $("div.c-container", "#content_left");
    
     for (let i = 0; i < urlElems.length; i++) {
       var title = $(urlElems[i]).find('h3').text();
-      var content = $(urlElems[i]).text();
+      var content = $(urlElems[i]).find('.f13').text();
       
       contentsArray.push({
         title,

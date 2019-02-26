@@ -55,7 +55,7 @@ class Form extends Component {
           label="网站域名"
           component={renderField}
           validate={required}
-          placeholder="输入需要提升排名的网站域名,不加http://"/>
+          placeholder="有熊掌号请输入熊掌号,没有得输入需要提升排名的网站域名不加http://"/>
         <RowContainer label="关键词">
           <TextareaAutosize
             rows={1}

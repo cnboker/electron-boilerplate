@@ -33,6 +33,28 @@ class List extends Component {
     return this.props.dispatch;
   }
 
+  onReset(entity,event){
+    event.preventDefault();
+    this.refs.dialog.show({
+      title: "提示",
+      body: "确定要重置此项吗?",
+      actions: [
+        Dialog.CancelAction(() => {
+          console.log("dialog cancel");
+        }),
+        Dialog.OKAction(() => {
+          entity.action = 'reset';
+          const action = crudActions.update(entity, this.props.client);
+          this.dispatch(action);
+        })
+      ],
+      bsSize: "small",
+      onHide: dialog => {
+        dialog.hide();
+      }
+    });
+  }
+
   onDelete(entity, event) {
     event.preventDefault();
 
@@ -160,7 +182,7 @@ class List extends Component {
             </td>
         */}
             <td>
-              <Link
+              <Link title="排名历史"
                 to={`/analysis/${item._id}`}
                 role="button"
                 className="btn btn-info btn-sm"
@@ -170,16 +192,24 @@ class List extends Component {
               </Link>
             </td>
             <td>
-              <button
+              <button title="删除"
                 className="btn btn-danger btn-sm"
                 onClick={this.onDelete.bind(this, item)}
               >
                 <i className="fa fa-trash" />
               </button>{" "}
+              <button title="重置"
+                className="btn btn-warning btn-sm"
+                onClick={this.onReset.bind(this, item)}
+              >
+                <i className="fa fa-undo" />
+              </button>{" "}
               <Switch
                 on={item.status == 1}
                 onClick={this.toggleSwitch.bind(this, item)}
               />
+             
+            
             </td>
           </tr>
         );

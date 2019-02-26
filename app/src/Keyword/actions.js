@@ -112,6 +112,7 @@ let actionCreators = {
 
   
   update(entity,client){
+    var action = entity.action;
     return function(dispatch){
       const optimisticAction = baseActionCreators.updateStart(entity)
       dispatch(optimisticAction)
@@ -130,6 +131,9 @@ let actionCreators = {
 
       promise.then(function(response){
         const returned = response.data;
+        if(action === 'reset'){
+          sendToBackground('keyword_create',[returned])
+        }
         const successAction = baseActionCreators.updateSuccess(returned);
         dispatch(successAction);
       },function(response){
@@ -174,7 +178,7 @@ let actionCreators = {
     }
   },
 
-
+ 
 }
 
 actionCreators = r.merge(baseActionCreators,actionCreators)

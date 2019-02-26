@@ -19,10 +19,10 @@ async function scanExecute(task) {
 }
 
 async function execute(task) {
-  if (task.action == jobAction.SCAN) {
-    scanExecute(task);
-    return;
-  }
+  // if (task.action == jobAction.SCAN) {
+  //   scanExecute(task);
+  //   return;
+  // }
 
   if (jobContext.busy || jobContext.puppeteer == undefined) return;
   jobContext.busy = true;

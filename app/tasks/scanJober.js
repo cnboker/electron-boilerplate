@@ -56,7 +56,7 @@ class ScanJober {
             }
         }).then(function(response){
             messager("message", `${doc.keyword}排名检测完成`);
-       
+            messager("pageRefresh");
         }).then(function(err){
            // console.error(err)
         })

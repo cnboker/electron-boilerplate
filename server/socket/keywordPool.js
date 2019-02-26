@@ -71,7 +71,7 @@ function userJoin(user) {
   });
 }
 
-//任务完成 user:current user
+// 任务完成 user:current user
 // keyword: polish keyword object
 function polishFinished(user, doc) {
   if (user != doc.user) {
@@ -82,8 +82,7 @@ function polishFinished(user, doc) {
         },
         {
           $inc: {
-            point: 1,
-            todayPolishedCount: 1
+            point: 1
           }
         },
         { upsert: true, new: true }
@@ -95,7 +94,8 @@ function polishFinished(user, doc) {
         },
         {
           $inc: {
-            point: -1
+            point: -1,
+            todayPolishedCount: 1
           }
         },
         { upsert: true, new: true }

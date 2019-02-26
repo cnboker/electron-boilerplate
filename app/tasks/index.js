@@ -38,7 +38,7 @@ process.node_debug = true;
   //     //done();
   //   }
   // };
-  //jobContext.puppeteer = require("puppeteer");
+  jobContext.puppeteer = require("puppeteer");
   // const browser = await jobContext.puppeteer.launch({
   //   headless: false
   // });
@@ -77,14 +77,15 @@ process.node_debug = true;
 
   //  var localScanJober = require('./localScanJober');
   //  localScanJober.scan();
-  await linkClickTest();
+ // await linkClickTest();
   //await titleClickTest();
+  await cheerTest();
 })();
 
 async function cheerTest(){
   var cheer = require("./cheerioPageTaskJob");
      //var result = await cheer(jobContext.puppeteer, {link:'ioliz.com',keyword:'软件定制'});
-     var result = await cheer(jobContext.puppeteer, {link:'dashengpeizi.com',keyword:'最大的配资网站'});
+     var result = await cheer(jobContext.puppeteer, {link:'搜狐网',keyword:'流浪地球资源'});
     console.log('result',result)
 }
 

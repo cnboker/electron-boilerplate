@@ -221,12 +221,17 @@ exports.read = function(req, res) {
   });
 };
 
-exports.update = function(req, res) {
-  Keyword.findOne(
-    {
-      _id: req.params.id
-    },
-    function(err, obj) {
+exports.update = function(req, res, next) {
+  Keyword.findOne({
+    _id: req.params.id
+  })
+    .then(obj => {
+      if (req.body.action == "reset") {
+        obj.originRank = 0;
+        obj.dynamicRank = 0;
+        obj.status = 1;
+        return obj.save();
+      }
       if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
         obj.originRank = 0;
       }
@@ -243,21 +248,15 @@ exports.update = function(req, res) {
           req.socketServer.keywordPause(req.user.sub, req.params.id);
         }
       }
-
-      // if (obj.originRank == 0) {
-      //   //私信给特定用户
-      //   taskio.to(req.user.sub).emit("keyword_create", obj.toObject());
-      // }
-
-      obj.save(function(err, doc) {
-        if (err) {
-          res.send(err);
-          return;
-        }
-        res.json(doc);
-      });
-    }
-  );
+      return obj.save();
+    })
+    .then(doc => {
+      res.json(doc);
+    })
+    .catch(e => {
+      logger.error(e);
+      return next(boom.badRequest(e));
+    });
 };
 
 exports.delete = function(req, res) {
@@ -312,7 +311,7 @@ exports.rank = function(req, res, next) {
     }
   )
     .then(doc => {
-      req.socketServer.refreshPage(doc);
+      //req.socketServer.refreshPage(doc);
       res.json(doc);
     })
     .catch(e => {
@@ -524,7 +523,9 @@ function dynamicPolish(req, res, next) {
         ip: ip
       });
       log.save();
-      keywordPool.polishFinished(req.user.sub, doc.toObject());
+      var obj = doc.toObject();
+      req.socketServer.refreshPage(obj);
+      keywordPool.polishFinished(req.user.sub, obj);
       res.json(doc);
     })
     .catch(e => {
