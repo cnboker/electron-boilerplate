@@ -45,9 +45,14 @@ async function execute(task) {
   // Buffer.from('user:pass').toString('base64'), });
 
   const page = await browser.newPage();
+  await page.setViewport({
+    width: 1600,
+    height: 600
+  });
+  await page.setCacheEnabled(false)
   //无痕窗口
-  page.setExtraHTTPHeaders({ DNT: "1" });
-  await page._client.send("Network.clearBrowserCookies");
+  //page.setExtraHTTPHeaders({ DNT: "1" });
+  //await page._client.send("Network.clearBrowserCookies");
 
   singleTaskProcess(page, task)
     .then(() => {
@@ -115,8 +120,8 @@ async function singleTaskProcess(page, task) {
           }
         }
         scroll(page);
-        page.click(nextpageSelector);
-
+        //page.click(nextpageSelector);
+        await page.evaluate((selector)=>document.querySelector(selector).click(),nextpageSelector)
         if (task.action == jobAction.Polish) {
           await sleep(random(10000, 20000));
         } else {
@@ -189,25 +194,31 @@ async function goPage(page, pageIndex) {
 }
 
 //输入框模拟输入关键词
+//测试比较准确，不要改sleep
 async function inputKeyword(page, input, anyclick) {
   const pageUrl = "https://www.baidu.com";
-  //page.setViewport({width: 960, height: 768});
-  await page.goto(pageUrl, { waitUtil: "load" });
+  //page.setBypassCSP(true)
+  await page.goto(pageUrl, { waitUntil : ['load', 'domcontentloaded']} );
 
   await page.waitForSelector("#kw", { visible: true });
-  await page.focus("#kw");
-  //await page.waitFor("#kw");
+  
+  await sleep(3000);
   await page.$eval("#kw", (el, input) => (el.value = input), input);
+  await sleep(3000);
+  // await page.evaluate(() => {
+  //   document.querySelector("#su").click();
+  // });
+  await page.keyboard.press('Enter');
+  // var ks = require('node-key-sender');
+  // try{
+  //   await ks.sendKey('enter');
+  // }catch(e){
 
+  // }
+ 
   await sleep(2000);
-
-  await page.evaluate(() => {
-    document.querySelector("#su").click();
-  });
-  //
-  await sleep(2000);
-
-  //await page.keyboard.press('Enter')
+  await page.reload();
+ // await page.keyboard.press('Enter')
 
   // let pages = await page.browser().pages();
   // var url = pages[pages.length - 1].url();

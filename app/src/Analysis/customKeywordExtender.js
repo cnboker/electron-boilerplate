@@ -29,7 +29,7 @@ class CustomKeywordExtender extends Component {
           <input ref="inputBox"
             type="text"
             className="form-control"
-            placeholder="输入关键字，回车键查询"
+            placeholder="输入关键词，敲回车键开始智能拓词"
             aria-label="keyword"
             aria-describedby="addon-wrapping"
             onKeyPress={this.handleKeyPress}

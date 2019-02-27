@@ -5,15 +5,13 @@ const electron = require("electron");
 const app = electron.app; // Module to control application life.
 
 require("./config");
-
+var logger = require("./logger");
 
 const { autoUpdater } = require("electron-updater");
 //引用远程未注册模块
 const main = require("./node_modules/electron-process/src/main");
 var extender = require("./mainExtend");
 extender.enableAuto();
-
-
 
 const crashReporter = electron.crashReporter;
 crashReporter.start({
@@ -36,11 +34,9 @@ const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
   }
 });
 
-
 if (shouldQuit) {
   app.quit();
 } else {
-  var logger = require("./logger");
   autoUpdater.on("update-downloaded", (ev, info) => {
     // Wait 5 seconds, then quit and install
     // In your application, you don't need to wait 5 seconds.
@@ -50,10 +46,13 @@ if (shouldQuit) {
     }, 5000);
   });
 
+ 
+
   global.backgroundProcessHandler = null;
   //require('electron-debug')();
   app.on("ready", function() {
     var debug = process.env.NODE_ENV == "development";
+    logger.info("app ready");
 
     // mainWindow = new BrowserWindow({
     // 	width: 1280,
@@ -99,13 +98,15 @@ if (shouldQuit) {
     mainWindow.on("hide", () => {
       tray.setHighlightMode("never");
     });
-    var url = require('url')
+    var url = require("url");
     //mainWindow.loadURL("file://" + $dirname + "/index.html");
-    mainWindow.loadURL(url.format({
-      pathname: path.join($dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join($dirname, "index.html"),
+        protocol: "file:",
+        slashes: true
+      })
+    );
 
     const backgroundURL = "file://" + $dirname + "/background.html";
     backgroundProcessHandler = main.createBackgroundProcess(
@@ -120,11 +121,25 @@ if (shouldQuit) {
 
     mainWindow.on("closed", onClosed);
 
-    logger.info("检测有无新版本");
-    try {
-      autoUpdater.checkForUpdates();
-    } catch (e) {}
+    var hour1 = 60 * 60 * 1000;
+    var random = require("./tasks/random");
+    checkForUpdate(random(30000, hour1 * 6));
+    checkForUpdate(random(30000, hour1 * 6));
   });
+
+  var updatecheck = false;
+  function checkForUpdate(delay) {
+    logger.info("checkForUpdate-delay", delay/60000);
+    setTimeout(function() {
+      try {
+        if (!updatecheck) {
+          logger.info("检测有无新版本");
+          updatecheck = true;
+          autoUpdater.checkForUpdates();
+        }
+      } catch (e) {}
+    }, delay);
+  }
 
   function sendStatusToWindow(text) {
     logger.info(text);

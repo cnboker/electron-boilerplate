@@ -11,7 +11,7 @@ export default class UserQuery extends Component {
         this.state = {
             name: '',
             startDate: moment().subtract("days", 360),
-            endDate: moment(),
+            endDate: moment().add('days',1),
             status: {
                 label: '在线',
                 value: 1

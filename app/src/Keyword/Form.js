@@ -55,11 +55,11 @@ class Form extends Component {
           label="网站域名"
           component={renderField}
           validate={required}
-          placeholder="有熊掌号请输入熊掌号,没有得输入需要提升排名的网站域名不加http://"/>
+          placeholder="如已开通熊掌号，请输入熊掌号。否则，输入目标网站域名，不加http://"/>
         <RowContainer label="关键词">
           <TextareaAutosize
             rows={1}
-            placeholder="输入需要优化的关键词，敲回车键可以批量添加多个关键词"
+            placeholder="输入要优化的关键词。批量添加关键词，请敲回车键，每个关键词单独一行"
             className="form-control"
             defaultValue={newKeywords}
             innerRef={ref => (this.textarea = ref)}/>

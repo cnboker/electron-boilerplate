@@ -22,31 +22,30 @@ var pageTaskJob = require('./pageTaskJob')
 require("../config");
 process.node_debug = true;
 (async () => {
-  // var task = {
-  //   doc: {
-  //     userName: "scott",
-  //     engine: "baidu",
-  //     link: "ioliz.com",
-  //     keyword: "数字标牌内容发布系统 定制开发",
-  //     originRank: 5,
-  //     dynamicRank: 1,
-  //     navUrl:`https://www.baidu.com/s?wd=数字标牌内容发布系统 定制开发`
-  //   },
-  //   action: jobAction.SCAN,
-  //   end: function(doc) {
-  //     //console.log("polishjober execute doc rank", doc);
-  //     //done();
-  //   }
-  // };
+  var task = {
+    doc: {
+      userName: "scott",
+      engine: "baidu",
+      link: "ioliz.com",
+      keyword: "定制数字标牌发布系统",
+      originRank: 5,
+      dynamicRank: 1,
+    },
+    action: jobAction.SCAN,
+    end: function(doc) {
+      //console.log("polishjober execute doc rank", doc);
+      //done();
+    }
+  };
   jobContext.puppeteer = require("puppeteer");
   // const browser = await jobContext.puppeteer.launch({
   //   headless: false
   // });
 
-  // const page = await browser.newPage();
-  // await pageTaskJob.inputKeyword(page,'软件定制服务',false);
+  //const page = await browser.newPage();
+  //await pageTaskJob.inputKeyword(page,'定制数字标牌发布系统',false);
 
-  //await pageTaskJob.execute(task);
+  await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
@@ -79,13 +78,13 @@ process.node_debug = true;
   //  localScanJober.scan();
  // await linkClickTest();
   //await titleClickTest();
-  await cheerTest();
+  //await cheerTest();
 })();
 
 async function cheerTest(){
   var cheer = require("./cheerioPageTaskJob");
      //var result = await cheer(jobContext.puppeteer, {link:'ioliz.com',keyword:'软件定制'});
-     var result = await cheer(jobContext.puppeteer, {link:'搜狐网',keyword:'流浪地球资源'});
+     var result = await cheer(jobContext.puppeteer, {link:'ioliz.com',keyword:'定制数字标牌发布系统'});
     console.log('result',result)
 }
 
