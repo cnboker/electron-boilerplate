@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { required } from "../utils/fieldLevelValidation";
-import { renderField } from "../Components/Forms/RenderField";
-import { reduxForm, Field } from "redux-form";
+import React, {Component} from "react";
+import {required} from "../utils/fieldLevelValidation";
+import {renderField} from "../Components/Forms/RenderField";
+import {reduxForm, Field} from "redux-form";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { connect } from "react-redux";
+import {toast} from "react-toastify";
+import {connect} from "react-redux";
 import Price from "../Price/price";
+import {fetchProfile} from '../Client/action'
 class SNActive extends Component {
   constructor(props) {
     super(props);
@@ -18,31 +19,29 @@ class SNActive extends Component {
     const url = `${process.env.REACT_APP_API_URL}/sn/snActivate`;
 
     axios({
-      method: "post",
-      url: url,
-      data: values,
-      headers: {
-        Authorization: `Bearer ${this.props.client.token.access_token}`
-      }
+        method: "post",
+        url: url,
+        data: values,
+        headers: {
+          Authorization: `Bearer ${this.props.client.token.access_token}`
+        }
+      }).then(function (res) {
+      self.submitStart = false;
+      self
+        .props
+        .dispatch(fetchProfile());
+      toast.info("激活成功", {position: toast.POSITION.BOTTOM_CENTER});
     })
-      .then(function(res) {
+      .catch(function (e) {
         self.submitStart = false;
-        toast.info("激活成功", {
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-      })
-      .catch(function(e) {
-        self.submitStart = false;
-        toast.error(e.response.data.message, {
-          position: toast.POSITION.BOTTOM_CENTER
-        });
+        toast.error(e.response.data.message, {position: toast.POSITION.BOTTOM_CENTER});
       });
   }
 
   componentDidMount() {}
 
   render() {
-    const { handleSubmit } = this.props;
+    const {handleSubmit} = this.props;
 
     return (
       <div>
@@ -56,14 +55,12 @@ class SNActive extends Component {
             label="充值码"
             component={renderField}
             validate={required}
-            placeholder="输入充值码"
-          />
+            placeholder="输入充值码"/>
 
           <button
             action="submit"
             className="btn btn-block btn-success"
-            disabled={this.submitStart}
-          >
+            disabled={this.submitStart}>
             激活
           </button>
         </form>
@@ -74,11 +71,7 @@ class SNActive extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { client: state.client };
+  return {client: state.client};
 };
 //state表示reducer, combineReducer包含state和dispatch
-export default connect(mapStateToProps)(
-  reduxForm({
-    form: "form"
-  })(SNActive)
-);
+export default connect(mapStateToProps)(reduxForm({form: "form"})(SNActive));

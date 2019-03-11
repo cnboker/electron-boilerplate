@@ -11,8 +11,7 @@ const messager = require('./ipcSender');
 
 
 class ScanJober {
-    constructor() {
-     
+    constructor() {    
     }
 
     //每5分钟执行一次
@@ -20,9 +19,20 @@ class ScanJober {
         var task = {
             doc,
             action: jobAction.SCAN,
-            end:this.taskFinishedCallback
+            end:this.taskFinishedCallback,
+            finished:false
         }
         jobContext.addTask(task);
+       
+        return new Promise(function (resolve, reject) {
+            (function waitFor(){
+                if (doc.finishedFlag) {
+                    delete doc.finishedFlag;
+                    return resolve(doc)
+                };
+                setTimeout(waitFor, 100);
+            })();
+        });
         // if(unScanItems.length > 0){
         //     notifier.notify({
         //         title: 'kwPolish提示信息',
@@ -55,8 +65,9 @@ class ScanJober {
                 Authorization: `Bearer ${access_token}`
             }
         }).then(function(response){
-            messager("message", `${doc.keyword}排名检测完成`);
-            messager("pageRefresh");
+            doc.finishedFlag = true;
+            //messager("message", `${doc.keyword}排名检测完成`);
+            //messager("pageRefresh");
         }).then(function(err){
            // console.error(err)
         })

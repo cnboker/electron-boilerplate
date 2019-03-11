@@ -19,76 +19,71 @@ async function scanExecute(task) {
 }
 
 async function execute(task) {
-  // if (task.action == jobAction.SCAN) {
-  //   scanExecute(task);
-  //   return;
-  // }
+  // if (task.action == jobAction.SCAN) {   scanExecute(task);   return; }
 
-  if (jobContext.busy || jobContext.puppeteer == undefined) return;
+  if (jobContext.busy || jobContext.puppeteer == undefined) 
+    return;
   jobContext.busy = true;
   task.doc.engine = "baidu";
   if (jobContext.browser) {
-    jobContext.browser.close();
+    jobContext
+      .browser
+      .close();
   }
-  const browser = await jobContext.puppeteer.launch({
-    headless: process.env.NODE_ENV == "production",
-    //devtools:true,
-    executablePath: (() => {
-      return process.env.ChromePath;
-    })()
-  });
+  const browser = await jobContext
+    .puppeteer
+    .launch({
+      headless: process.env.NODE_ENV == "production",
+      //devtools:true,
+      executablePath: (() => {
+        return process.env.ChromePath;
+      })()
+    });
   jobContext.browser = browser;
-  // const browser = await puppeteer.launch({     ignoreHTTPSErrors: true,
-  // args: ['--proxy-server=example.com:8080'] }); const page = await
-  // browser.newPage(); await page.setExtraHTTPHeaders({
-  // 'Proxy-Authorization': 'Basic ' +
+  // const browser = await puppeteer.launch({     ignoreHTTPSErrors: true, args:
+  // ['--proxy-server=example.com:8080'] }); const page = await browser.newPage();
+  // await page.setExtraHTTPHeaders({ 'Proxy-Authorization': 'Basic ' +
   // Buffer.from('user:pass').toString('base64'), });
 
   const page = await browser.newPage();
-  await page.setViewport({
-    width: 1600,
-    height: 600
-  });
+  await page.setViewport({width: 1600, height: 600});
   await page.setCacheEnabled(false)
-  //无痕窗口
-  //page.setExtraHTTPHeaders({ DNT: "1" });
-  //await page._client.send("Network.clearBrowserCookies");
+  // 无痕窗口 page.setExtraHTTPHeaders({ DNT: "1" }); await
+  // page._client.send("Network.clearBrowserCookies");
 
-  singleTaskProcess(page, task)
-    .then(() => {
-      task.end(task.doc);
-      if (
-        task.action == jobAction.Polish &&
-        task.doc.user != auth.getToken().userName
-      ) {
-        if (task.doc.rank > 0) {
-          var text = task.doc.title ? task.doc.title : task.doc.link;
-          findLinkClick(page, text).then(() => {
-            jobContext.busy = false;
-          });
-        } else {
+  singleTaskProcess(page, task).then(() => {
+    task.end(task.doc);
+    if (task.action == jobAction.Polish && task.doc.user != auth.getToken().userName) {
+      if (task.doc.rank > 0) {
+        var text = task.doc.title
+          ? task.doc.title
+          : task.doc.link;
+        findLinkClick(page, text).then(() => {
           jobContext.busy = false;
-        }
+        });
       } else {
         jobContext.busy = false;
       }
-      messager("message", `新的关键词优化完成`);
-    })
-    .catch(e => {
+    } else {
       jobContext.busy = false;
-      console.error(err);
-      logger.info(err);
-    });
+    }
+    messager("message", `新的关键词优化完成`);
+  }).catch(e => {
+    jobContext.busy = false;
+    console.error(err);
+    logger.info(err);
+  });
 }
 
 async function urlNaviage(page, url) {
-  await page.goto(url, { waitUtil: "load" });
+  await page.goto(url, {waitUtil: "load"});
   await sleep(2000);
 }
 //从第一页到第二页逐页扫描
 async function singleTaskProcess(page, task) {
-  if (task === undefined) return;
-
+  if (task === undefined) 
+    return;
+  
   var pageIndex = 0;
   var doc = task.doc;
   try {
@@ -103,32 +98,27 @@ async function singleTaskProcess(page, task) {
       return;
     }
 
-    //上一次扫描排行当前页，前后页处理
-    if (task.action == jobAction.Polish) {
-      await quickScanClick(page, task);
-    } else {
-      //重新扫描
-      pageIndex = 0;
-      //await inputKeyword(page, doc.keyword); 如果还找不到逐页扫描
-      const nextpageSelector = '#page > a[href$="rsv_page=1"]';
-      while (pageIndex < SCAN_MAX_PAGE) {
-        if (pageIndex !== 0) {
-          const rank = await fullPageRank(page, doc, pageIndex);
-          doc.rank = rank || -1;
-          if (doc.rank > 0) {
-            break;
-          }
+    //上一次扫描排行当前页，前后页处理 重新扫描
+    pageIndex = 0;
+    //await inputKeyword(page, doc.keyword); 如果还找不到逐页扫描
+    const nextpageSelector = '#page > a[href$="rsv_page=1"]';
+    while (pageIndex < SCAN_MAX_PAGE) {
+      if (pageIndex !== 0) {
+        const rank = await fullPageRank(page, doc, pageIndex);
+        doc.rank = rank || -1;
+        if (doc.rank > 0) {
+          break;
         }
-        scroll(page);
-        //page.click(nextpageSelector);
-        await page.evaluate((selector)=>document.querySelector(selector).click(),nextpageSelector)
-        if (task.action == jobAction.Polish) {
-          await sleep(random(10000, 20000));
-        } else {
-          await sleep(random(3000, 10000));
-        }
-        pageIndex++;
       }
+      scroll(page);
+      //page.click(nextpageSelector);
+      await page.evaluate((selector) => document.querySelector(selector).click(), nextpageSelector)
+      if (task.action == jobAction.Polish) {
+        await sleep(random(10000, 20000));
+      } else {
+        await sleep(random(3000, 10000));
+      }
+      pageIndex++;
     }
   } catch (e) {
     logger.info(e);
@@ -138,8 +128,9 @@ async function singleTaskProcess(page, task) {
 
 //根据初始排名前一页后一样扫描，如果未找到再进行逐页扫描
 async function quickScanClick(page, task) {
-  if (task == undefined) return;
-
+  if (task == undefined) 
+    return;
+  
   var doc = task.doc;
   try {
     doc.rank = doc.originRank;
@@ -148,11 +139,16 @@ async function quickScanClick(page, task) {
     }
     var pageIndex = Math.ceil(doc.rank / 10);
     console.log("pageIndex", pageIndex);
-    quickSeachList = [pageIndex - 1, pageIndex, pageIndex + 1];
+    quickSeachList = [
+      pageIndex - 1,
+      pageIndex,
+      pageIndex + 1
+    ];
     console.log(quickSeachList);
     for (var i = 0; i < quickSeachList.length; i++) {
       pageIndex = quickSeachList[i];
-      if (pageIndex <= 1 || pageIndex > SCAN_MAX_PAGE) continue;
+      if (pageIndex <= 1 || pageIndex > SCAN_MAX_PAGE) 
+        continue;
       await goPage(page, pageIndex);
       doc.rank = await fullPageRank(page, task.doc, pageIndex - 1);
       if (doc.rank > 0) {
@@ -161,11 +157,13 @@ async function quickScanClick(page, task) {
       }
     }
 
-    if (doc.rank > 0) return;
-
+    if (doc.rank > 0) 
+      return;
+    
     for (var i = 1; i < SCAN_MAX_PAGE; i++) {
       pageIndex = i;
-      if (quickSeachList.includes(pageIndex) || pageIndex <= 1) continue;
+      if (quickSeachList.includes(pageIndex) || pageIndex <= 1) 
+        continue;
       await goPage(page, pageIndex);
       doc.rank = await fullPageRank(page, task.doc, pageIndex - 1);
       if (doc.rank > 0) {
@@ -193,42 +191,36 @@ async function goPage(page, pageIndex) {
   scroll(page);
 }
 
-//输入框模拟输入关键词
-//测试比较准确，不要改sleep
+//输入框模拟输入关键词 测试比较准确，不要改sleep
 async function inputKeyword(page, input, anyclick) {
   const pageUrl = "https://www.baidu.com";
   //page.setBypassCSP(true)
-  await page.goto(pageUrl, { waitUntil : ['load', 'domcontentloaded']} );
+  await page.goto(pageUrl, {
+    waitUntil: ['load', 'domcontentloaded']
+  });
 
-  await page.waitForSelector("#kw", { visible: true });
-  
+  await page.waitForSelector("#kw", {visible: true});
+
   await sleep(3000);
   await page.$eval("#kw", (el, input) => (el.value = input), input);
   await sleep(3000);
-  // await page.evaluate(() => {
-  //   document.querySelector("#su").click();
-  // });
-  await page.keyboard.press('Enter');
-  // var ks = require('node-key-sender');
-  // try{
-  //   await ks.sendKey('enter');
-  // }catch(e){
+  // await page.evaluate(() => {   document.querySelector("#su").click(); });
+  await page
+    .keyboard
+    .press('Enter');
+  // var ks = require('node-key-sender'); try{   await ks.sendKey('enter');
+  // }catch(e){ }
 
-  // }
- 
   await sleep(2000);
   await page.reload();
- // await page.keyboard.press('Enter')
-
-  // let pages = await page.browser().pages();
-  // var url = pages[pages.length - 1].url();
-  // await page.goto(url+'&t=1233', {waitUtil: "load"});
-  // await sleep(2000);
-  // 首页任意点击 if (anyclick) {   await page.evaluate(() => {     var nodes =
+  // await page.keyboard.press('Enter') let pages = await page.browser().pages();
+  // var url = pages[pages.length - 1].url(); await page.goto(url+'&t=1233',
+  // {waitUtil: "load"}); await sleep(2000); 首页任意点击 if (anyclick) {   await
+  // page.evaluate(() => {     var nodes =
   // document.querySelectorAll("div.result.c-container");     var arr =
-  // [...nodes];     var index = Math.floor(Math.random() * arr.length) + 1;
-  // if (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click();
-  //   }   });   await sleep(10000);   let pages = await page.browser().pages();
+  // [...nodes];     var index = Math.floor(Math.random() * arr.length) + 1; if
+  // (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click();   }
+  //  });   await sleep(10000);   let pages = await page.browser().pages();
   // pages[pages.length - 1].close(); }
 }
 
@@ -264,28 +256,19 @@ async function fullPageRank(page, doc, pageIndex) {
 //检查当前页是否包含特定链接 match:特定链接，比如ioliz.com,pageIndex:分页 return -1 表示未找到匹配链接
 async function pageRank(page, selector, match, pageIndex) {
   //const selector = "#content_left div.f13";
-  var currentRank = await page.$$eval(
-    selector,
-    (links, match) => {
-      return links.findIndex(function(element) {
-        return element.innerText.indexOf(match) >= 0;
-      });
-    },
-    match
-  );
+  var currentRank = await page.$$eval(selector, (links, match) => {
+    return links.findIndex(function (element) {
+      return element
+        .innerText
+        .indexOf(match) >= 0;
+    });
+  }, match);
   var rank = -1;
 
   if (currentRank >= 0) {
     rank = pageIndex * 10 + currentRank + 1;
   }
-  console.log(
-    "currentRank=",
-    currentRank,
-    "pageIndex=",
-    pageIndex + 1,
-    "rank=",
-    rank
-  );
+  console.log("currentRank=", currentRank, "pageIndex=", pageIndex + 1, "rank=", rank);
   return rank;
 }
 
@@ -293,11 +276,11 @@ async function pageRank(page, selector, match, pageIndex) {
 async function findLinkClick(page, keyword) {
   // await page.evaluate(keyword => {   var nodes =
   // document.querySelectorAll("div.result.c-container");   var arr = [...nodes];
-  //  var items = arr.filter(x => {     return x.innerText.indexOf(keyword) >= 0;
-  //  });   if (items.length > 0) {     var index = arr.indexOf(items[0]);     if
-  // (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click();
-  // }   } }, keyword); await sleep(5000); let pages = await
-  // page.browser().pages(); var firstPage = pages[pages.length - 1]; if
+  // var items = arr.filter(x => {     return x.innerText.indexOf(keyword) >= 0;
+  // });   if (items.length > 0) {     var index = arr.indexOf(items[0]);     if
+  // (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click(); }
+  // } }, keyword); await sleep(5000); let pages = await page.browser().pages();
+  // var firstPage = pages[pages.length - 1]; if
   // (firstPage.url().indexOf("baidu.com") == -1) {   firstPage.close(); }
   // page.bringToFront(); await sleep(2000);
 
@@ -305,10 +288,14 @@ async function findLinkClick(page, keyword) {
     var nodes = document.querySelectorAll("div.result.c-container");
     var arr = [...nodes];
     var items = arr.filter(x => {
-      return x.innerText.indexOf(keyword) >= 0;
+      return x
+        .innerText
+        .indexOf(keyword) >= 0;
     });
     if (items.length > 0) {
-      items[0].getElementsByTagName("a")[0].click();
+      items[0]
+        .getElementsByTagName("a")[0]
+        .click();
     }
   }, keyword);
 }

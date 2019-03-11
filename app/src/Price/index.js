@@ -21,32 +21,14 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.client);
-    var $this = this;
-    const url = `${process.env.REACT_APP_API_URL}/profile`;
-    axiox({
-      url,
-      headers: {
-        Authorization: `Bearer ${this.props.client.token.access_token}`
-      }
-    })
-      .then(function(res) {
-        $this.setState({
-          profile: res.data
-        });
-        $this.forceUpdate()
-      })
-      .catch(function(e) {
-        toast.error(e.response.data.message, {
-          position: toast.POSITION.BOTTOM_CENTER
-        });
-      });
+    
   }
 
   render() {
     const authenticated = localStorage.getItem("token") != undefined;
-    if (this.state.profile.gradeValue > 1) {
-      return <Profile model={this.state.profile}/>
+    const {profile} = this.props.client;
+    if (profile.gradeValue > 1) {
+      return <Profile model={profile}/>
     } else {
       return <Price />
     }

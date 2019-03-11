@@ -47,10 +47,7 @@ class History extends Component {
   getKeyword() {
     var id = this.props.match.params.id;
     const { keywords } = this.props;
-    var kw = keywords.filter(x => {
-      return x._id == id;
-    });
-    return kw[0];
+    return keywords[id];
   }
 
   draw(results) {

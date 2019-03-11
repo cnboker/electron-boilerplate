@@ -1,4 +1,4 @@
-import List from "./List";
+import List from "./components/keyword_index_container";
 import New from "./New";
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";

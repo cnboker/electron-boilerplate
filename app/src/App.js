@@ -12,7 +12,7 @@ import "./Components/Header.css";
 import {PrivateRoute, refreshClient,UserRoute} from "./lib/check-auth";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {unsetClient} from "./Client/action";
+import {unsetClient,fetchProfile} from "./Client/action";
 import {ToastContainer} from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
@@ -33,6 +33,10 @@ class App extends Component {
   constructor(props) {
     super();
     this.authenticated = localStorage.getItem("token") != null;
+  }
+
+  componentDidMount(){
+   // this.props.fetchProfile();
   }
   unset() {
     if (this.authenticated) {
@@ -163,7 +167,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     dispatch,
     ...bindActionCreators({
-      unsetClient
+      unsetClient,fetchProfile
     }, dispatch)
   };
 };

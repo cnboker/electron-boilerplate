@@ -9,24 +9,59 @@ import "../utils/groupBy";
 import Select from "react-select";
 import { Animated } from "react-animated-css";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
+import ReactPaginate from 'react-paginate'
 
+const PAGE_SIZE = 10;
 class List extends Component {
   constructor() {
     super();
     this.state = {
-      filter: null
+      filter: null,
+      pageCount:1,
+      data:[],
+      websites:[]
     };
+    this.terms = {page:1};
   }
+
   componentDidMount() {
-    //mock()
-    this.fetch();
+    this.query();
+    var self = this;
+    crudActions.websiteOfkeywords(this.props.client).then(docs=>{
+      self.setState({
+        websites:docs.data
+      })
+    })
+  }
+
+  pagination = data=>{
+    this.terms.page = data.selected;
+    this.query();
+  }
+
+  query(terms){
+    this.terms = terms || this.terms;
+    this.fetch({
+      ...this.terms,
+      limit:PAGE_SIZE
+    })
   }
 
   componentWillUpdate(nextProps, nextState) {}
 
-  fetch() {
-    const action = crudActions.fetch(0, 0, true, this.props.client);
-    this.dispatch(action);
+  fetch(ps) {
+    var self = this;
+    crudActions.fetch(ps, this.props.client)
+    .then(result => {
+      self.setState({
+        total: result.data.total,
+        data: result.data.docs,
+        pageCount: result.data.pages
+      });
+    })
+    .catch(e => {
+      console.log(e);
+    });
   }
 
   get dispatch() {
@@ -150,12 +185,7 @@ class List extends Component {
   }
   renderList() {
     var self = this;
-    return this.props.keywords
-      .filter(item => {
-        return self.state.filter == null
-          ? true
-          : item.link == self.state.filter.value;
-      })
+    return this.state.data
       .map(item => {
         return (
           <tr key={item._id}>
@@ -208,30 +238,28 @@ class List extends Component {
                 on={item.status == 1}
                 onClick={this.toggleSwitch.bind(this, item)}
               />
-             
-            
             </td>
           </tr>
         );
       });
   }
 
-  onSelect(selectedOption) {
-    this.setState({
-      filter: selectedOption
-    });
-    console.log("option select", selectedOption);
+  fliterRender(){
+    return(
+      <ul className="list-group list-group-horizontal">
+       {this.state.websites.map(x=>{
+        return (<li className="list-group-item d-flex justify-content-between align-items-center">
+        <Link to={'#'}>{x._id}</Link>{'  '}
+        <span className="badge badge-primary badge-pill">{x.count}</span>
+        </li>)
+       })
+      }
+    </ul>
+    )
   }
 
   render() {
-    const options = Object.keys(this.props.keywords.groupBy("link")).map(
-      item => {
-        return {
-          value: item,
-          label: item
-        };
-      }
-    );
+    
     return (
       <div className="animated fadeIn">
         <Dialog ref="dialog" />
@@ -253,13 +281,7 @@ class List extends Component {
         </div>
         <div className="d-flex justify-content-between">
           <div className="col-md-6">
-            <Select
-              placeholder="域名过滤"
-              value={this.state.filter}
-              onChange={this.onSelect.bind(this)}
-              options={options}
-              id="filter"
-            />{" "}
+           
           </div>
           <div>
             <Link to={"/keyword/new"} role="button" className="btn btn-success">
@@ -277,7 +299,9 @@ class List extends Component {
             </button>
           </div>
         </div>
-
+        <div className="row">
+        {this.fliterRender()}
+        </div>   
         <div className="table-responsive">
           <br />
           <table className="table table-bordered table-striped table-sm">
@@ -308,6 +332,22 @@ class List extends Component {
             </thead>
             <tbody>{this.renderList()}</tbody>
           </table>
+          <br />
+          <div className="pull-right">
+            <ReactPaginate
+              previousLabel={"上一页"}
+              nextLabel={"下一页"}
+              breakLabel={<a href=""> ...</a>}
+              breakClassName={"break-me"}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.pagination.bind(this)}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
+          </div>
           <p>
             注：正常情况下，提交关键字后，约2分钟会出现初始排名数据. <br />
             1.初始排名数据在1~120之间，则表明系统正常运行，将软件最小化即可.{" "}

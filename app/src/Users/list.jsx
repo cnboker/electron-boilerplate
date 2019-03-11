@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { Switch } from "../Components/Forms/Switch";
 import { PAGE_SIZE } from "./constants";
 import UserQuery from "./listQuery";
-
+import Pager from '../Components/Tables/Pager'
 class List extends Component {
   constructor() {
     super();
@@ -186,19 +186,7 @@ class List extends Component {
           </table>
           <br />
           <div className="pull-right">
-            <ReactPaginate
-              previousLabel={"上一页"}
-              nextLabel={"下一页"}
-              breakLabel={<a href=""> ...</a>}
-              breakClassName={"break-me"}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.pagination.bind(this)}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}
-            />
+            <Pager pageCount={this.state.pageCount} onPageChange={this.pagination}></Pager>
           </div>
         </div>
       </div>

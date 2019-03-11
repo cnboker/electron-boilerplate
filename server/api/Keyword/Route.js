@@ -38,4 +38,7 @@ module.exports = function(app){
 
   app.route('/api/unRankKeywords')
   .get(ctl.unRankKeywords)
+
+  app.route('/api/websiteOfkeywords')
+  .get(ctl.websiteOfkeywords)
 }

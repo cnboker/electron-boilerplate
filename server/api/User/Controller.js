@@ -2,7 +2,7 @@
 
 var boom = require("boom");
 var jwt = require("jsonwebtoken");
-
+var moment = require('moment')
 var config = require("../../config");
 var Balance = require("../Balance/Model");
 var User = require("./Model");
@@ -154,7 +154,7 @@ exports.list = function (req, res, next) {
     $gt: req.query.startDate,
     $lt: req.query.endDate
   };
-  console.log('query:', query)
+  //console.log('query:', query)
   Promise.all([
     Keyword.aggregate([
       {
@@ -223,6 +223,7 @@ exports.profile = function (req, res, next) {
     profile.grade = userGrade(user.grade);
     profile.gradeValue = user.grade;
     profile.expiredDate = user.vipExpiredDate;
+    profile.vipUserExpired = moment().diff(user.vipExpiredDate,'days')  > 0;
     profile.rank = user.rank;
     profile.rewardCode = user.rewardCode;
     profile.balance = list

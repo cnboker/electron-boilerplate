@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate');
 
 var keywordSchema =new Schema({
   engine:String, //搜索引擎
@@ -24,5 +25,5 @@ var keywordSchema =new Schema({
   title:String //百家号的网站通过title匹配
 });
 
+keywordSchema.plugin(mongoosePaginate) //pagination function
 module.exports = mongoose.model('Keyword', keywordSchema);
-

@@ -11,6 +11,7 @@ import resources from '../locale'
 class New extends Component {
   constructor(){
     super()
+    console.log('new call')
   }
   onCommit(entity) {
     console.log('update entity', entity)
