@@ -14,7 +14,7 @@ require("./config");
 console.log("node_env=", process.env.NODE_ENV);
 
 var mode = process.env.NODE_ENV || 'development'
-//var mode = 'production'
+var mode = 'production'
 
 var config = {
   mode: process.env.NODE_ENV || "development", //production or development
