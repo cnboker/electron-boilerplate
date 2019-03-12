@@ -2,7 +2,7 @@ import React from 'react'
 import FireBox from './firebox'
 import RankDifferenceFormatter from './rankDifferenceFormatter'
 import {Link} from 'react-router-dom'
-import {Switch} from "../../Components/Forms/Switch";
+import {Switch} from "~/src/Components/Forms/Switch";
 
 export default class KeywordItem extends React.Component {
   constructor(){
@@ -27,6 +27,11 @@ export default class KeywordItem extends React.Component {
     return val;
   }
 
+  componentDidUpdate(previousProps){
+    if(previousProps.data !== this.props.data){
+      this.setState({selected:false})
+    }
+  }
   isValidDate(value) {
     var dateWrapper = new Date(value);
     return !isNaN(dateWrapper.getDate());
@@ -49,7 +54,7 @@ export default class KeywordItem extends React.Component {
     return (
       <tr key={item._id}>
         <td>
-          <input type="checkbox" checked={item.selected} onClick={this.selected.bind(this,item)}/>
+          <input type="checkbox" checked={this.state.selected} onClick={this.selected.bind(this,item)}/>
         </td>
         <td
           style={{

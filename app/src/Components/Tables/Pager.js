@@ -1,7 +1,5 @@
-import ReactPaginate from 'react-paginate'
 import React from 'react'
-import { renderComponent } from 'recompose';
-
+import ReactPaginate from 'react-paginate'
 
 export default class Pager extends React.Component{
   render(){

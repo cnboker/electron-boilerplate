@@ -7,7 +7,7 @@ import Price from "./Price/index";
 import Contact from "./Price/contact";
 import Charge from "./Price/charge";
 import Users from "./Users/index";
-import Analysis from './Analysis/index'
+import Analysis from './Keyword/trace/index'
 import "./Components/Header.css";
 import {PrivateRoute, refreshClient,UserRoute} from "./lib/check-auth";
 import {connect} from "react-redux";
@@ -17,7 +17,7 @@ import {ToastContainer} from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
 import LoadingBar from "react-redux-loading-bar";
-import Start from './Container/Start'
+import Start from './Help/Start'
 import Forgetpassword from './ForgetPwd/index'
 import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './SN/index'
@@ -25,7 +25,7 @@ import Quora from './Quora/components/index'
 import Commission from './commission/container'
 import Rewards from './Price/reward'
 import '../public/scss/app.scss'
-import CustomKeywordExtender from './Analysis/customKeywordExtender'
+import CustomKeywordExtender from './Keyword/trace/customKeywordExtender'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
 

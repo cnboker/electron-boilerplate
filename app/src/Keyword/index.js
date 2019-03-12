@@ -1,7 +1,7 @@
-import List from "./components/keyword_index_container";
-import New from "./New";
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
+import List from "./index/components/keyword_index_container";
+import New from "./index/components/keyword_create_container";
 
 class Index extends Component {
   render() {

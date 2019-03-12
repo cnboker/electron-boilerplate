@@ -1,14 +1,15 @@
 import R from "ramda";
 import React, {Component} from "react";
-import {required} from "../utils/fieldLevelValidation";
-import {renderField} from "../Components/Forms/RenderField";
-import {RowContainer} from "../Components/Forms/RowContainer";
 import PropTypes from "prop-types";
 import {reduxForm, Field} from "redux-form";
 import TextareaAutosize from "react-autosize-textarea";
-import {extractRootDomain} from '../utils/string'
 
-class Form extends Component {
+import {required} from "~/src/utils/fieldLevelValidation";
+import {renderField} from "~/src/Components/Forms/RenderField";
+import {RowContainer} from "~/src/Components/Forms/RowContainer";
+import {extractRootDomain} from '~/src/utils/string'
+
+class KeywordCreate extends Component {
   constructor(props) {
     super(props);
     console.log("form load...");
@@ -24,7 +25,7 @@ class Form extends Component {
     console.log(entity);
     this
       .props
-      .onCommit(entity);
+      .createKeyword(entity);
   }
 
   componentDidMount() {
@@ -37,6 +38,12 @@ class Form extends Component {
     this
       .props
       .initialize(this.props.entity);
+  }
+
+  componentDidUpdate(previousProps, previousState) {
+    if (previousProps.keywords !== this.props.keywords) {
+        this.props.history.push('/keyword')
+    }
   }
 
   render() {
@@ -74,11 +81,11 @@ class Form extends Component {
   }
 }
 
-Form.propTypes = {
+KeywordCreate.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  onCommit: PropTypes.func.isRequired
+  createKeyword: PropTypes.func.isRequired
 };
 
-Form = reduxForm({form: "form"})(Form);
+KeywordCreate = reduxForm({form: "form"})(KeywordCreate);
 
-export default Form;
+export default KeywordCreate;

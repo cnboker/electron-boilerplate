@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 
 class WebsiteList extends React.Component {
   constructor(){
@@ -10,6 +9,10 @@ class WebsiteList extends React.Component {
   }
   
   toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
+
+  componentDidMount(){
+   
+  }
 
   render() {
     const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;

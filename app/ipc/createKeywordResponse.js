@@ -8,4 +8,4 @@ module.exports = function(event, docs) {
     doc = docs.shift();
   }
   return Promise.all(promiseAll)
-});
+};

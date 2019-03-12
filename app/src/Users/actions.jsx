@@ -10,7 +10,6 @@ var baseActionCreators = reduxCrud.actionCreatorsFor(reducerKey, {
 let actionCreators = {
   
   fetch(queryParameters, client) {
-  
       var query = Object.keys(queryParameters).map((key)=>{
         return encodeURIComponent(key) + '=' + encodeURIComponent(queryParameters[key])
       }).join('&')

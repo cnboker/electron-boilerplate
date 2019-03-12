@@ -1,11 +1,11 @@
-import { default as crudActions } from "./actions";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import AddItem from "./add";
-import Dialog from "../Components/Modals/Dialog";
+import Dialog from "../../Components/Modals/Dialog";
+import { default as crudActions } from "./actions";
 
-class List extends Component {
+class List extends Component { 
   constructor() {
     super();
     this.state = {

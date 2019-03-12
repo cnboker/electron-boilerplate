@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import Event from "../Event/list";
-import Extender from "./keywordExtender";
-import Rank from "./rankChart";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from 'classnames'
 import { connect } from "react-redux";
+
+import Event from "../Event/list";
+import Extender from "./keywordExtender";
+import Rank from "./rankChart";
+
+
  class Index extends Component {
   constructor(props) {
     super(props);

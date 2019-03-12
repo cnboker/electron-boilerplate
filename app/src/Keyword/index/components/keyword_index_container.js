@@ -1,7 +1,8 @@
 import {connect} from 'react-redux'
 import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findWebsites} from '../actions/keywords_actions'
 import KeywordIndex from './keyword_index'
-import {fetchProfile} from '../../Client/action'
+import {fetchProfile} from '~/src/Client/action'
+
 const mapStateToProps = (state, ownProps) => {
   return {
     keywords: state.keywords, 

@@ -4,9 +4,9 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import { reduxForm, Field } from "redux-form";
-import { RowContainer } from "../Components/Forms/RowContainer";
 import TextareaAutosize from "react-autosize-textarea";
 import actions from "./actions";
+import { RowContainer } from "../../Components/Forms/RowContainer";
 
 class AddItem extends Component {
   constructor(props) {

@@ -12,8 +12,6 @@ import App from './App'
 // Views
 import Login from './Login'
 import Signup from './Signup'
-import Page404 from './Page404'
-import Page500 from './Page500'
 
 //Import the index reducer and sagas
 import IndexReducer from './index-reducer'
@@ -53,9 +51,7 @@ var render =(Component)=>(
     <Router>
     <Switch>
       <Route exact path="/login" name="Login Page" component={Login} />
-      <Route exact path="/signup" name="Sign Page" component={Signup} />
-      <Route exact path="/404" name="Page 404" component={Page404} />
-      <Route exact path="/500" name="Page 500" component={Page500} />
+      <Route exact path="/signup" name="Sign Page" component={Signup} />     
       <Route path="/" extact component={Component} />
       </Switch>
     </Router>
