@@ -24,7 +24,7 @@ exports.userPool = function (req, res) {
   return res.json(keywordPool.userPool);
 };
 
-exports.today = function (req, res) {
+var today = exports.today = function (req, res) {
   // var today = moment().startOf('day') var tomorrow = moment(today).endOf('day')
   // var start = new Date(); start.setHours(0, 0, 0, 0); var end = new Date();
   // end.setHours(23, 59, 59, 999); console.log("start=",  (new
@@ -106,9 +106,12 @@ exports.unRankKeywords = function (req, res) {
 };
 
 exports.list = function list(req, res, next) {
-  //console.log("ListByUserName=", username);
+  console.log('req.query',req.query)
+  if(req.query.id === '__today__'){
+    return today(req,res);
+  }
   var query = {
-    user: req.params.userName || req.user.sub
+    user: req.query.id || req.user.sub
   }
   Keyword
     .find(query, null, {
