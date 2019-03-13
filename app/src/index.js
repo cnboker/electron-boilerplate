@@ -20,9 +20,7 @@ import thunk from 'redux-thunk'
 //https://github.com/wwayne/redux-reset
 import reduxReset from 'redux-reset'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
-import {eventRegister} from './communication'
 
-eventRegister();
 //import initReactFastclick from 'react-fastclick'
 
 //initReactFastclick()

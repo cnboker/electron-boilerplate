@@ -48,8 +48,8 @@ function main(token) {
   messager("message", "准备就绪优化启动..");
 
   //使用进程间通讯替代socket通讯
-  require('./frontEvent')(jobContext.ipc)
-  
+  //require('./frontEvent')(jobContext.ipc)
+  require('../ipc/backgroudProcess')()
   var client = require("./socketClient");
   client.main(token)
   scanJober.originRankCheck();

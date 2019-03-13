@@ -3,12 +3,11 @@
 */
 var handles = {
   'keyword_create': require('./createKeywordResponse'),
-  'keyword_create_message':Promise.resolve('test'),
   'wordQuery':require('./wordQueryResponse')
 }
 
 
-module.exports = function (event,payload) {
+module.exports = function () {
   var ipcBus = require('./ipcBus')
   Object
     .keys(handles)
