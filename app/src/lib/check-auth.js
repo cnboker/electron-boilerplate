@@ -2,11 +2,11 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { setClient, unsetClient } from "../Client/action";
 
-let user = JSON.parse(localStorage.getItem("token"));
 
 export function authHeader() {
   // return authorization header with jwt token
-  
+  let user = JSON.parse(localStorage.getItem("token"));
+
   if (user && user) {
     return {
       Authorization: "Bearer " + user.access_token
@@ -17,6 +17,8 @@ export function authHeader() {
 }
 
 export function getUserName(){
+  let user = JSON.parse(localStorage.getItem("token"));
+
   if (user && user) {
     return user.userName;
   }

@@ -113,6 +113,7 @@ exports.list = function list(req, res, next) {
   var query = {
     user: req.query.id || req.user.sub
   }
+  console.log(query)
   Keyword
     .find(query, null, {
     sort: {

@@ -44,7 +44,8 @@ var appConfig = Object.assign({}, config, {
         //exclude: path.resolve(__dirname, "node_modules"),
         loader: "babel-loader",
         options: {
-          presets: ["env", "react", "stage-2"] //stage-2 用于支持箭头函数
+          presets: ["@babel/preset-env",
+    "@babel/preset-react"] //stage-2 用于支持箭头函数
         }
       },
       {

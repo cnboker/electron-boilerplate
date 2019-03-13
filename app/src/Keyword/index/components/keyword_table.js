@@ -31,7 +31,7 @@ class KeywordTable extends React.Component {
   }
 
   componentDidMount() {
-    var id = this.props.match.params.id;
+    var id = this.props.match.params.id || '';
     this.props.findAllKeywords({ id });
     if (this.props.onSelectedDelete) {
       this.props.onSelectedDelete(this.onSelectedDelete.bind(this));
