@@ -9,7 +9,13 @@ export const keywordReducer = (state = [], action) => {
     case RECEIVE_ALL_KEYWORDS:
       return action.keywords;
     case RECEIVE_KEYWORD:
-      newState[action.keyword._id] = action.keyword;
+      if(Array.isArray(action.keyword)){
+        for(let k of action.keyword){
+          newState[k._id] = k;
+        }
+      }else{
+        newState[action.keyword._id] = action.keyword;
+      }
       return newState;
       //return merge({},state,{[action.keyword._id]:action.keyword})
     case REMOVE_KEYWORD:

@@ -7,6 +7,7 @@
   })
   */
 function frontToBack(event, payload) {
+  if(!isElectron())return;
   sendToBackground(event, payload);
   var ipcRenderer = window.require("electron").ipcRenderer;
   return new Promise((resolve, reject) => {
@@ -23,6 +24,7 @@ function frontToBack(event, payload) {
     backgroundPromiseService is promise
   */
 function backToFront(event, backgroundPromiseService) {
+  
   var ipc = require("electron").ipcRenderer;
   ipc.on(event, function(event, payload) {    
     backgroundPromiseService(event, payload).then(result => {
@@ -35,6 +37,7 @@ function backToFront(event, backgroundPromiseService) {
 
 //后台发数据到前端页面
 function sendToFront(eventName, payload) {
+  if(!isElectron())return;
   try {
     if (!remote) return;
     var processHandler = remote.getGlobal("backgroundProcessHandler");
@@ -53,6 +56,10 @@ function sendToBackground(event, data) {
   processHandler.sendToIPCRenderer(event, data);
 }
 
+function isElectron(){
+  var userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.indexOf(' electron/') > -1
+}
 
 module.exports = {
   frontToBack,
