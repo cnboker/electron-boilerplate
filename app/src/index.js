@@ -20,6 +20,7 @@ import thunk from 'redux-thunk'
 //https://github.com/wwayne/redux-reset
 import reduxReset from 'redux-reset'
 import { loadingBarMiddleware } from 'react-redux-loading-bar'
+import frontEventProcess from '../ipc/frontEventProcess';
 
 //import initReactFastclick from 'react-fastclick'
 
@@ -39,6 +40,7 @@ const store = createStore(
 
 //Begin out Index Saga
 sagaMiddleware.run(IndexSagas)
+frontEventProcess(store.dispatch);
 
 //Should be set in your console to see messages
 localStorage.debug = true

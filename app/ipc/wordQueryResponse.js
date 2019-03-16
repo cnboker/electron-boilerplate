@@ -1,5 +1,3 @@
-// var scanJober = require("./scanJober"); const messager =
-// require("./ipcSender");
 const worder = require("../tasks/wordExtender");
 const logger = require("../logger");
 

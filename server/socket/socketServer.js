@@ -72,6 +72,14 @@ class SocketServer {
     }
   }
 
+  keywordPolish(doc){
+    var socket = this.find(doc.user);
+    //console.log('keywordCreate socket=', socket)
+    if (socket) {
+      socket.emit("keyword_polish", doc);
+    }
+  }
+
   find(userName) {
     return clients[userName];
   }

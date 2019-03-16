@@ -8,13 +8,15 @@
   */
 function frontToBack(event, payload) {
   if(!isElectron())return;
-  sendToBackground(event, payload);
   var ipcRenderer = window.require("electron").ipcRenderer;
-  return new Promise((resolve, reject) => {
-    ipcRenderer.on(event, function(result) {
+
+  var promise= new Promise((resolve, reject) => {
+    ipcRenderer.on(event, function(event, result) {
       resolve(result);
     });
   });
+  sendToBackground(event, payload);
+  return promise;
 };
 
 //后端发数据给前端返回,由后端程序执行
@@ -23,12 +25,13 @@ function frontToBack(event, payload) {
     backgroundPromiseService:后台执行逻辑，参看backgroundProcess.js,执行完成返回给前端;
     backgroundPromiseService is promise
   */
-function backToFront(event, backgroundPromiseService) {
+function backToFront(key, backgroundPromiseService) {
   
-  var ipc = require("electron").ipcRenderer;
-  ipc.on(event, function(event, payload) {    
-    backgroundPromiseService(event, payload).then(result => {
-      sendToFront(event, result);
+  var ipcRenderer = window.require("electron").ipcRenderer;
+  ipcRenderer.on(key, function(event, payload) {    
+    
+    backgroundPromiseService(key, payload).then(result => {
+      sendToFront(key, result);
     });
   });
 };
@@ -39,17 +42,19 @@ function backToFront(event, backgroundPromiseService) {
 function sendToFront(eventName, payload) {
   if(!isElectron())return;
   try {
-    if (!remote) return;
-    var processHandler = remote.getGlobal("backgroundProcessHandler");
+    //if (!remote) return;
+    var processHandler = window
+    .require("electron")
+    .remote.getGlobal("backgroundProcessHandler");
+    //var processHandler = remote.getGlobal("backgroundProcessHandler");
     processHandler.sendToAllForegroundWindows(eventName, payload);
   } catch (err) {
-    //console.log(err);
+    console.log(err);
   }
 }
 
 //前端网页发数据到后端程序
 function sendToBackground(event, data) {
-  if (!window.require) return;
   var processHandler = window
     .require("electron")
     .remote.getGlobal("backgroundProcessHandler");
@@ -63,5 +68,7 @@ function isElectron(){
 
 module.exports = {
   frontToBack,
-  backToFront
+  backToFront,
+  sendToFront, //事件消息
+  sendToBackground //事件消息
 }

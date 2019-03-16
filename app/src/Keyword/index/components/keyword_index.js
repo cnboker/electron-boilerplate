@@ -10,18 +10,22 @@ import KeywordTable from "./keyword_table";
 class KeywordIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       website: ""
     };
   }
+
 
   componentDidMount() {
     if (Object.keys(this.props.profile).length == 0) {
       this.props.fetchProfile();
     }
-
+    var id = this.props.match.params.id || '';
+    this.props.findAllKeywords({ id });
     this.props.findWebsites();
   }
+
+
 
   onFliter(value, e) {
     e.preventDefault();

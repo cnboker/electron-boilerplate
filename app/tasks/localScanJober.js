@@ -5,7 +5,7 @@ var jobAction = require("./jobAction");
 var axios = require("axios");
 
 const auth = require("../auth");
-const messager = require("./ipcSender");
+const ipc = require("../ipc/ipcBus");
 var store = require("./localStore");
 //本地检测排名
 class LocalScanJober {
@@ -44,29 +44,10 @@ class LocalScanJober {
 
     if (store.isTodayEmpty()) {
       console.log("pagerefresh");
-      messager("pageRefresh");
+      ipc.sendToFront("pageRefresh");
     }
 
-    // const browser = await jobContext.puppeteer.launch({
-    //   headless: process.env.NODE_ENV == "production",
-    //   //devtools:true,
-    //   executablePath: (() => {
-    //     return process.env.ChromePath;
-    //   })()
-    // });
-
-    // const page = await browser.newPage();
-    //无痕窗口
-
-    // taskJob.singleTaskProcess(page, task).then(() => {
-    //   task.end(task.doc);
-    //   browser.close();
-    //   //查询完毕刷新界面
-    //   if(store.isTodayEmpty()){
-    //     console.log('pagerefresh')
-    //     messager("pageRefresh");
-    //   }
-    // });
+    
   }
 
   static async taskFinishedCallback(doc) {
@@ -81,9 +62,7 @@ class LocalScanJober {
       }
     })
       .then(function(response) {
-        //messager("pageRefresh");
-        // console.log(response)
-        //logger.info("scan post", response.data);
+        
       })
       .then(function(err) {
         // console.error(err)

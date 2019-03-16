@@ -3,20 +3,13 @@ var scroll = require("./scroll");
 var random = require("./random");
 var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
-const messager = require("./ipcSender");
+const ipc = require("../ipc/ipcBus");
 const auth = require("../auth");
 var logger = require("../logger");
 const SCAN_MAX_PAGE = 12;
 const linkSelector = "#content_left div.f13";
 const titleSelector = "#content_left div h3";
 
-async function scanExecute(task) {
-  var cheer = require("./cheerioPageTaskJob");
-  var result = await cheer(jobContext.puppeteer, task.doc);
-  task.doc.rank = result.pageIndex;
-  task.doc.adIndexer = result.adIndexer;
-  task.end(task.doc);
-}
 
 async function execute(task) {
   // if (task.action == jobAction.SCAN) {   scanExecute(task);   return; }
@@ -67,7 +60,7 @@ async function execute(task) {
     } else {
       jobContext.busy = false;
     }
-    messager("message", `新的关键词优化完成`);
+    ipc.sendToFront("message", `新的关键词优化完成`);
   }).catch(e => {
     jobContext.busy = false;
     console.error(err);
@@ -75,10 +68,7 @@ async function execute(task) {
   });
 }
 
-async function urlNaviage(page, url) {
-  await page.goto(url, {waitUtil: "load"});
-  await sleep(2000);
-}
+
 //从第一页到第二页逐页扫描
 async function singleTaskProcess(page, task) {
   if (task === undefined) 
@@ -213,15 +203,7 @@ async function inputKeyword(page, input, anyclick) {
 
   await sleep(2000);
   await page.reload();
-  // await page.keyboard.press('Enter') let pages = await page.browser().pages();
-  // var url = pages[pages.length - 1].url(); await page.goto(url+'&t=1233',
-  // {waitUtil: "load"}); await sleep(2000); 首页任意点击 if (anyclick) {   await
-  // page.evaluate(() => {     var nodes =
-  // document.querySelectorAll("div.result.c-container");     var arr =
-  // [...nodes];     var index = Math.floor(Math.random() * arr.length) + 1; if
-  // (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click();   }
-  //  });   await sleep(10000);   let pages = await page.browser().pages();
-  // pages[pages.length - 1].close(); }
+  
 }
 
 //查找当前页是否包含特定关键词
@@ -274,16 +256,7 @@ async function pageRank(page, selector, match, pageIndex) {
 
 //查找包含关键词的链接，并同时点击该链接
 async function findLinkClick(page, keyword) {
-  // await page.evaluate(keyword => {   var nodes =
-  // document.querySelectorAll("div.result.c-container");   var arr = [...nodes];
-  // var items = arr.filter(x => {     return x.innerText.indexOf(keyword) >= 0;
-  // });   if (items.length > 0) {     var index = arr.indexOf(items[0]);     if
-  // (index > 0) {       arr[index - 1].getElementsByTagName("a")[0].click(); }
-  // } }, keyword); await sleep(5000); let pages = await page.browser().pages();
-  // var firstPage = pages[pages.length - 1]; if
-  // (firstPage.url().indexOf("baidu.com") == -1) {   firstPage.close(); }
-  // page.bringToFront(); await sleep(2000);
-
+  
   await page.evaluate(keyword => {
     var nodes = document.querySelectorAll("div.result.c-container");
     var arr = [...nodes];

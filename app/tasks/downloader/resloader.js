@@ -4,7 +4,7 @@ var unrar = require('./unrar')
 var path = require('path')
 var logger = require('../../logger')
 var fs = require('fs');
-const messager = require("../ipcSender");
+const ipc = require("../../ipc/ipcBus");
 
 module.exports = function (callback) {
     var dest = path.join(process.env.AppHome, 'puppeteer.zip');
@@ -13,7 +13,7 @@ module.exports = function (callback) {
     
     if (fs.existsSync(path.join(output,'node_modules'))) {
         //logger.info('chrome.exe exist')
-        messager("message", "后台程序准备就绪");
+        ipc.sendToFront("message", "后台程序准备就绪");
         // Do something
         if (callback) callback(true);
         return;

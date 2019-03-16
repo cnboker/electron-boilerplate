@@ -18,6 +18,7 @@ class KeywordCreate extends Component {
 
   submit(values) {
     var keyword = this.textarea.value;
+    
     var entity = R.mergeAll([this.props.entity, values, this.state, {
         keyword
       }]);

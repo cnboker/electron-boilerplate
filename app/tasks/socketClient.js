@@ -1,6 +1,6 @@
 var jobContext = require("./jobContext");
 const logger = require("../logger");
-const messager = require("./ipcSender");
+var ipc = require('../ipc/ipcBus');
 
 //open debug info
 if (process.env.APP != "web") {
@@ -62,11 +62,8 @@ exports.main = function main(token) {
     jobContext.dirty(data._id);
   });
 
-  socket.on("refreshPage", function(data) {
-    logger.info("refreshPage...");
-    messager('pageRefresh')
-  });
 
+  
   socket.on("error", function(data) {
     console.log("error", data);
     logger.info(data || "error");
@@ -78,14 +75,13 @@ exports.main = function main(token) {
   //clean the keyword polish
   socket.on("keyword_clean", function(data) {
     jobContext.clean();
-    //socket.emit('finished')
   });
 
 
   //服务器远程增加新优化关键词
   socket.on("keyword_polish", function(doc) {
     console.log("keyword_polish", doc);
-    //polishJober.singlePush(doc);
+    ipc.sendToFront('keyword_update',doc);
   });
 };
 

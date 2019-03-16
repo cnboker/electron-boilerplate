@@ -120,17 +120,22 @@ exports.list = function list(req, res, next) {
       createDate: -1
     }
   })
-    .then(result => {
-      var docs = result.reduce((map, doc) => {
-        map[doc._id] = doc;
-        return map;
-      }, {})
+    .then(docs => {
       res.json(docs)
     })
     .catch(e => {
       console.log(e)
     })
 
+}
+
+function customSplit(value) {
+  var separators = [" ", "\n", ","];
+  var tokens = value.split(new RegExp(separators.join("|"), "g"));
+  tokens = tokens.filter(function(val) {
+    return val.trim().length > 1;
+  });
+  return tokens;
 }
 
 exports.create = function (req, res, next) {
@@ -142,16 +147,11 @@ exports.create = function (req, res, next) {
       .lean()
       .exec()
   ]).then(([user, docs]) => {
-    var keywords = req
+  
+    var keywords = customSplit(req
       .body
-      .keyword
-      .split("\n")
-      .filter(function (val) {
-        return val
-          .trim()
-          .length > 1;
-      });
-
+      .keyword)
+     
     //remove duplicate
     keywords = keywords.filter(function (item, pos) {
       return (keywords.indexOf(item) == pos && docs.filter(x => {

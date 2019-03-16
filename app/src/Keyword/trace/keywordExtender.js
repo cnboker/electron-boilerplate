@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import EventBus from "eventing-bus"; import { sendToBackground } from
-// "../communication";
+
 import { Link } from "react-router-dom";
 import ipcBus from '~/ipc/ipcBus';
 
@@ -34,10 +33,7 @@ class Index extends Component {
     ipcBus.frontToBack("wordQuery", kw.keyword).then(obj => {
       if (self.unmount) return;
       console.log("react wordResponse", obj);
-      kw = self.props.keyword;
-      if (kw.keyword == obj.keyword) {
-        self.setState({ keywords: obj.result });
-      }
+      self.setState({ keywords: obj });
     });
   }
 

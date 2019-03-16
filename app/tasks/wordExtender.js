@@ -26,12 +26,12 @@ exports.search = async function(input) {
     await page.$eval("#query", (el, input) => (el.value = input), input);
     //page.type("#query", input);
 
-    await sleep(2000);
+    await sleep(3000);
 
     await page.evaluate(() => {
       document.querySelector("#stb").click();
     });
-    await sleep(2000);
+    await sleep(3000);
 
     var keywords = [];
 

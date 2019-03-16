@@ -7,14 +7,13 @@ var jobRouter = require("./taskRouter");
 
 var logger = require("../logger");
 const auth = require("../auth");
-const messager = require("./ipcSender");
+const ipc = require("../ipc/ipcBus");
 var jobAction = require("./jobAction");
-var localScanJober = require('./localScanJober');
 
 function doTask(puppeteerCreator) {
   logger.info("doTask start ...");
   // ipcSendMessage('message', 'task start')
-  messager("message", "检查离线包下载..");
+  ipc.sendToFront("message", "检查离线包下载..");
   var downloader = require("./downloader/resloader");
   downloader(function(success) {
     if (success) {
@@ -25,7 +24,7 @@ function doTask(puppeteerCreator) {
       auth.waitUtilGetToken(main);
     } else {
       logger.info("downloader failure,retry doTask start ...");
-      messager("message", "离线包下载失败,正在重试..");
+      ipc.sendToFront("message", "离线包下载失败,正在重试..");
       window.setTimeout(doTask.bind(null, puppeteerCreator), 30000);
     }
   });
@@ -45,10 +44,9 @@ function doTask(puppeteerCreator) {
 function main(token) {
   //logger.info("token is ok", token);
   if (token.userName == "admin" || token.userName == "su") return;
-  messager("message", "准备就绪优化启动..");
+  ipc.sendToFront("message", "准备就绪优化启动..");
 
   //使用进程间通讯替代socket通讯
-  //require('./frontEvent')(jobContext.ipc)
   require('../ipc/backgroudProcess')()
   var client = require("./socketClient");
   client.main(token)
