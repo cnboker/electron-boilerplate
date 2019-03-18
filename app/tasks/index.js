@@ -26,12 +26,12 @@ process.node_debug = true;
     doc: {
       userName: "scott",
       engine: "baidu",
-      link: "ioliz.com",
-      keyword: "定制数字标牌发布系统",
+      link: "大圣配资市场解读",
+      keyword: "苏州配资网",
       originRank: 5,
       dynamicRank: 1,
     },
-    action: jobAction.SCAN,
+    action: jobAction.Polish,
     end: function(doc) {
       //console.log("polishjober execute doc rank", doc);
       //done();
@@ -45,7 +45,7 @@ process.node_debug = true;
   //const page = await browser.newPage();
   //await pageTaskJob.inputKeyword(page,'定制数字标牌发布系统',false);
 
-  //await pageTaskJob.execute(task);
+  await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
@@ -79,9 +79,9 @@ process.node_debug = true;
  // await linkClickTest();
   //await titleClickTest();
   //await cheerTest();
-  var wordExtender = require('./wordExtender');
-  var result = await wordExtender.search('软件定制')
-  console.log(result)
+  // var wordExtender = require('./wordExtender');
+  // var result = await wordExtender.search('软件定制')
+  // console.log(result)
 })();
 
 async function cheerTest(){

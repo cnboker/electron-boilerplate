@@ -62,8 +62,13 @@ function sendToBackground(event, data) {
 }
 
 function isElectron(){
-  var userAgent = navigator.userAgent.toLowerCase();
-  return userAgent.indexOf(' electron/') > -1
+  try{
+    var userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.indexOf(' electron/') > -1
+  }catch(e){
+    return false;
+  }
+  
 }
 
 module.exports = {
