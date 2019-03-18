@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Account from "./account";
 import axiox from "axios";
-import { connect } from "react-redux";
-
+import {connect} from "react-redux";
+import ImageUploader from 'react-images-upload'
 class Reward extends Component {
   constructor() {
     super();
@@ -13,29 +13,37 @@ class Reward extends Component {
         userName: "",
         expiredDate: Date.now(),
         balance: []
-      }
+      },
+      pictures: []
     };
+    this.onDrop = this
+      .onDrop
+      .bind(this);
+  }
+
+  onDrop(pictureFiles, pictureDataURLs) {
+    console.log('ondrop',pictureFiles,pictureDataURLs)
+    this.setState({
+      pictures: this
+        .state
+        .pictures
+        .concat(pictureFiles)
+    });
   }
 
   componentDidMount() {
-    console.log(this.props.client);
     var $this = this;
     const url = `${process.env.REACT_APP_API_URL}/profile`;
     axiox({
-      url,
-      headers: {
-        Authorization: `Bearer ${this.props.client.token.access_token}`
-      }
+        url,
+        headers: {
+          Authorization: `Bearer ${this.props.client.token.access_token}`
+        }
+      }).then(function (res) {
+      $this.setState({profile: res.data});
+      // $this.forceUpdate()
     })
-      .then(function(res) {
-        $this.setState({
-          profile: res.data
-        });
-        // $this.forceUpdate()
-      })
-      .catch(function(e) {
-       
-      });
+      .catch(function (e) {});
   }
 
   getStats(balance) {
@@ -48,59 +56,79 @@ class Reward extends Component {
         return (sum += val.amount);
       }, 0);
     var unPaidAmount = amount - paidAmount;
-    return {
-      amount,
-      paidAmount,
-      unPaidAmount
-    };
+    return {amount, paidAmount, unPaidAmount};
   }
 
   render() {
-    const balance = this.state.profile.balance.filter(x => x.payType == 2);
+    const balance = this
+      .state
+      .profile
+      .balance
+      .filter(x => x.payType == 2);
     const stats = this.getStats(balance);
     return (
       <div>
         <div className="alert alert-success" role="alert">
           <h3>分享越多,收获越多！</h3>
-          <hr />
+          <hr/>
           <p className="mb-0">
             把好用的钢铁侠推荐给更多人使用，你会有更多收获。经你推荐的注册用户，一旦激活VIP身份，你就能有
-            <strong
-              style={{
-                color: "red"
-              }}
-            >
+            <strong style={{
+              color: "red"
+            }}>
               50元/人
             </strong>
             奖金拿，奖励随时可提现.
-            <br />
-            <br />
-            <span style={{ fontStyle: "italic" }}>
+            <br/>
+            <br/>
+            <span style={{
+              fontStyle: "italic"
+            }}>
               记得提醒新用户在注册时，输入你的专用推荐码哟！
             </span>
           </p>
         </div>
-
-        <p style={{marginBottom:"50px"}}>
+        <div>
+          <ImageUploader
+            buttonClassName="btn-button btn-primary"
+            withPreview={false}
+            label="文件最大尺寸30k，只接收.jpg, .gif,.png文件"
+            fileSizeError="文件大小不能超过30k,上传失败"
+            fileTypeError="文件类型错误"
+            withIcon={false}
+            buttonText='上传收款码'
+            onChange={this.onDrop}
+            withLabel={false}
+            singleImage={false}
+            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+            maxFileSize={30720}/>
+        </div>
+        <p style={{
+          marginBottom: "50px"
+        }}>
           钢铁侠赐你专用推荐码:
           <span
             style={{
-              fontSize: "36px",
-              color: "red",
-              marginLeft: "15px"
-            }}
-          >
+            fontSize: "36px",
+            color: "red",
+            marginLeft: "15px"
+          }}>
             {this.state.profile.rewardCode}
           </span>
         </p>
+
         <hr/>
         <Account balance={balance} onlyReward={true}>
-        <h5>我的分享收益</h5>
+          <h5>我的分享收益</h5>
           <div className="text-right">
-            总收益:
-            {stats.amount.toFixed(2)}
-            元，已提现金额:{stats.paidAmount.toFixed(2)}元，余额:
-            {stats.unPaidAmount.toFixed(2)}
+            总收益: {stats
+              .amount
+              .toFixed(2)}
+            元，已提现金额:{stats
+              .paidAmount
+              .toFixed(2)}元，余额: {stats
+              .unPaidAmount
+              .toFixed(2)}
           </div>
         </Account>
         <p>群号：340828020</p>
@@ -110,7 +138,7 @@ class Reward extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { client: state.client };
+  return {client: state.client};
 };
 
 //state表示reducer, combineReducer包含state和dispatch
