@@ -457,8 +457,8 @@ function dynamicPolish(req, res, next) {
     }
     return {keyword, user};
   }).then(result => {
-    return
-    Keyword.findOneAndUpdate({
+    
+    return Keyword.findOneAndUpdate({
       _id: req.body._id
     }, upsertData, {
       // 同时设置这2个参数，否则doc返回nullupsert: true, new: true //return the modified document
@@ -466,6 +466,7 @@ function dynamicPolish(req, res, next) {
     });
   })
     .then(function (doc) {
+      console.log('polish', doc)
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
@@ -480,13 +481,11 @@ function dynamicPolish(req, res, next) {
       var obj = doc.toObject();
       req
         .socketServer
-        .refreshPage(obj);
+        .keywordPolish(obj);
       keywordPool.polishFinished(req.user.sub, obj);
       res.json(doc);
     })
     .catch(e => {
       logger.error(e);
-      return
-      next(boom.badRequest(e));
     });
 }

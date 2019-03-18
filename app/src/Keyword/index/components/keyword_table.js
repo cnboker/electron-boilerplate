@@ -165,7 +165,7 @@ class KeywordTable extends React.Component {
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox" onClick={e => this.selectAll(e)} />
+                  <input type="checkbox"  onClick={e => this.selectAll(e)} />
                 </th>
                 <th
                   style={{

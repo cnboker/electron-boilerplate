@@ -54,7 +54,7 @@ export default class KeywordItem extends React.Component {
     return (
       <tr key={item._id}>
         <td>
-          <input type="checkbox" checked={this.state.selected} onClick={this.selected.bind(this,item)}/>
+          <input type="checkbox" checked={item.selected} onClick={this.selected.bind(this,item)}/>
         </td>
         <td
           style={{

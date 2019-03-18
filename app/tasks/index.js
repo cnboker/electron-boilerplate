@@ -45,7 +45,7 @@ process.node_debug = true;
   //const page = await browser.newPage();
   //await pageTaskJob.inputKeyword(page,'定制数字标牌发布系统',false);
 
-  await pageTaskJob.execute(task);
+  //await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
@@ -79,6 +79,9 @@ process.node_debug = true;
  // await linkClickTest();
   //await titleClickTest();
   //await cheerTest();
+  var wordExtender = require('./wordExtender');
+  var result = await wordExtender.search('软件定制')
+  console.log(result)
 })();
 
 async function cheerTest(){

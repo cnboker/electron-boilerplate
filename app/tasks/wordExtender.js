@@ -1,6 +1,6 @@
 var sleep = require("./sleep");
 var jobContext = require("./jobContext");
-
+var random = require("./random");
 var browser;
 
 exports.search = async function(input) {
@@ -11,10 +11,10 @@ exports.search = async function(input) {
         return process.env.ChromePath;
       })()
     });
-
+   
     const page = await browser.newPage();
-    const pageUrl = "https://www.soso.com/";
-
+    const pageUrl = "https://www.sogou.com";
+   
     await page.goto(pageUrl, {
       waitUtil: "load"
     });
@@ -26,16 +26,16 @@ exports.search = async function(input) {
     await page.$eval("#query", (el, input) => (el.value = input), input);
     //page.type("#query", input);
 
-    await sleep(3000);
+    await sleep(2000);
 
     await page.evaluate(() => {
       document.querySelector("#stb").click();
     });
-    await sleep(3000);
+    await sleep(random(2000, 5000));
 
     var keywords = [];
 
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 2; i++) {
       var tmpArray = await page.$$eval("div.rb a", as =>
         as.map(a => {
           return a.innerText;
@@ -63,13 +63,14 @@ exports.search = async function(input) {
 
       await page.waitForNavigation();
 
-      await sleep(2000);
+      await sleep(random(1000, 5000));
+     // await sleep(2000);
     }
     browser.close();
     browser = null;
     //remove duplication
     return keywords.filter(function(item, pos) {
-      return keywords.indexOf(item) == pos && item.length > 3;
+      return keywords.indexOf(item) == pos && item.length > 3 && item !== '翻译此页';
     });
   } catch (e) {
     if (browser) {
