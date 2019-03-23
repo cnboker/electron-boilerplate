@@ -8,6 +8,7 @@
 /server/node_modules
 /server/data
 /server/logs
+/server/public
 /doc
 /website
 /db_bakup

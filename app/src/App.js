@@ -3,9 +3,9 @@ import React, {Component} from "react";
 import Header from "./Components/Header";
 import {Route, Switch, Redirect} from "react-router-dom";
 import Keyword from "./Keyword/index";
-import Price from "./Price/index";
-import Contact from "./Price/contact";
-import Charge from "./Price/charge";
+import Price from "./Pay/index";
+import Contact from "./Pay/contact";
+import Charge from "./Pay/charge";
 import Users from "./Users/index";
 import Analysis from './Keyword/trace/index'
 import "./Components/Header.css";
@@ -23,7 +23,7 @@ import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './SN/index'
 import Quora from './Quora/components/index'
 import Commission from './commission/container'
-import Rewards from './Price/reward'
+import Rewards from './Pay/reward'
 import '../public/scss/app.scss'
 import CustomKeywordExtender from './Keyword/trace/customKeywordExtender'
 

@@ -24,8 +24,23 @@ db.users.insert({
   actived: true,
   todayPoint: 0,
   totalPoint: 0,
-  lostPoint: 0
+  lostPoint: 0,
+  keeper:true
 });
+
+db.users.insert({
+  userName: 'songsj',
+  password: '1',
+  email: '1@qq.com',
+  locked: false,
+  createDate: new Date(),
+  actived: true,
+  todayPoint: 0,
+  totalPoint: 0,
+  lostPoint: 0,
+  keeper:true
+});
+
 db.users.insert({
   userName: 'song',
   password: '1',
@@ -163,3 +178,21 @@ db.keywords.insert({
   status: 1
 });
 
+db.rewardcodes.insert({
+  code:'401c',
+  isUsed:false
+})
+
+db.rewardcodes.insert({
+  code:'401b',
+  isUsed:false
+})
+
+db.qrpays.insert({
+  payNo:'12345678',
+  payUser:'hwx',
+  payDate: new Date(),
+  keeper:'scott',
+  payCode:'abc',
+  status:0 //pending
+})

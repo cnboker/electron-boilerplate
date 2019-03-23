@@ -5,7 +5,7 @@ import {reduxForm, Field} from "redux-form";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {connect} from "react-redux";
-import Price from "../Price/price";
+import Price from "../Pay/price";
 import {fetchProfile} from '../Client/action'
 class SNActive extends Component {
   constructor(props) {

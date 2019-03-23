@@ -53,8 +53,7 @@ describe('Users', () => {
         .post('/api/signup')
         .send(user)
         .end((err, res) => {
-          //console.log('err', err)
-          //console.log('body', res.body);
+          
           res.should.have.status(201);
           done();
         })

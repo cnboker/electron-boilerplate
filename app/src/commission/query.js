@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import {Form, FormGroup, FormControl, Button, Checkbox} from "react-bootstrap";
+import {Form, FormGroup, Input, Button, Label} from "reactstrap";
 
 export default class Query extends Component {
   constructor(props) {
@@ -9,8 +9,8 @@ export default class Query extends Component {
 
     this.state = {
       name: "",
-      startDate: moment().add('days',-90),
-      endDate: moment().add('days',1),
+      startDate: moment().add('days', -90),
+      endDate: moment().add('days', 1),
       status: false
     };
     this.query();
@@ -53,21 +53,22 @@ export default class Query extends Component {
             onChange={date => {
             this.setState({endDate: date});
           }}/>{" "}
-          <FormControl
+          <Input
             type="text"
             value={this.state.name}
             placeholder={"推荐人"}
             onChange={e => {
             this.setState({name: e.target.value});
           }}/>
-          <Checkbox
-            checked={this.state.status}
-            onChange={e => {
-            this.setState({status: e.target.checked})
-          }}>已付款</Checkbox>
-          <Button
-            bsStyle="primary"
-            onClick={this
+          <Label check>
+            <Input
+              type="checkbox"
+              checked={this.state.status}
+              onChange={e => {
+              this.setState({status: e.target.checked})
+            }}></Input>{' '}已付款</Label>
+
+          <Button onClick={this
             .query
             .bind(this)}>
             查询

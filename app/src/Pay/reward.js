@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import Account from "./account";
 import axiox from "axios";
 import {connect} from "react-redux";
-import ImageUploader from 'react-images-upload'
+import ImageUploader from '~/src/Components/Fileuploader/index'
+import {userUpdate} from '~/src/Client/action'
 class Reward extends Component {
   constructor() {
     super();
@@ -22,7 +23,7 @@ class Reward extends Component {
   }
 
   onDrop(pictureFiles, pictureDataURLs) {
-    console.log('ondrop',pictureFiles,pictureDataURLs)
+    console.log('ondrop', pictureFiles, pictureDataURLs)
     this.setState({
       pictures: this
         .state
@@ -59,6 +60,12 @@ class Reward extends Component {
     return {amount, paidAmount, unPaidAmount};
   }
 
+  onFinished(url) {
+    this
+      .props
+      .dispatch(userUpdate({wxpayUrl: url}))
+  }
+  
   render() {
     const balance = this
       .state
@@ -90,18 +97,9 @@ class Reward extends Component {
         </div>
         <div>
           <ImageUploader
-            buttonClassName="btn-button btn-primary"
-            withPreview={false}
-            label="文件最大尺寸30k，只接收.jpg, .gif,.png文件"
-            fileSizeError="文件大小不能超过30k,上传失败"
-            fileTypeError="文件类型错误"
-            withIcon={false}
-            buttonText='上传收款码'
-            onChange={this.onDrop}
-            withLabel={false}
-            singleImage={false}
-            imgExtension={['.jpg', '.gif', '.png', '.gif']}
-            maxFileSize={30720}/>
+            onFinished={this
+            .onFinished
+            .bind(this)}/>
         </div>
         <p style={{
           marginBottom: "50px"

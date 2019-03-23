@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router';
 import Select from "react-select";
-import {Alert} from 'react-bootstrap'
+import {Alert} from 'reactstrap'
 
 class QueryBar extends React.Component {
   constructor(props) {
@@ -120,7 +120,7 @@ class QueryBar extends React.Component {
         <div className="expanded-query-bar-container">
           <form className="expanded-query-bar" onSubmit={this.askQuestion.bind(this)} onClick={null}>
             <div className="expanded-ask-bar">
-              {this.state.showAlert&&<Alert bsStyle="danger">不能为空或字数太少</Alert>}
+              {this.state.showAlert&&<Alert color="danger">不能为空或字数太少</Alert>}
               <textarea rows="1" onChange={this.update("title")} className="form-control" ref='title'/> {descriptionField}
               <Select
                 placeholder="标签"
@@ -168,4 +168,4 @@ class QueryBar extends React.Component {
   }
 }
 
-export default withRouter(QueryBar)
+export default QueryBar

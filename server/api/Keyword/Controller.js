@@ -386,7 +386,8 @@ exports.polish = function (req, res, next) {
     Keyword.findOneAndUpdate({
       _id: req.body._id
     }, upsertData, {
-      // 同时设置这2个参数，否则doc返回nullupsert: true, new: true //return the modified document
+      // 同时设置这2个参数，否则doc返回null
+      upsert: true, new: true //return the modified document
       // rather than the original. defaults to false
     }).then(doc => {
       console.log("localscan", doc);
@@ -461,12 +462,12 @@ function dynamicPolish(req, res, next) {
     return Keyword.findOneAndUpdate({
       _id: req.body._id
     }, upsertData, {
-      // 同时设置这2个参数，否则doc返回nullupsert: true, new: true //return the modified document
+      // 同时设置这2个参数，否则doc返回null
+      upsert: true, new: true //return the modified document
       // rather than the original. defaults to false
     });
   })
     .then(function (doc) {
-      console.log('polish', doc)
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,

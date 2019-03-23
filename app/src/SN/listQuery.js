@@ -4,10 +4,10 @@ import moment from "moment";
 import {
   Form,
   FormGroup,
-  FormControl,
-  Button,
-  Checkbox
-} from "react-bootstrap";
+  Input,
+  Button
+  
+} from "reactstrap";
 
 export default class Query extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class Query extends Component {
               this.setState({ endDate: date });
             }}
           />{" "}
-          <FormControl
+          <Input
             type="text"
             value={this.state.name}
             placeholder={"代理商"}
@@ -58,13 +58,13 @@ export default class Query extends Component {
               this.setState({ name: e.target.value });
             }}
           />
-          <Checkbox
+          <Input type="checkbox"
             checked={this.state.actived}
             onChange={e=>{
                 this.setState({actived:e.target.checked})
             }}
-          >已激活</Checkbox> 
-          <Button bsStyle="primary" onClick={this.query.bind(this)}>
+          >已激活</Input> 
+          <Button  onClick={this.query.bind(this)}>
             查询
           </Button>
         </FormGroup>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton } from 'reactstrap'
 
 export default class RadioGroup extends Component {
   constructor(props) {

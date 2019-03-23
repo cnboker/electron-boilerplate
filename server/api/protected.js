@@ -46,10 +46,12 @@ module.exports = function (app) {
   app.use('/api/user/list',jwtCheck,requireScope('full_access'));
   app.use('/api/user/setting', jwtCheck, requireScope('full_access'));
   app.use('/api/user/update', jwtCheck, requireScope('full_access'));
+  app.use('/api/user/keeper', jwtCheck, requireScope('full_access'));
+  app.use('/api/user/isOnline', jwtCheck, requireScope('full_access'));
+ 
   app.use('/api/pool/sharePool', jwtCheck, requireScope('full_access'));
   app.use('/api/pool/finishedPool', jwtCheck, requireScope('full_access'));
   app.use('/api/pool/userPool', jwtCheck, requireScope('full_access'));
-  app.use('/api/user/isOnline', jwtCheck, requireScope('full_access'));
   app.use('/api/analysis/:id', jwtCheck, requireScope('full_access'));
 
   app.use('/api/event/del', jwtCheck, requireScope('full_access'));
@@ -69,4 +71,14 @@ module.exports = function (app) {
   app.use('/api/commissionPay',jwtCheck,requireScope('full_access'));
 
   app.use('/api/vote/create',jwtCheck,requireScope('full_access'));
+  app.use('/api/fileUpload',jwtCheck,requireScope('full_access'));
+
+  app.use('/api/qr/pending', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/submit', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/confirm', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/cancel', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/list', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/currentKeeper', jwtCheck, requireScope('full_access'));
+ 
+  
 }

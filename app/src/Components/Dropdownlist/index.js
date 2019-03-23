@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { DropdownButton, MenuItem } from 'react-bootstrap'
+import { DropdownButton, MenuItem } from 'reactstrap'
 
 export default class DropdownButtonBinder extends Component {
   constructor(props) {
@@ -22,10 +22,10 @@ export default class DropdownButtonBinder extends Component {
     }
   }
   render() {
-    const { dataSource, bsStyle, id } = this.props
+    const { dataSource, id } = this.props
     return (
 
-      <DropdownButton title={this.state.title} bsStyle={bsStyle} key={id} id={id}
+      <DropdownButton title={this.state.title}  key={id} id={id}
         onSelect={this.onSelect.bind(this)}
       >
         {this.getChildren(dataSource)}

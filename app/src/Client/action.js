@@ -21,3 +21,12 @@ export const fetchProfile = () => dispatch => {
     dispatch(receiveProfile(response.data))
   })
 }
+
+//更新用户数据
+export const userUpdate = (setting) => dispatch => {
+  var headers = require('../lib/check-auth').authHeader();
+
+  const url = `${process.env.REACT_APP_API_URL}/user/update`
+  return axios({url, method: 'put', data: setting, headers})
+  
+}

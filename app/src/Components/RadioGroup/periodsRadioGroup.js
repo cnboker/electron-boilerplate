@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {ToggleButtonGroup, ToggleButton} from 'react-bootstrap'
+import {ToggleButtonGroup, ToggleButton} from 'reactstrap'
 import LocalizedStrings from 'react-localization'
 import Cookies from "js-cookie"
 

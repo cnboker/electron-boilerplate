@@ -27,8 +27,11 @@ var userSchema = new Scheam({
   votes:String, //用户投票数据
   performanceIndex:Number, //排名综合指数,
   rewardCode:String,
-  weixinPayCode:String, //微信收款码
-  todayPolishedCount:Number
+  wxpayUrl:String, //微信收款二维码图片
+  todayPolishedCount:Number,
+  keeper:Boolean, //是否是收款人，会员通过扫描二维码付款给收款人
+  nickname:String,//别名
+  avator:String, //个人图释
 });
 
 userSchema.plugin(mongoosePaginate) //pagination function

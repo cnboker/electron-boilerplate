@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import Select from 'react-select'
 import {userStatusList, userGradeList} from './constants'
 import moment from 'moment'
-import {Form, FormGroup, FormControl, Button} from 'react-bootstrap'
+import {Form, FormGroup, Input, Button} from 'reactstrap'
 
 export default class UserQuery extends Component {
     constructor(props) {
@@ -80,7 +80,7 @@ export default class UserQuery extends Component {
                         onChange={(date) => {
                         this.setState({endDate: date})
                     }}/>{" "}
-                    <FormControl
+                    <Input
                         type="text"
                         value={this.state.name}
                         placeholder={"用户名称"}
@@ -88,7 +88,6 @@ export default class UserQuery extends Component {
                         this.setState({name: e.target.value})
                     }}/>
                     <Button
-                        bsStyle="primary"
                         onClick={this
                         .query
                         .bind(this)}>查询</Button>

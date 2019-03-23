@@ -54,23 +54,63 @@ exports.isOnline = function (req, res) {
   return res.send(keywordPool.isOnline(req.user.sub));
 };
 
+/*
+获取收款人二维码
+*/
+exports.keeper = function (req, res, next) {
+  User
+    .find({keeper: true})
+    .then(docs => {
+      var users = docs.map(x => {
+        return {userName: x.userName, qrUrl: x.wxpayUrl}
+      })
+      res.json(users)
+    })
+}
+
 exports.update = function (req, res, next) {
-  if (req.user.sub !== "admin") {
-    throw "不是指定账号";
+
+  let updateData = {}
+  if (req.body.locked) {
+    updateData['locked'] = req.body.locked;
+  }
+  if (req.body.wxpayUrl) {
+    updateData['wxpayUrl'] = req.body.wxpayUrl;
+  }
+  if (req.body.keeper) {
+    updateData['keeper'] = req.body.keeper;
+  }
+  if (req.body.avator) {
+    updateData['avator'] = req.body.avator;
+  }
+  if (req.body.nickname) {
+    updateData['nickname'] = req.body.nickname;
   }
   User
     .findOne({userName: req.body.userName})
     .then(function (doc) {
-      doc.locked = req.body.locked;
-      return doc.save();
-    })
-    .then(doc => {
-      res.json(doc);
-    })
-    .catch(e => {
-      return next(boom.badRequest(e));
+      if (req.body.keeper || req.body.locked) {
+        if (req.user.sub !== "admin") {
+          throw "非法操作";
+        }
+      }
+      if (req.body.keeper) {
+        if (!doc.wxpayUrl) {
+          throw '设置收款人前先添加收款人收款二维码'
+        }
+      }
+      return User.findOneAndUpdate({
+        userName: req.body.userName
+      }, updateData, {
+        upsert: true,
+        new: true
+      }).then(doc => {
+        res.json(doc);
+      }).catch(e => {
+        return next(boom.badRequest(e));
+      });
     });
-};
+}
 
 exports.setting = function (req, res, next) {
   User.update({
@@ -223,7 +263,7 @@ exports.profile = function (req, res, next) {
     profile.grade = userGrade(user.grade);
     profile.gradeValue = user.grade;
     profile.expiredDate = user.vipExpiredDate;
-    profile.vipUserExpired = moment().diff(user.vipExpiredDate,'days')  > 0;
+    profile.vipUserExpired = moment().diff(user.vipExpiredDate, 'days') > 0;
     profile.rank = user.rank;
     profile.rewardCode = user.rewardCode;
     profile.balance = list
@@ -299,6 +339,7 @@ exports.signup = async function (req, res, next) {
         .json(jwtJson);
     }
   }).catch(e => {
+    console.log('signup', e)
     res
       .status(400)
       .send(e);

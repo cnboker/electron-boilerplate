@@ -83,4 +83,4 @@ class QuestionIndex extends React.Component {
   }
 }
 
-export default withRouter(QuestionIndex);
+export default QuestionIndex;

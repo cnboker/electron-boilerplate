@@ -209,15 +209,7 @@ async function fullPageRank(page, doc, pageIndex) {
   if (doc.rank > 0) {
     return rank;
   }
-  //百家号title匹配
-  if (doc.title) {
-    rank = await pageRank(page, titleSelector, doc.title, pageIndex);
-    doc.rank = rank || -1;
-    if (doc.rank > 0) {
-      return rank;
-    }
-  }
-
+  
   return -1;
 }
 

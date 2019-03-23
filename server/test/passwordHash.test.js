@@ -24,13 +24,3 @@ describe('passwordHash()',function(){
   })
 })
 
-describe('create reward code',function(){
-  it('should return 1000 results',function(){
-      var data =[];
-      for(var i = 0; i < 20000; i++){
-        arr.push(ph.radmon(6));
-      }
-      
-  })
-
-})

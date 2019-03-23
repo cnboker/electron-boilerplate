@@ -22,10 +22,11 @@ var SocketServer = require("./socket/socketServer");
 const socketServer = new SocketServer(http);
 
 var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 // Adding body-parser middleware to parser JSON data
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static('public'))
 //inject socketServer
 app.use((req, res, next) => {
   if (!req.socketServer) {
@@ -51,6 +52,8 @@ require("./api/Event/Route")(app);
 require('./api/SN/Route')(app);
 require('./api/Quora/Route')(app);
 require('./api/Vote/Route')(app);
+require('./api/File/Route')(app);
+require('./api/QRPay/Route')(app);
 //exception handle
 app.use(function(err, req, res, next) {
   

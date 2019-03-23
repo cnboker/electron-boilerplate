@@ -92,9 +92,4 @@ describe('balance', () => {
 
   })
 
-
-
-
-
-
 })
