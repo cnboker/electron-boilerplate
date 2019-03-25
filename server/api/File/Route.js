@@ -13,10 +13,19 @@ module.exports = function (app) {
     },
     filename: (req, file, cb) => {
       console.log('file',file)
-      cb(null, Date.now().toString() + file.originalname)
+      cb(null, Date.now().toString() + '-' + file.originalname)
     }
   })
   var upload = multer({storage}) 
+  var express = require('express');
+  //app.post("/api/fileUpload", upload.single('file'), ctl.fileUpload)
+  var fileRouter = express.Router();
+  fileRouter.post('/', upload.single('file'), ctl.fileUpload)
+  fileRouter.delete('/:id',(req,res)=>{
+    console.log('file remove', req.params.id)
+    fs.unlinkSync(`./public/files/${req.params.id}`)
+  });
 
-  app.post("/api/fileUpload", upload.single('file'), ctl.fileUpload)
+  app.use('/api/fileUpload',fileRouter)
+
 };

@@ -9,18 +9,9 @@ var User = require("./Model");
 var Keyword = require("../Keyword/Model");
 var keywordPool = require("../../socket/keywordPool");
 var RewardCode = require('./RewardModel');
+var userService = require('./Service')
+var constants = require('./constants')
 
-function userGrade(grade) {
-  if (grade == 1) {
-    return "免费账号";
-  } else if (grade == 2) {
-    return "VIP账号";
-  } else if (grade == 3) {
-    return "企业账户";
-  } else {
-    return "未知";
-  }
-}
 
 exports.forgetpassword = function (req, res, next) {
   //console.log(req.body)
@@ -57,7 +48,7 @@ exports.isOnline = function (req, res) {
 /*
 获取收款人二维码
 */
-exports.keeper = function (req, res, next) {
+exports.keepers = function (req, res, next) {
   User
     .find({keeper: true})
     .then(docs => {
@@ -105,7 +96,9 @@ exports.update = function (req, res, next) {
         upsert: true,
         new: true
       }).then(doc => {
-        res.json(doc);
+        return userService.profile(req.body.userName)
+      }).then(doc => {
+        res.json(doc)
       }).catch(e => {
         return next(boom.badRequest(e));
       });
@@ -237,7 +230,7 @@ exports.list = function (req, res, next) {
         if (grResult.length > 0) {
           doc.keywordCount = grResult[0].count;
         }
-        doc.userTypeText = userGrade(doc.grade || 1);
+        doc.userTypeText = constants.userGrade(doc.grade || 1);
         return doc;
       });
 
@@ -248,29 +241,14 @@ exports.list = function (req, res, next) {
 };
 
 exports.profile = function (req, res, next) {
-  Promise.all([
-    User.findOne({userName: req.user.sub}),
-    Balance.find({
-      user: req.user.sub
-    }, null, {
-      sort: {
-        createDate: -1
-      }
+  userService
+    .profile(req.user.sub)
+    .then(p => {
+      res.json(p)
     })
-  ]).then(([user, list]) => {
-    var profile = {};
-    profile.userName = user.userName;
-    profile.grade = userGrade(user.grade);
-    profile.gradeValue = user.grade;
-    profile.expiredDate = user.vipExpiredDate;
-    profile.vipUserExpired = moment().diff(user.vipExpiredDate, 'days') > 0;
-    profile.rank = user.rank;
-    profile.rewardCode = user.rewardCode;
-    profile.balance = list
-    res.json(profile)
-  }).catch(e => {
-    return next(boom.badRequest(e))
-  })
+    .catch(e => {
+      return next(boom.badRequest(e))
+    })
 };
 
 exports.signup = async function (req, res, next) {

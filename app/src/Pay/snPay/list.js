@@ -6,7 +6,7 @@ import moment from "moment";
 import ReactPaginate from "react-paginate";
 import {PAGE_SIZE} from "./constants";
 import Select from "react-select";
-import "../utils/groupBy";
+import "~/src/utils/groupBy";
 import Query from "./listQuery";
 
 class List extends Component {

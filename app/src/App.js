@@ -2,10 +2,13 @@ import {hot} from "react-hot-loader";
 import React, {Component} from "react";
 import Header from "./Components/Header";
 import {Route, Switch, Redirect} from "react-router-dom";
+import LoadingBar from "react-redux-loading-bar";
+
 import Keyword from "./Keyword/index";
-import Price from "./Pay/index";
-import Contact from "./Pay/contact";
-import Charge from "./Pay/charge";
+import My from "./My/index";
+import Pay from './Pay/index'
+import Contact from "./My/contact";
+import Charge from "./My/charge";
 import Users from "./Users/index";
 import Analysis from './Keyword/trace/index'
 import "./Components/Header.css";
@@ -16,14 +19,13 @@ import {unsetClient,fetchProfile} from "./Client/action";
 import {ToastContainer} from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
-import LoadingBar from "react-redux-loading-bar";
 import Start from './Help/Start'
 import Forgetpassword from './ForgetPwd/index'
 import Resetpassword from './ForgetPwd/resetpassword'
-import SN from './SN/index'
+import SN from './Pay/snPay/index'
 import Quora from './Quora/components/index'
 import Commission from './commission/container'
-import Rewards from './Pay/reward'
+import Rewards from './My/reward'
 import '../public/scss/app.scss'
 import CustomKeywordExtender from './Keyword/trace/customKeywordExtender'
 
@@ -36,7 +38,8 @@ class App extends Component {
   }
 
   componentDidMount(){
-   // this.props.fetchProfile();
+    console.log('fetchprofile')
+    this.props.fetchProfile();
   }
   unset() {
     if (this.authenticated) {
@@ -66,9 +69,9 @@ class App extends Component {
         <div className="container">
 
           <Switch>
-            <PrivateRoute path="/price" component={Price} dispatch={this.props.dispatch}/>
+            <PrivateRoute path="/my" component={My} dispatch={this.props.dispatch}/>
             <Route path="/contact" component={Contact}/>
-
+            <PrivateRoute path="/pay" component={Pay} dispatch={this.props.dispatch}/>
             <PrivateRoute
               path="/charge"
               role="admin"

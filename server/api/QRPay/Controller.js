@@ -83,8 +83,8 @@ exports.pending = async(req, res, next) => {
         var doc = QRPay({
           payNo: strTool.getOrderNo(),
           payUser: req.user.sub,
-          payDate: new Date(),
-          payCOde: ph.radmon(3),
+          createDate: new Date(),
+          payCode: ph.radmon(3),
           status: PayStatus.pending,
           ...keeper
         })
@@ -94,18 +94,20 @@ exports.pending = async(req, res, next) => {
       }
     })
     .then(doc => {
-      console.log('pending',doc)
+      console.log('pending', doc)
       res.json(doc)
     })
     .catch(e => {
-      console.log('pending',e)
+      console.log('pending', e)
       return next(boom.badRequest(e))
     })
 }
 
-exports.submit = (req, res, next) => {
+exports.postwxPay = (req, res, next) => {
+  console.log('sub',req.user)
   QRPay.findOneAndUpdate({
-    payNo: req.body.payno
+    payUser: req.user.sub,
+    status: 0
   }, {
     payDate: new Date(),
     status: PayStatus.submit
@@ -113,6 +115,7 @@ exports.submit = (req, res, next) => {
     upsert: true,
     new: true
   }).then(doc => {
+    console.log('postwxpay', doc)
     res.json(doc)
   }).catch(e => {
     return next(boom.badRequest(e))

@@ -57,7 +57,7 @@ export default class Index extends Component {
                 </ul>
                 {linkAction && (
                   <Link
-                    to="/sn/snActive"
+                    to="/pay"
                     className="btn btn-lg btn-block btn-primary"
                   >
                     升级为标准账号

@@ -1,9 +1,8 @@
 import List from "./list";
 import Form from "./form";
-import SNActive from './snActive'
 import React, {Component} from "react";
 import {Route, Switch} from "react-router-dom";
-import {PrivateRoute} from "../lib/check-auth";
+import {PrivateRoute} from "~/src/lib/check-auth";
 import {connect} from "react-redux";
 
 class Index extends Component {
@@ -11,7 +10,6 @@ class Index extends Component {
     return (
       <div>
         <Switch>
-          <Route path='/sn/snActive' component={SNActive} {...this.props}/>
           <PrivateRoute
             path="/sn/create/:id"
             component={Form}

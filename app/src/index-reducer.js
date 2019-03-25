@@ -7,11 +7,13 @@ import {websiteReducer,keywordReducer} from './Keyword/index/reducers/keyword_re
 import eventReducer from './Keyword/Event/reducer'
 import userReducer from './Users/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
-import snReducer from './SN/reducer'
+import snReducer from './Pay/snPay/reducer'
 import questionReducer from './Quora/reducers/question_reducer'
 import topicReducer from './Quora/reducers/topics_reducer'
 import commissionReducer from './commission/reducer'
 import voteReducer from './Vote/reducer'
+import wxpayReducer from './Pay/wxPay/reducer'
+
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -27,7 +29,8 @@ const appReducer = combineReducers({
   questions:questionReducer,
   topic:topicReducer,
   commissions: commissionReducer,
-  votes:voteReducer
+  votes:voteReducer,
+  wxpay:wxpayReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

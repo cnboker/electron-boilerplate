@@ -72,9 +72,10 @@ module.exports = function (app) {
 
   app.use('/api/vote/create',jwtCheck,requireScope('full_access'));
   app.use('/api/fileUpload',jwtCheck,requireScope('full_access'));
+  app.use('/api/fileUpload/:id',jwtCheck,requireScope('full_access'));
 
   app.use('/api/qr/pending', jwtCheck, requireScope('full_access'));
-  app.use('/api/qr/submit', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/postwxPay', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/confirm', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/cancel', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/list', jwtCheck, requireScope('full_access'));

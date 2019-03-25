@@ -45,7 +45,7 @@ export default class Header extends Component {
           <Link className="p-2 text-dark" to="/setting">
             设置
           </Link>
-          <Link className="p-2 text-dark" to="/price">
+          <Link className="p-2 text-dark" to="/my">
             用户
           </Link>
           <Link className="p-2 text-dark" to="/start">

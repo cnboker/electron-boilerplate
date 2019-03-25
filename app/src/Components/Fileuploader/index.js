@@ -13,15 +13,14 @@ const toastColor = {
 
 export default class Index extends Component {
 
-  constructor(){
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       loading: false,
       uploading: false,
-      images: []
+      images: props.images
     }
   }
-  
 
   componentDidMount() {}
 
@@ -67,9 +66,11 @@ export default class Index extends Component {
       var url = response.data.url;
       var images = [];
       images.push(url)
-      self.setState({uploading: false,images})
-      if(self.props.onFinished){
-        self.props.onFinished(url);
+      self.setState({uploading: false, images})
+      if (self.props.onFinished) {
+        self
+          .props
+          .onFinished(url);
       }
     }).catch(e => {
       console.error(e)
@@ -89,6 +90,19 @@ export default class Index extends Component {
     this.setState({
       images: this.filter(id)
     })
+    var headers = require("~/src/lib/check-auth").authHeader();
+    var file = id.substring(id.lastIndexOf('/')+1)
+    axios(`${process.env.REACT_APP_API_URL}/fileUpload/${file}`, {
+      method: 'delete',
+      headers
+    }).then((response) => {
+      console.log('image removed')
+    });
+    if (this.props.onRemove) {
+      this
+        .props
+        .onRemove(id)
+    }
   }
 
   onError = id => {
@@ -110,7 +124,11 @@ export default class Index extends Component {
         case images.length > 0:
           return <Images images={images} removeImage={this.removeImage} onError={this.onError}/>
         default:
-          return <Buttons onChange={this.onChange.bind(this)} multi={false}/>
+          return <Buttons
+            onChange={this
+            .onChange
+            .bind(this)}
+            multi={false}/>
       }
     }
 

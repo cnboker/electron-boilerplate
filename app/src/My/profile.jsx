@@ -13,7 +13,7 @@ export default class Profile extends Component {
           <li className="list-group-item">
             {model.userName}
             <span className="float-right">
-              <Link to="/sn/snActive" className="btn btn-primary">
+              <Link to="/pay" className="btn btn-primary">
                 充值
               </Link>
             </span>

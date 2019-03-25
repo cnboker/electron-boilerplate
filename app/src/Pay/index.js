@@ -1,42 +1,80 @@
-import React, {
-  Component
-} from 'react'
+import {connect} from 'react-redux'
+import React from 'react'
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  Row
+} from 'reactstrap';
+import classnames from 'classnames';
+import WXPay from './wxPay/indexContainer'
+import SNPay from './snPay/snActive'
+import Price from "~/src/my/price";
 
-import Profile from './profile'
-import Price from './price'
-import { connect } from "react-redux";
-import { toast } from "react-toastify";
-import axiox from "axios";
-class Index extends Component {
-  constructor() {
-    super();
+export default class Index extends React.Component {
+  constructor(props) {
+    super(props)
+    this.toggle = this
+      .toggle
+      .bind(this);
     this.state = {
-      profile: {
-        grade: "",
-        userName: "",
-        expiredDate: Date.now(),
-        balance: []
-      }
-    };
+      activeTab: '1'
+    }; 
   }
 
-  componentDidMount() {
-    
-  }
-
-  render() {
-    const authenticated = localStorage.getItem("token") != undefined;
-    const {profile} = this.props.client;
-    if (profile.gradeValue > 1) {
-      return <Profile model={profile}/>
-    } else {
-      return <Price />
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({activeTab: tab});
     }
   }
-}
 
-const mapStateToProps = (state, ownProps) => {
-  return { client: state.client };
-};
-//state表示reducer, combineReducer包含state和dispatch
-export default connect(mapStateToProps)(Index);
+  componentDidMount() {}
+
+  render() {
+    return (
+      <div>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({
+              active: this.state.activeTab === '1'
+            })}
+              onClick={() => {
+              this.toggle('1');
+            }}>
+              微信扫码充值
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+              active: this.state.activeTab === '2'
+            })}
+              onClick={() => {
+              this.toggle('2');
+            }}>
+              充值码充值
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Row className="bd-example">
+              <WXPay/>
+            </Row>
+          </TabPane>
+          <TabPane tabId="2">
+            <Row className="bd-example">
+              <SNPay/>
+            </Row>
+          </TabPane>
+        </TabContent>
+        <hr/>
+        <Price action={false}/>
+      </div>
+    )
+  }
+}

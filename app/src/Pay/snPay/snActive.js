@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import {required} from "../utils/fieldLevelValidation";
-import {renderField} from "../Components/Forms/RenderField";
+import {required} from "~/src/utils/fieldLevelValidation";
+import {renderField} from "~/src/Components/Forms/RenderField";
 import {reduxForm, Field} from "redux-form";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {connect} from "react-redux";
-import Price from "../Pay/price";
-import {fetchProfile} from '../Client/action'
+import {fetchProfile} from '~/src/Client/action'
+
 class SNActive extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +64,7 @@ class SNActive extends Component {
             激活
           </button>
         </form>
-        <Price action={false}/>
+       
       </div>
     );
   }

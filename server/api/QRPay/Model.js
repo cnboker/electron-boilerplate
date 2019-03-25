@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var qrPaySchema = new Schema({
   payNo:String,//付款单号
   payUser: String, //付款人
+  createDate:Date,//创建日期
   payDate: Date, //付款日期
   keeper: String, //收款人
   keeperQR:String, //收款码

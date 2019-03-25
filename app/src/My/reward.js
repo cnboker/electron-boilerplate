@@ -4,6 +4,7 @@ import axiox from "axios";
 import {connect} from "react-redux";
 import ImageUploader from '~/src/Components/Fileuploader/index'
 import {userUpdate} from '~/src/Client/action'
+
 class Reward extends Component {
   constructor() {
     super();
@@ -32,20 +33,7 @@ class Reward extends Component {
     });
   }
 
-  componentDidMount() {
-    var $this = this;
-    const url = `${process.env.REACT_APP_API_URL}/profile`;
-    axiox({
-        url,
-        headers: {
-          Authorization: `Bearer ${this.props.client.token.access_token}`
-        }
-      }).then(function (res) {
-      $this.setState({profile: res.data});
-      // $this.forceUpdate()
-    })
-      .catch(function (e) {});
-  }
+  componentDidMount() {}
 
   getStats(balance) {
     var amount = balance.reduce((sum, val) => {
@@ -63,13 +51,18 @@ class Reward extends Component {
   onFinished(url) {
     this
       .props
-      .dispatch(userUpdate({wxpayUrl: url}))
+      .dispatch(userUpdate(this.props.client.token.userName, {wxpayUrl: url}))
   }
-  
+
+  onRemove(url) {
+    this
+      .props
+      .dispatch(userUpdate(this.props.client.token.userName, {wxpayUrl: ''}))
+  }
+
   render() {
-    const balance = this
-      .state
-      .profile
+    const {profile} = this.props.client;
+    const balance = profile
       .balance
       .filter(x => x.payType == 2);
     const stats = this.getStats(balance);
@@ -97,6 +90,7 @@ class Reward extends Component {
         </div>
         <div>
           <ImageUploader
+            images={[profile.wxpayUrl]}
             onFinished={this
             .onFinished
             .bind(this)}/>

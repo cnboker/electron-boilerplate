@@ -23,10 +23,20 @@ export const fetchProfile = () => dispatch => {
 }
 
 //更新用户数据
-export const userUpdate = (setting) => dispatch => {
+export const userUpdate = (userName, setting) => dispatch => {
   var headers = require('../lib/check-auth').authHeader();
 
   const url = `${process.env.REACT_APP_API_URL}/user/update`
-  return axios({url, method: 'put', data: setting, headers})
-  
+  const promise = axios({
+    url,
+    method: 'put',
+    data: {
+      userName,
+      ...setting
+    },
+    headers
+  })
+  promise.then(response => {
+    dispatch(receiveProfile(response.data))
+  })
 }

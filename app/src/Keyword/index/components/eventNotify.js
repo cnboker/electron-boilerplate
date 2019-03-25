@@ -9,7 +9,7 @@ export default class EventNotify extends React.Component {
     </div>
     {this.props.vipUserExpired && (
       <div className="alert alert-danger">
-        VIP会员资格已过期, 快去<Link to="/sn/snActive">升级</Link>吧!
+        VIP会员资格已过期, 快去<Link to="/pay">升级</Link>吧!
       </div>
     )}
       </div>

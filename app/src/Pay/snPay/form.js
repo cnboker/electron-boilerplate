@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {required} from "../utils/fieldLevelValidation";
-import {renderField} from "../Components/Forms/RenderField";
+import {required} from "~/src/utils/fieldLevelValidation";
+import {renderField} from "~/src/Components/Forms/RenderField";
 import {reduxForm, Field} from "redux-form";
 import axios from "axios";
 import {toast} from "react-toastify";
