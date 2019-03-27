@@ -139,7 +139,7 @@ class List extends Component {
         </div>
         <br/>
         <div className="table-responsive">
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
                 <th>代理商姓名</th>
@@ -159,7 +159,7 @@ class List extends Component {
           <div>合计:{this.state.data.reduce((accumulator, currentValue)=>{
             return accumulator + currentValue.agentPrice
             },0).toFixed(2)}</div>
-          <div className="pull-right">
+          <div className="float-right">
             <ReactPaginate
               previousLabel={"上一页"}
               nextLabel={"下一页"}

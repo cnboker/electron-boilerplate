@@ -6,6 +6,7 @@ var User = require("../User/Model");
 var Balance = require("../Balance/Model");
 var Keyword = require("../Keyword/Model");
 var config = require('../../config')
+var balanceService = require('../Balance/Service')
 
 exports.agent = function (req, res, next) {
   SN
@@ -97,49 +98,7 @@ exports.snActivate = function (req, res, next) {
     sn.activedUser = req.user.sub;
     sn.activedDate = new Date();
     await sn.save();
-
-    var serviceDays = 30;
-    var start = moment();
-    if (user.vipExpiredDate && moment().diff(moment(user.vipExpiredDate), "hours") < 0) {
-      start = user.vipExpiredDate;
-    }
-    var balance = new Balance({
-      user: req.user.sub,
-      amount: sn.price,
-      createDate: new Date(),
-      serviceDate: start,
-      days: serviceDays,
-      remark: `VIP充值金额${sn.price}`,
-      payType: 1,
-      status: 1 //已付款
-    });
-    await balance.save();
-
-    //注册包括推荐人且用户第一次开通vip推荐人获取佣金
-    if (user.reference && user.grade === 1) {
-      var referUser = await User.findOne({rewardCode: user.reference})
-      balance = new Balance({
-        user: referUser.userName, //推荐人
-        amount: 50,
-        createDate: new Date(),
-        remark: `用户${shortAuthor(user.userName)}开通VIP奖励`,
-        payType: 2, //commission
-        status: 0 //未付款
-      })
-      await balance.save();
-    }
-
-    user.grade = 2;
-    user.upgradeGradeDate = new Date();
-    user.vipExpiredDate = moment(start).add(serviceDays, "days");
-    await user.save();
-
-    return Keyword.updateMany({
-      user: req.user.sub,
-      shield: 1
-    }, {
-      shield: 0
-    }, {multi: true});
+    return balanceService.upgrade(user,sn.price)
   }).then(doc => {
     res.json(doc);
   }).catch(e => {

@@ -1,13 +1,13 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faImages, faImage} from '@fortawesome/free-solid-svg-icons'
+import {faImages, faImage, faAward} from '@fortawesome/free-solid-svg-icons'
 
 export default class Buttons extends React.Component {
   singleImage() {
     return (
       <div className='button'>
         <label htmlFor='single'>
-          <FontAwesomeIcon icon={faImage} color='#3B5998' size='10x'/>
+          <FontAwesomeIcon icon={faAward} color='red' size='8x'/>
         </label>
         <input type='file' id='single' name="file" onChange={this.props.onChange}/>
       </div>

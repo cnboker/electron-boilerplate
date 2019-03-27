@@ -7,6 +7,7 @@ import LoadingBar from "react-redux-loading-bar";
 import Keyword from "./Keyword/index";
 import My from "./My/index";
 import Pay from './Pay/index'
+import wxAdminPayList from './Pay/wxPay/admin.listContainer'
 import Contact from "./My/contact";
 import Charge from "./My/charge";
 import Users from "./Users/index";
@@ -15,7 +16,9 @@ import "./Components/Header.css";
 import {PrivateRoute, refreshClient,UserRoute} from "./lib/check-auth";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {unsetClient,fetchProfile} from "./Client/action";
+import {unsetClient} from "./Client/action";
+import {fetchProfile} from "./Profile/action";
+
 import {ToastContainer} from "react-toastify";
 import Setting from "./Settings/index";
 import Pool from './Pools/list'
@@ -72,6 +75,7 @@ class App extends Component {
             <PrivateRoute path="/my" component={My} dispatch={this.props.dispatch}/>
             <Route path="/contact" component={Contact}/>
             <PrivateRoute path="/pay" component={Pay} dispatch={this.props.dispatch}/>
+            <PrivateRoute path="/admin_wx_pay" component={wxAdminPayList} dispatch={this.props.dispatch}/>
             <PrivateRoute
               path="/charge"
               role="admin"
@@ -128,8 +132,8 @@ class App extends Component {
           </Switch>
         </div>
 
-        <footer id="footer">
-          <div className="container">
+        <footer id="footer" className="mt-5">
+         
             <div className="row">
               <div className="col-6 text-lg-left text-center">
                 <div className="copyright">© Copyright All Rights Reserved</div>
@@ -144,7 +148,7 @@ class App extends Component {
                 免责声明：钢铁侠应用AI技术优化网站以适应搜索引擎规则，帮助优质网站在搜索引擎获得较好的排名。因影响关键词具体排名的非可控因素较多，我们不承诺具体排名位置。
               </div>
             </div>
-          </div>
+         
         </footer>
         <ToastContainer/>
         <div className="col-md-12">

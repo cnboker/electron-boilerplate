@@ -3,6 +3,8 @@ import FireBox from './firebox'
 import RankDifferenceFormatter from './rankDifferenceFormatter'
 import {Link} from 'react-router-dom'
 import {Switch} from "~/src/Components/Forms/Switch";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faTrash, faSignal,faUndo} from '@fortawesome/free-solid-svg-icons'
 
 export default class KeywordItem extends React.Component {
   constructor(){
@@ -83,7 +85,7 @@ export default class KeywordItem extends React.Component {
             to={`/analysis/${item._id}`}
             role="button"
             className="btn btn-info btn-sm">
-            <i className="fa fa-signal fa-small"/> {/*  https://fontawesome.com/v4.7.0/icons/ */}
+            <FontAwesomeIcon icon={faSignal} size='1x'/>
           </Link>
         </td>
         <td>
@@ -97,7 +99,7 @@ export default class KeywordItem extends React.Component {
                 .onDelete(item, e)
             }
           }}>
-            <i className="fa fa-trash"/>
+          <FontAwesomeIcon icon={faTrash} size='1x'/>
           </button>{" "}
           <button
             title="重置"
@@ -110,6 +112,8 @@ export default class KeywordItem extends React.Component {
             }
           }}>
             <i className="fa fa-undo"/>
+            <FontAwesomeIcon icon={faUndo} size='1x'/>
+
           </button>{" "}
           <Switch on={item.status == 1} onClick={(e) => this.props.toggleSwitch(item,e)}/>
         </td>

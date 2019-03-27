@@ -7,6 +7,7 @@ var User = require('../User/Model')
 var QRPay = require('../QRPay/Model')
 var ph = require('../../utils/passwordHash')
 var strTool = require('../../utils/string')
+var balanceService = require('../Balance/Service')
 
 const PayStatus = {
   pending: 0,
@@ -18,20 +19,19 @@ const PayStatus = {
 exports.list = (req, res, next) => {
 
   let query = {}
-  if (req.query.status && req.query.status >= 0) {
-    query.status = req.query.status;
+  if (req.query.user) {
+    query.payUser = {
+      $regex: ".*" + req.query.user + ".*",
+      $ne: "admin"
+    };
   }
-  if (req.query.keeper) {
-    query.keeper = req.query.keeper;
-  }
+  query.createDate = {
+    $gt: req.query.startDate,
+    $lt: req.query.endDate
+  };
+
   QRPay
-    .paginate(query, {
-    page :+ req.query.page + 1,
-    limit :+ req.query.limit,
-    sort: {
-      createDate: -1
-    }
-  })
+    .find(query)
     .then(docs => {
       res.json(docs)
     })
@@ -104,7 +104,7 @@ exports.pending = async(req, res, next) => {
 }
 
 exports.postwxPay = (req, res, next) => {
-  console.log('sub',req.user)
+  console.log('sub', req.user)
   QRPay.findOneAndUpdate({
     payUser: req.user.sub,
     status: 0
@@ -122,18 +122,20 @@ exports.postwxPay = (req, res, next) => {
   })
 }
 
-exports.confirm = (req, res, next) => {
+exports.confirm = async (req, res, next) => {
   QRPay
     .findOne({payNo: req.body.payno})
     .then(doc => {
-      if (req.user.sub !== doc.keeper) {
-        throw '必须收款本人账号确认付款'
-      }
+      // if (req.user.sub !== doc.keeper) {
+      //   throw '必须收款本人账号确认付款'
+      // }
       doc.status = PayStatus.confirm;
       doc.confirmDate = new Date();
       return doc.save();
     })
-    .then(doc => {
+    .then(async (doc) =>{
+      var user =  await User.findOne({userName:doc.payUser})
+      await balanceService.upgrade(user)
       res.json(doc)
     })
     .catch(e => {
@@ -145,10 +147,11 @@ exports.cancel = (req, res, next) => {
   QRPay
     .findOne({payNo: req.body.payno})
     .then(doc => {
-      if (req.user.sub !== doc.keeper) {
-        throw '必须收款本人账号取消付款'
-      }
+      // if (req.user.sub !== doc.keeper) {
+      //   throw '必须收款本人账号取消付款'
+      // }
       doc.status = PayStatus.cancel;
+      doc.confirmDate = new Date();
       return doc.save();
     })
     .then(doc => {

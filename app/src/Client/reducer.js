@@ -1,4 +1,4 @@
-import {CLIENT_SET, CLIENT_UNSET, USER_PROFILE} from "./constants"
+import {CLIENT_SET, CLIENT_UNSET} from "./constants"
 
 const initialState = {
   token: null,
@@ -17,11 +17,7 @@ const reducer = (state = initialState, action) => {
 
     case CLIENT_UNSET:
       return {token: null}
-    case USER_PROFILE:
-      return {
-        ...state,
-        profile: action.payload,
-      }
+    
     default:
       return state
   }

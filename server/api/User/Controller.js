@@ -65,7 +65,7 @@ exports.update = function (req, res, next) {
   if (req.body.locked) {
     updateData['locked'] = req.body.locked;
   }
-  if (req.body.wxpayUrl) {
+  if (req.body.wxpayUrl != undefined) {
     updateData['wxpayUrl'] = req.body.wxpayUrl;
   }
   if (req.body.keeper) {

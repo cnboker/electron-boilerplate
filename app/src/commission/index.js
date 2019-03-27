@@ -53,7 +53,7 @@ class Index extends Component {
           that.props.commissionPay(id);
         })
       ],
-      bsSize: "small",
+      bssize: "small",
       onHide: dialog => {
         dialog.hide();
       }
@@ -105,7 +105,7 @@ class Index extends Component {
         </div>
         <br />
         <div className="table-responsive">
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
                 <th>推荐人用户</th>
@@ -120,7 +120,7 @@ class Index extends Component {
             <tbody>{this.renderList()}</tbody>
           </table>
 
-          <div className="pull-right">
+          <div className="float-right">
             <ReactPaginate
               previousLabel={"上一页"}
               nextLabel={"下一页"}

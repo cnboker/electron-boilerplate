@@ -3,7 +3,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import Account from "./account";
 
-export default class Profile extends Component {
+export default class ProfileComponent extends Component {
   render() {
     const model = this.props.model;
     return (
@@ -22,9 +22,12 @@ export default class Profile extends Component {
             到期日期 : {moment(model.expiredDate).format("YYYY-MM-DD")}
           </li>
         </ul>
+        <div className='mt-3'>
         <Account balance={model.balance} >
-          <div>账单</div>
+          <h3>账单</h3>
         </Account>
+        </div>
+        
       </div>
     );
   }

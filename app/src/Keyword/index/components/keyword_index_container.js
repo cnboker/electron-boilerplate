@@ -1,14 +1,14 @@
 import {connect} from 'react-redux'
 import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findWebsites} from '../actions/keywords_actions'
 import KeywordIndex from './keyword_index'
-import {fetchProfile} from '~/src/Client/action'
+import {fetchProfile} from '~/src/Profile/action'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     keywords: state.keywords, 
     websites: state.websites, 
     client: state.client.token,
-    profile:state.client.profile||{}
+    profile:state.userProfile
   }
 }
 

@@ -13,7 +13,7 @@ import topicReducer from './Quora/reducers/topics_reducer'
 import commissionReducer from './commission/reducer'
 import voteReducer from './Vote/reducer'
 import wxpayReducer from './Pay/wxPay/reducer'
-
+import userProfileReducer from './Profile/reducer'
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -30,7 +30,8 @@ const appReducer = combineReducers({
   topic:topicReducer,
   commissions: commissionReducer,
   votes:voteReducer,
-  wxpay:wxpayReducer
+  wxpay:wxpayReducer,
+  userProfile:userProfileReducer
 })
 
 //https://stackoverflow.com/questions/35622588/how-to-reset-the-state-of-a-redux-store

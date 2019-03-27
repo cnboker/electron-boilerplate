@@ -185,7 +185,7 @@ class List extends Component {
             <tbody>{this.renderList()}</tbody>
           </table>
           <br />
-          <div className="pull-right">
+          <div className="float-right">
             <Pager pageCount={this.state.pageCount} onPageChange={this.pagination}></Pager>
           </div>
         </div>

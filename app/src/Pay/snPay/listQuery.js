@@ -5,8 +5,8 @@ import {
   Form,
   FormGroup,
   Input,
-  Button
-  
+  Button,
+  Label
 } from "reactstrap";
 
 export default class Query extends Component {
@@ -58,12 +58,16 @@ export default class Query extends Component {
               this.setState({ name: e.target.value });
             }}
           />
+          <Label>
+          已激活
           <Input type="checkbox"
             checked={this.state.actived}
             onChange={e=>{
                 this.setState({actived:e.target.checked})
             }}
-          >已激活</Input> 
+          ></Input> 
+          </Label>
+          
           <Button  onClick={this.query.bind(this)}>
             查询
           </Button>

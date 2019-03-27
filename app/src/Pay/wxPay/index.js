@@ -1,8 +1,13 @@
 import React from 'react'
 import {toast} from "react-toastify";
-
+import {Link} from 'react-router-dom'
 export default class Index extends React.Component {
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: 0
+    }
+  }
   componentDidMount() {
     this
       .props
@@ -13,55 +18,54 @@ export default class Index extends React.Component {
     this
       .props
       .postwxPay();
+    this.setState({status: 1})
   }
 
-  pendingRender() {
+  pendingRender(wxpay) {
     return (
-      <p className="text-left">
-        付款完成后请点击
+      <div>
+        <p>
+          您的付款附加码是<kbd>{wxpay.payCode}</kbd>, 付款时请将附加码添加到微信付款备注内, 方便平台客服人员确认.
+        </p>
+        <h4>扫描二维码付款充值</h4>
+
+        <p>
+          <img src={process.env.REACT_APP_AUTH_URL + wxpay.keeperQR} alt=""/>
+        </p>
+        <p className="text-left">
+          付款完成后请点击"确认按钮" 提交完成支付</p><br/>
         <button
           className="btn btn-primary"
           onClick={this
           .wxPayPost
           .bind(this)}>
-          确认按钮
-        </button>提交完成支付</p>
+          完成支付确认
+        </button>
+      </div>
     );
   }
 
   rePostRender() {
     return (
-      <p className="text-left">提交成功,客服人员会尽快帮您处理，请稍后。如果继续充值请点击<button>充值</button>按钮继续充值</p>
+      <div>
+        <p className="text-left">提交成功,客服人员会尽快帮您处理，请稍后。如果继续充值请点击"充值“按钮继续充值
+        </p>
+        <p>
+          <button onClick={() => this.setState({status: 0})} className="btn btn-primary">充值</button>
+        </p>
+      </div>
     )
   }
+
   render() {
     const {profile} = this.props.client;
     const {wxpay} = this.props;
     return (
-      <div>
-        <div className="row">
-          <div className="col">
-            您的付款附加码是<kbd>{wxpay.payCode}</kbd>,请在付款的时候务必将改代码添加的付款备注内方便平台客服人员确认
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">扫描二维码付款充值</div>
-        </div>
-        <div className="row">
-          <div className="col">
-            
-            <img src={process.env.REACT_APP_AUTH_URL + wxpay.keeperQR} alt=""/>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {wxpay.status == 0
-              ? this.pendingRender()
-              : this.rePostRender()}
-          </div>
-        </div>
+      <div className="bs-expamle">
+        {this.state.status == 0
+          ? this.pendingRender(wxpay)
+          : this.rePostRender()}
       </div>
-
     )
   }
 }

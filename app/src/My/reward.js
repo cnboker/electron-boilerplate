@@ -61,76 +61,76 @@ class Reward extends Component {
   }
 
   render() {
-    const {profile} = this.props.client;
+    const {profile} = this.props;
     const balance = profile
       .balance
       .filter(x => x.payType == 2);
     const stats = this.getStats(balance);
     return (
-      <div>
-        <div className="alert alert-success" role="alert">
+      <div className="row">
+        <div className=" mt-3">
           <h3>分享越多,收获越多！</h3>
-          <hr/>
-          <p className="mb-0">
-            把好用的钢铁侠推荐给更多人使用，你会有更多收获。经你推荐的注册用户，一旦激活VIP身份，你就能有
-            <strong style={{
-              color: "red"
+
+          把好用的钢铁侠推荐给更多人使用，您会有更多收获。经您推荐的注册用户，一旦激活VIP身份，您就能有
+          <strong style={{
+            color: "red"
+          }}>
+            50元/人
+          </strong>
+          奖金拿，奖励随时可提现.
+          <br/>
+
+          记得提醒新用户在注册时，输入您的专用推荐码哟！
+
+          <p>
+            钢铁侠赐您专用推荐码:
+            <span
+              style={{
+              fontSize: "36px",
+              color: "red",
+              marginLeft: "15px"
             }}>
-              50元/人
-            </strong>
-            奖金拿，奖励随时可提现.
-            <br/>
-            <br/>
-            <span style={{
-              fontStyle: "italic"
-            }}>
-              记得提醒新用户在注册时，输入你的专用推荐码哟！
+              {this.state.profile.rewardCode}
             </span>
           </p>
         </div>
-        <div>
+
+        <div className=" mt-3">
+          <h3>点击下面图标上传收款码，方便给您返还奖励</h3>
+
           <ImageUploader
-            images={[profile.wxpayUrl]}
+            images={profile.wxpayUrl?[profile.wxpayUrl]:[]}
             onFinished={this
             .onFinished
-            .bind(this)}/>
-        </div>
-        <p style={{
-          marginBottom: "50px"
-        }}>
-          钢铁侠赐你专用推荐码:
-          <span
-            style={{
-            fontSize: "36px",
-            color: "red",
-            marginLeft: "15px"
-          }}>
-            {this.state.profile.rewardCode}
-          </span>
-        </p>
+            .bind(this)} onRemove={this.onRemove.bind(this)}/>
 
-        <hr/>
-        <Account balance={balance} onlyReward={true}>
-          <h5>我的分享收益</h5>
-          <div className="text-right">
-            总收益: {stats
-              .amount
-              .toFixed(2)}
-            元，已提现金额:{stats
-              .paidAmount
-              .toFixed(2)}元，余额: {stats
-              .unPaidAmount
-              .toFixed(2)}
-          </div>
-        </Account>
-        <p>群号：340828020</p>
+        </div>
+
+        <div className=" mt-3">
+          <h3>我的分享收益</h3>
+          <br/>
+          <Account balance={balance} onlyReward={true}>
+            <div className="text-right">
+              总收益: {stats
+                .amount
+                .toFixed(2)}
+              元，已提现金额:{stats
+                .paidAmount
+                .toFixed(2)}元，余额: {stats
+                .unPaidAmount
+                .toFixed(2)}
+            </div>
+          </Account>
+          <p>群号：340828020</p>
+        </div>
+
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {client: state.client};
+  return {client: state.client, profile:state.userProfile};
 };
 
 //state表示reducer, combineReducer包含state和dispatch
