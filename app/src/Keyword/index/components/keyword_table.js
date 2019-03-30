@@ -203,7 +203,7 @@ class KeywordTable extends React.Component {
             </tbody>
           </table>
           <br />
-          <div className="pull-right">
+          <div className="float-right">
             <Pager
               pageCount={this.state.pageCount}
               onPageChange={this.pagination.bind(this)}

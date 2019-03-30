@@ -31,8 +31,6 @@ export default class Query extends Component {
             .format("YYYY-MM-DD"),
           name: this.state.name,
           status: this.state.status
-            ? 1
-            : 0
         });
     }
   }
@@ -67,7 +65,7 @@ export default class Query extends Component {
                 checked={this.state.status}
                 onChange={e => {
                 this.setState({status: e.target.checked})
-              }}></Input>{' '}已付款</Label>
+              }}></Input>{' '}未付款</Label>
 
             <Button onClick={this
               .query

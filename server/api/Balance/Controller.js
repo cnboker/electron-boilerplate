@@ -5,9 +5,9 @@ var User = require('../User/Model')
 var Balance = require('./Model')
 var config = require('../../config.js')
 
-exports.commissions = function (req, res, next) {
+exports.bill = function (req, res, next) {
   var query = {
-    payType: 2
+    //payType: 2
   };
 
   if (req.query.startDate && req.query.endData) {
@@ -22,8 +22,10 @@ exports.commissions = function (req, res, next) {
       $ne: "admin"
     };
   }
-  if (req.query.status) {
-    query.status = req.query.status;
+  console.log('status=',req.query.status)
+  if (req.query.status == 'true') {
+    console.log('status=',req.query.status)
+    query.status = 0;
   }
 
   console.info('query', query)
@@ -52,7 +54,7 @@ exports.commissions = function (req, res, next) {
   });
 }
 
-exports.commissionPay = function (req, res, next) {
+exports.billPay = function (req, res, next) {
   Promise.all([
     Balance.findOne({_id: req.body.id})
   ]).then(([balance]) => {

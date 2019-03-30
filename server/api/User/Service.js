@@ -16,6 +16,7 @@ exports.profile = function (userName) {
       })
     ]).then(([user, list]) => {
       var profile = {};
+      profile._id = user._id;
       profile.userName = user.userName;
       profile.grade = constants.userGrade(user.grade);
       profile.gradeValue = user.grade;

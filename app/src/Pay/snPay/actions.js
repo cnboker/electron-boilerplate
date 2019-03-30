@@ -91,7 +91,7 @@ let actionCreators = {
       dispatch(optimisticAction);
 
       //const url ="/server"
-      const url = `${process.env.REACT_APP_API_URL}/sn/commission`;
+      const url = `${process.env.REACT_APP_API_URL}/sn/bill`;
 
       const promise = axios({
         url: url,

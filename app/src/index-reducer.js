@@ -10,7 +10,7 @@ import { loadingBarReducer } from 'react-redux-loading-bar'
 import snReducer from './Pay/snPay/reducer'
 import questionReducer from './Quora/reducers/question_reducer'
 import topicReducer from './Quora/reducers/topics_reducer'
-import commissionReducer from './commission/reducer'
+import billReducer from './bill/reducer'
 import voteReducer from './Vote/reducer'
 import wxpayReducer from './Pay/wxPay/reducer'
 import userProfileReducer from './Profile/reducer'
@@ -28,7 +28,7 @@ const appReducer = combineReducers({
   sn:snReducer,
   questions:questionReducer,
   topic:topicReducer,
-  commissions: commissionReducer,
+  bills: billReducer,
   votes:voteReducer,
   wxpay:wxpayReducer,
   userProfile:userProfileReducer

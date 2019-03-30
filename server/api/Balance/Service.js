@@ -13,6 +13,7 @@ exports.upgrade = async function (user,price=199) {
     user: user.userName,
     amount: price,
     createDate: new Date(),
+    updateDate: new Date(),
     serviceDate: start,
     days: serviceDays,
     remark: `VIP充值金额${price}`,
@@ -28,8 +29,8 @@ exports.upgrade = async function (user,price=199) {
       user: referUser.userName, //推荐人
       amount: 50,
       createDate: new Date(),
-      remark: `用户${shortAuthor(user.userName)}开通VIP奖励`,
-      payType: 2, //commission
+      remark: `用户${user.userName}开通VIP奖励`,
+      payType: 2, //bill
       status: 0 //未付款
     })
     await balance.save();

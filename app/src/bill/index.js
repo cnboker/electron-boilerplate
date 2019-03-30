@@ -38,6 +38,15 @@ class Index extends Component {
   stringBoolean(value) {
     return value ? "是" : "否";
   }
+  getType(value) {
+    if(value == 1 || value == undefined){
+      return "充值"
+    }else if(value == 2){
+      return "奖励"
+    }else{
+      return '-'
+    }
+  }
 
   pay(id) {
     event.preventDefault();
@@ -50,7 +59,7 @@ class Index extends Component {
           console.log("dialog cancel");
         }),
         Dialog.OKAction(() => {
-          that.props.commissionPay(id);
+          that.props.billPay(id);
         })
       ],
       bssize: "small",
@@ -61,19 +70,21 @@ class Index extends Component {
   }
 
   renderList() {
-    return Object.keys(this.props.commissions.docs)
-      .map(x => this.props.commissions.docs[x])
+    return Object.keys(this.props.bills.docs)
+      .map(x => this.props.bills.docs[x])
       .map(item => {
         return (
           <tr key={item._id}>
             <td>{item.user}</td>
+            <td>{this.getType(item.type)}</td>
             <td style={{ textAlign: "right" }}>{item.amount.toFixed(2)}</td>
             <td>{this.stringFormatTime(item.createDate)}</td>
             <td>{this.stringFormatTime(item.updateDate)}</td>
+            <td>{this.stringFormatTime(item.serviceDate)}</td>
             <td>{this.getStatus(item.status)}</td>
             <td>{item.remark}</td>
             <td>
-              {item.status === 0 && (
+              {(item.type == 1 && item.status === 0) && (
                 <button
                   className="btn btn-primary"
                   value="付款"
@@ -108,10 +119,12 @@ class Index extends Component {
           <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
-                <th>推荐人用户</th>
-                <th>奖励</th>
+                <th>用户</th>
+                <th>类型</th>
+                <th>金额</th>
                 <th>生成日期</th>
                 <td>付款日期</td>
+                <td>生效日期</td>
                 <th>状态</th>
                 <th>备注</th>
                 <th>操作</th>
@@ -126,7 +139,7 @@ class Index extends Component {
               nextLabel={"下一页"}
               breakLabel={<a href="#"> ...</a>}
               breakClassName={"break-me"}
-              pageCount={this.props.commissions.pages}
+              pageCount={this.props.bills.pages}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
               onPageChange={this.pagination.bind(this)}

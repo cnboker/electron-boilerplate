@@ -27,7 +27,7 @@ import Forgetpassword from './ForgetPwd/index'
 import Resetpassword from './ForgetPwd/resetpassword'
 import SN from './Pay/snPay/index'
 import Quora from './Quora/components/index'
-import Commission from './commission/container'
+import Bill from './bill/container'
 import Rewards from './My/reward'
 import '../public/scss/app.scss'
 import CustomKeywordExtender from './Keyword/trace/customKeywordExtender'
@@ -92,9 +92,9 @@ class App extends Component {
               component={Pool}
               dispatch={this.props.dispatch}/>
               <PrivateRoute
-              path="/commission"
+              path="/bill"
               role="admin"
-              component={Commission}
+              component={Bill}
               dispatch={this.props.dispatch}/>
             <PrivateRoute
               path="/keyword"

@@ -121,6 +121,18 @@ class List extends Component {
     this.props.dispatch(action);
   }
 
+  keeperSwitch(user, e) {
+    var action = crudActions.update(
+      {
+        ...user,
+        keeper: !user.keeper
+      },
+      this.props.client
+    );
+    user.keeper = !user.keeper;
+    this.props.dispatch(action);
+  }
+
   renderList() {
     return this.state.data.map(item => {
       return (
@@ -129,6 +141,12 @@ class List extends Component {
             <Switch
               on={item.locked}
               onClick={this.toggleSwitch.bind(this, item)}
+            />
+          </td>
+          <td>
+          <Switch
+              on={item.keeper}
+              onClick={this.keeperSwitch.bind(this, item)}
             />
           </td>
           <td>{item.userName}</td>
@@ -168,6 +186,7 @@ class List extends Component {
             <thead>
               <tr>
                 <th>拉黑</th>
+                <th>收款人</th>
                 <th>用户名称</th>
                 <th>词数</th>
                 <th>登录</th>

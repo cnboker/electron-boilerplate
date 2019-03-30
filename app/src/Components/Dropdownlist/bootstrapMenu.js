@@ -31,7 +31,7 @@ class BootstrapMenu extends React.Component {
         <div className="dropdown-menu" className={menuClass}>
           {data.map((x,key) => {
             return (
-              <Link
+              <Link onClick={()=>this.setState({isOpen:false})}
                 className="dropdown-item" key={key}
                 to={x.link}
               >

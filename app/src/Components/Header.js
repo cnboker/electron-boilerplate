@@ -10,7 +10,7 @@ import BootstrapMenu from './Dropdownlist/bootstrapMenu'
       this.data = [
         {name:'充值码',link:'/sn'},
         {name:'微信支付',link:'/admin_wx_pay'},
-        {name:'佣金管理',link:'commission'},
+        {name:'账单',link:'bill'},
       ]
     }
     componentDidMount(){

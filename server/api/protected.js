@@ -67,8 +67,8 @@ module.exports = function (app) {
   app.use('/api/answers',jwtCheck,requireScope('full_access'));
   app.use('/api/topic/update',jwtCheck,requireScope('full_access'))
   app.use('/api/comments',jwtCheck,requireScope('full_access'));
-  app.use('/api/commissions',jwtCheck,requireScope('full_access'));
-  app.use('/api/commissionPay',jwtCheck,requireScope('full_access'));
+  app.use('/api/bill',jwtCheck,requireScope('full_access'));
+  app.use('/api/billPay',jwtCheck,requireScope('full_access'));
 
   app.use('/api/vote/create',jwtCheck,requireScope('full_access'));
   app.use('/api/fileUpload',jwtCheck,requireScope('full_access'));

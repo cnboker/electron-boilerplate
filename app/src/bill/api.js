@@ -10,15 +10,15 @@ export const fetchAll =(terms)=>{
   .join('&')
   return axios({
     method:'get',
-    url:`${process.env.REACT_APP_API_URL}/commissions?${query}`,
+    url:`${process.env.REACT_APP_API_URL}/bill?${query}`,
     headers
   })
 }
 
-export const commissionPay =(id)=>{
+export const billPay =(id)=>{
   return axios({
     method:'post',
-    url:`${process.env.REACT_APP_API_URL}/commissionPay`,
+    url:`${process.env.REACT_APP_API_URL}/billPay`,
     data:{id},
     headers
   })
