@@ -30,7 +30,8 @@ export default class Query extends Component {
             .endDate
             .format("YYYY-MM-DD"),
           name: this.state.name,
-          status: this.state.status
+          status: this.state.status,
+          page:0
         });
     }
   }

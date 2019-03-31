@@ -1,6 +1,6 @@
 import {USER_PROFILE} from "./constants"
 
-const reducer = (state = {}, action) => {
+const reducer = (state = {balance:[]}, action) => {
   switch (action.type) {
    
     case USER_PROFILE:

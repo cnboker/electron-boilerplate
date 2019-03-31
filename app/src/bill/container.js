@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {fetchAll, billPay} from './action'
+import {fetchAll, billPay, wxqr} from './action'
 import Index from './index'
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     billPay: (id) => {
       dispatch(billPay(id))
+    },
+    wxqr:(user,id) =>{
+      dispatch(wxqr(user,id))
     }
   }
 }

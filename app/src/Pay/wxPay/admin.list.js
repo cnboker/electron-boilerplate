@@ -27,10 +27,7 @@ export default class AdminList extends React.Component {
               .confirmPay(payno);
           })
         ],
-        bssize: "small",
-        onHide: dialog => {
-          dialog.hide();
-        }
+   
       });
   }
 
@@ -52,10 +49,7 @@ export default class AdminList extends React.Component {
               .cancelPay(payno);
           })
         ],
-        bssize: "small",
-        onHide: dialog => {
-          dialog.hide();
-        }
+  
       });
   }
 

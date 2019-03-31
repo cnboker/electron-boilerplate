@@ -30,7 +30,10 @@ module.exports = function(app){
   app.route('/api/user/resetpassword')
   .post(ctl.resetpassword);
 
-  app.route('/api/user/keepers')
-  .get(ctl.keepers)
+  // app.route('/api/user/keepers')
+  // .get(ctl.keepers)
+
+  app.route('/api/wxqr/:id')
+  .get(ctl.wxqr)
 }
 

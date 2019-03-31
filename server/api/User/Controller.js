@@ -105,6 +105,14 @@ exports.update = function (req, res, next) {
     });
 }
 
+exports.wxqr = function(req, res,next){
+  User
+  .findOne({userName: req.params.id})
+  .then(doc=>{
+    res.send(doc.wxpayUrl)
+  })
+}
+
 exports.setting = function (req, res, next) {
   User.update({
     userName: req.user.sub

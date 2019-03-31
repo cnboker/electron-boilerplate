@@ -30,7 +30,7 @@ export default class Account extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="">
         <div>{this.props.children}</div>
         <div className="table-responsive">
           <table className="table table-bordered table-striped">

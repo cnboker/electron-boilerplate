@@ -29,9 +29,7 @@ class Dialog extends React.Component {
       showModal: false,
       actions: [],
       bsSize: undefined,
-      onHide: null
     }
-    this.onHide = this.onHide.bind(this)
   }
 
   componentWillUnmount () {
@@ -83,14 +81,7 @@ class Dialog extends React.Component {
     this.show(options)
   }
 
-  onHide () {
-    const onHide = this.state.onHide
-    if (typeof onHide === 'function') {
-      onHide(this)
-    } else {
-      this.hide()
-    }
-  }
+ 
 
   /**
    * Hide this dialog.
@@ -104,7 +95,7 @@ class Dialog extends React.Component {
   render () {
     const size = (typeof this.state.bsSize) === 'undefined' ? 'small' : (this.state.bsSize === 'medium' ? null : this.state.bsSize)
     return (
-      <Modal isOpen={this.state.showModal} onHide={this.onHide} bsSize={size}>
+      <Modal isOpen={this.state.showModal}  bssize={size}>
         {
           this.state.title && (
             <ModalHeader>

@@ -52,10 +52,7 @@ class List extends Component {
           this.dispatch(action);
         })
       ],
-      bsSize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+     
     });
   }
 

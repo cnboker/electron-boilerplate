@@ -83,10 +83,7 @@ class KeywordTable extends React.Component {
           this.props.updateKeyword(entity);
         })
       ],
-      bsSize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+      
     });
   }
 
@@ -104,10 +101,7 @@ class KeywordTable extends React.Component {
           this.props.deleteKeyword(entity._id);
         })
       ],
-      bsSize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+      
     });
   }
 
@@ -147,10 +141,7 @@ class KeywordTable extends React.Component {
           this.props.deleteKeyword(ids.join(","));
         })
       ],
-      bsSize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+ 
     });
   }
 

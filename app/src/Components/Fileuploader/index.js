@@ -22,7 +22,17 @@ export default class Index extends Component {
     }
   }
 
-  componentDidMount() {}
+
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if(nextProps.images != prevState.images){
+      return{
+        
+        images:nextProps.images
+      }
+    }
+    return null;
+  }
 
   toast = notify.createShowQueue()
 
@@ -44,8 +54,8 @@ export default class Index extends Component {
         errs.push(`'${file.type}' 格式不支持`)
       }
 
-      if (file.size > 20480) {
-        errs.push(`'${file.name}' 文件大小不能超过20k`)
+      if (file.size > 51200) {
+        errs.push(`'${file.name}' 文件大小不能超过50k`)
       }
 
       formData.append('file', file, file.name)
@@ -74,7 +84,7 @@ export default class Index extends Component {
       }
     }).catch(e => {
       console.error(e)
-      self.toast(e, 'custom', 2000, toastColor)
+      self.toast(e.message, 'custom', 2000, toastColor)
       self.setState({uploading: false})
     })
   }
@@ -114,7 +124,7 @@ export default class Index extends Component {
 
   render() {
     const {loading, uploading, images} = this.state
-
+    console.log('fileuploader images', images)
     const content = () => {
       switch (true) {
         case loading:

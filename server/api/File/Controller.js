@@ -1,15 +1,12 @@
 "use strict";
 
-var boom = require("boom");
-var moment = require("moment");
-var User = require("../User/Model");
 
 exports.fileUpload = function (req, res) {
-
+  const path = require('path')
   const file = req.file;
   let url = `${file
     .path
-    .replace('public/', '/')}`;
+    .replace('public' + path.sep,   path.sep)}`;
   res.send({url})
 
   //end

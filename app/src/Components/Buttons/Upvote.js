@@ -22,10 +22,7 @@ export default class Upvote extends Component {
               .onDelete(id)
           })
         ],
-        bsSize: "small",
-        onHide: dialog => {
-          dialog.hide();
-        }
+ 
       });
   }
 

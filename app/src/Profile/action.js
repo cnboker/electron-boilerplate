@@ -1,12 +1,12 @@
 import {USER_PROFILE} from './constants'
 import axios from 'axios'
-var headers = require('../lib/check-auth').authHeader();
 
 export const receiveProfile = (payload) => {
   return {type: USER_PROFILE, payload}
 }
 
 export const fetchProfile = () => dispatch => {
+  var headers = require('../lib/check-auth').authHeader();
   const url = `${process.env.REACT_APP_API_URL}/profile`
   const promise = axios({url: url, method: "get", headers})
   promise.then(response => {

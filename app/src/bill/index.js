@@ -10,10 +10,14 @@ class Index extends Component {
   constructor() {
     super();
     this.terms = { limit: PAGE_SIZE, page: 0 };
+    this.state = {
+      wxqr: ""
+    };
   }
 
   pagination = data => {
-    this.terms = Object.assign({ page: data.selected }, this.terms);
+    this.terms = Object.assign({}, this.terms, { page: data.selected });
+    console.log("pagination", this.terms);
     this.query();
   };
 
@@ -21,7 +25,7 @@ class Index extends Component {
 
   query(terms) {
     this.terms = Object.assign({}, this.terms, terms || {});
-
+    console.log("query", this.terms);
     this.props.fetchAll(this.terms);
   }
 
@@ -39,12 +43,12 @@ class Index extends Component {
     return value ? "是" : "否";
   }
   getType(value) {
-    if(value == 1 || value == undefined){
-      return "充值"
-    }else if(value == 2){
-      return "奖励"
-    }else{
-      return '-'
+    if (value == 1 || value == undefined) {
+      return "充值";
+    } else if (value == 2) {
+      return "奖励";
+    } else {
+      return "-";
     }
   }
 
@@ -62,11 +66,50 @@ class Index extends Component {
           that.props.billPay(id);
         })
       ],
-      bssize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+     
     });
+  }
+
+  qrView(item, e) {
+    e.preventDefault();
+    var dialog = this.refs.dialog;
+    if (!item.wxpayUrl) {
+      this.props.wxqr(item._id, item.user);
+
+      (function waitFor(self,id) {
+        var _item = self.props.bills.docs[id]
+        if (_item && _item.wxpayUrl) {
+          showDialog(dialog,_item.wxpayUrl)
+          return;
+        }
+        setTimeout(waitFor, 500, self, id);
+      })(this, item._id);
+
+    } else {
+      showDialog(dialog,item.wxpayUrl)
+    }
+
+    function showDialog(dialog, url){
+      dialog.show({
+        body: <img src={process.env.REACT_APP_AUTH_URL + url} />,
+        actions: [
+          Dialog.CancelAction(() => {
+            console.log("dialog cancel");
+          })
+        ],
+      });
+    }
+  }
+
+  userNameRender(item) {
+    if (item.payType == 2) {
+      return (
+        <a href="#" onClick={this.qrView.bind(this, item)}>
+          {item.user}
+        </a>
+      );
+    }
+    return <span>{item.user}</span>;
   }
 
   renderList() {
@@ -75,16 +118,16 @@ class Index extends Component {
       .map(item => {
         return (
           <tr key={item._id}>
-            <td>{item.user}</td>
-            <td>{this.getType(item.type)}</td>
+            <td>{this.userNameRender(item)}</td>
+            <td>{this.getType(item.payType)}</td>
             <td style={{ textAlign: "right" }}>{item.amount.toFixed(2)}</td>
             <td>{this.stringFormatTime(item.createDate)}</td>
             <td>{this.stringFormatTime(item.updateDate)}</td>
-            <td>{this.stringFormatTime(item.serviceDate)}</td>
+            <td>{moment(item.serviceDate).format("YYYY-MM-DD HH:mm")}</td>
             <td>{this.getStatus(item.status)}</td>
             <td>{item.remark}</td>
             <td>
-              {(item.type == 1 && item.status === 0) && (
+              {item.payType == 2 && item.status === 0 && (
                 <button
                   className="btn btn-primary"
                   value="付款"
@@ -137,12 +180,12 @@ class Index extends Component {
             <ReactPaginate
               previousLabel={"上一页"}
               nextLabel={"下一页"}
-              breakLabel={<a href="#"> ...</a>}
+              breakLabel={<span> ...</span>}
               breakClassName={"break-me"}
               pageCount={this.props.bills.pages}
               marginPagesDisplayed={2}
               pageRangeDisplayed={5}
-              onPageChange={this.pagination.bind(this)}
+              onPageChange={this.pagination}
               containerClassName={"pagination"}
               subContainerClassName={"pages pagination"}
               activeClassName={"active"}

@@ -3,22 +3,21 @@
 var boom = require("boom");
 var moment = require("moment");
 
-var User = require('../User/Model')
-var QRPay = require('../QRPay/Model')
-var ph = require('../../utils/passwordHash')
-var strTool = require('../../utils/string')
-var balanceService = require('../Balance/Service')
+var User = require("../User/Model");
+var QRPay = require("../QRPay/Model");
+var ph = require("../../utils/passwordHash");
+var strTool = require("../../utils/string");
+var balanceService = require("../Balance/Service");
 
 const PayStatus = {
   pending: 0,
   submit: 1,
   confirm: 2,
   cancel: 3
-}
+};
 
 exports.list = (req, res, next) => {
-
-  let query = {}
+  let query = {};
   if (req.query.user) {
     query.payUser = {
       $regex: ".*" + req.query.user + ".*",
@@ -30,101 +29,107 @@ exports.list = (req, res, next) => {
     $lt: req.query.endDate
   };
 
-  QRPay
-    .find(query)
+  QRPay.find(query)
     .then(docs => {
-      res.json(docs)
+      res.json(docs);
     })
     .catch(e => {
-      return next(boom.badRequest(e))
-    })
-}
+      return next(boom.badRequest(e));
+    });
+};
 
 //收款人信息
 
-let currentKeeper = function () {
+let currentKeeper = function() {
   let keeperQR = [];
   function getKeepers() {
     return new Promise((resolve, reject) => {
       if (keeperQR.length > 0) {
-        resolve(keeperQR)
+        resolve(keeperQR);
         return;
       }
-      User
-        .find({keeper: true})
+      User.find({ keeper: true })
         .then(docs => {
           return docs.map(x => {
-            return {keeper: x.userName, keeperQR: x.wxpayUrl}
-          })
+            return { keeper: x.userName, keeperQR: x.wxpayUrl };
+          });
         })
         .then(docs => {
           keeperQR = docs;
-          resolve(keeperQR)
-        })
-    })
+          resolve(keeperQR);
+        });
+    });
   }
 
   return (async function first() {
     var keepers = await getKeepers();
     var first = keepers.shift();
-    keepers.push(first)
+    keepers.push(first);
     return first;
   })();
-}
+};
 
-exports.pending = async(req, res, next) => {
+exports.pending = async (req, res, next) => {
   var keeper = await currentKeeper();
-  console.log('keeper', keeper)
-  QRPay
-    .findOne({payUser: req.user.sub, status: 0})
+  console.log("keeper", keeper);
+  QRPay.findOne({ payUser: req.user.sub, status: 0 })
     .then(doc => {
       if (!doc) {
+        doc = Object.assign(
+          {},
+          {
+            payNo: strTool.getOrderNo(),
+            payUser: req.user.sub,
+            createDate: new Date(),
+            payCode: ph.radmon(3),
+            status: PayStatus.pending
+          },
+          keeper
+        );
         //create
-        var doc = QRPay({
-          payNo: strTool.getOrderNo(),
-          payUser: req.user.sub,
-          createDate: new Date(),
-          payCode: ph.radmon(3),
-          status: PayStatus.pending,
-          ...keeper
-        })
+        doc = QRPay(doc);
         return doc.save();
       } else {
         return doc;
       }
     })
     .then(doc => {
-      console.log('pending', doc)
-      res.json(doc)
+      console.log("pending", doc);
+      res.json(doc);
     })
     .catch(e => {
-      console.log('pending', e)
-      return next(boom.badRequest(e))
-    })
-}
+      console.log("pending", e);
+      return next(boom.badRequest(e));
+    });
+};
 
 exports.postwxPay = (req, res, next) => {
-  console.log('sub', req.user)
-  QRPay.findOneAndUpdate({
-    payUser: req.user.sub,
-    status: 0
-  }, {
-    payDate: new Date(),
-    status: PayStatus.submit
-  }, {
-    upsert: true,
-    new: true
-  }).then(doc => {
-    console.log('postwxpay', doc)
-    res.json(doc)
-  }).catch(e => {
-    return next(boom.badRequest(e))
-  })
-}
+  console.log("sub", req.user);
+  QRPay.findOneAndUpdate(
+    {
+      payUser: req.user.sub,
+      status: 0
+    },
+    {
+      payDate: new Date(),
+      status: PayStatus.submit
+    },
+    {
+      upsert: true,
+      new: true
+    }
+  )
+    .then(doc => {
+      console.log("postwxpay", doc);
+      res.json(doc);
+    })
+    .catch(e => {
+      return next(boom.badRequest(e));
+    });
+};
 
 exports.confirm = async (req, res, next) => {
-  QRPay
-    .findOne({payNo: req.body.payno})
+  QRPay.findOne({ payNo: req.body.payno })
     .then(doc => {
       // if (req.user.sub !== doc.keeper) {
       //   throw '必须收款本人账号确认付款'
@@ -133,19 +138,18 @@ exports.confirm = async (req, res, next) => {
       doc.confirmDate = new Date();
       return doc.save();
     })
-    .then(async (doc) =>{
-      var user =  await User.findOne({userName:doc.payUser})
-      await balanceService.upgrade(user)
-      res.json(doc)
+    .then(async doc => {
+      var user = await User.findOne({ userName: doc.payUser });
+      await balanceService.upgrade(user);
+      res.json(doc);
     })
     .catch(e => {
-      return next(boom.badRequest(e))
-    })
-}
+      return next(boom.badRequest(e));
+    });
+};
 
 exports.cancel = (req, res, next) => {
-  QRPay
-    .findOne({payNo: req.body.payno})
+  QRPay.findOne({ payNo: req.body.payno })
     .then(doc => {
       // if (req.user.sub !== doc.keeper) {
       //   throw '必须收款本人账号取消付款'
@@ -155,9 +159,9 @@ exports.cancel = (req, res, next) => {
       return doc.save();
     })
     .then(doc => {
-      res.json(doc)
+      res.json(doc);
     })
     .catch(e => {
-      return next(boom.badRequest(e))
-    })
-}
+      return next(boom.badRequest(e));
+    });
+};

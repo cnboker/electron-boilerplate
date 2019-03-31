@@ -1,6 +1,7 @@
 var moment = require('moment');
 var Balance = require('./Model')
 var Keyword = require('../Keyword/Model')
+var User = require('../User/Model')
 
 //升级
 exports.upgrade = async function (user,price=199) {

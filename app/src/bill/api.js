@@ -1,25 +1,33 @@
-import axios from 'axios'
-var headers = require('../lib/check-auth').authHeader();
+import axios from "axios";
+var headers = require("../lib/check-auth").authHeader();
 
-export const fetchAll =(terms)=>{
-  var query = Object
-  .keys(terms)
-  .map((key) => {
-    return encodeURIComponent(key) + '=' + encodeURIComponent(terms[key])
-  })
-  .join('&')
+export const fetchAll = terms => {
+  var query = Object.keys(terms)
+    .map(key => {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(terms[key]);
+    })
+    .join("&");
   return axios({
-    method:'get',
-    url:`${process.env.REACT_APP_API_URL}/bill?${query}`,
+    method: "get",
+    url: `${process.env.REACT_APP_API_URL}/bill?${query}`,
     headers
-  })
-}
+  });
+};
 
-export const billPay =(id)=>{
+export const billPay = id => {
   return axios({
-    method:'post',
-    url:`${process.env.REACT_APP_API_URL}/billPay`,
-    data:{id},
+    method: "post",
+    url: `${process.env.REACT_APP_API_URL}/billPay`,
+    data: { id },
     headers
-  })
-}
+  });
+};
+
+export const wxqr = id => {
+  return axios({
+    method: "get",
+    url: `${process.env.REACT_APP_API_URL}/wxqr/${id}`,
+    data: { id },
+    headers
+  });
+};

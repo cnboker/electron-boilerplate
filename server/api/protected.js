@@ -79,7 +79,7 @@ module.exports = function (app) {
   app.use('/api/qr/confirm', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/cancel', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/list', jwtCheck, requireScope('full_access'));
-  app.use('/api/qr/currentKeeper', jwtCheck, requireScope('full_access'));
+  app.use('/api/qr/wxqr', jwtCheck, requireScope('full_access'));
  
   
 }

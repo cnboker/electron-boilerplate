@@ -62,19 +62,17 @@ export default class Index extends React.Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Row className="card-deck">
-              <div className="card"><div className="card-body"><WXPay/></div></div>
-              
+            <Row className="p-4">
+            <WXPay/>
             </Row>
           </TabPane>
           <TabPane tabId="2">
-            <Row className="card-deck">
-              <div className="card">
-                <div className="card-body"> <SNPay/></div>
-              </div>
+            <Row className="p-4">
+            <SNPay/>
             </Row>
           </TabPane>
         </TabContent>
+        <hr/>
         <Price action={false}/>
       </div>
     )

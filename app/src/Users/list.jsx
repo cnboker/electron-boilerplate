@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { Switch } from "../Components/Forms/Switch";
 import { PAGE_SIZE } from "./constants";
 import UserQuery from "./listQuery";
-import Pager from '../Components/Tables/Pager'
+import Pager from "../Components/Tables/Pager";
 class List extends Component {
   constructor() {
     super();
@@ -68,10 +68,7 @@ class List extends Component {
           this.dispatch(action);
         })
       ],
-      bsSize: "small",
-      onHide: dialog => {
-        dialog.hide();
-      }
+
     });
   }
   isOnline(val) {
@@ -144,7 +141,7 @@ class List extends Component {
             />
           </td>
           <td>
-          <Switch
+            <Switch
               on={item.keeper}
               onClick={this.keeperSwitch.bind(this, item)}
             />
@@ -159,7 +156,7 @@ class List extends Component {
           <td>{this.isOnline(item.status)}</td>
           <td>{item.userTypeText}</td>
           <td>{this.stringFormat(item.createDate)}</td>
-     
+
           <td>{item.point}</td>
           <td>{(item.performanceIndex || 0).toFixed(2)}</td>
           <td>{item.todayPolishedCount || 0}</td>
@@ -193,7 +190,7 @@ class List extends Component {
                 <th>在线</th>
                 <th>会员类型</th>
                 <th>注册日期</th>
-               
+
                 <th>积分</th>
                 <th>优化指数</th>
                 <th>今点</th>
@@ -205,7 +202,10 @@ class List extends Component {
           </table>
           <br />
           <div className="float-right">
-            <Pager pageCount={this.state.pageCount} onPageChange={this.pagination}></Pager>
+            <Pager
+              pageCount={this.state.pageCount}
+              onPageChange={this.pagination}
+            />
           </div>
         </div>
       </div>
