@@ -27,7 +27,7 @@ export default class Index extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if(nextProps.images != prevState.images){
       return{
-        
+
         images:nextProps.images
       }
     }
@@ -54,8 +54,8 @@ export default class Index extends Component {
         errs.push(`'${file.type}' 格式不支持`)
       }
 
-      if (file.size > 51200) {
-        errs.push(`'${file.name}' 文件大小不能超过50k`)
+      if (file.size > 1024*200) {
+        errs.push(`'${file.name}' 文件大小不能超过200k`)
       }
 
       formData.append('file', file, file.name)
