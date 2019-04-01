@@ -1,6 +1,4 @@
 import React from 'react'
-import {toast} from "react-toastify";
-import {Link} from 'react-router-dom'
 import Dialog from "../../Components/Modals/Dialog";
 import wxremarkImage from '~/public/images/wxremark.png'
 export default class Index extends React.Component {
