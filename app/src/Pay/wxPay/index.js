@@ -63,13 +63,20 @@ export default class Index extends React.Component {
     );
   }
 
+  recharge(){
+    this.setState({status: 0})
+    this
+      .props
+      .requestwxPay();
+  }
+
   rePostRender() {
     return (
       <div>
         <p className="text-left">提交成功,客服人员会尽快帮您处理，请稍后。如果继续充值请点击"充值“按钮继续充值
         </p>
         <p>
-          <button onClick={() => this.setState({status: 0})} className="btn btn-primary">充值</button>
+          <button onClick={this.recharge.bind(this)} className="btn btn-primary">充值</button>
         </p>
       </div>
     )
