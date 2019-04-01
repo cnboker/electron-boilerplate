@@ -98,7 +98,7 @@ exports.snActivate = function (req, res, next) {
     sn.activedUser = req.user.sub;
     sn.activedDate = new Date();
     await sn.save();
-    return balanceService.upgrade(user,sn.price)
+    return balanceService.upgrade(user,sn.agentPrice)
   }).then(doc => {
     res.json(doc);
   }).catch(e => {

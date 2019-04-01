@@ -9,7 +9,7 @@ import { required, renderField } from "../utils/fieldLevelValidation";
 // Import the helpers.. that we'll make here in the next step
 import FetchMessage from "../notifications/fetchMessage";
 import resources from "./locals";
-import logo from '../../assets/icons/win/logo.png'
+import logo from '~/public/images/logo.png'
 class Login extends Component {
   componentDidMount() {
     console.log("getInterfaceLanguage()", resources.getInterfaceLanguage());

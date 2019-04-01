@@ -1,7 +1,8 @@
 import axios from "axios";
-var headers = require("../lib/check-auth").authHeader();
 
 export const fetchAll = terms => {
+  var headers = require("../lib/check-auth").authHeader();
+
   var query = Object.keys(terms)
     .map(key => {
       return encodeURIComponent(key) + "=" + encodeURIComponent(terms[key]);
@@ -15,6 +16,8 @@ export const fetchAll = terms => {
 };
 
 export const billPay = id => {
+  var headers = require("../lib/check-auth").authHeader();
+
   return axios({
     method: "post",
     url: `${process.env.REACT_APP_API_URL}/billPay`,
@@ -24,6 +27,8 @@ export const billPay = id => {
 };
 
 export const wxqr = id => {
+  var headers = require("../lib/check-auth").authHeader();
+
   return axios({
     method: "get",
     url: `${process.env.REACT_APP_API_URL}/wxqr/${id}`,

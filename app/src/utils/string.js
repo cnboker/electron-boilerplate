@@ -50,7 +50,7 @@ export function shortAuthor(user) {
 }
 
 export function customSplit(value) {
-  var separators = [" ", "\n", ","];
+  var separators = ["\n"];
   var tokens = value.split(new RegExp(separators.join("|"), "g"));
   tokens = tokens.filter(function(val) {
     return val.trim().length > 1;

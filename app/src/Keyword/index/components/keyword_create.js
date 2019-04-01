@@ -60,7 +60,7 @@ class KeywordCreate extends Component {
         <Field
           name="link"
           type="text"
-          label="网站域名"
+          label="网站域名/熊掌号"
           component={renderField}
           validate={required}
           placeholder="如已开通熊掌号，请输入熊掌号。否则，输入目标网站域名，不加http://"/>

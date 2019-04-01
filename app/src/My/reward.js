@@ -104,6 +104,7 @@ class Reward extends Component {
               {stats.unPaidAmount.toFixed(2)}
             </div>
           </Account>
+          <p>客服人员每周统一办理个人分享收益提现。请注意自己的收款微信上的收款信息。</p>
           <p>群号：340828020</p>
         </div>
       </div>
