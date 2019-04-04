@@ -1,6 +1,6 @@
 import React from 'react'
 import Dialog from "../../Components/Modals/Dialog";
-import wxremarkImage from '../../assets/images/wxremark.png'
+import wxremarkImage from '~/public/images/wxremark.png'
 export default class Index extends React.Component {
   constructor(props) {
     super(props)

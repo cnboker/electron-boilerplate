@@ -1,36 +1,31 @@
+var Keyword = require("../api/Keyword/Model");
+
+
 var mongoose = require("mongoose"); //.set('debug', true);
 mongoose.Promise = require("bluebird");
 mongoose.connect("mongodb://localhost/kwPolish");
 
-var rewardJob = require("./rewardCodeCreatorJob");
-var User = require("../api/User/Model");
-
-rewardJob()
-  .then(codes => {
-    return [User.find({}), codes];
-  })
-  .spread((users, codes) => {
-    return new Promise(async (resolve,reject)=>{
-      await users.map(async doc => {
-        var rc = codes.pop();
-        rc.isUsed = true;
-        doc.rewardCode = rc.code;
-        Promise.all([
-          rc.save(),
-          doc.save()
-        ]).then(()=>{
-          console.log(doc)
-        })
-       
-      });
-      resolve();
-    })
-  })
-  .then(() => {
-    console.log('close.....')
-    mongoose.disconnect();
-  })
-  .catch(e => {
-    console.log("error", e);
-    mongoose.disconnect();
-  });
+Keyword.find(
+  {
+    user: "scott",
+    originRank: {
+      $gt: 0
+    },
+    isValid: true,
+    status: 1,
+    shield: {
+      //过滤过期会员无效的关键字
+      $ne: 1
+    }
+  },
+  "_id user originRank dynamicRank keyword link polishedCount title createDate",
+  {
+    sort: {
+      polishedCount: -1
+    }
+  }
+)
+.then(keywords => {
+  console.log(keywords);
+  mongoose.disconnect();
+});

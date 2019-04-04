@@ -9,16 +9,17 @@ module.exports.getRuntime = function() {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 5 * 60; //2min
-  var max = 30 * 60; // 10min
+  var min = 20 * 60; //2min
+  var max = 60 * 60; // 10min
   if (!inDoTasksTime) {
     min = 30 * 60; //1min
-    max = 60 * 60; // 60min
+    max = 90 * 60; // 60min
   }
 
   var next = moment().add(random(min, max), "seconds");
   return next.format("YYYY-MM-DD HH:mm:ss");
 };
+
 
 module.exports.isWorktime = function() {
   var startTime = 9 * 60;

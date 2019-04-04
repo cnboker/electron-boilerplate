@@ -27,7 +27,7 @@ mongoose.Promise = require("bluebird");
  
 
   //run every day at 23:00
-  //schedule.scheduleJob("00 00 23 * * 0-6", function () {
+  schedule.scheduleJob("00 00 23 * * 0-6", function () {
 
     vipJob().then(() => {
       console.log('reset')
@@ -41,7 +41,7 @@ mongoose.Promise = require("bluebird");
     }).catch(e => {
       console.log(e)
     })
-  //});
+  });
 
   //per m
   schedule.scheduleJob("*/2 * * * *", function () {});

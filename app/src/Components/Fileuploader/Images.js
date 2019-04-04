@@ -8,7 +8,7 @@ export default props => props
     <div onClick={() => props.removeImage(image)} className='delete'>
       <FontAwesomeIcon icon={faTimesCircle} size='2x'/>
     </div>
-    <img
+    <img className="wximg"
       src={process.env.REACT_APP_AUTH_URL + image}
       alt=''
       onError={() => props.onError(image)}/>

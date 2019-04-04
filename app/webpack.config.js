@@ -24,6 +24,16 @@ var config = {
   }
 };
 
+var imageLoaderConfig = {
+  test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+  loader: "url-loader",
+  options: {
+    limit: 102400
+  }
+}
+
+
+
 var appConfig = Object.assign({}, config, {
   // TODO: Add common Configuration
   //target: 'electron-renderer',
@@ -66,13 +76,9 @@ var appConfig = Object.assign({}, config, {
           }
         ]
       },
-      {
-        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        loader: "url-loader",
-        options: {
-          limit: 25000
-        }
-      }
+      
+      imageLoaderConfig
+      
     ]
   },
   resolve: {

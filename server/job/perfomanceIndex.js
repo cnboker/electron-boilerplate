@@ -1,3 +1,5 @@
+//reference http://excellencenodejsblog.com/mongoose-aggregation-count-group-match-project/
+
 var PolishLog = require("../api/Keyword/PolishlogModel");
 var User = require("../api/User/Model");
 
@@ -16,13 +18,21 @@ module.exports = function () {
       }, {
         $unwind: '$keyword_docs'
       }, {
+        /*
+        $project is used to add columns dynamically to the collection and use it for further aggregation.
+Number of User Registering Per Month
+        */
         $project: {
-          user: '$user',
+          user: '$keyword_docs.user',
           keyword: '$keyword',
           originRank: '$keyword_docs.originRank',
           dynamicRank: '$dynamicRank'
         }
       }, {
+        /*
+        $match acts as a where condition to filter out documents.
+Number of users who joined last month
+        */
         $match: {
           $and: [
             {
