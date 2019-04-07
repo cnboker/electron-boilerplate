@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import BootstrapMenu from './Dropdownlist/bootstrapMenu'
-
-
+// import { createBrowserHistory } from 'history';
+// const history = createBrowserHistory();
   export default class Header extends Component {
     constructor(){
       super();
@@ -76,6 +76,7 @@ import BootstrapMenu from './Dropdownlist/bootstrapMenu'
               ? "登出"
               : "登录"}
           </button>
+          {/* {this.props.userName=='admin'&&<button onClick={history.goBack()}>返回</button>} */}
         </div>
       );
     }

@@ -76,6 +76,7 @@ export default class KeywordItem extends React.Component {
         <td>
           <FireBox adIndexer={item.adIndexer}/>
         </td>
+        {this.props.client.userName==='admin'&&<td>{item.todayPolishedCount}</td>}
         <td>{this.stringFormat(item.isValid && item.shield != 1)}</td>
         <td>{this.statusFormat(item.status)}</td>
 

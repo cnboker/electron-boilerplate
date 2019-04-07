@@ -172,6 +172,7 @@ class KeywordTable extends React.Component {
                 <th>最新排名</th>
                 <th>变化</th>
                 <th>商业热度</th>
+                {this.props.client.userName==='admin'&&<th>点击</th>}
                 <th>有效</th>
                 <th>状态</th>
                 <th>跟踪</th>

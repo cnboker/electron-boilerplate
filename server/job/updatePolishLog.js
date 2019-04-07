@@ -10,31 +10,27 @@ var Keyword = require("../api/Keyword/Model");
 var PolishLog = require("../api/Keyword/PolishLogModel");
 
 Promise.all([
-  Keyword.find({ originRank: { $gte: 0 }, dynamicRank: { $gte: 0 } }).limit(5),
-  PolishLog.find({ owner: { $exists: false } }).limit(50000)
+  Keyword.find({ originRank: { $gte: 0 }, dynamicRank: { $gte: 0 } }),
+  PolishLog.find({ owner: { $exists: false } })
 ])
-  .then(([keywords, logs]) => {
+  .then(async ([keywords, logs]) => {
     var map = keywords.reduce((map, item) => {
       map[item._id] = item;
       return map;
     }, {});
- 
-    logs.forEach((doc, index) => {
+    //for of support async but forEach not
+    for (var doc of logs) {
       var kw = map[doc.keyword_id];
-     
-      if(kw){
-        console.log('doc',doc)
-        doc.owner = kw.user;
-        //doc.set();
-        
-        doc.save(doc=>{
-            console.log(doc)
-        })
-      }
-    });
 
-   
+      if (kw) {
+        doc.owner = kw.user;
+        await doc.save();
+      }else{
+        await doc.remove();
+      }
+    }
   })
   .then(() => {
-    mongoose.disconnect();
+    console.log("disconnect");
+    //mongoose.disconnect();
   });
