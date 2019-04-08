@@ -16,13 +16,19 @@ class KeywordTable extends React.Component {
     };
   }
 
-  getPaginateData(page, website) {
+  getPaginateData(page) {
     var currentIndex = page * PAGE_SIZE;
     var arr = Object.values(this.props.keywords);
+    const {website, keyInput} = this.props;
     if (website) {
       arr = arr.filter(x => {
         return x.link == website;
       });
+    }
+    if(keyInput){
+      arr = arr.filter(x=>{
+        return x.keyword.includes(keyInput)
+      })
     }
     return {
       pageCount: Math.ceil(arr.length / PAGE_SIZE),
@@ -41,20 +47,22 @@ class KeywordTable extends React.Component {
   componentDidUpdate(previousProps, previousState) {
     if (
       previousProps.keywords !== this.props.keywords ||
-      previousProps.website !== this.props.website
+      previousProps.website !== this.props.website ||
+      previousProps.keyInput !== this.props.keyInput
     ) {
       this.setState({
         ...this.state,
-        ...this.getPaginateData(this.state.page, this.props.website)
+        ...this.getPaginateData(0),
+        ...{page:0}
       });
     }
   }
 
-  pagination = target => {
+  pagination = page => {
     console.log("pagination........");
-    const { data } = this.getPaginateData(target.selected);
+    const { data } = this.getPaginateData(page);
     this.setState({
-      page: target.selected,
+      page,
       data: data
     });
   };
@@ -198,7 +206,7 @@ class KeywordTable extends React.Component {
           <div className="float-right">
             <Pager
               pageCount={this.state.pageCount}
-              onPageChange={this.pagination.bind(this)}
+              onPageChange={(e)=>this.pagination(e.selected)}
             />
           </div>
         </div>

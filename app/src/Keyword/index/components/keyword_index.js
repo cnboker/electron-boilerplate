@@ -1,4 +1,5 @@
 import React from "react";
+import {Input} from 'reactstrap'
 import { Link } from "react-router-dom";
 import EventNotify from "./eventNotify";
 import WebsiteList from "./keyword_website_list";
@@ -11,7 +12,8 @@ class KeywordIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      website: ""
+      website: "",
+      keyInput:''
     };
   }
 
@@ -34,6 +36,12 @@ class KeywordIndex extends React.Component {
     });
   }
 
+  textChange(e){
+    this.setState({
+      keyInput:e.target.value
+    })
+  }
+  
   render() {
     const { profile } = this.props;
     console.log("state", this.state);
@@ -68,18 +76,20 @@ class KeywordIndex extends React.Component {
               批量删除
             </button>
           </div>
-          <div>
+          <div className="col-md-6  d-inline-flex">
+          <Input type="text" onChange={this.textChange.bind(this)} placeholder="关键词过滤" />
             <WebsiteList
               websites={this.props.websites}
               onFliter={this.onFliter.bind(this)}
             />
           </div>
+          
         </div>
 
         <KeywordTable
           {...this.props}
           onSelectedDelete={f => (this.onSelectedDelete = f)}
-          website={this.state.website}
+          website={this.state.website} keyInput={this.state.keyInput}
         />
         <KeywordTips />
       </div>

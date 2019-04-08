@@ -9,6 +9,7 @@ import {renderField} from "~/src/Components/Forms/RenderField";
 import {RowContainer} from "~/src/Components/Forms/RowContainer";
 import {extractRootDomain} from '~/src/utils/string'
 
+var lastKeyword = '';
 class KeywordCreate extends Component {
   constructor(props) {
     super(props);
@@ -18,11 +19,12 @@ class KeywordCreate extends Component {
 
   submit(values) {
     var keyword = this.textarea.value;
-    
+
     var entity = R.mergeAll([this.props.entity, values, this.state, {
         keyword
       }]);
     entity.link = extractRootDomain(entity.link).substring(0, 20)
+    lastKeyword = entity.link;
     console.log(entity);
     this
       .props
@@ -31,8 +33,7 @@ class KeywordCreate extends Component {
 
   componentDidMount() {
     console.log('link state', this.props.location.state)
-    //route transfer data to state
-    //ref keywordExtender.js
+    //route transfer data to state ref keywordExtender.js
     if (this.props.location.state) {
       this.props.entity.link = this.props.location.state.link;
     }
@@ -43,7 +44,10 @@ class KeywordCreate extends Component {
 
   componentDidUpdate(previousProps, previousState) {
     if (previousProps.keywords !== this.props.keywords) {
-        this.props.history.push('/keyword')
+      this
+        .props
+        .history
+        .push('/keyword')
     }
   }
 
@@ -52,9 +56,10 @@ class KeywordCreate extends Component {
     const {newKeywords} = this.props.location.state || ""
 
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
+      <form onSubmit={handleSubmit(this.submit.bind(this))}  >
         <div className="alert alert-danger center-block">
-          禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理. <br/>
+          禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理.
+          <br/>
           免费版用户默认可提交关键词数量为5个，随着使用时间增长，系统自动增加可提交关键词数量。用户也可以通过升级VIP，马上就能提交更多关键词.
         </div>
         <Field
@@ -87,6 +92,10 @@ KeywordCreate.propTypes = {
   createKeyword: PropTypes.func.isRequired
 };
 
-KeywordCreate = reduxForm({form: "form"})(KeywordCreate);
+KeywordCreate = reduxForm({
+  form: "form",
+  initialValues:{link:lastKeyword},
+  enableReinitialize: true
+})(KeywordCreate);
 
 export default KeywordCreate;
