@@ -4,7 +4,7 @@ import Dialog from "~/src/Components/Modals/Dialog";
 import Pager from "~/src/Components/Tables/Pager";
 import { toast } from "react-toastify";
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 25;
 class KeywordTable extends React.Component {
   constructor(props) {
     super(props);

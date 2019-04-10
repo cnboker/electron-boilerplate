@@ -261,15 +261,18 @@ exports.update = function(req, res, next) {
 };
 
 exports.delete = function(req, res) {
+  console.log('delete', req.params.id)
+  var ids = req.params.id || req.body.ids
   Keyword.deleteMany({
     _id: {
-      $in: req.params.id.split(",")
+      $in: ids.split(",")
     }
   })
     .then(() => {
       res.send("delete ok");
     })
     .catch(e => {
+      console.log(e)
       res.status(500);
       res.send(e);
     });

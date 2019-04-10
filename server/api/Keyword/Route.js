@@ -12,6 +12,9 @@ module.exports = function(app){
   .put(ctl.update)
   .delete(ctl.delete)
 
+  app.route('/api/keyword')
+  .delete(ctl.delete)
+
   app.route('/api/kwTask/rank')
   .post(ctl.rank)
 

@@ -31,11 +31,11 @@ export const update = data => {
   return axios({ url: url, method: "put", data, headers });
 };
 
-export const remove = id => {
+export const remove = ids => {
   var headers = auth.authHeader();
 
-  const url = `${process.env.REACT_APP_API_URL}/keyword/${id}`;
-  return axios({ url: url, method: "delete", headers });
+  const url = `${process.env.REACT_APP_API_URL}/keyword`;
+  return axios({ url: url, method: "delete", data:{ids}, headers });
 };
 
 export const findWebsites = () => {

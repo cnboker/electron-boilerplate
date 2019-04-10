@@ -9,7 +9,7 @@ module.exports.getRuntime = function() {
     var nowTime = d.getHours() * 60 + d.getMinutes();
     return nowTime > startTime && nowTime < endTime;
   })();
-  var min = 20 * 60; //2min
+  var min = 10 * 60; //2min
   var max = 60 * 60; // 10min
   if (!inDoTasksTime) {
     min = 30 * 60; //1min
