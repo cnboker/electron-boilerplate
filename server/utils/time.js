@@ -12,8 +12,8 @@ module.exports.getRuntime = function() {
   var min = 10 * 60; //2min
   var max = 60 * 60; // 10min
   if (!inDoTasksTime) {
-    min = 30 * 60; //1min
-    max = 90 * 60; // 60min
+    min = 60 * 60; //1min
+    max = 180 * 60; // 60min
   }
 
   var next = moment().add(random(min, max), "seconds");

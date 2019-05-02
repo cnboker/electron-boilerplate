@@ -21,7 +21,7 @@ describe("string", () => {
       
       `;
       var arr = customSplit(str)
-    expect(arr.length).toEqual(7);
+    expect(arr.length).toEqual(4);
       
   });
   //end

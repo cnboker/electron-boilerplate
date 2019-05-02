@@ -26,16 +26,16 @@ exports.search = async function(input) {
     await page.$eval("#query", (el, input) => (el.value = input), input);
     //page.type("#query", input);
 
-    await sleep(2000);
+    await sleep(random(1000, 5000));
 
     await page.evaluate(() => {
       document.querySelector("#stb").click();
     });
-    await sleep(random(2000, 5000));
+    await sleep(random(1000, 5000));
 
     var keywords = [];
-
-    for (var i = 0; i < 2; i++) {
+    var loop = [1,2]
+    for (let i of loop) {
       var tmpArray = await page.$$eval("div.rb a", as =>
         as.map(a => {
           return a.innerText;
@@ -48,7 +48,7 @@ exports.search = async function(input) {
       );
       var tmpArray = await page.evaluate(keyword => {
         var nodes = document.querySelectorAll(
-          "#sogou_wrap_id > div.hintBox  a"
+          "#hint_container a"
         );
         var arr = [...nodes];
         return arr.map(x => {
@@ -64,8 +64,8 @@ exports.search = async function(input) {
       await page.waitForNavigation();
 
       await sleep(random(1000, 5000));
-     // await sleep(2000);
     }
+    console.log('keywords inner',keywords)
     browser.close();
     browser = null;
     //remove duplication
@@ -73,6 +73,7 @@ exports.search = async function(input) {
       return keywords.indexOf(item) == pos && item.length > 3 && item !== '翻译此页';
     });
   } catch (e) {
+    console.log('exception',e);
     if (browser) {
       console.log("wordextender browser exception closed");
       browser.close();

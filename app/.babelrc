@@ -4,6 +4,7 @@
   ],
   "plugins": [
     ["babel-plugin-root-import"],
+    ["@babel/transform-runtime"],
     [
       "@babel/plugin-proposal-class-properties",
       {

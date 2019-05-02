@@ -11,8 +11,6 @@ const linkSelector = "#content_left a.c-showurl";
 const titleSelector = "#content_left div h3";
 
 async function execute(task) {
-  // if (task.action == jobAction.SCAN) {   scanExecute(task);   return; }
-
   if (jobContext.busy || jobContext.puppeteer == undefined) return;
   jobContext.busy = true;
   task.doc.engine = "baidu";
@@ -171,7 +169,7 @@ async function goPage(page, pageIndex) {
 }
 
 //输入框模拟输入关键词 测试比较准确，不要改sleep
-async function inputKeyword(page, input, anyclick) {
+async function inputKeyword(page, input) {
   const pageUrl = "https://www.baidu.com";
   //page.setBypassCSP(true)
   await page.goto(pageUrl, {
@@ -209,21 +207,25 @@ async function fullPageRank(page, doc, pageIndex) {
   if (doc.rank > 0) {
     return rank;
   }
-  
+
   return -1;
 }
 
 //检查当前页是否包含特定链接 match:特定链接，比如ioliz.com,pageIndex:分页 return -1 表示未找到匹配链接
 async function pageRank(page, selector, match, pageIndex) {
+  var isBear = checkBear(match);
   //const selector = "#content_left div.f13";
   var currentRank = await page.$$eval(
     selector,
-    (links, match) => {
+    (links, match, isBear) => {
       return links.findIndex(function(element) {
-        return element.innerText.indexOf(match) >= 0;
+        return isBear
+          ? element.innerText === match
+          : element.innerText.indexOf(match) >= 0;
       });
     },
-    match
+    match,
+    isBear
   );
   var rank = -1;
 
@@ -241,27 +243,37 @@ async function pageRank(page, selector, match, pageIndex) {
   return rank;
 }
 
-//查找包含关键词的链接，并同时点击该链接
-async function findLinkClick(page, keyword) {
-  var isBear =false;
+function checkBear(keyword) {
+  var isBear = false;
   var reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
   if (reg.test(keyword)) {
     isBear = true;
   }
-  console.log('isbear',isBear)
-  await page.evaluate((keyword,linkSelector,isBear) => {
-    var nodes = document.querySelectorAll(linkSelector);
-    var arr = [...nodes];
-    var items = arr.filter(x => {
-      if(isBear){
-        return x.innerText === keyword;
+  return isBear;
+}
+
+//查找包含关键词的链接，并同时点击该链接
+async function findLinkClick(page, keyword) {
+  var isBear = checkBear(keyword);
+  console.log("isbear", isBear);
+  await page.evaluate(
+    (keyword, linkSelector, isBear) => {
+      var nodes = document.querySelectorAll(linkSelector);
+      var arr = [...nodes];
+      var items = arr.filter(x => {
+        if (isBear) {
+          return x.innerText === keyword;
+        }
+        return x.innerText.indexOf(keyword) >= 0;
+      });
+      if (items.length > 0) {
+        items[0].click();
       }
-      return x.innerText.indexOf(keyword) >= 0;
-    });
-    if (items.length > 0) {
-      items[0].click();
-    }
-  }, keyword,linkSelector,isBear);
+    },
+    keyword,
+    linkSelector,
+    isBear
+  );
 }
 
 async function adIndexer(page) {

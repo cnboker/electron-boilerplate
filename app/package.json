@@ -6,6 +6,9 @@
 	"description": "",
 	"license": "MIT",
 	"main": "./output/index.js",
+	"jest": {
+		"preset": "jest-puppeteer"
+	  },
 	"author": {
 		"name": "kwpolish",
 		"email": "google@gmail.com",
@@ -22,6 +25,7 @@
 		"ship32": "cross-env NODE_ENV=production webpack&&build --win --ia32 "
 	},
 	"dependencies": {
+		"@babel/runtime": "^7.4.3",
 		"@fortawesome/fontawesome-free-brands": "^5.0.13",
 		"@fortawesome/fontawesome-svg-core": "^1.2.15",
 		"@fortawesome/free-solid-svg-icons": "^5.7.2",
@@ -52,7 +56,7 @@
 		"node-localstorage": "^1.3.1",
 		"node-notifier": "^5.2.1",
 		"node-schedule": "^1.3.0",
-		"puppeteer": "^1.13.0",
+		"puppeteer": "^1.15.0",
 		"ramda": "^0.23.0",
 		"react": "^16.8.5",
 		"react-autosize-textarea": "^4.0.0",
@@ -105,6 +109,7 @@
 		"@babel/plugin-proposal-throw-expressions": "^7.0.0",
 		"@babel/plugin-syntax-dynamic-import": "^7.0.0",
 		"@babel/plugin-syntax-import-meta": "^7.0.0",
+		"@babel/plugin-transform-runtime": "^7.4.3",
 		"@babel/polyfill": "^7.0.0",
 		"@babel/preset-env": "^7.3.4",
 		"@babel/preset-react": "^7.0.0",
@@ -127,6 +132,7 @@
 		"file-loader": "^1.1.11",
 		"html-webpack-plugin": "^3.2.0",
 		"jest": "^24.5.0",
+		"jest-puppeteer": "^4.1.1",
 		"mocha": "^5.2.0",
 		"mongoose": "^5.0.14",
 		"node-sass": "^4.8.3",
