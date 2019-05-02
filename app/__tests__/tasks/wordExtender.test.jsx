@@ -7,11 +7,10 @@ describe("word query", () => {
   });
 
   it("word query should return result", async () => {
-    // jobContext.puppeteer = require("puppeteer");
-    // const worder = require("../../tasks/wordExtender");
-    // var result = await worder.search("软件定制");
-    // console.log("result", result);
-    // expect(result.length > 0).toBeTruthy();
+    const worder = require("../../tasks/wordExtender");
+    var result = await worder.search(page, "软件定制");
+    console.log("result", result);
+    expect(result.length > 0).toBeTruthy();
   }, 30000);
 
   //end

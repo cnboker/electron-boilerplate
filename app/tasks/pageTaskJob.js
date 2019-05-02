@@ -107,7 +107,7 @@ async function singleTaskProcess(page, task) {
     }
   } catch (e) {
     logger.info(e);
-    console.error(e);
+    console.info(e);
   }
 }
 
@@ -279,7 +279,8 @@ async function findLinkClick(page, keyword) {
 async function adIndexer(page) {
   var adCount = await page.evaluate(() => {
     var nodes = document.querySelectorAll("#content_left>div>div");
-    var arr = [...nodes];
+    //var arr = [...nodes];
+    var arr = Array.prototype.slice.call(nodes, 0);
     arr = arr.filter(e => {
       return e.getAttribute("cmatchid") != undefined;
     });

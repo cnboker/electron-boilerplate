@@ -8,7 +8,7 @@
 	"main": "./output/index.js",
 	"jest": {
 		"preset": "jest-puppeteer"
-	  },
+	},
 	"author": {
 		"name": "kwpolish",
 		"email": "google@gmail.com",
