@@ -34,9 +34,7 @@ class KeywordCreate extends Component {
   componentDidMount() {
     console.log('link state', this.props.location.state)
     //route transfer data to state ref keywordExtender.js
-    if (this.props.location.state) {
-      this.props.entity.link = this.props.location.state.link;
-    }
+    
     this
       .props
       .initialize(this.props.entity);

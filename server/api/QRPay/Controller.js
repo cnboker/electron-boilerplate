@@ -24,10 +24,12 @@ exports.list = (req, res, next) => {
       $ne: "admin"
     };
   }
-  query.createDate = {
-    $gt: req.query.startDate,
-    $lt: req.query.endDate
-  };
+  if(req.query.startDate && req.query.endDate){
+    query.createDate = {
+      $gte: req.query.startDate,
+      $lte: req.query.endDate
+    };
+  }
 
   QRPay.find(query)
     .then(docs => {

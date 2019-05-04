@@ -28,6 +28,21 @@ db.users.insert({
   keeper:true
 });
 
+
+db.users.insert({
+  userName: 'hwx',
+  password: '1',
+  email: '1@qq.com',
+  locked: false,
+  createDate: new Date(),
+  actived: true,
+  todayPoint: 0,
+  totalPoint: 0,
+  lostPoint: 0,
+  keeper:true
+});
+
+
 db.users.insert({
   userName: 'songsj',
   password: '1',
@@ -194,5 +209,7 @@ db.qrpays.insert({
   payDate: new Date(),
   keeper:'scott',
   payCode:'abc',
+  createDate: new Date(),
   status:0 //pending
 })
+

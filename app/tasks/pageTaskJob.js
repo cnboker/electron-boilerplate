@@ -1,5 +1,5 @@
 var sleep = require("./sleep");
-var scroll = require("./scroll");
+//var scroll = require("./scroll");
 var random = require("./random");
 var jobAction = require("./jobAction");
 var jobContext = require("./jobContext");
@@ -92,7 +92,7 @@ async function singleTaskProcess(page, task) {
           break;
         }
       }
-      scroll(page);
+      //scroll(page);
       //page.click(nextpageSelector);
       await page.evaluate(
         selector => document.querySelector(selector).click(),
@@ -165,7 +165,7 @@ async function goPage(page, pageIndex) {
     }
   }, pageIndex);
   await sleep(random(2000, 5000));
-  scroll(page);
+  //scroll(page);
 }
 
 //输入框模拟输入关键词 测试比较准确，不要改sleep

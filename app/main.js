@@ -26,17 +26,19 @@ crashReporter.start({
 
 let mainWindow = null;
 //to make singleton instance
-const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
-  // Someone tried to run a second instance, we should focus our window.
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) mainWindow.restore();
-    mainWindow.focus();
-  }
-});
+const gotTheLock = app.requestSingleInstanceLock();
 
-if (shouldQuit) {
+if (!gotTheLock) {
   app.quit();
 } else {
+  app.on("second-instance", (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+
   autoUpdater.on("update-downloaded", (ev, info) => {
     // Wait 5 seconds, then quit and install
     // In your application, you don't need to wait 5 seconds.
@@ -45,8 +47,6 @@ if (shouldQuit) {
       autoUpdater.quitAndInstall();
     }, 5000);
   });
-
- 
 
   global.backgroundProcessHandler = null;
   //require('electron-debug')();
@@ -129,7 +129,7 @@ if (shouldQuit) {
 
   var updatecheck = false;
   function checkForUpdate(delay) {
-    logger.info("checkForUpdate-delay", delay/60000);
+    logger.info("checkForUpdate-delay", delay / 60000);
     setTimeout(function() {
       try {
         if (!updatecheck) {

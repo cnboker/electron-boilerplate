@@ -13,7 +13,7 @@ export default class Price extends Component {
         </div>
         <div>
           <div className="card-deck mb-3 text-center">
-            <div className="card mb-4 box-shadow">
+            <div className="card mb-6 box-shadow">
               <div className="card-header">
                 <h4 className="my-0 font-weight-normal">免费帐户</h4>
               </div>
@@ -39,7 +39,7 @@ export default class Price extends Component {
                 )}
               </div>
             </div>
-            <div className="card mb-4 box-shadow">
+            <div className="card mb-6 box-shadow">
               <div className="card-header">
                 <h4 className="my-0 font-weight-normal">VIP帐户</h4>
               </div>
@@ -62,7 +62,7 @@ export default class Price extends Component {
                 )}
               </div>
             </div>
-            <div className="card mb-4 box-shadow">
+            {/* <div className="card mb-4 box-shadow">
               <div className="card-header">
                 <h4 className="my-0 font-weight-normal">企业帐户</h4>
               </div>
@@ -86,7 +86,7 @@ export default class Price extends Component {
                   </Link>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

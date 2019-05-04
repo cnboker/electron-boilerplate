@@ -48,8 +48,8 @@ process.node_debug = true;
   jobContext.puppeteer = require("puppeteer");
 
   
-
-  await pageTaskJob.execute(task);
+  await wordTest();
+  //await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
   //await pageTaskJob.adIndexer()
   //await pageTaskJob.singleTaskProcess(page,task);
@@ -93,6 +93,7 @@ async function wordTest(){
   const worder = require("./wordExtender");
   var result = await worder
   .search('软件定制')
+  console.log(result)
 }
 
 //通过链接匹配点击测试
