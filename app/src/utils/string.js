@@ -27,7 +27,10 @@ export function extractRootDomain(url) {
   if (arrLen > 2) {
     domain = splitArr[arrLen - 2] + "." + splitArr[arrLen - 1];
     //check to see if it's using a Country Code Top Level Domain (ccTLD) (i.e. ".me.uk")
-    if (arrLen == 4) {
+    if(arrLen == 3 && splitArr[arrLen - 3] != 'www'){
+      domain = splitArr[arrLen - 3] + "." + domain;
+    }
+    else if (arrLen == 4) {
       //this is using a ccTLD
       domain = splitArr[arrLen - 3] + "." + domain;
     }

@@ -45,7 +45,6 @@ frontEventProcess(store.dispatch);
 //Should be set in your console to see messages
 localStorage.debug = true
 //Configure the max length of module names (optional)
-//bows.config({ padLength: 10 })
 var render =(Component)=>(
   <Provider store={store}>
     <Router>

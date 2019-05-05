@@ -28,6 +28,9 @@ module.exports = {
 
 		var windowState = global.nodeStorage.getItem('windowstate') || {};
 		var mainWindow = new BrowserWindow({
+			webPreferences: {
+				nodeIntegration: true
+			  },
 			title,
 			icon,
 			x: windowState.bounds && windowState.bounds.x || undefined,
@@ -36,7 +39,7 @@ module.exports = {
 			height: windowState.bounds && windowState.bounds.height || 640,
 			show: false
 		});
-
+		mainWindow.setMenuBarVisibility(false)
 		//fix White loading screens belong in browser
 		mainWindow.on('ready-to-show', function () {
 			mainWindow.show();

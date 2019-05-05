@@ -12,6 +12,12 @@ describe("string", () => {
     );
   });
 
+  it("news.qq.com shoud return news.qq.com", () => {
+    expect(extractRootDomain("http://news.qq.com/index.html")).toEqual(
+      "news.qq.com"
+    );
+  });
+
   it("split shoud return array list", () => {
       var str =`
         aaaaa,bbbb,cccc dddd
