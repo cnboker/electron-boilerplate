@@ -20,6 +20,7 @@ var keywordSchema =new Schema({
   status:Number, //1. 运行, 2.暂停,
   shield:Number, //被管理员屏蔽 0.正常, 1.vip过期屏蔽
   adIndexer:Number, //首页广告数量
+  resultIndexer:Number,//搜索结果/10000,竞争度指数
   mOriginRank:Number, //移动端：系统开始排名，-1表示已扫描未找到
   mDynamicRank:Number, //移动端：当前页数
   title:String //百家号的网站通过title匹配

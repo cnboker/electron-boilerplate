@@ -289,7 +289,8 @@ exports.rank = function(req, res, next) {
     isValid: req.body.rank != -1,
     lastPolishedDate: new Date(),
     polishedCount: 0,
-    adIndexer: req.body.adIndexer || 0
+    adIndexer: req.body.adIndexer || 0,
+    resultIndexer:req.body.resultIndexer || 0
   };
   if (!req.body.title) {
     upinsert["title"] = req.body.title;
@@ -390,7 +391,8 @@ exports.polish = function(req, res, next) {
   if (time.isWorktime()) {
     updateData["adIndexer"] = req.body.adIndexer || 0;
   }
-
+  updateData['resultIndexer'] = req.body.resultIndexer || 0
+  
   if (req.body.opt === "localScan") {
     updateData.dynamicRank = req.body.rank;
     if (req.body.title) {

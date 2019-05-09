@@ -17,7 +17,7 @@ require('../utils/groupBy')
 var vipJob = require('./vipcheckJob')
 var resetTodayPolishJob = require('./resetTodayPolishCount')
 var performanceIndex = require('./perfomanceIndex');
-var deletePendingOrder = require('../resetPendingOrder');
+var deletePendingOrder = require('./resetPendingOrder');
 
 var mongoose = require("mongoose"); //.set('debug', true);
 //mongoose add promise ablity Promise.promisifyAll(mongoose); //AND THIS LINE

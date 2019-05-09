@@ -8,7 +8,6 @@ const auth = require("../auth");
 var logger = require("../logger");
 const SCAN_MAX_PAGE = 12;
 const linkSelector = "#content_left a.c-showurl";
-const titleSelector = "#content_left div h3";
 
 async function execute(task) {
   if (jobContext.busy || jobContext.puppeteer == undefined) return;
@@ -18,7 +17,7 @@ async function execute(task) {
     jobContext.browser.close();
   }
   const browser = await jobContext.puppeteer.launch({
-    headless: process.env.NODE_ENV == "production",
+    headless: false,//process.env.NODE_ENV == "production",
     //devtools:true,
     executablePath: (() => {
       return process.env.ChromePath;
@@ -72,7 +71,7 @@ async function singleTaskProcess(page, task) {
     await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
 
     doc.adIndexer = await adIndexer(page);
-
+    doc.resultIndexer = await resultIndexer(page)
     //首页处理
     var rank = await fullPageRank(page, doc, pageIndex);
     doc.rank = rank || -1;
@@ -289,6 +288,14 @@ async function adIndexer(page) {
   return adCount;
 }
 
+async function resultIndexer(page){
+  var text = await page.$eval('#container > div.head_nums_cont_outer.OP_LOG > div > div.nums > span', div => {
+    return div.innerText;
+  });
+  console.log(text)
+  return parseInt(text.replace(/[^0-9\.]/g, ''), 10)/10000
+}
+
 exports.execute = execute;
 exports.pageRank = pageRank;
 exports.singleTaskProcess = singleTaskProcess;
@@ -296,3 +303,4 @@ exports.findLinkClick = findLinkClick;
 exports.inputKeyword = inputKeyword;
 exports.goPage = goPage;
 exports.adIndexer = adIndexer;
+exports.resultIndexer = resultIndexer;

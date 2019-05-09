@@ -90,9 +90,9 @@ process.node_debug = true;
 
 async function wordTest(){
   jobContext.puppeteer = require("puppeteer");
-  const worder = require("./wordExtender");
+  const worder = require("./wordExtender360");
   var result = await worder
-  .search('软件定制')
+  .search('手机行业')
   console.log(result)
 }
 

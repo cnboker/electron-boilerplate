@@ -32,15 +32,11 @@ describe("pageTaskjob test", () => {
   },30000)
 
   it('query indexer return great 0',async()=>{
-    // await pageTaskJob.inputKeyword(page,'手机')
-    // var result = await pageTaskJob.adIndexer(page);
-    // expect(result).toBeGreaterThan(0)
+    await pageTaskJob.inputKeyword(page,'手机')
+    var result = await pageTaskJob.resultIndexer(page);
+    expect(result).toBeGreaterThan(0)
   }, 30000)
 
-  it('query indexer return  0',async()=>{
-    // await pageTaskJob.inputKeyword(page,'hello world')
-    // var result = await pageTaskJob.adIndexer(page);
-    // expect(result).toBe(0)
-  }, 30000)
+
   //end
 });

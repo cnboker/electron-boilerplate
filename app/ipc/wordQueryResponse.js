@@ -1,4 +1,4 @@
-const worder = require("../tasks/wordExtender");
+const worder = require("../tasks/wordExtender360");
 const logger = require("../logger");
 
 const KEYWORD_KEY = "WORDEXTENDER";

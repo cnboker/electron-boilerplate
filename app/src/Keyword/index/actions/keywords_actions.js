@@ -78,10 +78,7 @@ export const createKeyword = keyword => dispatch => {
 export const updateKeyword = keyword => dispatch => {
   api
     .update(keyword)
-    .then(response => {
-      toast.success(resources.fetch_data_ok, {
-        position: toast.POSITION.BOTTOM_CENTER
-      });
+    .then(response => {      
       dispatch(receiveKeyword(response.data));
       if (keyword.action === "reset") {
         var ipc = require("~/ipc/ipcBus");

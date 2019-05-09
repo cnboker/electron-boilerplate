@@ -4,7 +4,7 @@ import Dialog from "~/src/Components/Modals/Dialog";
 import Pager from "~/src/Components/Tables/Pager";
 import { toast } from "react-toastify";
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 30;
 class KeywordTable extends React.Component {
   constructor(props) {
     super(props);
@@ -19,16 +19,16 @@ class KeywordTable extends React.Component {
   getPaginateData(page) {
     var currentIndex = page * PAGE_SIZE;
     var arr = Object.values(this.props.keywords);
-    const {website, keyInput} = this.props;
+    const { website, keyInput } = this.props;
     if (website) {
       arr = arr.filter(x => {
         return x.link == website;
       });
     }
-    if(keyInput){
-      arr = arr.filter(x=>{
-        return x.keyword.includes(keyInput)
-      })
+    if (keyInput) {
+      arr = arr.filter(x => {
+        return x.keyword.includes(keyInput);
+      });
     }
     return {
       pageCount: Math.ceil(arr.length / PAGE_SIZE),
@@ -37,10 +37,13 @@ class KeywordTable extends React.Component {
   }
 
   componentDidMount() {
-    var id = this.props.match.params.id || '';
+    var id = this.props.match.params.id || "";
     this.props.findAllKeywords({ id });
     if (this.props.onSelectedDelete) {
       this.props.onSelectedDelete(this.onSelectedDelete.bind(this));
+    }
+    if (this.props.onSelectedReset) {
+      this.props.onSelectedReset(this.onSelectedReset.bind(this));
     }
   }
 
@@ -50,10 +53,17 @@ class KeywordTable extends React.Component {
       previousProps.website !== this.props.website ||
       previousProps.keyInput !== this.props.keyInput
     ) {
+      var page = this.state.page;
+      if (
+        previousProps.website !== this.props.website ||
+        previousProps.keyInput !== this.props.keyInput
+      ) {
+        page = 0;
+      }
       this.setState({
         ...this.state,
-        ...this.getPaginateData(0),
-        ...{page:0}
+        ...this.getPaginateData(page),
+        page
       });
     }
   }
@@ -90,8 +100,7 @@ class KeywordTable extends React.Component {
           entity.action = "reset";
           this.props.updateKeyword(entity);
         })
-      ],
-      
+      ]
     });
   }
 
@@ -108,8 +117,7 @@ class KeywordTable extends React.Component {
         Dialog.OKAction(() => {
           this.props.deleteKeyword(entity._id);
         })
-      ],
-      
+      ]
     });
   }
 
@@ -148,8 +156,34 @@ class KeywordTable extends React.Component {
         Dialog.OKAction(() => {
           this.props.deleteKeyword(ids.join(","));
         })
-      ],
- 
+      ]
+    });
+  }
+
+  onSelectedReset(e) {
+    e.preventDefault();
+    var items = this.state.data.filter(x => x.selected);
+    if (items.length == 0) {
+      toast.error("请选择要重置的行", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+      return;
+    }
+
+    this.refs.dialog.show({
+      title: "提示",
+      body: "确定要重置选择项吗?",
+      actions: [
+        Dialog.CancelAction(() => {
+          console.log("dialog cancel");
+        }),
+        Dialog.OKAction(() => {
+          for (var item of items) {
+            item.action = "reset";
+            this.props.updateKeyword(item);
+          }
+        })
+      ]
     });
   }
 
@@ -164,7 +198,7 @@ class KeywordTable extends React.Component {
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox"  onClick={e => this.selectAll(e)} />
+                  <input type="checkbox" onClick={e => this.selectAll(e)} />
                 </th>
                 <th
                   style={{
@@ -180,7 +214,8 @@ class KeywordTable extends React.Component {
                 <th>最新排名</th>
                 <th>变化</th>
                 <th>商业热度</th>
-                {this.props.client.userName==='admin'&&<th>点击</th>}
+                <th>竞争度</th>
+                {this.props.client.userName === "admin" && <th>点击</th>}
                 <th>有效</th>
                 <th>状态</th>
                 <th>跟踪</th>
@@ -206,7 +241,7 @@ class KeywordTable extends React.Component {
           <div className="float-right">
             <Pager
               pageCount={this.state.pageCount}
-              onPageChange={(e)=>this.pagination(e.selected)}
+              onPageChange={e => this.pagination(e.selected)}
             />
           </div>
         </div>
