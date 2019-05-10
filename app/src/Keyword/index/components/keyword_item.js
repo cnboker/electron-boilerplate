@@ -55,7 +55,7 @@ export default class KeywordItem extends React.Component {
         <td>
           <FireBox adIndexer={item.adIndexer} />
         </td>
-        <td>{item.resultIndexer == 0 ? "-" : item.resultIndexer}</td>
+        <td>{stringFormat(item.resultIndexer)}</td>
         {this.props.client.userName === "admin" && (
           <td>{item.todayPolishedCount}</td>
         )}

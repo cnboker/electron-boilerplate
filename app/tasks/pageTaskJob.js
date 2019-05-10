@@ -17,7 +17,7 @@ async function execute(task) {
     jobContext.browser.close();
   }
   const browser = await jobContext.puppeteer.launch({
-    headless: false,//process.env.NODE_ENV == "production",
+    headless: process.env.NODE_ENV == "production",
     //devtools:true,
     executablePath: (() => {
       return process.env.ChromePath;

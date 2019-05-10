@@ -6,10 +6,18 @@ export const stringFormat = val => {
     if (val == -1) return "120+";
     return val;
   }
-  if (this.isValidDate(val)) {
+  if (isFloat(+val)) {
+    return (+val).toFixed(2);
+  }
+
+  if (isValidDate(val)) {
     return moment(val).format("YYYY-MM-DD");
   }
   return val;
+};
+
+export const isFloat = n => {
+  return Number(n) === n && n % 1 !== 0;
 };
 
 export const isValidDate = value => {
