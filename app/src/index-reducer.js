@@ -9,11 +9,12 @@ import userReducer from './Users/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 import snReducer from './Pay/snPay/reducer'
 import questionReducer from './Quora/reducers/question_reducer'
-import topicReducer from './Quora/reducers/topics_reducer'
+import tagReducer from './Tags/reducer'
 import billReducer from './bill/reducer'
 import voteReducer from './Vote/reducer'
 import wxpayReducer from './Pay/wxPay/reducer'
 import userProfileReducer from './Profile/reducer'
+
 const appReducer = combineReducers({
   /* your app’s top-level reducers */
   form,
@@ -27,7 +28,7 @@ const appReducer = combineReducers({
   events: eventReducer,
   sn:snReducer,
   questions:questionReducer,
-  topic:topicReducer,
+  tagReducer,
   bills: billReducer,
   votes:voteReducer,
   wxpay:wxpayReducer,

@@ -48,7 +48,6 @@ export const Card = (props) => {
     card: true
   }
   return (
-
     <div className={classNames(className, classes)} >
       <CardHeader {...headerProps} />
       <div className="card-body">{children}</div>
@@ -56,7 +55,6 @@ export const Card = (props) => {
         <div className="card-footer">{footerTitle}</div>
       </If>
     </div>
-
   )
 }
 

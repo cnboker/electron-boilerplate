@@ -2,7 +2,7 @@ import React from "react";
 import KeywordItem from "./keyword_item";
 import Dialog from "~/src/Components/Modals/Dialog";
 import Pager from "~/src/Components/Tables/Pager";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 
 const PAGE_SIZE = 30;
 class KeywordTable extends React.Component {
@@ -19,15 +19,25 @@ class KeywordTable extends React.Component {
   getPaginateData(page) {
     var currentIndex = page * PAGE_SIZE;
     var arr = Object.values(this.props.keywords);
-    const { website, keyInput } = this.props;
+    const {website, keyInput, tag} = this.props;
+    console.log('getPaginateData',this.props)
     if (website) {
       arr = arr.filter(x => {
         return x.link == website;
       });
     }
+    if (tag && tag !== '全部') {
+      arr = arr.filter(x => {
+        return x.tags && x
+          .tags
+          .indexOf(tag) != -1;
+      })
+    }
     if (keyInput) {
       arr = arr.filter(x => {
-        return x.keyword.includes(keyInput);
+        return x
+          .keyword
+          .includes(keyInput);
       });
     }
     return {
@@ -38,26 +48,29 @@ class KeywordTable extends React.Component {
 
   componentDidMount() {
     var id = this.props.match.params.id || "";
-    this.props.findAllKeywords({ id });
+    this
+      .props
+      .findAllKeywords({id});
     if (this.props.onSelectedDelete) {
-      this.props.onSelectedDelete(this.onSelectedDelete.bind(this));
+      this
+        .props
+        .onSelectedDelete(this.onSelectedDelete.bind(this));
     }
     if (this.props.onSelectedReset) {
-      this.props.onSelectedReset(this.onSelectedReset.bind(this));
+      this
+        .props
+        .onSelectedReset(this.onSelectedReset.bind(this));
     }
   }
 
   componentDidUpdate(previousProps, previousState) {
-    if (
-      previousProps.keywords !== this.props.keywords ||
-      previousProps.website !== this.props.website ||
-      previousProps.keyInput !== this.props.keyInput
-    ) {
-      var page = this.state.page;
-      if (
-        previousProps.website !== this.props.website ||
-        previousProps.keyInput !== this.props.keyInput
+    if (previousProps.keywords !== this.props.keywords 
+      || previousProps.website !== this.props.website 
+      || previousProps.keyInput !== this.props.keyInput
+      || previousProps.tag !== this.props.tag
       ) {
+      var page = this.state.page;
+      if (previousProps.website !== this.props.website || previousProps.keyInput !== this.props.keyInput) {
         page = 0;
       }
       this.setState({
@@ -70,143 +83,165 @@ class KeywordTable extends React.Component {
 
   pagination = page => {
     console.log("pagination........");
-    const { data } = this.getPaginateData(page);
-    this.setState({
-      page,
-      data: data
-    });
+    const {data} = this.getPaginateData(page);
+    this.setState({page, data: data});
   };
 
   toggleSwitch(item, e) {
     var entity = {
       ...item,
       ...{
-        status: item.status == 1 ? 2 : 1
+        status: item.status == 1
+          ? 2
+          : 1
       }
     };
-    this.props.updateKeyword(entity);
+    this
+      .props
+      .updateKeyword(entity);
   }
 
   onReset(entity, event) {
     event.preventDefault();
-    this.refs.dialog.show({
-      title: "提示",
-      body: "确定要重置此项吗?",
-      actions: [
-        Dialog.CancelAction(() => {
-          console.log("dialog cancel");
-        }),
-        Dialog.OKAction(() => {
-          entity.action = "reset";
-          this.props.updateKeyword(entity);
-        })
-      ]
-    });
+    this
+      .refs
+      .dialog
+      .show({
+        title: "提示",
+        body: "确定要重置此项吗?",
+        actions: [
+          Dialog.CancelAction(() => {
+            console.log("dialog cancel");
+          }),
+          Dialog.OKAction(() => {
+            entity.action = "reset";
+            this
+              .props
+              .updateKeyword(entity);
+          })
+        ]
+      });
   }
 
   onDelete(entity, event) {
     event.preventDefault();
     console.log("this.refs", this.refs);
-    this.refs.dialog.show({
-      title: "提示",
-      body: "确定要删除此项吗?",
-      actions: [
-        Dialog.CancelAction(() => {
-          console.log("dialog cancel");
-        }),
-        Dialog.OKAction(() => {
-          this.props.deleteKeyword(entity._id);
-        })
-      ]
-    });
+    this
+      .refs
+      .dialog
+      .show({
+        title: "提示",
+        body: "确定要删除此项吗?",
+        actions: [
+          Dialog.CancelAction(() => {
+            console.log("dialog cancel");
+          }),
+          Dialog.OKAction(() => {
+            this
+              .props
+              .deleteKeyword(entity._id);
+          })
+        ]
+      });
   }
 
   selectAll(e) {
-    this.setState({ selectAll: e.target.checked });
-    this.state.data.map(x => {
-      x.selected = e.target.checked;
-    });
+    this.setState({selectAll: e.target.checked});
+    this
+      .state
+      .data
+      .map(x => {
+        x.selected = e.target.checked;
+      });
   }
 
-  //   onFliter(value, e) {
-  //     e.preventDefault();
-  //     const result = this.getPaginateData(this.state.page, value);
-  //     this.setState({
-  //       ...result
-  //     });
-  //   }
+  //   onFliter(value, e) {     e.preventDefault();     const result =
+  // this.getPaginateData(this.state.page, value);     this.setState({
+  // ...result     });   }
 
   onSelectedDelete(e) {
     e.preventDefault();
-    var ids = this.state.data.filter(x => x.selected).map(x => x._id);
+    var ids = this
+      .state
+      .data
+      .filter(x => x.selected)
+      .map(x => x._id);
     if (ids.length == 0) {
-      toast.error("请选择要删除的行", {
-        position: toast.POSITION.BOTTOM_CENTER
-      });
+      toast.error("请选择要删除的行", {position: toast.POSITION.BOTTOM_CENTER});
       return;
     }
 
-    this.refs.dialog.show({
-      title: "提示",
-      body: "确定要删除选择项吗?",
-      actions: [
-        Dialog.CancelAction(() => {
-          console.log("dialog cancel");
-        }),
-        Dialog.OKAction(() => {
-          this.props.deleteKeyword(ids.join(","));
-        })
-      ]
-    });
+    this
+      .refs
+      .dialog
+      .show({
+        title: "提示",
+        body: "确定要删除选择项吗?",
+        actions: [
+          Dialog.CancelAction(() => {
+            console.log("dialog cancel");
+          }),
+          Dialog.OKAction(() => {
+            this
+              .props
+              .deleteKeyword(ids.join(","));
+          })
+        ]
+      });
   }
 
   onSelectedReset(e) {
     e.preventDefault();
-    var items = this.state.data.filter(x => x.selected);
+    var items = this
+      .state
+      .data
+      .filter(x => x.selected);
     if (items.length == 0) {
-      toast.error("请选择要重置的行", {
-        position: toast.POSITION.BOTTOM_CENTER
-      });
+      toast.error("请选择要重置的行", {position: toast.POSITION.BOTTOM_CENTER});
       return;
     }
 
-    this.refs.dialog.show({
-      title: "提示",
-      body: "确定要重置选择项吗?",
-      actions: [
-        Dialog.CancelAction(() => {
-          console.log("dialog cancel");
-        }),
-        Dialog.OKAction(() => {
-          for (var item of items) {
-            item.action = "reset";
-            this.props.updateKeyword(item);
-          }
-        })
-      ]
-    });
+    this
+      .refs
+      .dialog
+      .show({
+        title: "提示",
+        body: "确定要重置选择项吗?",
+        actions: [
+          Dialog.CancelAction(() => {
+            console.log("dialog cancel");
+          }),
+          Dialog.OKAction(() => {
+            for (var item of items) {
+              item.action = "reset";
+              this
+                .props
+                .updateKeyword(item);
+            }
+          })
+        ]
+      });
   }
 
   render() {
     console.log("state", this.state);
     return (
       <div>
-        <Dialog ref={"dialog"} />
+        <Dialog ref={"dialog"}/>
         <div className="table-responsive">
-          <br />
+          <br/>
           <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
                 <th>
-                  <input type="checkbox" onClick={e => this.selectAll(e)} />
+                  <input type="checkbox" onClick={e => this.selectAll(e)}/>
                 </th>
                 <th
                   style={{
-                    width: "22%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis"
-                  }}
-                >
+                  width: "22%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis"
+                }}>
                   关键词
                 </th>
                 <th>匹配网址</th>
@@ -219,30 +254,35 @@ class KeywordTable extends React.Component {
                 <th>有效</th>
                 <th>状态</th>
                 <th>跟踪</th>
-                <th />
+                <th/>
               </tr>
             </thead>
             <tbody>
-              {this.state.data.map((x, index) => {
-                return (
-                  <KeywordItem
+              {this
+                .state
+                .data
+                .map((x, index) => {
+                  return (<KeywordItem
                     data={x}
                     {...this.props}
                     key={index}
-                    onDelete={this.onDelete.bind(this)}
-                    onReset={this.onReset.bind(this)}
-                    toggleSwitch={this.toggleSwitch.bind(this)}
-                  />
-                );
-              })}
+                    onDelete={this
+                    .onDelete
+                    .bind(this)}
+                    onReset={this
+                    .onReset
+                    .bind(this)}
+                    toggleSwitch={this
+                    .toggleSwitch
+                    .bind(this)}/>);
+                })}
             </tbody>
           </table>
-          <br />
+          <br/>
           <div className="float-right">
             <Pager
               pageCount={this.state.pageCount}
-              onPageChange={e => this.pagination(e.selected)}
-            />
+              onPageChange={e => this.pagination(e.selected)}/>
           </div>
         </div>
       </div>

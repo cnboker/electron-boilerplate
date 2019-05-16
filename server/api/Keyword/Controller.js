@@ -200,7 +200,8 @@ exports.create = function(req, res, next) {
           polishedCount: 0,
           user: req.user.sub,
           status: 1,
-          engine: user.engine
+          engine: user.engine,
+          tags:req.body.tags||[]
         });
       }
       return Keyword.collection.insertMany(docs);
@@ -450,7 +451,8 @@ function dynamicPolish(req, res, next) {
   if (time.isWorktime()) {
     upsertData["adIndexer"] = req.body.adIndexer || 0;
   }
-
+  updateData['resultIndexer'] = req.body.resultIndexer || 0
+  
   var lastDynamicRank = 0;
   Promise.all([
     Keyword.findOne({ _id: req.body._id }),

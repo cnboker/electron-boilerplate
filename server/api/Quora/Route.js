@@ -5,7 +5,6 @@ module.exports = function(app){
   var commentCtl = require('./CommentController')
   var followCtl = require('./FollowController')
   var questionCtl = require('./QuestionController')
-  var topicCtl = require('./TopicController')
   
   app.route('/api/questions')
   .get(questionCtl.list)
@@ -18,6 +17,9 @@ module.exports = function(app){
   .put(questionCtl.update)
   .delete(questionCtl.del)
 
+  app
+  .route('/api/topics/cloud')
+  .get(questionCtl.cloud)
 
   app.route('/api/answers')
   .post(answerCtl.create)
@@ -31,18 +33,6 @@ module.exports = function(app){
 
   app.route('/api/comments/:id')
   .delete(commentCtl.del)
-
-  app.route('/api/topics')
-  .get(topicCtl.list) //searchTerm
-
-  app.route('/api/topics/cloud')
-  .get(topicCtl.cloud)
-
-  app.route('/api/topics/:id')
-  .get(topicCtl.list)
-
-  app.route('/api/topic/update')
-  .post(topicCtl.update)
 
   app.route('/api/follows')
   .post(followCtl.list) //searchTerm

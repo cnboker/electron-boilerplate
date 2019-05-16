@@ -25,7 +25,6 @@ export default class KeywordItem extends React.Component {
   }
   render() {
     const item = this.props.data;
-    console.log("rerender");
     return (
       <tr key={item._id}>
         <td>

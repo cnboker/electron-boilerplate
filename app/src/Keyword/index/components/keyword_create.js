@@ -8,21 +8,29 @@ import {required} from "~/src/utils/fieldLevelValidation";
 import {renderField} from "~/src/Components/Forms/RenderField";
 import {RowContainer} from "~/src/Components/Forms/RowContainer";
 import {extractRootDomain} from '~/src/utils/string'
+import Select from 'react-select'
+import {connect} from 'react-redux'
 
 var lastKeyword = '';
 class KeywordCreate extends Component {
   constructor(props) {
     super(props);
-    console.log("form load...");
-    this.state = {};
+    this.state = {
+      tags: []
+    };
   }
 
   submit(values) {
     var keyword = this.textarea.value;
 
-    var entity = R.mergeAll([this.props.entity, values, this.state, {
-        keyword
-      }]);
+    var entity = R.mergeAll([
+      this.props.entity,
+      values,
+      this.state, {
+        keyword,
+        tags: this.state.tags
+      }
+    ]);
     entity.link = extractRootDomain(entity.link).substring(0, 20)
     lastKeyword = entity.link;
     console.log(entity);
@@ -34,7 +42,7 @@ class KeywordCreate extends Component {
   componentDidMount() {
     console.log('link state', this.props.location.state)
     //route transfer data to state ref keywordExtender.js
-    
+
     this
       .props
       .initialize(this.props.entity);
@@ -49,12 +57,18 @@ class KeywordCreate extends Component {
     }
   }
 
+  onSelect(options) {
+    this.setState({
+      tags: options.map(x => x.value)
+    })
+  }
+
   render() {
     const {handleSubmit} = this.props;
     const {newKeywords} = this.props.location.state || ""
 
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}  >
+      <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div className="alert alert-danger center-block">
           禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理.
           <br/>
@@ -75,8 +89,21 @@ class KeywordCreate extends Component {
             defaultValue={newKeywords}
             innerRef={ref => (this.textarea = ref)}/>
         </RowContainer>
+        <RowContainer label="标签">
+          <Select
+            placeholder="标签"
+            onChange={this
+            .onSelect
+            .bind(this)}
+            options={this
+            .props
+            .tags
+            .map(x => {
+              return {label: x, value: x}
+            })}
+            isMulti/>
+        </RowContainer>
 
-        {/*<Field name="everyDayMaxPolishedCount" type="text" label="单日最大擦亮次数" component={renderField} validate={required} /> */}
         <button action="submit" className="btn btn-block btn-success">
           提交
         </button>
@@ -85,15 +112,21 @@ class KeywordCreate extends Component {
   }
 }
 
-KeywordCreate.propTypes = {
+KeywordCreate.PropTypes = {
   dispatch: PropTypes.func.isRequired,
   createKeyword: PropTypes.func.isRequired
 };
 
 KeywordCreate = reduxForm({
   form: "form",
-  initialValues:{link:lastKeyword},
+  initialValues: {
+    link: lastKeyword
+  },
   enableReinitialize: true
 })(KeywordCreate);
 
-export default KeywordCreate;
+const mapStateToProps = (state, ownProps) => {
+  return {tags: state.tagReducer['keyword']}
+}
+
+export default connect(mapStateToProps)(KeywordCreate);

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import Dialog from "../Modals/Dialog";
 import PropTypes from 'prop-types';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default class Upvote extends Component {
   onDelete(id, event) {
@@ -60,7 +62,7 @@ export default class Upvote extends Component {
             this
               .onDelete
               .bind(this, delProps.id)
-          } > <i className="fa fa-trash"></i> </button>}
+          } > <FontAwesomeIcon icon={faTrash} size="1x" /> </button>}
           {children}
         </p>
       </div>
@@ -68,7 +70,7 @@ export default class Upvote extends Component {
   }
 }
 
-Upvote.protoTypes = {
+Upvote.ProtoTypes = {
   commentProps: PropTypes.object,
   onLike: PropTypes.func,
   onDislike: PropTypes.func,

@@ -138,7 +138,7 @@ class QueryBar extends React.Component {
                 {this
                   .state
                   .displayedQuestions
-                  .map((question) => <li key={question.id}>
+                  .map((question, index) => <li key={index}>
                     <a href={"/#/" + question.id}>{question.title}</a>
                   </li>)}
               </ul>

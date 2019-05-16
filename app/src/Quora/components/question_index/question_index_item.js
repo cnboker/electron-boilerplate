@@ -30,7 +30,7 @@ class QuestionIndexItem extends React.Component {
               {question.answerCount}</span>
           </div>
           <div >
-            {question.topics&&question.topics.map(x=><span key={x} onClick={()=>this.props.fetchTopic(x)} className="badge badge-pill badge-primary">{x}</span>)}
+            {question.topics&&question.topics.map(x=><span key={x} onClick={()=>this.props.fetchQuesitonsByTopic(x)} className="badge badge-pill badge-primary">{x}</span>)}
         </div>
           <span className="d-block">{moment(question.create_at).format("YYYY-MM-DD")}@{this.shortAuthor(question.author)}</span>
         </div>

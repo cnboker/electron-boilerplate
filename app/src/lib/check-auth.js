@@ -1,7 +1,6 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { setClient, unsetClient } from "../Client/action";
-
+import {Route, Redirect} from "react-router-dom";
+import {setClient, unsetClient} from "../Client/action";
 
 export function authHeader() {
   // return authorization header with jwt token
@@ -16,7 +15,7 @@ export function authHeader() {
   }
 }
 
-export function getUserName(){
+export function getUserName() {
   let user = JSON.parse(localStorage.getItem("token"));
 
   if (user && user) {
@@ -36,7 +35,10 @@ export function refreshClient(client) {
     // if the token has expired return false
     console.log("span time", (token.expired - jsTicks) / 10000);
     // if (token.expired > jsTicks) {
-    client.token = token;
+    client = {
+     // ...client,
+      ...token
+    };
     // }
   }
 }
@@ -68,9 +70,14 @@ export function checkAuthorization(dispatch, next) {
 }
 
 //读用户cookie资料
-export function UserRoute({ component: Component, dispatch, state, ...rest }) {
+export function UserRoute({
+  component: Component,
+  dispatch,
+  state,
+  ...rest
+}) {
   checkAuthorization(dispatch, rest);
-  return <Route {...rest} render={props => <Component {...props} />} />;
+  return <Route {...rest} render={props => <Component {...props}/>}/>;
 }
 
 export function PrivateRoute({
@@ -83,20 +90,14 @@ export function PrivateRoute({
   return (
     <Route
       {...rest}
-      render={props =>
-        authed === true ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: {
-                from: props.location
-              }
-            }}
-          />
-        )
-      }
-    />
+      render={props => authed === true
+      ? (<Component {...props}/>)
+      : (<Redirect
+        to={{
+        pathname: "/login",
+        state: {
+          from: props.location
+        }
+      }}/>)}/>
   );
 }

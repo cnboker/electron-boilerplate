@@ -14,7 +14,7 @@ class UserKeywordsContainer extends React.Component{
 const mapStateToProps = (state, ownProps) => {
   return {
     keywords: state.keywords, 
-    client: state.client.token,
+    client: state.client,
   }
 }
 

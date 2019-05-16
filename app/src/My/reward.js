@@ -38,13 +38,13 @@ class Reward extends Component {
 
   onFinished(url) {
     this.props.dispatch(
-      userUpdate(this.props.client.token.userName, { wxpayUrl: url })
+      userUpdate(this.props.client.userName, { wxpayUrl: url })
     );
   }
 
   onRemove(url) {
     this.props.dispatch(
-      userUpdate(this.props.client.token.userName, { wxpayUrl: "" })
+      userUpdate(this.props.client.userName, { wxpayUrl: "" })
     );
   }
 

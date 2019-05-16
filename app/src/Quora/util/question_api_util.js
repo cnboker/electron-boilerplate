@@ -1,5 +1,6 @@
 import axios from "axios";
-var headers = require('../../lib/check-auth').authHeader();
+
+
 
 export const fetchQuestion = (id) => {
   return axios({
@@ -15,7 +16,7 @@ export const fetchAllQuestions = () => {
   });
 };
 
-export const fetchTopic = (id) => {
+export const fetchQuesitonsByTopic = (id) => {
   return axios({
     method: 'GET',
     url: `${process.env.REACT_APP_API_URL}/questions?topic=${id}`
@@ -23,6 +24,8 @@ export const fetchTopic = (id) => {
 };
 
 export const createQuestion = (question) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: "post",
     url: `${process.env.REACT_APP_API_URL}/question/create`,
@@ -32,6 +35,8 @@ export const createQuestion = (question) => {
 };
 
 export const updateQuestion = (question) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'put',
     url: `${process.env.REACT_APP_API_URL}/questions/${question.id}`,
@@ -42,6 +47,8 @@ export const updateQuestion = (question) => {
 
 
 export const deleteQuestion = (id) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'DELETE',
     url: `${process.env.REACT_APP_API_URL}/questions/${id}`,
@@ -52,6 +59,8 @@ export const deleteQuestion = (id) => {
 ///////////////Answers//////////////
 
 export const createAnswer = (answer) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'POST',
     url: `${process.env.REACT_APP_API_URL}/answers`,
@@ -61,6 +70,8 @@ export const createAnswer = (answer) => {
 };
 
 export const fetchAnswer = (id) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'GET',
     url: `${process.env.REACT_APP_API_URL}/answers/${id}`,
@@ -69,6 +80,8 @@ export const fetchAnswer = (id) => {
 };
 
 export const deleteAnswer = (id) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'DELETE',
     url: `${process.env.REACT_APP_API_URL}/answers/${id}`,
@@ -79,6 +92,8 @@ export const deleteAnswer = (id) => {
 ///////////////Comments///////////////
 
 export const addComment = (comment) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'POST',
     url: `${process.env.REACT_APP_API_URL}/comments`,
@@ -88,6 +103,8 @@ export const addComment = (comment) => {
 };
 
 export const deleteComment = (id) => {
+  var headers = require('../../lib/check-auth').authHeader();
+
   return axios({
     method: 'DELETE',
     url: `${process.env.REACT_APP_API_URL}/comments/${id}`,

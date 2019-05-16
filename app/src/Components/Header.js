@@ -42,9 +42,9 @@ import BootstrapMenu from './Dropdownlist/bootstrapMenu'
             <Link className="p-2 text-dark" to="/keyword">
               排名监控
             </Link>
-            {/*<Link className="p-2 text-dark" to="/qa">
+            <Link className="p-2 text-dark" to="/qa">
             问答
-      </Link>*/}
+      </Link>
             <Link className="p-2 text-dark" to="/customkw">
               拓词
             </Link>

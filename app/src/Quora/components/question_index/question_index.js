@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import QuestionIndexItem from './question_index_item';
 import QueryBar from './query_bar';
 import TopicSearchBar from './topic_search_bar';
-import TopicCloud from './topicCloud'
+import TopicCloud from '../../../Tags/tagCloud'
 
 class QuestionIndex extends React.Component {
   constructor(props) {
@@ -24,8 +24,9 @@ class QuestionIndex extends React.Component {
     this
       .props
       .fetchAllQuestions();
-      this.props.fetchTopicCloud();
-      this.props.fetchAllTopics();
+      this.props.fetchQuoraCloud();
+      this.props.fetchTags('quora')
+
   }
 
   toggleTopicSearch() {
@@ -49,22 +50,21 @@ class QuestionIndex extends React.Component {
       .map(question => (<QuestionIndexItem
         key={question._id}
         question={question}
-        fetchTopic={this.props.fetchTopic}
+        fetchQuesitonsByTopic={this.props.fetchQuesitonsByTopic}
         updateQuestion={this.props.updateQuestion}/>));
     return (
-      <div className="">
+      <React.Fragment>
         <QueryBar
           createQuestion={this.props.createQuestion}
           questions={this.props.questions}
-          client={this.props.client} topics={this.props.topics} fetchAllTopics={this.props.fetchAllTopics}/>
+          client={this.props.client} topics={this.props.quoraTags} history={this.props.history}/>
         <div className="row">
           <div className="col-md-3">
             <div className="left-sidebar">
               <div className="left-sidebar-header">
-              {this.props.client.userName=='admin'&&<Link to={"/qa/tag"} className="btn btn-outline-primary">编辑标签</Link>}
-               
+              {this.props.client.userName=='admin'&&<Link to={{pathname:"/tag/create",state:{catelog:'quora'}}} className="btn btn-outline-primary">编辑标签</Link>}
               </div>
-             <TopicCloud topicCloud={this.props.topicCloud} fetchTopic={this.props.fetchTopic}/>
+             <TopicCloud tags={this.props.quoraCloud} fetchTopic={this.props.fetchQuesitonsByTopic}/>
               {this.state.showTopicSearch && <TopicSearchBar
                 currentUser={this.props.currentUser}
                 fetchAllTopics={this.props.fetchAllTopics}
@@ -78,7 +78,7 @@ class QuestionIndex extends React.Component {
            
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -9,8 +9,8 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      engine: props.client.token.engine || "baidu",
-      rankSet: props.client.token.rankSet || 1
+      engine: props.client.engine || "baidu",
+      rankSet: props.client.rankSet || 1
     };
     this.rankSetChange = this.rankSetChange.bind(this);
     this.engineChange = this.engineChange.bind(this);
@@ -47,7 +47,7 @@ class Index extends Component {
       method: "post",
       data,
       headers: {
-        Authorization: `Bearer ${this.props.client.token.access_token}`
+        Authorization: `Bearer ${this.props.client.access_token}`
       }
     })
       .then(response => {

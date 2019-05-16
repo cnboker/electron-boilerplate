@@ -2,13 +2,15 @@ import {connect} from 'react-redux'
 import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findWebsites} from '../actions/keywords_actions'
 import KeywordIndex from './keyword_index'
 import {fetchProfile} from '~/src/Profile/action'
+import {fetchTags,tagSelect} from '~/src/Tags/actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
     keywords: state.keywords, 
     websites: state.websites, 
-    client: state.client.token,
-    profile:state.userProfile
+    client: state.client,
+    profile:state.userProfile,
+    tags:state.tagReducer
   }
 }
 
@@ -31,8 +33,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     deleteKeyword: (id) => {
       dispatch(deleteKeyword(id))
+    },
+    fetchTags:()=>{
+      dispatch(fetchTags('keyword'))
+    },
+    tagSelect:(catelog,tagName)=>{
+      dispatch(tagSelect(catelog,tagName))
     }
-   
   }
 }
 

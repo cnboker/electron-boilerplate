@@ -15,11 +15,10 @@ export default class TopicCloud extends React.Component {
       <div>
         <TagCloud
           minSize={12}
-          maxSize={35}
+          maxSize={28}
           tags={this.props.topicCloud}
           onClick={(tag) => this.props.fetchTopic(tag.value)}/>
       </div>
-
     )
   }
 }

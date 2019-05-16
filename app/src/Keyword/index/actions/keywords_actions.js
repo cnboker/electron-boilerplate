@@ -46,8 +46,8 @@ export const findToday = () => dispatch => {
 
 export const createKeyword = keyword => dispatch => {
   var arr = customSplit(keyword.keyword);
-  if (arr.length > 30) {
-    toast.error('一次新增关键字不能超过30个', { position: toast.POSITION.BOTTOM_CENTER });
+  if (arr.length > 100) {
+    toast.error('一次新增关键字不能超过100个', { position: toast.POSITION.BOTTOM_CENTER });
     return;
   }
   api

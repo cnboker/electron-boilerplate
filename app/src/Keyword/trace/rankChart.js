@@ -23,14 +23,14 @@ class History extends Component {
         url: `${process.env.REACT_APP_API_URL}/analysis/${id}`,
         method: "get",
         headers: {
-          Authorization: `Bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.access_token}`
         }
       }),
       axios({
         url: `${process.env.REACT_APP_API_URL}/event/${id}`,
         method: "get",
         headers: {
-          Authorization: `Bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.access_token}`
         }
       })
     ])

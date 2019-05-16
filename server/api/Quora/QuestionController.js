@@ -7,6 +7,45 @@ var Models = require('./Model')
 var Question = Models.Question;
 var Answer = Models.Answer;
 var Comment = Models.Comment;
+var cache = require('memory-cache')
+const expiredTime = 1000;
+const topicCloudKey = "topicCloud"
+
+exports.cloud = function (req, res, next) {
+  var map = cache.get(topicCloudKey)
+  if (map) {
+    res.json(map)
+    return;
+  }
+  Question
+    .find({})
+    .then(docs => {
+      var map = docs.reduce((map, item) => {
+        if (item.topics) {
+          item
+            .topics
+            .map(x => {
+              if (!map[x]) {
+                map[x] = 1;
+              } else {
+                map[x] += 1;
+              }
+            })
+        }
+        return map;
+      }, {})
+      var result = []
+      Object
+        .keys(map)
+        .map(x => {
+          result.push({value: x, count: map[x]})
+        })
+      cache.put(topicCloudKey, result, expiredTime)
+      console.log('cloud', result)
+      res.json(result)
+    })
+}
+
 
 exports.list = function (req, res, next) {
   var query = {};
@@ -36,7 +75,6 @@ exports.list = function (req, res, next) {
       map[doc._id] = doc.count;
       return map;
     }, {})
-    console.log('doc', agJson)
     var result = qs.reduce((map, doc) => {
       map[doc._id] = {
         ...doc.toObject(),

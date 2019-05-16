@@ -16,7 +16,7 @@ let actionCreators = {
       url: url,
       method: "get",
       headers: {
-        Authorization: `Bearer ${client.token.access_token}`
+        Authorization: `Bearer ${client.access_token}`
       }
     });
 
@@ -38,7 +38,7 @@ let actionCreators = {
       url: url,
       method: "get",
       headers: {
-        Authorization: `Bearer ${client.token.access_token}`
+        Authorization: `Bearer ${client.access_token}`
       }
     });
 
@@ -62,7 +62,7 @@ let actionCreators = {
         method: "post",
         data: entity,
         headers: {
-          Authorization: `Bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.access_token}`
         }
       });
 
@@ -98,7 +98,7 @@ let actionCreators = {
         method: "put",
         data: entity,
         headers: {
-          Authorization: `Bearer ${client.token.access_token}`
+          Authorization: `Bearer ${client.access_token}`
         }
       });
 

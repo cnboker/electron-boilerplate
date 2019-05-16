@@ -26,7 +26,7 @@ class List extends Component {
       url: url,
       method: "get",
       headers: {
-        Authorization: `Bearer ${this.props.client.token.access_token}`
+        Authorization: `Bearer ${this.props.client.access_token}`
       }
     })
       .then(response => {

@@ -23,7 +23,7 @@ var keywordSchema =new Schema({
   resultIndexer:Number,//搜索结果/10000,竞争度指数
   mOriginRank:Number, //移动端：系统开始排名，-1表示已扫描未找到
   mDynamicRank:Number, //移动端：当前页数
-  title:String //百家号的网站通过title匹配
+  tags:String //标签
 });
 
 keywordSchema.plugin(mongoosePaginate) //pagination function

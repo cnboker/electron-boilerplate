@@ -54,6 +54,7 @@ require('./api/Quora/Route')(app);
 require('./api/Vote/Route')(app);
 require('./api/File/Route')(app);
 require('./api/QRPay/Route')(app);
+require('./api/Topic/Route')(app);
 //exception handle
 app.use(function(err, req, res, next) {
   

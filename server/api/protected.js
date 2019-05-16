@@ -65,7 +65,6 @@ module.exports = function (app) {
 
   app.use('/api/question/create',jwtCheck,requireScope('full_access'));
   app.use('/api/answers',jwtCheck,requireScope('full_access'));
-  app.use('/api/topic/update',jwtCheck,requireScope('full_access'))
   app.use('/api/comments',jwtCheck,requireScope('full_access'));
   app.use('/api/bill',jwtCheck,requireScope('full_access'));
   app.use('/api/billPay',jwtCheck,requireScope('full_access'));
@@ -81,5 +80,7 @@ module.exports = function (app) {
   app.use('/api/qr/list', jwtCheck, requireScope('full_access'));
   app.use('/api/qr/wxqr', jwtCheck, requireScope('full_access'));
  
-  
+  app.use('/api/topics/:id', jwtCheck, requireScope('full_access'));
+  app.use('/api/topic/update',jwtCheck,requireScope('full_access'))
+
 }

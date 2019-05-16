@@ -46,10 +46,4 @@ var QuestionSchema = new Schema({
 module.exports.Question = mongoose.model('Question',QuestionSchema)
 
 
-var TopicSchema = new Schema({
-  name:String,
-  create_at:Date,
-  update_at:Date
-})
-module.exports.Topic = mongoose.model('Topic',TopicSchema)
 

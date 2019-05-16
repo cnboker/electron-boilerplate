@@ -23,7 +23,7 @@ class SNActive extends Component {
         url: url,
         data: values,
         headers: {
-          Authorization: `Bearer ${this.props.client.token.access_token}`
+          Authorization: `Bearer ${this.props.client.access_token}`
         }
       }).then(function (res) {
       self.submitStart = false;

@@ -1,7 +1,7 @@
-import {Tags} from '../../../Components/tagify/Tagify.react.js'
+import {Tags} from '../Components/tagify/Tagify.react.js'
 import React from 'react'
 import {connect} from "react-redux";
-import {fetchAllTopics, updateTopics} from '../../actions/topic_actions'
+import {fetchTags, tagUpdate} from './actions'
 
 // setup some basic Tagify settings object
 var tagifySettings = {
@@ -9,9 +9,13 @@ var tagifySettings = {
 }
 
 // Demo "App" component that is using the Tagify React component (<Tags/>)
-class Tag extends React.Component {
+class TagCreate extends React.Component {
   constructor(props) {
     super(props);
+    const {catelog} = this.props.location.state;
+    this.state = {
+      catelog
+    }
 
     tagifySettings.callbacks = {
       add: this.onTagifyAdd,
@@ -22,9 +26,10 @@ class Tag extends React.Component {
   }
 
   componentDidMount() {
+    const {catelog} = this.props.location.state
     this
       .props
-      .fetchAllTopics();
+      .fetchTags(catelog);
   }
 
   // callbacks for all of Tagify's events:
@@ -48,10 +53,16 @@ class Tag extends React.Component {
     return this.refs.tag.tagify;
   }
 
-  componentWillUpdate(nextProps,nextState){
-    if(nextProps.topics.length > 0){
-      console.log('componet will update')
-      this.tagify.addTags(nextProps.topics.join(','))
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.tags !== this.props.tags) {
+      const {catelog} = this.props.location.state
+
+      if (nextProps.tags[catelog]) {
+        this
+          .tagify
+          .addTags(nextProps.tags[catelog].join(','))
+      }
+
     }
   }
 
@@ -69,9 +80,7 @@ class Tag extends React.Component {
         <p>
           <button
             className="btn btn-primary"
-            onClick={()=>this
-            .props
-            .updateTopics(this.tagify.value)}>保存</button>
+            onClick={() => this.props.tagUpdate({catelog: this.state.catelog, topic: this.tagify.value})}>保存</button>
         </p>
       </div>
     )
@@ -79,20 +88,18 @@ class Tag extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    topics:state.topic.all
-  }
+  return {tags: state.tagReducer}
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchAllTopics: () => {
-      dispatch(fetchAllTopics())
+    fetchTags: (catelog) => {
+      dispatch(fetchTags(catelog))
     },
-    updateTopics: (data) => {
-      dispatch(updateTopics(data))
+    tagUpdate: (data) => {
+      dispatch(tagUpdate(data))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tag)
+export default connect(mapStateToProps, mapDispatchToProps)(TagCreate)

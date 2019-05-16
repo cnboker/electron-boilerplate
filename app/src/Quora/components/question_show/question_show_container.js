@@ -13,7 +13,7 @@ import QuestionShow from './question_show';
 
 const mapStateToProps = (state, ownProps) => {
   return ({
-    currentUser: state.client.token,
+    currentUser: state.client,
     question: state.questions[ownProps.match.params.id],
     votes: state.votes
   });
