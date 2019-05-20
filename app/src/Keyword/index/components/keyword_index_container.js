@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findWebsites} from '../actions/keywords_actions'
+import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findWebsites,keywordsTagUpdate} from '../actions/keywords_actions'
 import KeywordIndex from './keyword_index'
 import {fetchProfile} from '~/src/Profile/action'
 import {fetchTags,tagSelect} from '~/src/Tags/actions'
@@ -39,6 +39,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     tagSelect:(catelog,tagName)=>{
       dispatch(tagSelect(catelog,tagName))
+    },
+    keywordsTagUpdate:(ids,tags)=>{
+      dispatch(keywordsTagUpdate(ids,tags))
     }
   }
 }

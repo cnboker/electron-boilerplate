@@ -7,7 +7,11 @@ class UserKeywordsContainer extends React.Component{
  
   render(){
     return(
+      <React.Fragment>
+        <button className="btn btn-primary float-right" onClick={()=>this.props.history.goBack()}>返还</button>
+     
       <KeywordTable {...this.props}/>
+      </React.Fragment>
     )
   }
 }

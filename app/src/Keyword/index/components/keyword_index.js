@@ -68,7 +68,10 @@ class KeywordIndex extends React.Component {
               onSelectedDelete
               ={this.onSelectedDelete}
               onSelectedReset
-              ={this.onSelectedReset}/>
+              ={this.onSelectedReset}
+              tags={this.props.tags}
+              keywordsTagUpdate = {this.props.keywordsTagUpdate}
+              />
           </div>
           <div className="col-md-6  d-inline-flex">
             <Input
@@ -76,7 +79,7 @@ class KeywordIndex extends React.Component {
               onChange={this
               .textChange
               .bind(this)}
-              placeholder="关键词过滤"/>
+              placeholder="关键词过滤" className="form-control-sm"/>
             <WebsiteList
               websites={this.props.websites}
               onFliter={this

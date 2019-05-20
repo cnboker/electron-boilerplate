@@ -60,7 +60,11 @@ var appConfig = Object.assign({}, config, {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader?modules"]
+        use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.txt$/i,
+        use: 'raw-loader',
       },
       {
         test: /\.scss$/,

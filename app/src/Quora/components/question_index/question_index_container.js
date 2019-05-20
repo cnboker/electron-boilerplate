@@ -9,11 +9,13 @@ const mapStateToProps = (state) => ({
     .map(key => state.questions[key]),
   client: state.client,
   quoraCloud: state.tagReducer['quoraCloud'],
-  quoraTags: state.tagReducer['quora']
+  quoraTags: state.tagReducer['quora'],
+  userProfile:state.userProfile
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    dispatch,
     fetchQuestion: id => dispatch(fetchQuestion(id)),
     fetchAllQuestions: () => dispatch(fetchAllQuestions()),
     fetchQuesitonsByTopic: (id) => dispatch(fetchQuesitonsByTopic(id)),

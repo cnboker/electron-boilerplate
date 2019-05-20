@@ -77,11 +77,11 @@ class TagCreate extends React.Component {
           name='tags'
           settings={tagifySettings}
           initialValue=''/>
-        <p>
+        <div className="mt-3">
           <button
             className="btn btn-primary"
             onClick={() => this.props.tagUpdate({catelog: this.state.catelog, topic: this.tagify.value})}>保存</button>
-        </p>
+        </div>
       </div>
     )
   }

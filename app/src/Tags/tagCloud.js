@@ -8,7 +8,7 @@ export default class TopicCloud extends React.Component {
       <React.Fragment>
         <TagCloud
           minSize={12}
-          maxSize={36}
+          maxSize={30}
           tags={this.props.tags}
           onClick={(tag) => this.props.fetchTopic(tag.value)}/>
       </React.Fragment>

@@ -1,20 +1,14 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router';
+import {Link, withRouter} from 'react-router-dom';
 import QueryBar from '../question_index/query_bar';
 import AnswerList from './answer_list';
 import Answer from './answer';
-import AnswerForm from './answer_form';
 
 class QuestionShow extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      showAnswerForm: false
-    };
-    this.toggleAnswerForm = this
-      .toggleAnswerForm
-      .bind(this);
+    
     this.deleteQuestion = this
       .deleteQuestion
       .bind(this);
@@ -41,12 +35,6 @@ class QuestionShow extends React.Component {
     return parseInt(this.props.match.params.id) === this.props.question.id;
   }
 
-  toggleAnswerForm() {
-    this.setState({
-      showAnswerForm: !this.state.showAnswerForm
-    });
-  }
-
   deleteQuestion() {
     if (this.enableDelete()) {
       this
@@ -62,20 +50,18 @@ class QuestionShow extends React.Component {
   enableDelete() {
     return (this.props.question.author === this.props.currentUser.userName) || this.props.currentUser.userName === 'admin'
   }
+
+  answerRender(){
+    var defaultPath = '/qa/answer'
+    return(
+      <Link to={{pathname:'/qa/answer', state:{question:this.props.question}}} className="btn btn-primary">回答</Link>
+    )
+  }
   render() {
-    let answerform = <div className="answer-form-container">
-      <AnswerForm
-        question={this.props.question}
-        currentUser={this.props.currentUser}
-        createAnswer={this.props.createAnswer}
-        updateQuestion={this.props.updateQuestion}
-        toggleAnswerForm={this.toggleAnswerForm}/>
-    </div>;
+    
     return (
 
       <div className="question-page">
-        {this.state.showAnswerForm && answerform}
-       
         <p>
           {this.props.question.topics && this
             .props
@@ -89,10 +75,9 @@ class QuestionShow extends React.Component {
         <h3>{this.props.question.title}</h3>
         <h2>{this.props.question.description}</h2>
         <p className="lead">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={this.toggleAnswerForm}>回答</button>{" "} {this.enableDelete() &&<button className = "btn btn-danger" type = "button" onClick = {
+          
+            <Link to={{pathname:'/qa/answer', state:{question:this.props.question}}} className="btn btn-primary">回答</Link>
+            {" "} {this.enableDelete() &&<button className = "btn btn-danger" type = "button" onClick = {
             this.deleteQuestion
           } > 删除 </button>}
         </p>

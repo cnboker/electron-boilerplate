@@ -18,7 +18,7 @@ class WebsiteList extends React.Component {
       <div className="btn-group">
         <button
           type="button"
-          className="btn btn-info dropdown-toggle"
+          className="btn btn-info dropdown-toggle btn-sm"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"

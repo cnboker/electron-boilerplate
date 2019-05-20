@@ -1,11 +1,11 @@
 import crossfilter from "crossfilter";
 //import  d3 from 'd3'
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 //import dc from 'dc'
 import axios from "axios";
 import moment from "moment";
-import { showLoading, hideLoading } from "react-redux-loading-bar";
+import {showLoading, hideLoading} from "react-redux-loading-bar";
 
 var d3 = require("d3");
 var dc = require("dc");
@@ -13,9 +13,9 @@ var dc = require("dc");
 class History extends Component {
   componentDidMount() {
     console.log("this.props.match.params", this.props.match.params.id);
-     var id = this.props.match.params.id;
+    var id = this.props.match.params.id;
     var client = this.props.client;
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     var that = this;
     dispatch(showLoading());
     Promise.all([
@@ -33,20 +33,18 @@ class History extends Component {
           Authorization: `Bearer ${client.access_token}`
         }
       })
-    ])
-      .then(results => {
-        dispatch(hideLoading());
-        console.log(results);
-        that.draw(results);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    ]).then(results => {
+      dispatch(hideLoading());
+      console.log(results);
+      that.draw(results);
+    }).catch(e => {
+      console.log(e);
+    });
   }
 
   getKeyword() {
     var id = this.props.match.params.id;
-    const { keywords } = this.props;
+    const {keywords} = this.props;
     return keywords[id];
   }
 
@@ -56,37 +54,30 @@ class History extends Component {
 
     //console.log(x)
     var parseDate = d3.timeFormat("%Y-%B-%d");
-    //console.log('test', parseDate(new Date("2018-04-23T06:48:13.362Z")))
-    // exp1.data.forEach(function(d) {
-    //   d.date = parseDate(new Date(d.createDate));
-    // });
-    // exp2.data.forEach(function(d) {
-    //   d.date = parseDate(new Date(d.createDate));
-    // });
+    // console.log('test', parseDate(new Date("2018-04-23T06:48:13.362Z")))
+    // exp1.data.forEach(function(d) {   d.date = parseDate(new Date(d.createDate));
+    // }); exp2.data.forEach(function(d) {   d.date = parseDate(new
+    // Date(d.createDate)); });
 
     var ndx = crossfilter();
-    ndx.add(
-      exp1.map(function(d) {
-        return {
-          date: parseDate(new Date(d.createDate)),
-          y2: 0,
-          y1: +d.dynamicRank
-        };
-      })
-    );
+    ndx.add(exp1.map(function (d) {
+      return {
+        date: parseDate(new Date(d.createDate)),
+        y2: 0,
+        y1: + d.dynamicRank
+      };
+    }));
 
     var ndx1 = crossfilter();
 
-    ndx1.add(
-      exp2.map(function(d) {
-        return {
-          date: parseDate(new Date(d.createDate)),
-          y2: 1,
-          y1: 0,
-          text: d.text
-        };
-      })
-    );
+    ndx1.add(exp2.map(function (d) {
+      return {
+        date: parseDate(new Date(d.createDate)),
+        y2: 1,
+        y1: 0,
+        text: d.text
+      };
+    }));
     //确保数据类型和domain里面的数据类型一致
 
     var dim = ndx.dimension(d => {
@@ -97,7 +88,9 @@ class History extends Component {
     });
     //var grp1 = dim.group().reduceSum(dc.pluck('y1'));
 
-    var grp1 = dim.group().reduce(
+    var grp1 = dim
+      .group()
+      .reduce(
       //callback for when data is added to the current filter results
       (p, v) => {
         ++p.count;
@@ -109,21 +102,22 @@ class History extends Component {
         --p.count;
         p.total -= v.y1;
         return p;
-      },
-      () => {
-        return { count: 0, total: 0 };
-      }
-    );
-    //print_filter(grp1);
-    //var grp2 = dim.group().reduceSum(dc.pluck("y2"));
-    var grp2 = dim1.group().reduce(
+      }, () => {
+        return {count: 0, total: 0};
+      });
+    //print_filter(grp1); var grp2 = dim.group().reduceSum(dc.pluck("y2"));
+    var grp2 = dim1
+      .group()
+      .reduce(
       //callback for when data is added to the current filter results
       (p, v) => {
         console.log("grp2", v);
         ++p.count;
         p.total += v.y2;
         if (v.text) {
-          p.text.push(v.text);
+          p
+            .text
+            .push(v.text);
         }
         //
         return p;
@@ -134,11 +128,9 @@ class History extends Component {
         p.total -= v.y2;
 
         return p;
-      },
-      () => {
-        return { count: 0, total: 0, text: [] };
-      }
-    );
+      }, () => {
+        return {count: 0, total: 0, text: []};
+      });
     print_filter(grp1);
     print_filter(grp2);
     //print_filter(grp2);
@@ -155,16 +147,9 @@ class History extends Component {
       .yAxisLabel("排名位置")
       .x(d3.scaleTime().domain([new Date(minDate), new Date(maxDate)]))
       .y(d3.scaleLinear().domain([120, -5]))
-      .margins({ top: 30, right: 50, bottom: 30, left: 50 })
+      .margins({top: 30, right: 50, bottom: 30, left: 50})
       .renderHorizontalGridLines(true)
-      .legend(
-        dc
-          .legend()
-          .x(800)
-          .y(10)
-          .itemHeight(13)
-          .gap(5)
-      )
+      .legend(dc.legend().x(800).y(10).itemHeight(13).gap(5))
       .shareTitle(false)
       .compose([
         dc
@@ -173,15 +158,14 @@ class History extends Component {
           //.margins({ top: 10, right: 50, bottom: 30, left: 40 })
           .dimension(dim1)
           .group(grp2, "记录")
-
           .colors(d3.scaleOrdinal(d3.schemeCategory10))
-          .keyAccessor(function(p) {
+          .keyAccessor(function (p) {
             return p.key;
           })
-          .valueAccessor(function(p) {
+          .valueAccessor(function (p) {
             return p.value.count;
           })
-          .radiusValueAccessor(function(p) {
+          .radiusValueAccessor(function (p) {
             return p.value.count;
           })
           .maxBubbleRelativeSize(2)
@@ -193,8 +177,11 @@ class History extends Component {
           .renderVerticalGridLines(true)
           .renderLabel(true)
           .renderTitle(true)
-          .title(function(p) {
-            return moment(p.key).format("l") + "\n" + p.value.text.join("\n");
+          .title(function (p) {
+            return moment(p.key).format("l") + "\n" + p
+              .value
+              .text
+              .join("\n");
           })
           .label(p => {
             return moment(p.key).format("l");
@@ -213,10 +200,9 @@ class History extends Component {
               : 0;
           })
           .title(p => {
-            var rank =
-              p.value.count > 0
-                ? Math.round((p.value.total || 0) / p.value.count, 0)
-                : 0;
+            var rank = p.value.count > 0
+              ? Math.round((p.value.total || 0) / p.value.count, 0)
+              : 0;
             return `时间:${moment(p.key).format("MM-DD")}\n排名:${rank}`;
           })
       ])
@@ -226,11 +212,16 @@ class History extends Component {
   render() {
     return (
       <div className="row">
-        <p className="mx-auto h-100 justify-content-center text-center">
-          <h3>{`"${this.getKeyword().keyword}"排名走势`}</h3>
-        </p>
 
-        <div ref={chart => (this.chart = chart)} style={{ width: "100%" }} />
+        <h3 className="mx-auto h-100 justify-content-center text-center">{`"${this
+            .getKeyword()
+            .keyword}"排名走势`}</h3>
+
+        <div
+          ref={chart => (this.chart = chart)}
+          style={{
+          width: "100%"
+        }}/>
 
         <p>统计时间</p>
       </div>
@@ -239,7 +230,7 @@ class History extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { keywords: state.keywords, client: state.client };
+  return {keywords: state.keywords, client: state.client};
 };
 
 //state表示reducer, combineReducer包含state和dispatch
@@ -247,29 +238,14 @@ export default connect(mapStateToProps)(History);
 
 function print_filter(filter) {
   var f = eval(filter);
-  if (typeof f.length != "undefined") {
-  } else {
-  }
+  if (typeof f.length != "undefined") {} else {}
   if (typeof f.top != "undefined") {
     f = f.top(Infinity);
-  } else {
-  }
+  } else {}
   if (typeof f.dimension != "undefined") {
-    f = f
-      .dimension(function(d) {
-        return "";
-      })
-      .top(Infinity);
-  } else {
-  }
-  console.log(
-    filter +
-      "(" +
-      f.length +
-      ") = " +
-      JSON.stringify(f)
-        .replace("[", "[\n\t")
-        .replace(/}\,/g, "},\n\t")
-        .replace("]", "\n]")
-  );
+    f = f.dimension(function (d) {
+      return "";
+    }).top(Infinity);
+  } else {}
+  console.log(filter + "(" + f.length + ") = " + JSON.stringify(f).replace("[", "[\n\t").replace(/}\,/g, "},\n\t").replace("]", "\n]"));
 }

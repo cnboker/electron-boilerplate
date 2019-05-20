@@ -70,7 +70,7 @@ export default class CVSExport extends React.Component {
             exportData
           }, () => done());
         }}
-          className="btn btn-primary">
+          className="btn btn-primary  btn-sm">
           导出
         </CSVLink>
       </React.Fragment>

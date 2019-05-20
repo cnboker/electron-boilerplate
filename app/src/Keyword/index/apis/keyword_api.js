@@ -38,6 +38,15 @@ export const remove = ids => {
   return axios({ url: url, method: "delete", data:{ids}, headers });
 };
 
+
+export const keywordsTagUpdate = (ids,tags) => {
+  var headers = auth.authHeader();
+  if(tags.length == 0)return;
+  if(ids.length == 0)return;
+  const url = `${process.env.REACT_APP_API_URL}/keywords/tagUpdate`;
+  return axios({ url: url, method: "put", data:{id:ids,tags}, headers });
+};
+
 export const findWebsites = () => {
   var headers = auth.authHeader();
 

@@ -82,5 +82,5 @@ module.exports = function (app) {
  
   app.use('/api/topics/:id', jwtCheck, requireScope('full_access'));
   app.use('/api/topic/update',jwtCheck,requireScope('full_access'))
-
+  app.use('/api/keywords/tagUpdate',jwtCheck,requireScope('full_access'))
 }

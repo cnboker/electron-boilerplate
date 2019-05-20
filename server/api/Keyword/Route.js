@@ -15,6 +15,9 @@ module.exports = function(app){
   app.route('/api/keyword')
   .delete(ctl.delete)
 
+  app.route('/api/keywords/tagUpdate')
+  .put(ctl.keywordsTagUpdate)
+
   app.route('/api/kwTask/rank')
   .post(ctl.rank)
 

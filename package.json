@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "raw-loader": "^2.0.0",
     "webpack-hot-middleware": "^2.22.3"
   }
 }

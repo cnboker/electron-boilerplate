@@ -3,7 +3,7 @@ import PropTyps from 'prop-types'
 
 export const RowContainer = (props) => {
   const { label, children } = props
-  var mylabel = ((label === '' || label === ' ') ? ' ' : (label + ':'))
+  var mylabel = ((label == undefined || label === '' || label === ' ') ? ' ' : (label + ':'))
   return (
 
     <div className="form-group row">

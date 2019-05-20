@@ -12,19 +12,19 @@ var logger = require("../../logger");
 var keywordPool = require("../../socket/keywordPool");
 var time = require("../../utils/time");
 
-exports.finishedPool = function(req, res) {
+exports.finishedPool = function (req, res) {
   return res.json(keywordPool.finishedPool);
 };
 
-exports.sharePool = function(req, res) {
+exports.sharePool = function (req, res) {
   return res.json(keywordPool.sharePool);
 };
 
-exports.userPool = function(req, res) {
+exports.userPool = function (req, res) {
   return res.json(keywordPool.userPool);
 };
 
-var today = (exports.today = function(req, res) {
+var today = (exports.today = function (req, res) {
   // var today = moment().startOf('day') var tomorrow = moment(today).endOf('day')
   // var start = new Date(); start.setHours(0, 0, 0, 0); var end = new Date();
   // end.setHours(23, 59, 59, 999); console.log("start=",  (new
@@ -41,13 +41,14 @@ var today = (exports.today = function(req, res) {
     .toDate();
 
   console.log("start=", start, end);
-  Keyword.find({
+  Keyword
+    .find({
     createDate: {
       $gt: start,
       $lt: end
     }
   })
-    .sort({ createDate: -1 })
+    .sort({createDate: -1})
     .exec()
     .then(docs => {
       res.json(docs);
@@ -57,38 +58,31 @@ var today = (exports.today = function(req, res) {
     });
 });
 
-exports.history = function(req, res) {
-  PolishLog.find(
-    {
-      keyword_id: req.params.id,
-      createDate:{
-        $gte: +new Date() - 90*24*60*60*1000, //最近90天
-        $lte: new Date()
-      }
-    },
-    "dynamicRank createDate",
-    {
-      sort: {
-        createDate: 1
-      }
+exports.history = function (req, res) {
+  PolishLog.find({
+    keyword_id: req.params.id,
+    createDate: {
+      $gte: + new Date() - 90 *1000, //最近90天
+      $lte: new Date()
     }
-  )
-    .then(docs => {
-      res.json(docs);
-    })
-    .catch(e => {
-      return next(boom.badRequest(e));
-    });
+  }, "dynamicRank createDate", {
+    sort: {
+      createDate: 1
+    }
+  }).then(docs => {
+    res.json(docs);
+  }).catch(e => {
+    return next(boom.badRequest(e));
+  });
 };
 
-exports.websiteOfkeywords = function(req, res, next) {
+exports.websiteOfkeywords = function (req, res, next) {
   Keyword.aggregate([
     {
       $match: {
         user: req.user.sub
       }
-    },
-    {
+    }, {
       $group: {
         _id: "$link",
         count: {
@@ -101,8 +95,9 @@ exports.websiteOfkeywords = function(req, res, next) {
   });
 };
 //获取没有初始排名数据
-exports.unRankKeywords = function(req, res) {
-  Keyword.find({ user: req.user.sub, originRank: 0 })
+exports.unRankKeywords = function (req, res) {
+  Keyword
+    .find({user: req.user.sub, originRank: 0})
     .then(docs => {
       res.json(docs);
     })
@@ -120,7 +115,8 @@ exports.list = function list(req, res, next) {
     user: req.query.id || req.user.sub
   };
   console.log(query);
-  Keyword.find(query, null, {
+  Keyword
+    .find(query, null, {
     sort: {
       createDate: -1
     }
@@ -136,104 +132,124 @@ exports.list = function list(req, res, next) {
 function customSplit(value) {
   var separators = ["\n"];
   var tokens = value.split(new RegExp(separators.join("|"), "g"));
-  tokens = tokens.filter(function(val) {
-    return val.trim().length > 1;
+  tokens = tokens.filter(function (val) {
+    return val
+      .trim()
+      .length > 1;
   });
   return tokens;
 }
 
-exports.create = function(req, res, next) {
+exports.create = function (req, res, next) {
   delete req.body._id;
   Promise.all([
-    User.findOne({ userName: req.user.sub }),
-    Keyword.find({ user: req.user.sub })
+    User.findOne({userName: req.user.sub}),
+    Keyword
+      .find({user: req.user.sub})
       .lean()
       .exec()
-  ])
-    .then(([user, docs]) => {
-      var keywords = customSplit(req.body.keyword);
+  ]).then(([user, docs]) => {
+    var keywords = customSplit(req.body.keyword);
 
-      //remove duplicate
-      keywords = keywords.filter(function(item, pos) {
-        return (
-          keywords.indexOf(item) == pos &&
-          docs.filter(x => {
-            return x.link == req.body.link && x.keyword == item;
-          }).length == 0
-        );
-      });
-
-      console.info("keywords", keywords);
-      if (keywords.length == 0) {
-        throw "重复或无效关键字";
-      }
-
-      var grade = user.grade || 1;
-      var hours = moment().diff(moment(user.vipExpiredDate), "hours");
-      if (grade == 1 || hours > 0) {
-        if (docs.length + keywords.length > 5) {
-          throw "您提交的关键词已超出限制。免费版用户默认提交关键词数量为5个。您可以通过持续使用本工具，随着使用时长，系统会自动增加可提交关键词数量。当然，现在升级VIP用户，" +
-            "马上就能提交更多关键词";
-        }
-        var exists = docs.filter(function(doc) {
-          return doc.link == req.body.link;
-        });
-        if (docs.length > 0 && exists.length == 0) {
-          throw "普通账号只能增加一个域名";
-        }
-      }
-      if (keywords.length == 0) {
-        throw "没有可用关键字";
-      }
-
-      console.info("keywords ---", keywords);
-
-      var docs = [];
-      for (var keyword of keywords) {
-        docs.push({
-          link: req.body.link,
-          keyword,
-          createDate: new Date(), //必须传new date()进去，传Date.now()进去为double,传Date()进去为string
-          originRank: 0,
-          dynamicRank: 0,
-          todayPolished: false,
-          polishedCount: 0,
-          user: req.user.sub,
-          status: 1,
-          engine: user.engine,
-          tags:req.body.tags||[]
-        });
-      }
-      return Keyword.collection.insertMany(docs);
-    })
-    .then(docs => {
-      res.json(docs.ops);
-      // console.log("docs", docs); socket send notify for (var doc of docs.ops) {
-      // req.socketServer.keywordCreate(doc); }
-    })
-    .catch(e => {
-      logger.error(e);
-      return next(boom.badRequest(e));
+    //remove duplicate
+    keywords = keywords.filter(function (item, pos) {
+      return (keywords.indexOf(item) == pos && docs.filter(x => {
+        return x.link == req.body.link && x.keyword == item;
+      }).length == 0);
     });
-};
 
-exports.read = function(req, res) {
-  Keyword.findById(req.params.id, function(err, entity) {
-    if (err) {
-      res.send(err);
-      return;
+    console.info("keywords", keywords);
+    if (keywords.length == 0) {
+      throw "重复或无效关键字";
     }
-    res.json(entity);
+
+    var grade = user.grade || 1;
+    var hours = moment().diff(moment(user.vipExpiredDate), "hours");
+    if (grade == 1 || hours > 0) {
+      if (docs.length + keywords.length > 5) {
+        throw "您提交的关键词已超出限制。免费版用户默认提交关键词数量为5个。您可以通过持续使用本工具，随着使用时长，系统会自动增加可提交关键词数量。当然，现在升级VIP用户，" +
+          "马上就能提交更多关键词";
+      }
+      var exists = docs.filter(function (doc) {
+        return doc.link == req.body.link;
+      });
+      if (docs.length > 0 && exists.length == 0) {
+        throw "普通账号只能增加一个域名";
+      }
+    }
+    if (keywords.length == 0) {
+      throw "没有可用关键字";
+    }
+
+    console.info("keywords ---", keywords);
+
+    var docs = [];
+    for (var keyword of keywords) {
+      docs.push({
+        link: req.body.link, keyword, createDate: new Date(), //必须传new date()进去，传Date.now()进去为double,传Date()进去为string
+        originRank: 0,
+        dynamicRank: 0,
+        todayPolished: false,
+        polishedCount: 0,
+        user: req.user.sub,
+        status: 1,
+        engine: user.engine,
+        tags: req.body.tags || []
+      });
+    }
+    return Keyword
+      .collection
+      .insertMany(docs);
+  }).then(docs => {
+    res.json(docs.ops);
+    // console.log("docs", docs); socket send notify for (var doc of docs.ops) {
+    // req.socketServer.keywordCreate(doc); }
+  }).catch(e => {
+    logger.error(e);
+    return next(boom.badRequest(e));
   });
 };
 
-exports.update = function(req, res, next) {
-  Keyword.findOne({ _id: req.params.id })
+exports.read = function (req, res) {
+  Keyword
+    .findById(req.params.id, function (err, entity) {
+      if (err) {
+        res.send(err);
+        return;
+      }
+      res.json(entity);
+    });
+};
+
+//更新tags
+exports.keywordsTagUpdate = function (req, res, next) {
+  console.log('req.body.tags', req.body.tags)
+  Keyword.updateMany({
+    _id: {
+      $in: req.body.id
+    }
+  }, {
+    tags: req.body.tags
+  }, {multi: true}).then(docs => {
+    res.json(docs)
+  }).catch(e => {
+    logger.error(e)
+    return next(boom.badRequest(e))
+  })
+}
+
+exports.update = function (req, res, next) {
+  Keyword
+    .findOne({_id: req.params.id})
     .then(obj => {
       if (req.body.action == "reset") {
         obj.originRank = 0;
         obj.dynamicRank = 0;
         obj.status = 1;
+        return obj.save();
+      }
+      if (req.body.action == 'updateTag') {
+        obj.tags = req.body.tags;
         return obj.save();
       }
       if (obj.originRank == -1 && obj.keyword != req.body.keyword) {
@@ -247,7 +263,9 @@ exports.update = function(req, res, next) {
         if (obj.status == 2) {
           console.log("emit keyword_pause");
           //notify cmd,data in order to send an event to everyone
-          req.socketServer.keywordPause(req.user.sub, req.params.id);
+          req
+            .socketServer
+            .keywordPause(req.user.sub, req.params.id);
         }
       }
       return obj.save();
@@ -261,10 +279,11 @@ exports.update = function(req, res, next) {
     });
 };
 
-exports.delete = function(req, res) {
+exports.delete = function (req, res) {
   console.log('delete', req.params.id)
   var ids = req.params.id || req.body.ids
-  Keyword.deleteMany({
+  Keyword
+    .deleteMany({
     _id: {
       $in: ids.split(",")
     }
@@ -280,9 +299,10 @@ exports.delete = function(req, res) {
 };
 
 //scan job
-exports.rank = function(req, res, next) {
+exports.rank = function (req, res, next) {
   console.log("server rank  body", req.body);
-  if (req.body.rank == null) return;
+  if (req.body.rank == null) 
+    return;
   var upinsert = {
     originRank: req.body.rank,
     dynamicRank: req.body.rank,
@@ -291,36 +311,30 @@ exports.rank = function(req, res, next) {
     lastPolishedDate: new Date(),
     polishedCount: 0,
     adIndexer: req.body.adIndexer || 0,
-    resultIndexer:req.body.resultIndexer || 0
+    resultIndexer: req.body.resultIndexer || 0
   };
   if (!req.body.title) {
     upinsert["title"] = req.body.title;
   }
-  Keyword.findOneAndUpdate(
-    {
-      _id: req.body._id
-    },
-    upinsert,
-    {
-      //同时设置这2个参数，否则doc返回null
-      new: true,
-      upsert: true
-    }
-  )
-    .then(doc => {
-      //req.socketServer.refreshPage(doc);
-      res.json(doc);
-    })
-    .catch(e => {
-      return next(boom.badRequest(e));
-    });
+  Keyword.findOneAndUpdate({
+    _id: req.body._id
+  }, upinsert, {
+    //同时设置这2个参数，否则doc返回null
+    new: true,
+    upsert: true
+  }).then(doc => {
+    //req.socketServer.refreshPage(doc);
+    res.json(doc);
+  }).catch(e => {
+    return next(boom.badRequest(e));
+  });
 };
 
-exports.tasks = function(req, res, next) {
+exports.tasks = function (req, res, next) {
   return res.json(keywordPool.reqTask(req.user.sub));
 };
 
-exports.tasksv1 = function(req, res, next) {
+exports.tasksv1 = function (req, res, next) {
   var inDoTasksTime = (() => {
     var startTime = 9 * 60;
     var endTime = 18 * 60 + 30;
@@ -332,54 +346,43 @@ exports.tasksv1 = function(req, res, next) {
 
   var hrstart = process.hrtime();
   Promise.all([
-    User.find({ locked: true }),
-    User.findOne({ userName: req.user.sub })
-  ])
-    .then(([blackUsers, currentUser]) => {
-      var names = blackUsers.map(x => {
-        return x.userName;
-      });
-      return Keyword.find(
-        {
-          isValid: true,
-          status: 1,
-          engine: currentUser.engine,
-          originRank: {
-            $gt: 1,
-            $ne: -1
-          }, //原始排名>10 and != -1
-          user: {
-            $nin: names
-          }
-        },
-        "_id user originRank dynamicRank keyword link",
-        {
-          //only selecting the "_id" and "keyword" , "engine" "link"fields,
-          sort: {
-            createDate: -1
-          }
-        }
-      )
-        .lean()
-        .exec();
-    })
-    .then(docs => {
-      logger.info("exports.tasks docs", docs);
-      res.json(simpleStrategy(docs));
-      var hrend = process.hrtime(hrstart);
-      console.info(
-        "Execution time (hr): %ds %dms",
-        hrend[0],
-        hrend[1] / 1000000
-      );
-    })
-    .catch(e => {
-      return;
-      next(boom.badRequest(e));
+    User.find({locked: true}),
+    User.findOne({userName: req.user.sub})
+  ]).then(([blackUsers, currentUser]) => {
+    var names = blackUsers.map(x => {
+      return x.userName;
     });
+    return Keyword.find({
+      isValid: true,
+      status: 1,
+      engine: currentUser.engine,
+      originRank: {
+        $gt: 1,
+        $ne: -1
+      }, //原始排名>10 and != -1
+      user: {
+        $nin: names
+      }
+    }, "_id user originRank dynamicRank keyword link", {
+        //only selecting the "_id" and "keyword" , "engine" "link"fields,
+        sort: {
+          createDate: -1
+        }
+      })
+      .lean()
+      .exec();
+  }).then(docs => {
+    logger.info("exports.tasks docs", docs);
+    res.json(simpleStrategy(docs));
+    var hrend = process.hrtime(hrstart);
+    console.info("Execution time (hr): %ds %dms", hrend[0], hrend[1] / 1000000);
+  }).catch(e => {
+    return;
+    next(boom.badRequest(e));
+  });
 };
 
-exports.polish = function(req, res, next) {
+exports.polish = function (req, res, next) {
   console.log("polish", req.body);
   if (req.body.rank == undefined) {
     res.send("invalid polish");
@@ -393,7 +396,7 @@ exports.polish = function(req, res, next) {
     updateData["adIndexer"] = req.body.adIndexer || 0;
   }
   updateData['resultIndexer'] = req.body.resultIndexer || 0
-  
+
   if (req.body.opt === "localScan") {
     updateData.dynamicRank = req.body.rank;
     if (req.body.title) {
@@ -403,18 +406,14 @@ exports.polish = function(req, res, next) {
     var upsertData = {
       $set: updateData
     };
-    Keyword.findOneAndUpdate(
-      {
-        _id: req.body._id
-      },
-      upsertData,
-      {
-        // 同时设置这2个参数，否则doc返回null
-        upsert: true,
-        new: true //return the modified document
-        // rather than the original. defaults to false
-      }
-    ).then(doc => {
+    Keyword.findOneAndUpdate({
+      _id: req.body._id
+    }, upsertData, {
+      // 同时设置这2个参数，否则doc返回null
+      upsert: true,
+      new: true //return the modified document
+      // rather than the original. defaults to false
+    }).then(doc => {
       console.log("localscan", doc);
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
@@ -452,58 +451,48 @@ function dynamicPolish(req, res, next) {
     upsertData["adIndexer"] = req.body.adIndexer || 0;
   }
   updateData['resultIndexer'] = req.body.resultIndexer || 0
-  
+
   var lastDynamicRank = 0;
   Promise.all([
-    Keyword.findOne({ _id: req.body._id }),
-    User.findOne({ userName: req.user.sub })
-  ])
-    .then(([keyword, user]) => {
-      if (!keyword) {
-        throw "keyword not found";
-      }
-      lastDynamicRank = keyword.dynamicRank;
-      if (user.locked) {
-        throw `${req.user.sub},${keyword.keyword},black user exception`;
-      }
-      if (!keyword.originRank) {
-        keyword.originRank = req.body.rank || -1;
-      }
-      if (keyword.originRank > 0 && req.body.rank == undefined) {
-        throw keyword.keyword + ",skip rank=-1";
-      }
-      if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
-        throw keyword.keyword + ",skip rank=-1";
-      }
-      var hours = moment().diff(moment(keyword.createDate), "hours");
-      console.log("hours", hours);
-      if (hours < 24 && req.body.rank > keyword.dynamicRank) {
-        throw `${req.user.sub},${keyword.keyword},24 error`;
-      }
-      if (
-        hours >= 24 &&
-        hours < 72 &&
-        req.body.rank - keyword.dynamicRank > 5
-      ) {
-        throw `${req.user.sub},${keyword.keyword},72&5 error`;
-      }
-      return { keyword, user };
-    })
-    .then(result => {
-      return Keyword.findOneAndUpdate(
-        {
-          _id: req.body._id
-        },
-        upsertData,
-        {
-          // 同时设置这2个参数，否则doc返回null
-          upsert: true,
-          new: true //return the modified document
-          // rather than the original. defaults to false
-        }
-      );
-    })
-    .then(function(doc) {
+    Keyword.findOne({_id: req.body._id}),
+    User.findOne({userName: req.user.sub})
+  ]).then(([keyword, user]) => {
+    if (!keyword) {
+      throw "keyword not found";
+    }
+    lastDynamicRank = keyword.dynamicRank;
+    if (user.locked) {
+      throw `${req.user.sub},${keyword.keyword},black user exception`;
+    }
+    if (!keyword.originRank) {
+      keyword.originRank = req.body.rank || -1;
+    }
+    if (keyword.originRank > 0 && req.body.rank == undefined) {
+      throw keyword.keyword + ",skip rank=-1";
+    }
+    if (keyword.dynamicRank <= 80 && req.body.rank == -1) {
+      throw keyword.keyword + ",skip rank=-1";
+    }
+    var hours = moment().diff(moment(keyword.createDate), "hours");
+    console.log("hours", hours);
+    if (hours < 24 && req.body.rank > keyword.dynamicRank) {
+      throw `${req.user.sub},${keyword.keyword},24 error`;
+    }
+    if (hours >= 24 && hours < 72 && req.body.rank - keyword.dynamicRank > 5) {
+      throw `${req.user.sub},${keyword.keyword},72&5 error`;
+    }
+    return {keyword, user};
+  }).then(result => {
+    return Keyword.findOneAndUpdate({
+      _id: req.body._id
+    }, upsertData, {
+      // 同时设置这2个参数，否则doc返回null
+      upsert: true,
+      new: true //return the modified document
+      // rather than the original. defaults to false
+    });
+  })
+    .then(function (doc) {
       var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
       var log = new PolishLog({
         keyword_id: req.body._id,
@@ -516,7 +505,9 @@ function dynamicPolish(req, res, next) {
       });
       log.save();
       var obj = doc.toObject();
-      req.socketServer.keywordPolish(obj);
+      req
+        .socketServer
+        .keywordPolish(obj);
       keywordPool.polishFinished(req.user.sub, obj);
       res.json(doc);
     })

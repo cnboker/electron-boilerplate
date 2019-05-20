@@ -70,7 +70,7 @@ class App extends Component {
           .bind(this)}
           userName={this.props.userName}/>
 
-        <div className="container">
+        <div className="container-fluid">
 
           <Switch>
             <PrivateRoute path="/my" component={My} dispatch={this.props.dispatch}/>
@@ -139,8 +139,8 @@ class App extends Component {
             <Redirect from="/" to="/keyword"/>
           </Switch>
         </div>
-
-        <footer id="footer" className="mt-5">
+        <section id="footer">
+        <footer className="container">
 
           <div className="row">
             <div className="col-6 text-lg-left text-center">
@@ -158,6 +158,7 @@ class App extends Component {
           </div>
 
         </footer>
+        </section>
         <ToastContainer/>
         <div className="col-md-12">
           <div className="update-nag">

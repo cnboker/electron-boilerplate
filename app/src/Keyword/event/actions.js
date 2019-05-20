@@ -15,7 +15,6 @@ let actionCreators = {
 
       var url = `${process.env.REACT_APP_API_URL}/event/${_id}`;
 
-      console.log("actionCreators url", url);
       const promise = axios({
         url: url,
         method: "get",
