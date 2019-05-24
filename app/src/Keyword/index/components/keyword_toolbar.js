@@ -33,7 +33,7 @@ export default  (props) => {
         className="btn btn-warning btn-sm">
         批量重置
       </button>{" "}
-      <CVSExport keywords={props.keywords}/>
+      <CVSExport getExportData={props.getExportData}/>
     </React.Fragment>
   )
 }

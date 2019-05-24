@@ -62,7 +62,7 @@ exports.history = function (req, res) {
   PolishLog.find({
     keyword_id: req.params.id,
     createDate: {
-      $gte: + new Date() - 90 *1000, //最近90天
+      $gte: moment().subtract("days", 90), //最近90天
       $lte: new Date()
     }
   }, "dynamicRank createDate", {

@@ -4,6 +4,8 @@ import moment from "moment";
 import AddItem from "./add";
 import Dialog from "../../Components/Modals/Dialog";
 import { default as crudActions } from "./actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 class List extends Component { 
   constructor() {
@@ -57,7 +59,6 @@ class List extends Component {
   }
 
   renderList() {
-    var self = this;
     return this.props.events.map(item => {
       return (
         <tr key={item._id}>
@@ -70,7 +71,7 @@ class List extends Component {
               className="btn btn-danger"
               onClick={this.onDelete.bind(this, item)}
             >
-              <i className="fa fa-trash" />
+              <FontAwesomeIcon icon={faTrash} size="1x" />
             </button>
           </td>
         </tr>

@@ -31,10 +31,7 @@ exports.list = (req, res, next) => {
     };
   }
 
-  if(req.query.status){
-    query.status = 2
-  }
-
+  
   QRPay.find(query)
     .then(docs => {
       res.json(docs);

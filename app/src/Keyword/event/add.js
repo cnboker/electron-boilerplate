@@ -7,6 +7,8 @@ import { reduxForm, Field } from "redux-form";
 import TextareaAutosize from "react-autosize-textarea";
 import actions from "./actions";
 import { RowContainer } from "../../Components/Forms/RowContainer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 class AddItem extends Component {
   constructor(props) {
@@ -63,7 +65,8 @@ class AddItem extends Component {
       <div>
         <div className="span_row">
           <a href="#" onClick={this.toggle} alt="添加事件">
-            <i className="fa fa-calendar-plus-o fa-lg" />
+           
+            <FontAwesomeIcon icon={faCalculator} size="2x" />
           </a>
         </div>
         <Modal

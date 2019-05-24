@@ -277,9 +277,9 @@ async function findLinkClick(page, keyword) {
 
 async function adIndexer(page) {
   var adCount = await page.evaluate(() => {
-    var nodes = document.querySelectorAll("#content_left>div>div");
-    //var arr = [...nodes];
-    var arr = Array.prototype.slice.call(nodes, 0);
+    var nodes = document.querySelectorAll('#content_left>div>div');
+    var arr = [...nodes];
+    //var arr = Array.prototype.slice.call(nodes, 0);
     arr = arr.filter(e => {
       return e.getAttribute("cmatchid") != undefined;
     });

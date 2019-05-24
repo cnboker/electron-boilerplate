@@ -38,12 +38,12 @@ export default class CVSExport extends React.Component {
   }
 
   exportCVSData() {
-    console.log("exportCVSData");
-    return Object
-      .values(this.props.keywords)
-      .filter(x => {
-        return x.originRank !== -1 && x.dynamicRank !== -1;
-      })
+    //console.log("exportCVSData");
+    var data = this.props.getExportData();
+    return data
+      // .filter(x => {
+      //   return x.originRank !== -1 && x.dynamicRank !== -1;
+      // })
       .map(item => {
         return {
           keyword: item.keyword,

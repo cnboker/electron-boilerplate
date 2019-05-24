@@ -20,7 +20,7 @@ class KeywordTable extends React.Component {
     var currentIndex = page * PAGE_SIZE;
     var arr = Object.values(this.props.keywords);
     const {website, keyInput, tag} = this.props;
-    console.log('getPaginateData',this.props)
+    //console.log('getPaginateData',this.props)
     if (website) {
       arr = arr.filter(x => {
         return x.link == website;
@@ -82,7 +82,7 @@ class KeywordTable extends React.Component {
   }
 
   pagination = page => {
-    console.log("pagination........");
+   // console.log("pagination........");
     const {data} = this.getPaginateData(page);
     this.setState({page, data: data});
   };
