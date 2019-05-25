@@ -3,6 +3,7 @@ import Dialog from "~/src/Components/Modals/Dialog";
 import Select from 'react-select'
 import {RowContainer} from "~/src/Components/Forms/RowContainer";
 import {withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class TagButton extends React.Component {
   constructor(props) {
@@ -18,11 +19,12 @@ class TagButton extends React.Component {
       .filter(x => x.selected)
   }
 
-  onTag() {
+  onTag(e) {
+    e.preventDefault();
     var ids = this
       .selectedKeywords()
       .map(x => x._id);
-    if (ids.length == 0) {
+    if (ids.length == 0 || this.props.create) {
       this
         .props
         .history
@@ -98,13 +100,13 @@ class TagButton extends React.Component {
     return (
       <React.Fragment>
         <Dialog ref={"dialog"}/>
-        <button
+        <Link
           className="btn btn-secondary btn-sm"
           onClick={this
           .onTag
           .bind(this)}>
-          标签
-        </button>
+          {this.props.name || '标签'}
+        </Link>
       </React.Fragment>
 
     )

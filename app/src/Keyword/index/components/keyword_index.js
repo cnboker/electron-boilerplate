@@ -49,32 +49,7 @@ class KeywordIndex extends React.Component {
     this.setState({tag})
   }
 
-  getExportData(){
-    var arr = Object.values(this.props.keywords);
-    const {website, keyInput, tag} = this.state;
-    //console.log('getPaginateData',this.props)
-    if (website) {
-      arr = arr.filter(x => {
-        return x.link == website;
-      });
-    }
-    if (tag && tag !== '全部') {
-      arr = arr.filter(x => {
-        return x.tags && x
-          .tags
-          .indexOf(tag) != -1;
-      })
-    }
-    if (keyInput) {
-      arr = arr.filter(x => {
-        return x
-          .keyword
-          .includes(keyInput);
-      });
-    }
-    console.log('export data', arr)
-    return arr;
-  }
+ 
 
   render() {
     const {profile} = this.props;
@@ -89,7 +64,7 @@ class KeywordIndex extends React.Component {
         <div className="d-flex justify-content-between">
           <div className="col-md-6">
             <KeywordToolbar
-              getExportData={this.getExportData.bind(this)}
+              keywords = {this.props.keywords}
               findAllKeywords={this.props.findAllKeywords}
               onSelectedDelete
               ={this.onSelectedDelete}

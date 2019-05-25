@@ -24,12 +24,12 @@ var mongoose = require("mongoose"); //.set('debug', true);
 mongoose.Promise = require("bluebird");
 
 (function doJob() {
-  mongoose.connect("mongodb://localhost/kwPolish");
- 
+  
 
   //run every day at 23:00
   schedule.scheduleJob("00 00 23 * * 0-6", function () {
-
+    mongoose.connect("mongodb://localhost/kwPolish");
+ 
     vipJob().then(() => {
       console.log('reset')
       return resetTodayPolishJob();

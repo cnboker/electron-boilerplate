@@ -64,6 +64,7 @@ export default class CVSExport extends React.Component {
           data={this.state.exportData}
           headers={this.exportCvsHeader()}
           asyncOnClick={true}
+          filename="keyword.csv"
           onClick={async(event, done) => {
           const exportData = this.exportCVSData();
           this.setState({

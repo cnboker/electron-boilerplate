@@ -3,6 +3,7 @@ import KeywordItem from "./keyword_item";
 import Dialog from "~/src/Components/Modals/Dialog";
 import Pager from "~/src/Components/Tables/Pager";
 import {toast} from "react-toastify";
+import CVSExport from './keyword_export'
 
 const PAGE_SIZE = 30;
 class KeywordTable extends React.Component {
@@ -18,28 +19,7 @@ class KeywordTable extends React.Component {
 
   getPaginateData(page) {
     var currentIndex = page * PAGE_SIZE;
-    var arr = Object.values(this.props.keywords);
-    const {website, keyInput, tag} = this.props;
-    //console.log('getPaginateData',this.props)
-    if (website) {
-      arr = arr.filter(x => {
-        return x.link == website;
-      });
-    }
-    if (tag && tag !== '全部') {
-      arr = arr.filter(x => {
-        return x.tags && x
-          .tags
-          .indexOf(tag) != -1;
-      })
-    }
-    if (keyInput) {
-      arr = arr.filter(x => {
-        return x
-          .keyword
-          .includes(keyInput);
-      });
-    }
+    var arr = this.getFilterData();
     return {
       pageCount: Math.ceil(arr.length / PAGE_SIZE),
       data: arr.slice(currentIndex, currentIndex + PAGE_SIZE)
@@ -223,13 +203,38 @@ class KeywordTable extends React.Component {
       });
   }
 
+  getFilterData(){
+    console.log('getFilterData',this.props)
+    var arr = Object.values(this.props.keywords);
+    const {website, keyInput, tag} = this.props;
+    //console.log('getPaginateData',this.props)
+    if (website) {
+      arr = arr.filter(x => {
+        return x.link == website;
+      });
+    }
+    if (tag && tag !== '全部') {
+      arr = arr.filter(x => {
+        return x.tags && x
+          .tags
+          .indexOf(tag) != -1;
+      })
+    }
+    if (keyInput) {
+      arr = arr.filter(x => {
+        return x
+          .keyword
+          .includes(keyInput);
+      });
+    }
+    return arr;
+  }
+  
   render() {
-    console.log("state", this.state);
     return (
       <div>
         <Dialog ref={"dialog"}/>
         <div className="table-responsive">
-          <br/>
           <table className="table table-bordered table-striped table-sm">
             <thead>
               <tr>
@@ -249,12 +254,12 @@ class KeywordTable extends React.Component {
                 <th>最新排名</th>
                 <th>变化</th>
                 <th>商业热度</th>
-                <th>竞争度</th>
+                <th>收录量</th>
                 {this.props.client.userName === "admin" && <th>点击</th>}
                 <th>有效</th>
                 <th>状态</th>
                 <th>跟踪</th>
-                <th/>
+                <th><div className="float-right"><CVSExport  getExportData={this.getFilterData.bind(this)}/></div></th>
               </tr>
             </thead>
             <tbody>

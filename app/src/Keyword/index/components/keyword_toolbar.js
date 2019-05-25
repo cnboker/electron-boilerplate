@@ -1,6 +1,5 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import CVSExport from './keyword_export'
 import TagButton from './tagButton'
 
 export default  (props) => {
@@ -33,7 +32,7 @@ export default  (props) => {
         className="btn btn-warning btn-sm">
         批量重置
       </button>{" "}
-      <CVSExport getExportData={props.getExportData}/>
+      
     </React.Fragment>
   )
 }

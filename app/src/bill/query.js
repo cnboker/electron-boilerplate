@@ -11,7 +11,7 @@ export default class Query extends Component {
       name: "",
       startDate: moment().add('days', -90),
       endDate: moment().add('days', 1),
-      status: false
+      status: 0
     };
     this.query();
   }
@@ -65,7 +65,7 @@ export default class Query extends Component {
                 type="checkbox"
                 checked={this.state.status}
                 onChange={e => {
-                this.setState({status: e.target.checked})
+                this.setState({status: !!e.target.checked})
               }}></Input>{' '}未付款</Label>
 
             <Button onClick={this

@@ -24,6 +24,9 @@ exports.list = (req, res, next) => {
       $ne: "admin"
     };
   }
+  if(req.query.status == 1){
+    query.status = 2;
+  }
   if(req.query.startDate && req.query.endDate){
     query.createDate = {
       $gte: req.query.startDate,
