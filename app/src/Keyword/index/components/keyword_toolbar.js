@@ -5,7 +5,7 @@ import TagButton from './tagButton'
 export default  (props) => {
   return (
     <React.Fragment>
-      <TagButton {...props}/>
+     
     {" "}
       <Link to={"/keyword/new"} role="button" className="btn btn-success  btn-sm">
         新建
@@ -32,7 +32,7 @@ export default  (props) => {
         className="btn btn-warning btn-sm">
         批量重置
       </button>{" "}
-      
+      <TagButton {...props}/>
     </React.Fragment>
   )
 }
