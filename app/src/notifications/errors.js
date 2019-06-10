@@ -29,7 +29,7 @@ const Errors = (props) => {
   )
 }
 
-Errors.propTypes = {
+Errors.PropTypes = {
   errors: PropTypes.arrayOf(
     PropTypes.shape(
       {

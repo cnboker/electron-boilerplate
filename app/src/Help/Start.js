@@ -217,6 +217,7 @@ export default class Start extends Component {
               <span class="s5">&mdash;&mdash;</span>
               <span class="s1">即关键词提交时，目标网站在搜索引擎的排列位置；</span>
             </p>
+          
             <p class="p4">
               <span class="s5"><br/>
               </span>
@@ -225,6 +226,15 @@ export default class Start extends Component {
               </span>
               <span class="s5">&mdash;&mdash;</span>
               <span class="s1">即关键词在最近一次查询时，目标网站在搜索引擎的排列位置。钢铁侠的排名查询一天内会进行多次查询。</span>
+            </p>
+            <p class="p4">
+              <span class="s5"><br/>
+              </span>
+              <span class="s1">
+                <strong>收录量</strong>
+              </span>
+              <span class="s5">&mdash;&mdash;</span>
+              <span class="s1">指搜索引擎根据查询关键词找到的相关结果页数量。钢铁侠工具提供的收录量以万为单。</span>
             </p>
             <p class="p4">
               <span class="s5"><br/>

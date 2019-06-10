@@ -29,7 +29,7 @@ CardHeader.defaultProps ={
   check:false
 }
 
-CardHeader.propTypes = {
+CardHeader.PropTypes = {
   headerTitle: PropTypes.string,
   children: PropTypes.node,
   check: PropTypes.bool,
@@ -58,7 +58,7 @@ export const Card = (props) => {
   )
 }
 
-Card.propTypes = {
+Card.PropTypes = {
   className: PropTypes.string,
   footerTitle: PropTypes.string,
   showFooter: PropTypes.bool,

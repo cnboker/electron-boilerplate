@@ -33,7 +33,7 @@ const Messages = (props) => {
   )
 }
 
-Messages.propTypes = {
+Messages.PropTypes = {
   messages:PropTypes.arrayOf(
     PropTypes.shape(
       {

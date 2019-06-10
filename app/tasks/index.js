@@ -47,11 +47,20 @@ process.node_debug = true;
   };
   jobContext.puppeteer = require("puppeteer");
 
-  
-  await wordTest();
+  const browser = await jobContext.puppeteer.launch({
+    headless: process.env.NODE_ENV == "production",
+    //devtools:true,
+    executablePath: (() => {
+      return process.env.ChromePath;
+    })()
+  });
+  //await wordTest();
   //await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
-  //await pageTaskJob.adIndexer()
+  const page = await browser.newPage();
+  await pageTaskJob.inputKeyword(page,'软件定制')
+  var count = await pageTaskJob.adIndexer(page)
+  console.log('ad count', count)
   //await pageTaskJob.singleTaskProcess(page,task);
 
   //   jobContext.puppeteer = require('puppeteer');

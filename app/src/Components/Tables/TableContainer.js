@@ -25,7 +25,7 @@ const TableContainer = (props) => {
   
   )
 }
-TableContainer.propTypes ={
+TableContainer.PropTypes ={
   title:PropTypes.string,
   children:PropTypes.node
 }

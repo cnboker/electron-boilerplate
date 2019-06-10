@@ -134,7 +134,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Login.PropTypes = {
   handleSubmit: PropTypes.func,
   loginRequest: PropTypes.func,
   login: PropTypes.shape({

@@ -11,6 +11,7 @@ var simpleStrategy = require("./taskSimpleStrategy");
 var logger = require("../../logger");
 var keywordPool = require("../../socket/keywordPool");
 var time = require("../../utils/time");
+const dayMaxKeywords = 200;
 
 exports.finishedPool = function(req, res) {
   return res.json(keywordPool.finishedPool);
@@ -163,32 +164,18 @@ exports.create = function(req, res, next) {
         );
       });
 
-      console.info("keywords", keywords);
+      //console.info("keywords", keywords);
       if (keywords.length == 0) {
         throw "重复或无效关键字";
       }
-
-      var grade = user.grade || 1;
-      var hours = moment().diff(moment(user.vipExpiredDate), "hours");
-      if (grade == 1 || hours > 0) {
-        if (docs.length + keywords.length > 5) {
-          throw "您提交的关键词已超出限制。免费版用户默认提交关键词数量为200个。您可以通过持续使用本工具，随着使用时长，系统会自动增加可提交关键词数量。当然，现在升级VIP用户，" +
-            "马上就能提交更多关键词";
-        }
-        var exists = docs.filter(function(doc) {
-          return doc.link == req.body.link;
-        });
-        if (docs.length > 0 && exists.length == 0) {
-          throw "普通账号只能增加一个域名";
-        }
+      if (keywords.length > dayMaxKeywords) {
+        throw "为保证更好的优好效果，系统当前规则设置用户每日提交关键词数量最高为200个，如果你需要优化更多关键词，请分批进行提交.";
       }
-      if (keywords.length == 0) {
-        throw "没有可用关键字";
-      }
+      
 
-      var docs = [];
+      var newKeywords = [];
       for (var keyword of keywords) {
-        docs.push({
+        newKeywords.push({
           link: req.body.link,
           keyword,
           createDate: new Date(), //必须传new date()进去，传Date.now()进去为double,传Date()进去为string
@@ -199,10 +186,21 @@ exports.create = function(req, res, next) {
           user: req.user.sub,
           status: 1,
           engine: user.engine,
-          tags: req.body.tags || []
+          tags: req.body.tags || [],
+          shield:0
         });
       }
-      return Keyword.collection.insertMany(docs);
+
+      var grade = user.grade || 1;
+      if(grade === 1){
+        var leftCount = 5 - docs.length;
+        if(leftCount > 0){
+          newKeywords.slice(leftCount).map(x=>{
+            x.shield = 1;
+          })
+        }
+      }
+      return Keyword.collection.insertMany(newKeywords);
     })
     .then(docs => {
       res.json(docs.ops);

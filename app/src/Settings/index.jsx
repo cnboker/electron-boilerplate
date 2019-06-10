@@ -69,16 +69,7 @@ class Index extends Component {
     return (
       <div className="bd-panel">
         <div className="alert alert-info">参数修改后，需重新登录生效!</div>
-        <p>排名检查设置</p>
-        <div className="form-group">
-          <input
-            type="radio"
-            value="1"
-            checked={this.state.rankSet == 1}
-            onChange={this.rankSetChange.bind(this)}
-          />
-          排名检测同时优化
-        </div>
+        <p>系统规则设定</p>
         <div className="form-group">
           <input
             type="radio"
@@ -86,8 +77,18 @@ class Index extends Component {
             checked={this.state.rankSet == 2}
             onChange={this.rankSetChange.bind(this)}
           />
-          检测排名不优化
+          仅检测排名
         </div>
+        <div className="form-group">
+          <input
+            type="radio"
+            value="1"
+            checked={this.state.rankSet == 1}
+            onChange={this.rankSetChange.bind(this)}
+          />
+          检测排名同时执行优化
+        </div>
+      
         <hr />
         <p>
           切换引擎->切换后,关键词统计数据将重置,请谨慎操作,切换到google确保网络通畅.

@@ -34,7 +34,7 @@ const FetchMessage = (props) => {
   )
 }
 
-FetchMessage.propTypes = {
+FetchMessage.PropTypes = {
   onSuccess: PropTypes.func,
   requestState: PropTypes.shape({
     requesting: PropTypes.bool,

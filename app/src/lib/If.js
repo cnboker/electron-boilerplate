@@ -9,7 +9,7 @@ const If = (props) => {
   }
 
 }
-If.propTypes ={
+If.PropTypes ={
   test:PropTypes.bool
 }
 export default If

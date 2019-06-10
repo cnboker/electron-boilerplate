@@ -64,7 +64,7 @@ class Signup extends Component {
 
 }
 
-Signup.propTypes = {
+Signup.PropTypes = {
   handleSubmit: PropTypes.func,
   signupRequest: PropTypes.func,
   signup: PropTypes.shape({
