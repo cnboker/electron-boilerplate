@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faGem } from "@fortawesome/free-solid-svg-icons";
 
 export default class FireBox extends React.Component {
   htmlRender() {
@@ -7,9 +9,8 @@ export default class FireBox extends React.Component {
     if (adIndexer > 0) {
       return [...Array(adIndexer)].map((e, i) => {
         return (
-          <i
+          <FontAwesomeIcon icon={faGem}
             key={i}
-            className="fa fa-diamond "
             style={{
               color: "red"
             }}

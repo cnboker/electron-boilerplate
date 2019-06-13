@@ -91,7 +91,7 @@ class Index extends Component {
 
     function showDialog(dialog, url){
       dialog.show({
-        body: <img src={process.env.REACT_APP_AUTH_URL + url} />,
+        body: <img src={process.env.REACT_APP_AUTH_URL + url} style={{"height":"180px"}} />,
         actions: [
           Dialog.CancelAction(() => {
             console.log("dialog cancel");

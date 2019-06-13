@@ -191,10 +191,14 @@ exports.list = function (req, res, next) {
       $ne: "admin"
     };
   }
-  query.createDate = {
-    $gt: req.query.startDate,
-    $lt: req.query.endDate
-  };
+  //not online
+  if(req.query.status != 1){
+    query.createDate = {
+      $gt: req.query.startDate,
+      $lt: req.query.endDate
+    };
+  }
+  
   //console.log('query:', query)
   Promise.all([
     Keyword.aggregate([

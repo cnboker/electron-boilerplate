@@ -72,10 +72,10 @@ class KeywordCreate extends Component {
         <Field
           name="link"
           type="text"
-          label="网站域名/熊掌ID"
+          label="网站域名/熊掌ID名称"
           component={renderField}
           validate={required}
-          placeholder="如已开通熊掌ID，请输入熊掌ID。否则，输入目标网站域名，不加http://"
+          placeholder="如果网站已绑定熊掌ID，请在此输入熊掌ID名称。否则，输入网站域名，不加http://"
         />
         <RowContainer label="关键词">
           <TextareaAutosize

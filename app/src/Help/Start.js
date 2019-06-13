@@ -20,7 +20,7 @@ export default class Start extends Component {
               <span class="s1">登录软件后，在</span>
               <span class="s3">&ldquo;</span>
               <span class="s4">
-                <strong>排名监测</strong>
+                <strong>排名监控</strong>
               </span>
               <span class="s3">&rdquo;</span>
               <span class="s1">界面，点击左上方的</span>

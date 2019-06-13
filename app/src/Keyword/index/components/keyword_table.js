@@ -4,6 +4,7 @@ import Dialog from "~/src/Components/Modals/Dialog";
 import Pager from "~/src/Components/Tables/Pager";
 import { toast } from "react-toastify";
 import CVSExport from "./keyword_export";
+import TableColumn from "./tableColumn";
 
 const PAGE_SIZE = 30;
 class KeywordTable extends React.Component {
@@ -14,6 +15,10 @@ class KeywordTable extends React.Component {
       data: [],
       pageCount: 0,
       selectAll: false
+    };
+    this.orderBy = {
+      columnName: "",
+      sortOrder: "ASC"
     };
   }
 
@@ -171,10 +176,29 @@ class KeywordTable extends React.Component {
     });
   }
 
+  dynamicSort(property, sortOrder) {
+    var sortOrder = sortOrder == "ASC" ? 1 : -1;
+
+    return function(a, b) {
+      /* next line works with strings and numbers,
+       * and you may want to customize it to your needs
+       */
+      var result =
+        a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+      return result * sortOrder;
+    };
+  }
+
   getFilterData() {
     console.log("getFilterData", this.props);
     var arr = Object.values(this.props.keywords);
     const { website, keyInput, tag } = this.props;
+    //order by
+    if (this.orderBy.columnName) {
+      arr.sort(
+        this.dynamicSort(this.orderBy.columnName, this.orderBy.sortOrder)
+      );
+    }
     //console.log('getPaginateData',this.props)
     if (website) {
       arr = arr.filter(x => {
@@ -200,6 +224,21 @@ class KeywordTable extends React.Component {
     return arr;
   }
 
+  columnOrderBy(columnName, sortOrder) {
+    console.log("columnOrderBy", columnName, sortOrder);
+    this.orderBy = {
+      columnName,
+      sortOrder
+    };
+    var page = this.state.page;
+
+    this.setState({
+      ...this.state,
+      ...this.getPaginateData(page),
+      page
+    });
+  }
+
   render() {
     return (
       <div>
@@ -211,21 +250,34 @@ class KeywordTable extends React.Component {
                 <th>
                   <input type="checkbox" onClick={e => this.selectAll(e)} />
                 </th>
-                <th
+                
+                <TableColumn
+                  title={"关键词"}
                   style={{
                     width: "22%",
                     overflow: "hidden",
                     textOverflow: "ellipsis"
                   }}
-                >
-                  关键词
-                </th>
-                <th>匹配网址</th>
-                <th>初始排名</th>
-                <th>最新排名</th>
+                  sort={this.columnOrderBy.bind(this, "keyword")}
+                />
+                <TableColumn
+                  title={"匹配网址"}
+                  sort={this.columnOrderBy.bind(this, "link")}
+                />
+                <TableColumn
+                  title={"初始排名"}
+                  sort={this.columnOrderBy.bind(this, "originRank")}
+                />
+                <TableColumn
+                  title={"最新排名"}
+                  sort={this.columnOrderBy.bind(this, "dynamicRank")}
+                />
                 <th>变化</th>
                 <th>商业热度</th>
-                <th>收录量</th>
+                <TableColumn
+                  title={"收录量"}
+                  sort={this.columnOrderBy.bind(this, "resultIndexer")}
+                />
                 {this.props.client.userName === "admin" && <th>点击</th>}
                 <th>有效</th>
                 <th>状态</th>

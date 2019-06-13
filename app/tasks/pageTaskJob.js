@@ -6,7 +6,7 @@ var jobContext = require("./jobContext");
 const ipc = require("../ipc/ipcBus");
 const auth = require("../auth");
 var logger = require("../logger");
-const SCAN_MAX_PAGE = 12;
+const SCAN_MAX_PAGE = 20;
 const linkSelector = "#content_left a.c-showurl";
 
 async function execute(task) {

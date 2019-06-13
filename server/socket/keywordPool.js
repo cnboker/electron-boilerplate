@@ -39,7 +39,7 @@ function userJoin(user) {
           $ne: 1
         }
       },
-      "_id user originRank dynamicRank keyword link polishedCount title",
+      "_id user originRank dynamicRank keyword link polishedCount bearNo",
       {
         sort: {
           polishedCount: 1
@@ -117,6 +117,7 @@ function polishFinished(user, doc) {
     if (first) {
       sharePool.push(first);
     }
+    
   }
 }
 

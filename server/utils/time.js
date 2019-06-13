@@ -10,7 +10,7 @@ module.exports.getRuntime = function() {
     return nowTime > startTime && nowTime < endTime;
   })();
   var min = 10 * 60; //2min
-  var max = 60 * 60; // 10min
+  var max = 50 * 60; // 10min
   if (!inDoTasksTime) {
     min = 60 * 60; //1min
     max = 180 * 60; // 60min

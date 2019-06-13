@@ -7,9 +7,9 @@ export default  (props) => {
     <React.Fragment>
      
     {" "}
-      <Link to={"/keyword/new"} role="button" className="btn btn-success  btn-sm">
+      <Link to={"/keyword/new"} role="button" className="btn btn-success  btn-sm" style={{"margin-right":"36px"}}>
         新建
-      </Link>{" "}
+      </Link>
       <button
         id="pageRefresh"
         onClick={() => {
