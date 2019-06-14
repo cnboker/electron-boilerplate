@@ -2,6 +2,7 @@ var Keyword = require("../api/Keyword/Model");
 var User = require("../api/User/Model");
 var moment = require("moment");
 var sharePool = require("./sharePool");
+var constants = require('./constants');
 /*{
     userName:{
         mykeywords:{},
@@ -39,11 +40,12 @@ function userJoin(user) {
           $ne: 1
         }
       },
-      "_id user originRank dynamicRank keyword link polishedCount bearNo",
+      "_id user originRank dynamicRank keyword link polishedCount",
       {
         sort: {
           polishedCount: 1
-        }
+        },
+        limit: constants.DAY_MAX_POLISH_COUNT
       }
     )
       .lean()
