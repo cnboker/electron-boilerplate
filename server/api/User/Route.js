@@ -21,9 +21,6 @@ module.exports = function(app){
   app.route('/api/user/update')
   .put(ctl.update);
 
-  app.route('/api/user/isOnline')
-  .get(ctl.isOnline)
-
   app.route('/api/user/forgetpassword')
   .post(ctl.forgetpassword);
   

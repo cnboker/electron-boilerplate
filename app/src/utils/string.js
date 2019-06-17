@@ -1,3 +1,4 @@
+import moment from 'moment'
 export function extractHostname(url) {
   var hostname;
   //find & remove protocol (http, ftp, etc.) and get hostname
@@ -61,4 +62,6 @@ export function customSplit(value) {
   return tokens;
 }
 
-
+export function timeDuration(startTime,endTime){
+  return moment.utc(moment(endTime).diff(moment(startTime))).format('HH:mm:ss')
+}

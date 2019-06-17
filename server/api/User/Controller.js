@@ -7,11 +7,10 @@ var config = require("../../config");
 var Balance = require("../Balance/Model");
 var User = require("./Model");
 var Keyword = require("../Keyword/Model");
-var keywordPool = require("../../socket/keywordPool");
 var RewardCode = require('./RewardModel');
 var userService = require('./Service')
 var constants = require('./constants')
-
+var userSession = require('../../socket/userSession')
 
 exports.forgetpassword = function (req, res, next) {
   //console.log(req.body)
@@ -40,10 +39,6 @@ exports.resetpassword = function (req, res, next) {
       return next(boom.badRequest(e));
     })
 }
-
-exports.isOnline = function (req, res) {
-  return res.send(keywordPool.isOnline(req.user.sub));
-};
 
 /*
 获取收款人二维码
@@ -105,12 +100,12 @@ exports.update = function (req, res, next) {
     });
 }
 
-exports.wxqr = function(req, res,next){
+exports.wxqr = function (req, res, next) {
   User
-  .findOne({userName: req.params.id})
-  .then(doc=>{
-    res.send(doc.wxpayUrl)
-  })
+    .findOne({userName: req.params.id})
+    .then(doc => {
+      res.send(doc.wxpayUrl)
+    })
 }
 
 exports.setting = function (req, res, next) {
@@ -178,6 +173,7 @@ function engineChange(req, res, next) {
 
 //get user list
 exports.list = function (req, res, next) {
+  var onlineUsers = userSession.onlineUsers();
   var query = {};
   if (req.query.status >= 0) {
     query.status = req.query.status;
@@ -192,13 +188,17 @@ exports.list = function (req, res, next) {
     };
   }
   //not online
-  if(req.query.status != 1){
+  if (req.query.status != 1) {
     query.createDate = {
       $gt: req.query.startDate,
       $lt: req.query.endDate
     };
+  } else {
+    query.userName = {
+      $in: onlineUsers
+    }
   }
-  
+
   //console.log('query:', query)
   Promise.all([
     Keyword.aggregate([

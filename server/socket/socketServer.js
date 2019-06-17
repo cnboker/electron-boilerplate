@@ -4,7 +4,7 @@ var logger = require("../logger");
 
 const clients = {};
 
-var pool = require("./keywordPool");
+var userSession = require("./userSession");
 
 class SocketServer {
   constructor(server) {
@@ -30,8 +30,8 @@ class SocketServer {
 
         socket.nickname = data.user;
         clients[data.user] = socket;
-        //更新pool;
-        pool.userJoin(data.user);
+        //userSession;
+        userSession.userJoin(data.user);
 
         var cc = io.sockets.clients();
         console.log(
@@ -49,7 +49,7 @@ class SocketServer {
           //console.log("clients", clients);
           logger.info(socket.nickname + " leave,") + reason;
           //socketRoom.leave(socket);
-          pool.userLeave(socket.nickname);
+          userSession.userLeave(socket.nickname);
         }
       });
     });

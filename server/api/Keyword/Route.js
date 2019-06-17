@@ -30,14 +30,8 @@ module.exports = function(app){
   app.route('/api/keywords/today')
   .get(ctl.today)
 
-  app.route('/api/pool/sharePool')
-  .get(ctl.sharePool)
-
-  app.route('/api/pool/finishedPool')
-  .get(ctl.finishedPool)
- 
-  app.route('/api/pool/userPool')
-  .get(ctl.userPool)
+  app.route('/api/pool/taskPool')
+  .get(ctl.taskPool)
 
   app.route('/api/analysis/:id')
   .get(ctl.history)

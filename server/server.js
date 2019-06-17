@@ -18,6 +18,8 @@ mongoose.connect("mongodb://localhost/kwPolish");
 
 require("./appCrashReporter")(app);
 
+var keywordTasksPool = require('./socket/keywordBuilder')();
+
 var SocketServer = require("./socket/socketServer");
 const socketServer = new SocketServer(http);
 
@@ -32,6 +34,9 @@ app.use((req, res, next) => {
   if (!req.socketServer) {
     //console.log('inject socketServer')
     req.socketServer = socketServer;
+  }
+  if(!req.taskPool){
+    req.taskPool = keywordTasksPool;
   }
   next();
 });
