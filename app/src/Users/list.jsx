@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Dialog from "../Components/Modals/Dialog";
 import moment from "moment";
-import ReactPaginate from "react-paginate";
 import { Switch } from "../Components/Forms/Switch";
 import { PAGE_SIZE } from "./constants";
 import UserQuery from "./listQuery";

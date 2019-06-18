@@ -6,7 +6,8 @@ function userJoin(user) {
   users[user] = {
     joinTime:new Date(),
     status : 1,
-    user
+    user,
+    dataLoad:false
   }
 
 }
@@ -21,13 +22,23 @@ function onlineUsers() {
   return Object.values(users).filter(x=>x.status === 1).map(x=>x.user)
 }
 
-function todayUsers(){
-  return users;
+function offlineUsers() {
+  return Object.values(users).filter(x=>x.status === 0).map(x=>x.user)
+}
+
+function dataLoaded(user){
+  users[user].dataLoad = true;
+}
+
+function unloadDataUsers(){
+  return Object.values(users).filter(x=>x.status === 1 && x.dataLoad === false).map(x=>x.user)
 }
 
 module.exports = {
   userJoin,
   userLeave,
   onlineUsers,
-  todayUsers
+  unloadDataUsers,
+  dataLoaded,
+  offlineUsers
 };

@@ -13,7 +13,8 @@ const dayMaxKeywords = 200;
 
 exports.taskPool = function (req, res) {
   var data = req.taskPool.stats();
-  return res.json(data);
+  return res.send(JSON.stringify(data))
+  //return res.json(data);
 };
 
 var today = (exports.today = function (req, res) {

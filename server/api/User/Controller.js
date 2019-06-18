@@ -185,6 +185,7 @@ exports.list = function (req, res, next) {
       $regex: ".*" + req.query.name + ".*",
       $ne: "admin"
     };
+    onlineUsers = [req.query.name]
   }
   //not online
   if (req.query.status != 1) {

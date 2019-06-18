@@ -8,19 +8,18 @@ var constants = require("./constants");
 require("../utils/groupBy");
 var userSession = require("./userSession");
 
-//上次请求用户列表
-var lastUsers = [];
 //数据准备
 module.exports.keywordPrepare = async function() {
-  var users = userSession.onlineUsers();
-  var diffUsers = getDiffUsers(users);
+  //var onlineUsers = userSession.onlineUsers();
+  var offlineUsers = userSession.offlineUsers();
+  var unloadDataUsers = userSession.unloadDataUsers();
 
-  lastUsers = users;
-  var allUsers = userSession.todayUsers();
   var keywords = [];
-  for (var user of diffUsers.newUsers) {
+
+  for (var user of unloadDataUsers) {
     var data = await getKeywords([user]);
     keywords.push(...data);
+    userSession.dataLoaded(user)
   }
 
   for (var val of keywords) {
@@ -34,43 +33,41 @@ module.exports.keywordPrepare = async function() {
       ); //当日最大点击量
     }
     val.polishStatus = 0; //0：正常点击, 1:超过当日点击量停止点击, 2:当日排名上升停止点击,3:排名点击2次后排名下降停止点击, 4:用户离线
-    if (allUsers[val.user]) {
-      var { status, joinTime, leaveTime } = allUsers[val.user];
-      val.status = status;
-      val.joinTime = joinTime;
-      val.leaveTime = leaveTime || new Date();
-    }
+    val.status = 0;  
   }
 
   for (var val of orderKeywords) {
-    if (diffUsers.offlineUsers.indexOf(val.user) > 0) {
+    if (offlineUsers.indexOf(val.user) > 0) {
       val.polishStatus = 4;
       val.status = 0;
     }
   }
+
   orderKeywords.push(...keywords);
-  return sort(orderKeywords);
+
+  return shuffle(orderKeywords);
 };
 
-function getDiffUsers(users) {
-  var newUsers = [],
-    originUsers = [];
-  for (var i = 0; i < users.length; i++) {
-    var curUser = users[i];
-    var index = lastUsers.indexOf(curUser);
-    if (index > 0) {
-      originUsers.push(curUser);
-      lastUsers.splice(index, 1);
-    } else {
-      newUsers.push(curUser);
-    }
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
-  return {
-    newUsers, //对比上一次新增加的用户列表
-    originUsers, //一直保持在线的用户列表
-    offlineUsers: lastUsers //上次在线本次离线的用户列表
-  };
+
+  return array;
 }
+
 
 async function getKeywords(users) {
   return Keyword.find(

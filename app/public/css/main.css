@@ -1279,3 +1279,7 @@ td {
   background: #f86c6b !important;
   border-color: #f86c6b;
 }
+
+
+.tableFixHead          { overflow-y: auto; height: 100px;  }
+.tableFixHead thead th { position: sticky; top: 0; background-color: #dee1e6}

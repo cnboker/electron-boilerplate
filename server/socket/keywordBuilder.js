@@ -38,7 +38,7 @@ module.exports = function() {
       return [first];
     },
     taskEnd: (user, keyword) => {
-      var existItem = shiftPool.filter(item => {
+      var existItem = shiftPool.find(item => {
         return item._id.toString() === keyword._id.toString();
       });
       if (!existItem) return;
@@ -83,10 +83,9 @@ module.exports = function() {
       if (!existItem.polishList) {
         existItem.polishList = [];
       }
-      console.log('taskEnd existItem', existItem)
+     
       var polishList = existItem.polishList;
       polishList.push(keyword.dynamicRank);
-
       if (polishList.length >= existItem.dayMaxPolishCount) {
         existItem.polishStatus = 1; //超过当日点击量停止点击
         return;
@@ -102,7 +101,9 @@ module.exports = function() {
         return;
       }
 
-    
+      if(keyword.dynamicRank < 10){
+        existItem.polishStatus = 5; //排名上首页停止
+      }
     },
     stats: () => {
       var onlineUserCount = userSession.onlineUsers().length;
