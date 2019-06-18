@@ -77,7 +77,7 @@ class List extends Component {
   getPolishDetail(list){
     if(list === undefined)return null;
     return list.map((x,index)=>{
-      <span>{x + '|'}</span> 
+      <span key={index}>{x + '|'}</span> 
     })
   }
 
@@ -87,6 +87,11 @@ class List extends Component {
     if(val === 2) return '排名升停止'
     if(val === 3) return '排名降停止'
     if(val === 4) return '离线停止'
+  }
+
+  getTime(val){
+    if(val === '' || !val)return '';
+    return moment(val).format("HH:mm");
   }
 
   renderList() {
@@ -100,12 +105,13 @@ class List extends Component {
           <td>{this.getTime(item.leaveTime)}</td>
           <td>{timeDuration(item.joinTime,item.leaveTime)}</td>
           <td>{this.stringFormat(item.polishedCount)}</td>
+          <td>{item.resultIndexer}</td>
           <td>{this.stringFormat(item.dayMaxPolishCount)}</td>
-          <td>{this.stringFormat(item.dayClick)}</td>
+          <td>{item.polishList ? item.polishList.length : 0}</td>
           <td>{this.stringFormat(item.originRank)}</td>
           <td>{this.stringFormat(item.dynamicRank)}</td>
           <td>{this.getPolishDetail(item.polishList)}</td>
-          <td>{this.stringFormat(item.tasker)}</td>   
+          <td>{item.tasker}</td>   
           <td>{this.stringFormat(item.update)}</td>   
           <td>{this.taskStatus(item.polishStatus)}</td>
         </tr>
@@ -151,11 +157,12 @@ class List extends Component {
                 <th>离线时间</th>
                 <th>在线时长</th>
                 <th>点击总量</th>
-                <th>当日最大点击量</th>
-                <th>当日点击量</th>
+                <th>词量</th>
+                <th>今最大量</th>
+                <th>今量</th>
                 <th>初始排名</th>
                 <th>最新排名</th>
-                <th>当日点击明细</th>
+                <th>今明细</th>
                 <th>执行人</th>
                 <th>更新日期</th>
                 <th>任务状态</th>

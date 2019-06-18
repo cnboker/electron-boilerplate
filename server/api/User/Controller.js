@@ -174,10 +174,9 @@ function engineChange(req, res, next) {
 //get user list
 exports.list = function (req, res, next) {
   var onlineUsers = userSession.onlineUsers();
+  
   var query = {};
-  if (req.query.status >= 0) {
-    query.status = req.query.status;
-  }
+  
   if (req.query.grade > 0) {
     query.grade = req.query.grade;
   }

@@ -1,31 +1,34 @@
-var schedule = require('node-schedule')
+var schedule = require("node-schedule");
 var time = require("../utils/time");
 var taskStrategy = require("./taskSimpleStrategy");
 var User = require("../api/User/Model");
-var userSession = require('./userSession')
-const shiftPool = [];
+var userSession = require("./userSession");
+var shiftPool = [];
 
 var initilize = false;
-module.exports = function () {
+module.exports = function() {
   if (!initilize) {
-    schedule.scheduleJob('*/30 * * * *', () => {
+    schedule.scheduleJob("*/30 * * * *", () => {
       keywordsSessionBuild();
     });
     initilize = true;
+    var timer = setTimeout(()=>{
+      keywordsSessionBuild();
+      clearTimeout(timer)
+    }, 10000)
   }
   return {
-    taskRequest: (user) => {
+    taskRequest: user => {
       if (shiftPool.length === 0) {
         keywordsSessionBuild();
         return [];
       }
       var first = shiftPool.find(e => {
-        return e.user != user && e.polishStatus === 0
+        return e.user != user && e.polishStatus === 0;
       });
 
-      if (!first) 
-        return [];
-      
+      if (!first) return [];
+
       shiftPool.splice(shiftPool.indexOf(first), 1);
       shiftPool.push(first);
       first.runTime = time.getRuntime();
@@ -35,21 +38,52 @@ module.exports = function () {
       return [first];
     },
     taskEnd: (user, keyword) => {
-      doc.tasker = user;
-      doc.update = new Date();
       var existItem = shiftPool.filter(item => {
-        return item
-          ._id
-          .toString() === keyword
-          ._id
-          .toString();
+        return item._id.toString() === keyword._id.toString();
       });
-      if (!existItem) 
-        return;
-      
+      if (!existItem) return;
+      if (user != keyword.user) {
+        Promise.all([
+          User.findOneAndUpdate(
+            {
+              userName: user
+            },
+            {
+              $inc: {
+                point: 1
+              }
+            },
+            {
+              upsert: true,
+              new: true
+            }
+          ),
+          //keyword user decrease point
+          User.findOneAndUpdate(
+            {
+              userName: keyword.user
+            },
+            {
+              $inc: {
+                point: -1,
+                todayPolishedCount: 1
+              }
+            },
+            {
+              upsert: true,
+              new: true
+            }
+          )
+        ]).then(([a, b]) => {
+          console.log("update user point");
+        });
+      }
+      existItem.tasker = user;
+      existItem.update = new Date();
       if (!existItem.polishList) {
         existItem.polishList = [];
       }
+      console.log('taskEnd existItem', existItem)
       var polishList = existItem.polishList;
       polishList.push(keyword.dynamicRank);
 
@@ -68,48 +102,24 @@ module.exports = function () {
         return;
       }
 
-      if (user != keyword.user) {
-        Promise.all([
-          User.findOneAndUpdate({
-            userName: user
-          }, {
-            $inc: {
-              point: 1
-            }
-          }, {
-            upsert: true,
-            new: true
-          }),
-          //keyword user decrease point
-          User.findOneAndUpdate({
-            userName: keyword.user
-          }, {
-            $inc: {
-              point: -1,
-              todayPolishedCount: 1
-            }
-          }, {
-            upsert: true,
-            new: true
-          })
-        ]).then(([a, b]) => {
-          console.log("update user point");
-        });
-      }
+    
     },
     stats: () => {
       var onlineUserCount = userSession.onlineUsers().length;
-      var upCount=0,downCount=0,normalCount=0,clickCount=0;
-      for(var i = 0; i < shiftPool.length; i++){
-        var item = shiftPool[i]
-        if(item.polishStatus === 2){
+      var upCount = 0,
+        downCount = 0,
+        normalCount = 0,
+        clickCount = 0;
+      for (var i = 0; i < shiftPool.length; i++) {
+        var item = shiftPool[i];
+        if (item.polishStatus === 2) {
           upCount++;
-        }else if(item.polishStatus === 3){
+        } else if (item.polishStatus === 3) {
           downCount++;
-        }else{
+        } else {
           normalCount++;
         }
-        clickCount += item.polishList.length;
+        clickCount += item.polishList?item.polishList.length:0;
       }
       return {
         onlineUserCount, //在线用户数
@@ -120,13 +130,11 @@ module.exports = function () {
         keywords: shiftPool
       };
     }
-  }
-}
+  };
+};
 
 function keywordsSessionBuild() {
-  taskStrategy
-    .keywordPrepare()
-    .then(keywords => {
-      shiftPool = keywords;
-    });
+  taskStrategy.keywordPrepare().then(keywords => {
+    shiftPool = keywords;
+  });
 }

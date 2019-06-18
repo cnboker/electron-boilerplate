@@ -63,5 +63,7 @@ export function customSplit(value) {
 }
 
 export function timeDuration(startTime,endTime){
+  if(startTime === '' || !startTime)return '';
+  if(endTime === '' || !endTime)return '';
   return moment.utc(moment(endTime).diff(moment(startTime))).format('HH:mm:ss')
 }
