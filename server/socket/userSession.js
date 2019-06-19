@@ -4,12 +4,11 @@ var users = {};
 //用户加入
 function userJoin(user) {
   users[user] = {
-    joinTime:new Date(),
-    status : 1,
+    joinTime: new Date(),
+    status: 1,
     user,
-    dataLoad:false
-  }
-
+    dataLoad: false
+  };
 }
 
 //用户离开
@@ -19,19 +18,38 @@ function userLeave(user) {
 }
 
 function onlineUsers() {
-  return Object.values(users).filter(x=>x.status === 1).map(x=>x.user)
+  return Object.values(users)
+    .filter(x => x.status === 1)
+    .map(x => x.user);
 }
 
 function offlineUsers() {
-  return Object.values(users).filter(x=>x.status === 0).map(x=>x.user)
+  return Object.values(users)
+    .filter(x => x.status === 0)
+    .map(x => x.user);
 }
 
-function dataLoaded(user){
+function dataLoaded(user) {
   users[user].dataLoad = true;
 }
 
-function unloadDataUsers(){
-  return Object.values(users).filter(x=>x.status === 1 && x.dataLoad === false).map(x=>x.user)
+function unloadDataUsers() {
+  return Object.values(users)
+    .filter(x => x.status === 1 && x.dataLoad === false)
+    .map(x => x.user);
+}
+
+function reset() {
+  //remove offline user
+  //set online user dataload as false
+  var offusers = offlineUsers();
+  for (var user of offusers) {
+    delete users[user];
+  }
+  var onusers = onlineUsers();
+  for (var user of onusers) {
+    users[user].dataLoad = false;
+  }
 }
 
 module.exports = {
@@ -40,5 +58,6 @@ module.exports = {
   onlineUsers,
   unloadDataUsers,
   dataLoaded,
-  offlineUsers
+  offlineUsers,
+  reset
 };

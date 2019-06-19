@@ -11,6 +11,13 @@ module.exports = function() {
     schedule.scheduleJob("*/30 * * * *", () => {
       keywordsSessionBuild();
     });
+
+    //run every day at 23:00
+    schedule.scheduleJob("00 00 23 * * 0-6", function () {
+      userSession.reset();
+      shiftPool = [];
+    });
+
     initilize = true;
     var timer = setTimeout(()=>{
       keywordsSessionBuild();
@@ -20,7 +27,6 @@ module.exports = function() {
   return {
     taskRequest: user => {
       if (shiftPool.length === 0) {
-        keywordsSessionBuild();
         return [];
       }
       var first = shiftPool.find(e => {
@@ -38,10 +44,7 @@ module.exports = function() {
       return [first];
     },
     taskEnd: (user, keyword) => {
-      var existItem = shiftPool.find(item => {
-        return item._id.toString() === keyword._id.toString();
-      });
-      if (!existItem) return;
+    
       if (user != keyword.user) {
         Promise.all([
           User.findOneAndUpdate(
@@ -78,6 +81,10 @@ module.exports = function() {
           console.log("update user point");
         });
       }
+      var existItem = shiftPool.find(item => {
+        return item._id.toString() === keyword._id.toString();
+      });
+      if (!existItem) return;
       existItem.tasker = user;
       existItem.update = new Date();
       if (!existItem.polishList) {

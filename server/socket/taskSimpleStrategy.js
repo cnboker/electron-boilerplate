@@ -33,16 +33,17 @@ module.exports.keywordPrepare = async function() {
       ); //当日最大点击量
     }
     val.polishStatus = 0; //0：正常点击, 1:超过当日点击量停止点击, 2:当日排名上升停止点击,3:排名点击2次后排名下降停止点击, 4:用户离线
-    val.status = 0;  
+    val.status = 1;  
   }
 
   for (var val of orderKeywords) {
     if (offlineUsers.indexOf(val.user) > 0) {
       val.polishStatus = 4;
       val.status = 0;
+    }else{
+      val.status = 1;
     }
   }
-
   orderKeywords.push(...keywords);
 
   return shuffle(orderKeywords);

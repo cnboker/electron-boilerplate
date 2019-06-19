@@ -105,6 +105,7 @@ class List extends Component {
     if (val === 2) return "排名升停止";
     if (val === 3) return "排名降停止";
     if (val === 4) return "离线停止";
+    if (val === 5) return "首页停止";
   }
 
   getTime(val) {
