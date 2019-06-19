@@ -3,12 +3,15 @@ var users = {};
 
 //用户加入
 function userJoin(user) {
-  users[user] = {
-    joinTime: new Date(),
-    status: 1,
-    user,
-    dataLoad: false
-  };
+  if(!users[user]){
+    users[user] = {
+      joinTime: new Date(),
+      status: 1,
+      user,
+      dataLoad: false
+    };
+  }
+  
 }
 
 //用户离开
