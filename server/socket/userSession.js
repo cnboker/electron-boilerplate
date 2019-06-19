@@ -6,12 +6,11 @@ function userJoin(user) {
   if(!users[user]){
     users[user] = {
       joinTime: new Date(),
-      status: 1,
       user,
       dataLoad: false
     };
   }
-  
+  users[user].status = 1;
 }
 
 //用户离开

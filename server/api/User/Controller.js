@@ -238,6 +238,7 @@ exports.list = function (req, res, next) {
         var grResult = gr.filter(function (val) {
           return val._id == doc.userName;
         });
+        doc.status = onlineUsers.filter(x=>x === doc.userName) > 0 ? 1:0;
         doc.keywordCount = 0;
         if (grResult.length > 0) {
           doc.keywordCount = grResult[0].count;
