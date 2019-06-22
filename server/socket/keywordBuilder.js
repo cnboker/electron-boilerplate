@@ -16,6 +16,7 @@ module.exports = function() {
     schedule.scheduleJob("00 00 23 * * 0-6", function () {
       userSession.reset();
       shiftPool = [];
+      taskStrategy.reset();
     });
 
     initilize = true;
@@ -124,7 +125,7 @@ module.exports = function() {
           upCount++;
         } else if (item.polishStatus === 3) {
           downCount++;
-        } else {
+        } else if(item.polishStatus === 0){
           normalCount++;
         }
         clickCount += item.polishList?item.polishList.length:0;
