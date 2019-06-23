@@ -11,30 +11,26 @@ import { extractRootDomain } from "~/src/utils/string";
 import Select from "react-select";
 import { connect } from "react-redux";
 import TagButton from "./tagButton";
+import AutoSuggestBox from '~/src/Components/Forms/AutoSuggestBox'
 
-var lastKeyword = "";
 class KeywordCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tags: []
+      tags: [],
+      link:''
     };
   }
 
   submit(values) {
     var keyword = this.textarea.value;
-
+    let {tags, link} = this.state;
+    link = extractRootDomain(link).substring(0, 20);
     var entity = R.mergeAll([
       this.props.entity,
       values,
-      this.state,
-      {
-        keyword,
-        tags: this.state.tags
-      }
+      {keyword,link,tags}
     ]);
-    entity.link = extractRootDomain(entity.link).substring(0, 20);
-    lastKeyword = entity.link;
     console.log(entity);
     this.props.createKeyword(entity);
   }
@@ -47,7 +43,7 @@ class KeywordCreate extends Component {
   }
 
   componentDidUpdate(previousProps, previousState) {
-    if (previousProps.keywords !== this.props.keywords) {
+    if (previousProps.keywords.length < this.props.keywords.length) {
       this.props.history.push("/keyword");
     }
   }
@@ -56,6 +52,10 @@ class KeywordCreate extends Component {
     this.setState({
       tags: options.map(x => x.value)
     });
+  }
+
+  onSuggestionsFetchRequested(value){
+    this.setState({link:value})
   }
 
   render() {
@@ -69,14 +69,14 @@ class KeywordCreate extends Component {
           <br />
           免费版用户默认只优化关键词数量为5个。你也可以通过升级VIP，马上就能优化更多关键词。
         </div>
-        <Field
-          name="link"
-          type="text"
-          label="网站域名/熊掌ID名称"
-          component={renderField}
-          validate={required}
+       
+        <RowContainer label="网站域名/熊掌ID名称">
+          <AutoSuggestBox suggestions={this.props.websites.map(x=>x._id)} 
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)} 
           placeholder="如果网站已绑定熊掌ID，请在此输入熊掌ID名称。否则，输入网站域名，不加http://"
-        />
+          />
+        </RowContainer>
+
         <RowContainer label="关键词">
           <TextareaAutosize
             rows={1}
@@ -126,7 +126,6 @@ KeywordCreate.PropTypes = {
 KeywordCreate = reduxForm({
   form: "form",
   initialValues: {
-    link: lastKeyword
   },
   enableReinitialize: true
 })(KeywordCreate);
@@ -134,7 +133,8 @@ KeywordCreate = reduxForm({
 const mapStateToProps = (state, ownProps) => {
   return {
     tags: state.tagReducer["keyword"],
-    keywords: state.keywords
+    keywords: state.keywords,
+    websites: state.websites, 
   };
 };
 

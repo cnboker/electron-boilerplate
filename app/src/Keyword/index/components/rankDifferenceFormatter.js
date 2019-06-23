@@ -10,6 +10,9 @@ export default class RankDifferenceFormatter extends React.Component {
       color = "black";
     } else {
       var diff = originRank - dynamicRank;
+      if(originRank === -1){
+        diff = dynamicRank;
+      }
       if (diff > 0) {
         diffText = "+" + diff;
       } else if (diff === 0) {

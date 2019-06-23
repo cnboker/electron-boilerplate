@@ -52,7 +52,8 @@ class KeywordTable extends React.Component {
       var page = this.state.page;
       if (
         previousProps.website !== this.props.website ||
-        previousProps.keyInput !== this.props.keyInput
+        previousProps.keyInput !== this.props.keyInput ||
+        previousProps.tag !== this.props.tag
       ) {
         page = 0;
       }
@@ -244,7 +245,7 @@ class KeywordTable extends React.Component {
       <div>
         <Dialog ref={"dialog"} />
         <div className="table-responsive">
-          <table className="table table-bordered table-striped table-sm">
+          <table className="table table-bordered table-striped table-sm table-hover">
             <thead>
               <tr>
                 <th>
