@@ -8,7 +8,7 @@ var shiftPool = [];
 var initilize = false;
 module.exports = function() {
   if (!initilize) {
-    schedule.scheduleJob("*/30 * * * *", () => {
+    schedule.scheduleJob("*/5 * * * *", () => {
       keywordsSessionBuild();
     });
 

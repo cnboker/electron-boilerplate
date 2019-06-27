@@ -34,6 +34,7 @@ import CustomKeywordExtender from './Keyword/trace/customKeywordExtender'
 import TagCreate from './Tags/create'
 
 require("react-datepicker/dist/react-datepicker-cssmodules.css");
+var pckg = require('./../package.json');
 
 class App extends Component {
   constructor(props) {
@@ -144,7 +145,9 @@ class App extends Component {
 
           <div className="row">
             <div className="col-6 text-lg-left text-center">
-              <div className="copyright">© Copyright All Rights Reserved</div>
+              <div className="copyright">© Copyright All Rights Reserved,
+              Version：{pckg.version}
+              </div>
               <div className="credits"/>
             </div>
             <div className="col-lg-6">

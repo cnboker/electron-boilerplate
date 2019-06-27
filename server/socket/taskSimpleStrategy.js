@@ -94,7 +94,7 @@ async function getKeywords(users) {
     {
       //only selecting the "_id" and "keyword" , "engine" "link"fields,
       sort: {
-        lastPolishedDate: 1
+        lastPolishedDate: -1
       },
       limit: constants.DAY_MAX_POLISH_COUNT
     }

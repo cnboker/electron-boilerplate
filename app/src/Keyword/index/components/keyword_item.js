@@ -59,7 +59,7 @@ export default class KeywordItem extends React.Component {
           <td>{item.todayPolishedCount}</td>
         )}
         <td>{stringFormat(item.isValid && item.shield != 1)}</td>
-        <td>{statusFormat(item.status)}</td>
+        <td>{statusFormat(item.shield == 1 ? 2:item.status)}</td>
 
         <td>
           <Link
@@ -96,7 +96,7 @@ export default class KeywordItem extends React.Component {
             <FontAwesomeIcon icon={faUndo} size="1x" />
           </button>{" "}
           <Switch
-            on={item.status == 1}
+            on={item.status == 1 && item.shield == 0}
             onClick={e => this.props.toggleSwitch(item, e)}
           />
         </td>

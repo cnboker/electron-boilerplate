@@ -18,7 +18,7 @@ var keywordSchema =new Schema({
   polishedCount:Number, //总擦亮次数,
   everyDayMaxPolishedCount:Number, //每天最大擦亮次数
   status:Number, //1. 运行, 2.暂停,
-  shield:Number, //被管理员屏蔽 0.正常, 1.vip过期屏蔽， 2.普通会有屏蔽
+  shield:Number, //被管理员屏蔽 0.正常, 1.vip过期屏蔽， 2.普通会员屏蔽
   adIndexer:Number, //首页广告数量
   resultIndexer:Number,//搜索结果/10000,竞争度指数
   mOriginRank:Number, //移动端：系统开始排名，-1表示已扫描未找到

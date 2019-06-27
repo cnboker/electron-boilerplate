@@ -15,6 +15,7 @@ require('../utils/groupBy')
 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 var vipJob = require('./vipcheckJob')
+var unvipJob = require('./unvipCheckjob');
 var resetTodayPolishJob = require('./resetTodayPolishCount')
 var performanceIndex = require('./perfomanceIndex');
 var deletePendingOrder = require('./resetPendingOrder');
@@ -27,7 +28,7 @@ mongoose.Promise = require("bluebird");
   
 
   //run every day at 23:00
-  schedule.scheduleJob("00 00 23 * * 0-6", function () {
+  //schedule.scheduleJob("00 00 23 * * 0-6", function () {
     mongoose.connect("mongodb://localhost/kwPolish");
  
     vipJob().then(() => {
@@ -40,13 +41,16 @@ mongoose.Promise = require("bluebird");
     .then(()=>{
       return deletePendingOrder();
     })
+    .then(()=>{
+      return unvipJob();
+    })
     .then(() => {
       console.log('disconnect')
       mongoose.disconnect();
     }).catch(e => {
       console.log(e)
     })
-  });
+ // });
 
   //per m
   schedule.scheduleJob("*/2 * * * *", function () {});

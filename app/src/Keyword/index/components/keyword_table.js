@@ -216,6 +216,14 @@ class KeywordTable extends React.Component {
         arr = arr.filter(x => {
           return x.originRank === -1;
         });
+      } else if (keyInput === "+") {
+        arr = arr.filter(x => {
+          return x.dynamicRank < x.originRank;
+        });
+      } else if (keyInput === "-") {
+        arr = arr.filter(x => {
+          return x.dynamicRank > x.originRank;
+        });
       } else {
         arr = arr.filter(x => {
           return x.keyword.includes(keyInput);
@@ -251,7 +259,7 @@ class KeywordTable extends React.Component {
                 <th>
                   <input type="checkbox" onClick={e => this.selectAll(e)} />
                 </th>
-                
+
                 <TableColumn
                   title={"关键词"}
                   style={{

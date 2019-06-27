@@ -43,7 +43,7 @@ class KeywordCreate extends Component {
   }
 
   componentDidUpdate(previousProps, previousState) {
-    if (previousProps.keywords.length < this.props.keywords.length) {
+    if (Object.keys(previousProps.keywords).length < Object.keys(this.props.keywords).length) {
       this.props.history.push("/keyword");
     }
   }
