@@ -6,11 +6,11 @@ import { Switch } from "~/src/Components/Forms/Switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSignal, faUndo } from "@fortawesome/free-solid-svg-icons";
 import {stringFormat,isValidDate,statusFormat} from './util';
-
+import { toast } from "react-toastify";
 export default class KeywordItem extends React.Component {
   constructor() {
     super();
-    this.state = { selected: false };
+    this.state = { selected: false};
   }
   
   componentDidUpdate(previousProps) {
@@ -23,6 +23,7 @@ export default class KeywordItem extends React.Component {
     this.setState({ selected: e.target.checked });
     item.selected = e.target.checked;
   }
+
   render() {
     const item = this.props.data;
     return (
@@ -97,7 +98,10 @@ export default class KeywordItem extends React.Component {
           </button>{" "}
           <Switch
             on={item.status == 1 && item.shield == 0}
-            onClick={e => this.props.toggleSwitch(item, e)}
+            onClick={e => {
+         
+              this.props.toggleSwitch(item, e)
+            }}
           />
         </td>
       </tr>

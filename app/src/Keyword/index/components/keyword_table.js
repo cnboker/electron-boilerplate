@@ -72,6 +72,7 @@ class KeywordTable extends React.Component {
   };
 
   toggleSwitch(item, e) {
+  
     var entity = {
       ...item,
       ...{

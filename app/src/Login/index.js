@@ -72,10 +72,10 @@ class Login extends Component {
           <h1 className="text-uppercase mb-0">钢铁侠-让您的网站推广变轻松</h1>
           <hr className="star-light" />
           <h5 className="font-weight-light mb-0">
-          AI底层技术 - 全站综合提权 - 排名逐步提升 - 效果稳定持久{" "}
+          AI核心科技 - 全站综合提权 - 排名有效提升 - 排名批量监控{" "}
           </h5>
           <h5 className="font-weight-light mb-0">
-          排名批量监控 - 排名走势跟踪 
+          排名走势跟踪 - 优化操作记录 - 关键词词库管理 
           </h5>
         </header>
         <div >

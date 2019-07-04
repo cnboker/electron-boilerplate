@@ -90,7 +90,7 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
         <div className="alert alert-success">
-          如果网站内容调整或增加外链,可以添加记录进去，以方便跟踪网站调整对排名变化的影响
+        可以在此记录你对当前关键词的优化操作事项，以方便后续跟踪优化事项对排名变化的影响
         </div>
         <AddItem
           className="info"

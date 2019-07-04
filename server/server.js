@@ -3,6 +3,9 @@ var express = require("express"),
   cors = require("cors"),
   port = process.env.PORT || 3001;
 
+var compression = require("compression");
+app.use(compression());
+
 //receive crash info
 var http = require("http").Server(app);
 var logger = require("./logger");
@@ -18,7 +21,7 @@ mongoose.connect("mongodb://localhost/kwPolish");
 
 require("./appCrashReporter")(app);
 
-var keywordTasksPool = require('./socket/keywordBuilder')();
+var keywordTasksPool = require("./socket/keywordBuilder")();
 
 var SocketServer = require("./socket/socketServer");
 const socketServer = new SocketServer(http);
@@ -28,14 +31,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Adding body-parser middleware to parser JSON data
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static('public'))
+app.use(express.static("public"));
 //inject socketServer
 app.use((req, res, next) => {
   if (!req.socketServer) {
     //console.log('inject socketServer')
     req.socketServer = socketServer;
   }
-  if(!req.taskPool){
+  if (!req.taskPool) {
     req.taskPool = keywordTasksPool;
   }
   next();
@@ -54,26 +57,24 @@ require("./api/Keyword/Route")(app);
 require("./api/User/Route")(app);
 require("./api/Balance/Route")(app);
 require("./api/Event/Route")(app);
-require('./api/SN/Route')(app);
-require('./api/Quora/Route')(app);
-require('./api/Vote/Route')(app);
-require('./api/File/Route')(app);
-require('./api/QRPay/Route')(app);
-require('./api/Topic/Route')(app);
+require("./api/SN/Route")(app);
+require("./api/Quora/Route")(app);
+require("./api/Vote/Route")(app);
+require("./api/File/Route")(app);
+require("./api/QRPay/Route")(app);
+require("./api/Topic/Route")(app);
 //exception handle
 app.use(function(err, req, res, next) {
-  
-  if(err){
+  if (err) {
     if (err.status) {
       return res.status(err.status).json(err);
     } else if (err.output) {
       res.status(err.output.statusCode).json(err.output.payload);
     } else {
-      console.info('err',err)
+      console.info("err", err);
       res.send(err);
     }
   }
-  
 });
 
 //var server = app.listen(port)

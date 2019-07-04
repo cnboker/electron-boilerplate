@@ -13,8 +13,8 @@ const dayMaxKeywords = 200;
 
 exports.taskPool = function(req, res) {
   var data = req.taskPool.stats();
-  return res.send(JSON.stringify(data));
-  //return res.json(data);
+  //return res.send(data);
+  return res.json(data);
 };
 
 var today = (exports.today = function(req, res) {
@@ -266,6 +266,25 @@ exports.update = function(req, res, next) {
           console.log("emit keyword_pause");
           //notify cmd,data in order to send an event to everyone
           req.socketServer.keywordPause(req.user.sub, req.params.id);
+        }else{
+          if(obj.shield === 1){ //开启
+            //非vip会员检查是否小于5个词，如果是小于则开启优化
+            return Keyword.count({
+              user:req.user.sub,
+              shield:0,
+              status:1,
+              originRank: {
+                $gt: 0
+              }
+            }).then(count=>{
+              console.log('count',count)
+               if(count >= 5){
+                throw '非VIP会员开启失败'
+               }
+            })
+           
+          }
+          //
         }
       }
       return obj.save();
@@ -274,10 +293,11 @@ exports.update = function(req, res, next) {
       res.json(doc);
     })
     .catch(e => {
-      logger.error(e);
+      logger.error(e + 'test');
       return next(boom.badRequest(e));
     });
 };
+
 
 exports.delete = function(req, res) {
   console.log("delete", req.params.id);

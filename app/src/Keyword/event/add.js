@@ -8,7 +8,7 @@ import TextareaAutosize from "react-autosize-textarea";
 import actions from "./actions";
 import { RowContainer } from "../../Components/Forms/RowContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalculator } from "@fortawesome/free-solid-svg-icons";
+import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
 
 class AddItem extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class AddItem extends Component {
         <div className="span_row">
           <a href="#" onClick={this.toggle} alt="添加事件">
            
-            <FontAwesomeIcon icon={faCalculator} size="2x" />
+            <FontAwesomeIcon icon={faPenSquare} size="3x"/>
           </a>
         </div>
         <Modal

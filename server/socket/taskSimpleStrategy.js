@@ -38,12 +38,13 @@ module.exports.keywordPrepare = async function() {
   }
 
   for (var val of orderKeywords) {
-    if (offlineUsers.indexOf(val.user) > 0) {
+    if (offlineUsers.includes(val.user) > 0) {
       val.polishStatus = 4;
       val.status = 0;
     } else {
       if (val.polishStatus === 4) { //离线的改成在线的
         val.status = 1;
+        val.polishStatus = 0;
       }
     }
   }

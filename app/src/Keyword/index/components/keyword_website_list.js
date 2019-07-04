@@ -4,13 +4,35 @@ class WebsiteList extends React.Component {
   constructor() {
     super();
     this.state = {
-      isOpen: false
+      isOpen: false,
+      selectedMenuItem:{label:'全部',value:''}
     };
   }
 
   toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
 
   componentDidMount() {}
+
+  getItems(){
+    var result = [];
+  //  result.push({label:'全部',value:''})
+    for(var item of this.props.websites){
+      result.push({label:item._id, value:item._id})
+    }
+    return result;
+  }
+
+  getCloseBtn(){
+    if(this.state.selectedMenuItem.value !== ''){
+      return  <span onClick={e=>{
+        e.stopPropagation();
+        this.props.onFliter('', e);
+        this.setState({selectedMenuItem:{label:'全部',value:''}})
+        
+      }}>[ x ]</span>
+    }
+    return null;
+  }
 
   render() {
     const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
@@ -24,21 +46,23 @@ class WebsiteList extends React.Component {
           aria-expanded="false"
           onClick={this.toggleOpen.bind(this)}
         >
-          站点列表
+         {this.getCloseBtn()}
+         {this.state.selectedMenuItem.label} 
         </button>
         <div className="dropdown-menu" className={menuClass}>
-          {this.props.websites.map(x => {
+       
+          {this.getItems().map(x => {
             return (
               <a
                 className="dropdown-item"
                 href="#"
                 onClick={e => {
-                  this.props.onFliter(x._id, e);
-                  this.setState({isOpen:false})
+                  this.props.onFliter(x.value, e);
+                  this.setState({isOpen:false,selectedMenuItem:{label:x.label,value:x.value}})
                 }}
-                key={x._id}
+                key={x.value}
               >
-                {x._id}
+                {x.label} 
               </a>
             );
           })}
