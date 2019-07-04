@@ -18,7 +18,8 @@ class KeywordCreate extends Component {
     super(props);
     this.state = {
       tags: [],
-      link:''
+      link:'',
+      error:''
     };
   }
 
@@ -26,6 +27,18 @@ class KeywordCreate extends Component {
     var keyword = this.textarea.value;
     let {tags, link} = this.state;
     link = extractRootDomain(link).substring(0, 20);
+    if(link === ''){
+      this.setState({error:'网站域名/熊掌ID名称不能为空'});
+      return;
+    }else{
+      this.setState({error:''});
+    }
+    if(keyword === ''){
+      this.setState({error:'网站域名/熊掌ID名称不能为空'});
+      return;
+    }else{
+      this.setState({error:''});
+    }
     var entity = R.mergeAll([
       this.props.entity,
       values,
@@ -74,7 +87,9 @@ class KeywordCreate extends Component {
           <AutoSuggestBox suggestions={this.props.websites.map(x=>x._id)} 
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)} 
           placeholder="如果网站已绑定熊掌ID，请在此输入熊掌ID名称。否则，输入网站域名，不加http://"
+          required
           />
+           {this.state.error && <span className="help-block ">{this.state.error}</span>}
         </RowContainer>
 
         <RowContainer label="关键词">
@@ -83,8 +98,9 @@ class KeywordCreate extends Component {
             placeholder="输入要优化的关键词。批量添加关键词，请敲回车键，每个关键词单独一行"
             className="form-control"
             defaultValue={newKeywords}
-            innerRef={ref => (this.textarea = ref)}
+            innerRef={ref => (this.textarea = ref)} required
           />
+
         </RowContainer>
         <RowContainer label="标签">
           <div className="row">
