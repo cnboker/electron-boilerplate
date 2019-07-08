@@ -199,9 +199,4 @@ var mainConfig = Object.assign({}, config, {
   ]
 });
 
-// Return Array of Configurations
-if (process.env.APP === "web") {
-  module.exports = [appConfig];
-} else {
-  module.exports = [appConfig, taskConfig, mainConfig];
-}
+module.exports = [appConfig, taskConfig, mainConfig];

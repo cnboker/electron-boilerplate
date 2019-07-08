@@ -74,13 +74,13 @@ class KeywordIndex extends React.Component {
               keywordsTagUpdate = {this.props.keywordsTagUpdate}
               />
           </div>
-          <div className="col-md-6  d-inline-flex">
+          <div className="col-md-6  d-inline-flex ">
             <Input
               type="text"
               onChange={this
               .textChange
               .bind(this)}
-              placeholder="关键词过滤" className="form-control-sm"/>
+              placeholder="关键词过滤" className="form-control-sm" style={{width:'240px'}} />
             <WebsiteList
               websites={this.props.websites}
               onFliter={this

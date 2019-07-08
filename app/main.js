@@ -108,6 +108,12 @@ if (!gotTheLock) {
       })
     );
 
+    mainWindow.webContents.on('new-window', function(e, url) {
+      e.preventDefault();
+      require('electron').shell.openExternal(url);
+    });
+    
+
     const backgroundURL = "file://" + $dirname + "/background.html";
     backgroundProcessHandler = main.createBackgroundProcess(
       backgroundURL,

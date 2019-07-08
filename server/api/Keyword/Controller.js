@@ -185,15 +185,14 @@ exports.create = function(req, res, next) {
       var grade = user.grade || 1;
       if (grade === 1) {
         var leftCount = 5 - docs.length;
+        var tirmArray = newKeywords;
         if (leftCount > 0) {
-          newKeywords.slice(leftCount).map(x => {
-            x.shield = 1;
-          });
-        } else {
-          newKeywords.map(x => {
-            x.shield = 1;
-          });
-        }
+          tirmArray = newKeywords.slice(leftCount);
+        } 
+        tirmArray.map(x => {
+          x.shield = 1;
+          x.status = 2;
+        });
       }
       return Keyword.collection.insertMany(newKeywords);
     })
@@ -271,7 +270,6 @@ exports.update = function(req, res, next) {
             //非vip会员检查是否小于5个词，如果是小于则开启优化
             return Keyword.count({
               user:req.user.sub,
-              shield:0,
               status:1,
               originRank: {
                 $gt: 0
@@ -280,6 +278,9 @@ exports.update = function(req, res, next) {
               console.log('count',count)
                if(count >= 5){
                 throw '非VIP会员开启失败'
+               }else{
+                 obj.status = 1;
+                 return obj.save();
                }
             })
            

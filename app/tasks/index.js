@@ -34,8 +34,8 @@ process.node_debug = true;
     doc: {
       userName: "scott",
       engine: "baidu",
-      link: "土工膜土工布",
-      keyword: "土工膜",
+      link: "ort-sports.com",
+      keyword: "龙岗区户外健身器材",
       originRank: 5,
       dynamicRank: 1
     },
@@ -47,20 +47,20 @@ process.node_debug = true;
   };
   jobContext.puppeteer = require("puppeteer");
 
-  const browser = await jobContext.puppeteer.launch({
-    headless: process.env.NODE_ENV == "production",
-    //devtools:true,
-    executablePath: (() => {
-      return process.env.ChromePath;
-    })()
-  });
+  // const browser = await jobContext.puppeteer.launch({
+  //   headless: process.env.NODE_ENV == "production",
+  //   //devtools:true,
+  //   executablePath: (() => {
+  //     return process.env.ChromePath;
+  //   })()
+  // });
   //await wordTest();
-  //await pageTaskJob.execute(task);
+  await pageTaskJob.execute(task);
   //await gpageTaskJober.execute(task)
-  const page = await browser.newPage();
-  await pageTaskJob.inputKeyword(page,'软件定制')
-  var count = await pageTaskJob.adIndexer(page)
-  console.log('ad count', count)
+  // const page = await browser.newPage();
+  // await pageTaskJob.inputKeyword(page,'软件定制')
+  // var count = await pageTaskJob.adIndexer(page)
+  // console.log('ad count', count)
   //await pageTaskJob.singleTaskProcess(page,task);
 
   //   jobContext.puppeteer = require('puppeteer');

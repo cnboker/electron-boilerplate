@@ -5,20 +5,21 @@ import { Link } from "react-router-dom";
 import { Switch } from "~/src/Components/Forms/Switch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSignal, faUndo } from "@fortawesome/free-solid-svg-icons";
-import {stringFormat,isValidDate,statusFormat} from './util';
+import { stringFormat, isValidDate, statusFormat } from "./util";
 import { toast } from "react-toastify";
+
 export default class KeywordItem extends React.Component {
   constructor() {
     super();
-    this.state = { selected: false};
+    this.state = { selected: false };
   }
-  
+
   componentDidUpdate(previousProps) {
     if (previousProps.data !== this.props.data) {
       this.setState({ selected: false });
     }
   }
-  
+
   selected(item, e) {
     this.setState({ selected: e.target.checked });
     item.selected = e.target.checked;
@@ -41,7 +42,13 @@ export default class KeywordItem extends React.Component {
             whiteSpace: "initial"
           }}
         >
-          {item.keyword}
+          <a
+            target="_blank"
+            href={`https://www.baidu.com/s?wd=${item.keyword }`}
+          
+          >
+            {item.keyword}
+          </a>
         </td>
         <td>{item.link}</td>
         <td>{stringFormat(item.originRank)}</td>
@@ -60,7 +67,7 @@ export default class KeywordItem extends React.Component {
           <td>{item.todayPolishedCount}</td>
         )}
         <td>{stringFormat(item.isValid && item.shield != 1)}</td>
-        <td>{statusFormat(item.shield == 1 ? 2:item.status)}</td>
+        <td>{statusFormat(item.status)}</td>
 
         <td>
           <Link
@@ -97,10 +104,9 @@ export default class KeywordItem extends React.Component {
             <FontAwesomeIcon icon={faUndo} size="1x" />
           </button>{" "}
           <Switch
-            on={item.status == 1 && item.shield == 0}
+            on={item.status == 1}
             onClick={e => {
-         
-              this.props.toggleSwitch(item, e)
+              this.props.toggleSwitch(item, e);
             }}
           />
         </td>

@@ -3793,6 +3793,13 @@ electron-download@^4.1.0:
     semver "^5.4.1"
     sumchecker "^2.0.2"
 
+electron-open-link-in-browser@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/electron-open-link-in-browser/download/electron-open-link-in-browser-1.0.2.tgz#66e5d584fdf10ce7d5716bbe5d12e41b3568f1a3"
+  integrity sha1-ZuXVhP3xDOfVcWu+XRLkGzVo8aM=
+  dependencies:
+    is-electron-renderer "^2.0.0"
+
 electron-osx-sign@0.4.11:
   version "0.4.11"
   resolved "https://registry.npm.taobao.org/electron-osx-sign/download/electron-osx-sign-0.4.11.tgz#8377732fe7b207969f264b67582ee47029ce092f"
@@ -3850,9 +3857,10 @@ electron-updater@^4.0.6:
     semver "^5.6.0"
     source-map-support "^0.5.9"
 
-electron@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/electron/download/electron-5.0.1.tgz#6bd7bf4d25e9bfce4cccd629d587fba5281f95cc"
+electron@^5.0.6:
+  version "5.0.6"
+  resolved "https://registry.npm.taobao.org/electron/download/electron-5.0.6.tgz#e3ca4a58b5716fceef3fb64e1fd2222dd9c51de0"
+  integrity sha1-48pKWLVxb87vP7ZOH9IiLdnFHeA=
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -5501,6 +5509,11 @@ is-directory@^0.3.1:
 is-dotfile@^1.0.0:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/is-dotfile/download/is-dotfile-1.0.3.tgz#a6a2f32ffd2dfb04f5ca25ecd0f6b83cf798a1e1"
+
+is-electron-renderer@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/is-electron-renderer/download/is-electron-renderer-2.0.1.tgz#a469d056f975697c58c98c6023eb0aa79af895a2"
+  integrity sha1-pGnQVvl1aXxYyYxgI+sKp5r4laI=
 
 is-equal-shallow@^0.1.3:
   version "0.1.3"

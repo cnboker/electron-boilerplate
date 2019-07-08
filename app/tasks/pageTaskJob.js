@@ -30,10 +30,12 @@ async function execute(task) {
   // Buffer.from('user:pass').toString('base64'), });
 
   const page = await browser.newPage();
+  //
   await page.setViewport({ width: 1600, height: 600 });
   await page.setCacheEnabled(false);
   // 无痕窗口 page.setExtraHTTPHeaders({ DNT: "1" }); await
   // page._client.send("Network.clearBrowserCookies");
+  await pageRedirectAbort(page);
 
   singleTaskProcess(page, task)
     .then(() => {
@@ -61,6 +63,24 @@ async function execute(task) {
     });
 }
 
+async function pageRedirectAbort(page) {
+  await page.setRequestInterception(true);
+
+  page.on("request", request => {
+    if (request.isNavigationRequest() && request.redirectChain().length!== 0) {
+      request.abort();
+    } else if (
+      ["image", "stylesheet", "font", "script"].indexOf(
+        request.resourceType()
+      ) !== -1
+    ) {
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+}
+
 //从第一页到第二页逐页扫描
 async function singleTaskProcess(page, task) {
   if (task === undefined) return;
@@ -71,7 +91,7 @@ async function singleTaskProcess(page, task) {
     await inputKeyword(page, doc.keyword, task.action == jobAction.Polish);
 
     doc.adIndexer = await adIndexer(page);
-    doc.resultIndexer = await resultIndexer(page)
+    doc.resultIndexer = await resultIndexer(page);
     //首页处理
     var rank = await fullPageRank(page, doc, pageIndex);
     doc.rank = rank || -1;
@@ -255,6 +275,9 @@ function checkBear(keyword) {
 async function findLinkClick(page, keyword) {
   var isBear = checkBear(keyword);
   console.log("isbear", isBear);
+  const newPagePromise = new Promise(x =>
+    page.browser().once("targetcreated", target => x(target.page()))
+  );
   await page.evaluate(
     (keyword, linkSelector, isBear) => {
       var nodes = document.querySelectorAll(linkSelector);
@@ -273,27 +296,33 @@ async function findLinkClick(page, keyword) {
     linkSelector,
     isBear
   );
+
+  const newPage = await newPagePromise;
+  await pageRedirectAbort(newPage);
 }
 
 async function adIndexer(page) {
   var adCount = await page.evaluate(() => {
-    var nodes = document.querySelectorAll('#content_left a');
+    var nodes = document.querySelectorAll("#content_left a");
     var arr = [...nodes];
     //var arr = Array.prototype.slice.call(nodes, 0);
     arr = arr.filter(e => {
-      return e.innerText == '广告';
+      return e.innerText == "广告";
     });
     return arr.length;
   });
   return adCount;
 }
 
-async function resultIndexer(page){
-  var text = await page.$eval('#container > div.head_nums_cont_outer.OP_LOG > div > div.nums > span', div => {
-    return div.innerText;
-  });
-  console.log(text)
-  return parseInt(text.replace(/[^0-9\.]/g, ''), 10)/10000
+async function resultIndexer(page) {
+  var text = await page.$eval(
+    "#container > div.head_nums_cont_outer.OP_LOG > div > div.nums > span",
+    div => {
+      return div.innerText;
+    }
+  );
+  console.log(text);
+  return parseInt(text.replace(/[^0-9\.]/g, ""), 10) / 10000;
 }
 
 exports.execute = execute;

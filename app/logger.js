@@ -16,7 +16,6 @@ var log_file = fs.createWriteStream(path.join(dir, 'log.txt'), {
   encoding: 'utf8'
 });
 var log_stdout = process.stdout;
-
 var logger = {
   info: function (...args) { //
     var output = '';
@@ -30,7 +29,7 @@ var logger = {
     //https://shapeshed.com/writing-cross-platform-node/
     //Cross Platform Newline Characters
     //log_file.write(util.format(output) + EOL);
-    log_stdout.write(util.format(output) + EOL);
+    log_stdout.write(util.format(output) + EOL, 'utf8');
     //console.info(output)
   }
 }
