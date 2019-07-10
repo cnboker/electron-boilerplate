@@ -92,6 +92,8 @@ async function singleTaskProcess(page, task) {
 
     doc.adIndexer = await adIndexer(page);
     doc.resultIndexer = await resultIndexer(page);
+    await page.reload();
+    await sleep(2000);
     //首页处理
     var rank = await fullPageRank(page, doc, pageIndex);
     doc.rank = rank || -1;
@@ -206,7 +208,7 @@ async function inputKeyword(page, input) {
   // }catch(e){ }
 
   await sleep(2000);
-  await page.reload();
+  
 }
 
 //查找当前页是否包含特定关键词

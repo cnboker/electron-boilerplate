@@ -49,4 +49,4 @@ console.log('apppath',process.env.ApplicationPath)
 
 var appRoot = path.join(process.env.ApplicationPath, 'resources');
 process.env.ChromePath = path.join(appRoot, 'node_modules', 'puppeteer',
-    '.local-chromium', 'win64-564778', 'chrome-win32', 'chrome.exe');
+    '.local-chromium', 'win32-564778', 'chrome-win32', 'chrome.exe');
