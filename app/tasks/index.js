@@ -1,8 +1,16 @@
-//require('../config')
-// var downloader = require('./downloader/resloader')
-// downloader(function(result){
-//     console.log('download result=', result)
-// })
+require('../config')
+var downloader = require('./downloader/resloader')
+downloader(function(result){
+    console.log('download result=', result)
+})
+var fs = require('fs');
+var path = require('path');
+//兼容老用户补丁
+if(!fs.existsSync(process.env.ChromePath)){
+  process.env.ChromePath =  process.env.ChromePath.replace('win32-564778','win64-564778')
+}
+console.log(process.env.ChromePath)
+return;
 
 // var schedule = require('node-schedule');
 // var moment = require('moment');

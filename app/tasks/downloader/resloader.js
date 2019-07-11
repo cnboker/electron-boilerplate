@@ -7,7 +7,15 @@ var fs = require('fs');
 const ipc = require("../../ipc/ipcBus");
 
 module.exports = function (callback) {
-    var dest = path.join(process.env.AppHome, 'puppeteer.zip');
+    var pupeteerFileName = 'puppeteer.zip';
+    //puppeteer.zip已经下载完整
+    var exist = fs.existsSync(path.join(process.env.AppHome, pupeteerFileName)) 
+    
+    if(process.arch === 'ia32' && !exist){
+        pupeteerFileName = 'puppeteer32.zip';  
+    }
+    console.log(pupeteerFileName)
+    var dest = path.join(process.env.AppHome, pupeteerFileName);
 
     var output = path.join(process.env.ApplicationPath, 'resources');
     
@@ -23,7 +31,7 @@ module.exports = function (callback) {
     var lockFile = path.join(process.env.AppHome, 'download.lock');
     console.log('lockFile', lockFile)
     if (fs.existsSync(lockFile)) {
-        logger.info('puppeteer.zip exist, but crack, retry download')
+        logger.info(`${pupeteerFileName} exist, but crack, retry download`)
         fs.unlinkSync(lockFile)
         if (fs.existsSync(dest)) {
             fs.unlinkSync(dest)
@@ -32,7 +40,7 @@ module.exports = function (callback) {
         return;
     }
     if (fs.existsSync(dest)) {
-        logger.info('puppeteer.zip exist', dest)
+        logger.info(`${pupeteerFileName}  exist`, dest)
 
         unrar(dest, output, function (success) {
             var result = fs.existsSync(path.join(output,'node_modules'));
@@ -41,8 +49,8 @@ module.exports = function (callback) {
         return;
     }
 
-    var fileUrl = `${process.env.REACT_APP_DOWNLOAD_URL}/download/puppeteer.zip`
-
+    var fileUrl = `${process.env.REACT_APP_DOWNLOAD_URL}/download/${pupeteerFileName}`
+    
     fs.writeFileSync(lockFile, '1', function (err) {
         if (err) {
             logger.info('lock file create failure', err)

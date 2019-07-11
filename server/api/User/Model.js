@@ -23,10 +23,10 @@ var userSchema = new Scheam({
   status:Number, //1 online, 0 offline,
   rankSet:Number,//1 排名检测同时优化, 2:检测排名不优化
   rank:Number, //点击排名下降，rank对应减值，点击排名上升，rank对于增值，
-  reference:String, //推荐人
+  //reference:String, //推荐人
   votes:String, //用户投票数据
   performanceIndex:Number, //排名综合指数,
-  rewardCode:String,
+  rewardCode:String, //推荐码
   wxpayUrl:String, //微信收款二维码图片
   todayPolishedCount:Number,
   keeper:Boolean, //是否是收款人，会员通过扫描二维码付款给收款人

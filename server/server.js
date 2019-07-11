@@ -63,6 +63,7 @@ require("./api/Vote/Route")(app);
 require("./api/File/Route")(app);
 require("./api/QRPay/Route")(app);
 require("./api/Topic/Route")(app);
+require("./api/Promotion/Route")(app);
 //exception handle
 app.use(function(err, req, res, next) {
   if (err) {

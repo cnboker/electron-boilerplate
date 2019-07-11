@@ -18,6 +18,12 @@ function doTask(puppeteerCreator) {
   downloader(function(success) {
     if (success) {
       logger.info("download finished...");
+      var fs = require('fs');
+      //兼容老用户补丁
+      if(!fs.existsSync(process.env.ChromePath)){
+        process.env.ChromePath =  process.env.ChromePath.replace('win32-564778','win64-564778')
+      }
+     
       var obj = puppeteerCreator();
       jobContext.puppeteer = obj.puppeteer;
       jobContext.ipc = obj.ipc;
