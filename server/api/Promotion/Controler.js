@@ -10,7 +10,7 @@ pramams:rewardCode, ip
 exports.trace = function(req, res, next) {
   Promotion.findOne({ rewordCode: req.params.id })
     .then(doc => {
-      if (!doc) {
+      if (!doc) { 
         var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
         doc = {
           rewordCode: req.params.id,
