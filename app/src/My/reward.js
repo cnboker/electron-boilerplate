@@ -1,23 +1,28 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Account from "./account";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import ImageUploader from "~/src/Components/Fileuploader/index";
-import { userUpdate } from "~/src/Profile/action";
-
+import {userUpdate} from "~/src/Profile/action";
+import Share from 'social-share-react'
 class Reward extends Component {
   constructor() {
     super();
     this.state = {
- 
+
       pictures: []
     };
-    this.onDrop = this.onDrop.bind(this);
+    this.onDrop = this
+      .onDrop
+      .bind(this);
   }
 
   onDrop(pictureFiles, pictureDataURLs) {
     console.log("ondrop", pictureFiles, pictureDataURLs);
     this.setState({
-      pictures: this.state.pictures.concat(pictureFiles)
+      pictures: this
+        .state
+        .pictures
+        .concat(pictureFiles)
     });
   }
 
@@ -33,75 +38,90 @@ class Reward extends Component {
         return (sum += val.amount);
       }, 0);
     var unPaidAmount = amount - paidAmount;
-    return { amount, paidAmount, unPaidAmount };
+    return {amount, paidAmount, unPaidAmount};
   }
 
   onFinished(url) {
-    this.props.dispatch(
-      userUpdate(this.props.client.userName, { wxpayUrl: url })
-    );
+    this
+      .props
+      .dispatch(userUpdate(this.props.client.userName, {wxpayUrl: url}));
   }
 
   onRemove(url) {
-    this.props.dispatch(
-      userUpdate(this.props.client.userName, { wxpayUrl: "" })
-    );
+    this
+      .props
+      .dispatch(userUpdate(this.props.client.userName, {wxpayUrl: ""}));
   }
 
   render() {
-    const { profile } = this.props;
-   
-    const balance = profile.balance.filter(x => x.payType == 2);
+    const {profile} = this.props;
+
+    const balance = profile
+      .balance
+      .filter(x => x.payType == 2);
     const stats = this.getStats(balance);
     const images = [];
-    if(profile.wxpayUrl){
+    if (profile.wxpayUrl) {
       images.push(profile.wxpayUrl)
     }
-    console.log('profile',profile,images)
+    console.log('profile', profile, images)
     return (
       <div>
         <h3>分享越多,收获越多！</h3>
         <div className="mt-3 mb-3">
           把好用的钢铁侠推荐给更多人使用，您会有更多收获。经您推荐的注册用户，一旦激活VIP身份，您就能有
-          <strong
-            style={{
-              color: "red"
-            }}
-          >
+          <strong style={{
+            color: "red"
+          }}>
             50元/人
           </strong>
           奖金拿，奖励随时可提现.
-          <br />
+          <br/>
           记得提醒新用户在注册时，输入您的专用推荐码哟！
           <p>
             您的推荐码:
             <span
               style={{
-                fontSize: "36px",
-                color: "red",
-                marginLeft: "15px"
-              }}
-            >
+              fontSize: "36px",
+              color: "red",
+              marginLeft: "15px"
+            }}>
               {profile.rewardCode}
             </span>
           </p>
         </div>
+        <h3>把你的链接分享出去,稳稳赚收益</h3>
+        <div className="mt-3 mb-3">
+          <Share
+            url={`http://www.kwpolish.com/?id=${profile._id}&url=${encodeURIComponent(process.env.REACT_APP_API_URL)}`}
+            title='钢铁侠-提升网站排名好帮手'
+            disabled={['google', 'facebook', 'twitter']}></Share>
+        </div>
         <h3>点击下面图标上传收款码，方便给您返还奖励</h3>
+
         <div className="mt-3 mb-3">
           <ImageUploader
             images={images}
-            onFinished={this.onFinished.bind(this)}
-            onRemove={this.onRemove.bind(this)}
-          />
+            onFinished={this
+            .onFinished
+            .bind(this)}
+            onRemove={this
+            .onRemove
+            .bind(this)}/>
         </div>
-
+       
         <h3>我的分享收益</h3>
         <div className="mt-3 mb-3">
           <Account balance={balance} onlyReward={true}>
             <div className="text-right">
-              总收益: {stats.amount.toFixed(2)}
-              元，已提现金额:{stats.paidAmount.toFixed(2)}元，余额:{" "}
-              {stats.unPaidAmount.toFixed(2)}
+              总收益: {stats
+                .amount
+                .toFixed(2)}
+              元，已提现金额:{stats
+                .paidAmount
+                .toFixed(2)}元，余额:{" "} {stats
+                .unPaidAmount
+                .toFixed(2)}
             </div>
           </Account>
           <p>客服人员每周统一办理个人分享收益提现。请注意自己的收款微信上的收款信息。</p>
@@ -113,7 +133,7 @@ class Reward extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { client: state.client, profile: state.userProfile };
+  return {client: state.client, profile: state.userProfile};
 };
 
 //state表示reducer, combineReducer包含state和dispatch
