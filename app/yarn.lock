@@ -3796,7 +3796,6 @@ electron-download@^4.1.0:
 electron-open-link-in-browser@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/electron-open-link-in-browser/download/electron-open-link-in-browser-1.0.2.tgz#66e5d584fdf10ce7d5716bbe5d12e41b3568f1a3"
-  integrity sha1-ZuXVhP3xDOfVcWu+XRLkGzVo8aM=
   dependencies:
     is-electron-renderer "^2.0.0"
 
@@ -3860,7 +3859,6 @@ electron-updater@^4.0.6:
 electron@^5.0.6:
   version "5.0.6"
   resolved "https://registry.npm.taobao.org/electron/download/electron-5.0.6.tgz#e3ca4a58b5716fceef3fb64e1fd2222dd9c51de0"
-  integrity sha1-48pKWLVxb87vP7ZOH9IiLdnFHeA=
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -5513,7 +5511,6 @@ is-dotfile@^1.0.0:
 is-electron-renderer@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/is-electron-renderer/download/is-electron-renderer-2.0.1.tgz#a469d056f975697c58c98c6023eb0aa79af895a2"
-  integrity sha1-pGnQVvl1aXxYyYxgI+sKp5r4laI=
 
 is-equal-shallow@^0.1.3:
   version "0.1.3"
@@ -8416,12 +8413,10 @@ q@^1.1.2:
 qr.js@0.0.0:
   version "0.0.0"
   resolved "https://registry.npm.taobao.org/qr.js/download/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
-  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
 
 qrcode.react@^0.8.0:
   version "0.8.0"
   resolved "https://registry.npm.taobao.org/qrcode.react/download/qrcode.react-0.8.0.tgz#413b31cc3b62910e39513f7bead945e01c4c34fb"
-  integrity sha1-QTsxzDtikQ45UT976tlF4BxMNPs=
   dependencies:
     prop-types "^15.6.0"
     qr.js "0.0.0"
@@ -8547,7 +8542,6 @@ react-autosize-textarea@^4.0.0:
 react-autosuggest@^9.4.3:
   version "9.4.3"
   resolved "https://registry.npm.taobao.org/react-autosuggest/download/react-autosuggest-9.4.3.tgz#eb46852422a48144ab9f39fb5470319222f26c7c"
-  integrity sha1-60aFJCKkgUSrnzn7VHAxkiLybHw=
   dependencies:
     prop-types "^15.5.10"
     react-autowhatever "^10.1.2"
@@ -8623,17 +8617,7 @@ react-dom@16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-dom@^16.2.0:
-  version "16.8.6"
-  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-16.8.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-dom%2Fdownload%2Freact-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
-  integrity sha1-cdYwP2MeiwCX9WFl72CPBR/24Q8=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.13.6"
-
-react-dom@^16.8.5:
+react-dom@^16.2.0, react-dom@^16.8.5:
   version "16.8.5"
   resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-16.8.5.tgz#b3e37d152b49e07faaa8de41fdf562be3463335e"
   dependencies:
@@ -8915,7 +8899,7 @@ react@16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react@^16.0.0, react@^16.8.5:
+react@^16.0.0, react@^16.2.0, react@^16.8.5:
   version "16.8.5"
   resolved "http://registry.npm.taobao.org/react/download/react-16.8.5.tgz#49be3b655489d74504ad994016407e8a0445de66"
   dependencies:
@@ -8923,16 +8907,6 @@ react@^16.0.0, react@^16.8.5:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.13.5"
-
-react@^16.2.0:
-  version "16.8.6"
-  resolved "https://registry.npm.taobao.org/react/download/react-16.8.6.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
-  integrity sha1-rWw6lhT9Ok6e9REX9U2IjaAfK74=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.13.6"
 
 reactstrap@^7.1.0:
   version "7.1.0"
@@ -9522,14 +9496,6 @@ scheduler@^0.13.4, scheduler@^0.13.5:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-scheduler@^0.13.6:
-  version "0.13.6"
-  resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
-  integrity sha1-RmpOwzJGezGpG5v3TlNHBy5M2Ik=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
 schema-utils@^0.4.4, schema-utils@^0.4.5:
   version "0.4.7"
   resolved "http://registry.npm.taobao.org/schema-utils/download/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
@@ -9767,7 +9733,6 @@ snapdragon@^0.8.1:
 social-share-react@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/social-share-react/download/social-share-react-1.1.2.tgz#b9a4eb64711d22b93b41cae5cdf7b377b1be70f5"
-  integrity sha1-uaTrZHEdIrk7Qcrlzfezd7G+cPU=
   dependencies:
     prop-types "^15.6.1"
     qrcode.react "^0.8.0"
