@@ -44,6 +44,7 @@ exports.reqRewardCode = function (req, res, next) {
   Promotion
     .findOne({ip})
     .then(doc => {
+      doc = doc || {rewardCode:''};
       res.json(doc);
     })
     .catch(e => {

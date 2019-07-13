@@ -64,7 +64,8 @@ class Reward extends Component {
     if (profile.wxpayUrl) {
       images.push(profile.wxpayUrl)
     }
-    console.log('profile', profile, images)
+    var key = btoa(`id=${profile._id}&url=${encodeURIComponent(process.env.REACT_APP_API_URL)}/promotion/trace`)
+    
     return (
       <div>
         <h3>分享越多,收获越多！</h3>
@@ -93,7 +94,7 @@ class Reward extends Component {
         <h3>把你的链接分享出去,稳稳赚收益</h3>
         <div className="mt-3 mb-3">
           <Share
-            url={`http://www.kwpolish.com:3002/?id=${profile._id}&url=${encodeURIComponent(process.env.REACT_APP_API_URL)}/promotion/trace`}
+            url={`http://www.kwpolish.com/?t=${key}`}
             title='钢铁侠-提升网站排名好帮手'
             disabled={['google', 'facebook', 'twitter']}></Share>
         </div>

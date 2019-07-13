@@ -38,7 +38,7 @@ module.exports.keywordPrepare = async function() {
   }
 
   for (var val of orderKeywords) {
-    if (offlineUsers.includes(val.user) > 0) {
+    if (offlineUsers.includes(val.user)) {
       val.polishStatus = 4;
       val.status = 0;
     } else {
