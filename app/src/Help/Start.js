@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 export default class Start extends Component {
   constructor(props) {
@@ -8,261 +8,189 @@ export default class Start extends Component {
   render() {
     var imageRoot = require("path").resolve() + "/app";
     return (
-      <div className="row">
+     
         <div className="card">
           <div className="card-body">
-         
-            <p class="p1">
-              <span class="s1">如何使用</span>
-              <span class="s2">?</span>
+            <p>
+              <strong>一、快速入门</strong>
+              <br />{" "}
+              1、【新建】提交关键词和目标网站；2、最小化并保持挂机状态；3、系统自动执行优化任务。
+              <br /> <br /> 注：正常上下班开关电脑即可，无须刻意挂机。
             </p>
-            <p class="p2">
-              <span class="s1">登录软件后，在</span>
-              <span class="s3">&ldquo;</span>
-              <span class="s4">
-                <strong>排名监控</strong>
-              </span>
-              <span class="s3">&rdquo;</span>
-              <span class="s1">界面，点击左上方的</span>
-              <span class="s3">
-                &ldquo;</span>
-              <span class="s4">
-                <strong>新建</strong>
-              </span>
-              <span class="s3">&rdquo;
-              </span>
-              <span class="s1">，提交关键词和对应的网址就可以。</span>
+            <p>&nbsp;</p>
+            <p>
+              <strong>二、个个功能都实用，辅助优化效率高</strong>
+              <br /> <br /> <strong>1</strong>
+              <strong>、排名监控</strong>
+              &mdash;&mdash;钢铁侠会对提交的关键词一天查询多次，排名变化观察更及时；
             </p>
-            <p class="p2">
-              <span class="s3"><br/>
-              </span>
-              <span class="s1">提交后，保持软件处在连网挂机状态，系统会自动运行优化工作</span>
-              <span class="s3"><br/>
-                <br/>
-              </span>
-              <span class="s1">特别说明：</span>
-              <span class="s3"><br/>
-              </span>
-              <span class="s1">搜索引擎如百度，自然搜索结果每页</span>
-              <span class="s3">10</span>
-              <span class="s1">个页面，页面出现在</span>
-              <span class="s3">10</span>
-              <span class="s1">页以后也就是排名在</span>
-              <span class="s3">100</span>
-              <span class="s1">以上的网页默认质量相对较低。当前钢铁侠系统的默认规则是，只针对初始排名在</span>
-              <span class="s3">120</span>
-              <span class="s1">名以内的关键词进行优化。</span>
-              <span class="s3"><br/>
-                <br/>
-              </span>
-              <span class="s1">正常情况下，关键词提交后，保持软件运行状态，两分钟内会出现初始排名数据。如果一次提交关键词数量过多，时间会相对延长。</span>
-              <span class="s3"><br/>
-              </span>
+            <p>
+              <strong>2</strong>
+              <strong>、排名跟踪</strong>
+              &mdash;&mdash;系统自动记录关键词排名数据，直观反映走势变化，为后续优化方向提供参考。
             </p>
-            <p class="p3">
-              <span class="s1">
-                <strong>情况</strong>
-              </span>
-              <span class="s5">
-                <strong>1</strong>
-              </span>
-              <span class="s1">
-                <strong>、初始排名在</strong>
-              </span>
-              <span class="s5">
-                <strong>1-120</strong>
-              </span>
-              <span class="s1">
-                <strong>以内</strong>
-              </span>
+            <p>
+              <strong>3</strong>
+              <strong>、关键词词库管理</strong>&mdash;&mdash;可以通过【
+              <strong>标签】</strong>功能灵活管理成千上万个关键词。
             </p>
-            <p class="p4">
-              <span class="s1">表明系统正常工作，关键词处在有效状态。只须保持软件连网挂机状态即可，系统会自动安排执行优化工作。将钢铁侠最小化后台挂机即可，不影响使用电脑。</span>
-              <span class="s5"><br/>
-              </span>
+            <p>
+              <strong>4</strong>
+              <strong>、智能优化</strong>
+              &mdash;&mdash;集成多种有效提权方法（白帽操作），根据网站属性智能匹配组合优化方案，并根据效果反馈自动调整优化方案，以达到更好的优化效果。
             </p>
-            <p class="p5">
-              <span class="s6">
-                <strong>情况</strong>
-              </span>
-              <span class="s5">
-                <strong>2</strong>
-              </span>
-              <span class="s6">
-                <strong>、初始排名数据长时间为</strong>
-              </span>
-              <span class="s5">
-                <strong>0</strong>
-              </span>
-              <span class="s6">
-                <strong>，没有变化</strong>
-              </span>
+            <p>
+              <strong>5</strong>
+              <strong>、SEO操作记录</strong>
+              &mdash;&mdash;可直接在线记录SEO相关操作，后续排查问题有参照。
             </p>
-            <p class="p4">
-              <span class="s1">此时说明系统检测工作没有正常启动。请关掉软件，再重新启动就会恢复正常。</span>
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">如果你电脑上装有</span>
-              <span class="s5">360</span>
-              <span class="s1">系列软件，请退出后再尝试。</span>
-              <span class="s5"><br/>
-                <br/>
-              </span>
-              <span class="s1">如果仍没有显示正常数据，请换台电脑尝试或重新安装软件或联系售后人员解决。</span>
-              <span class="s5"><br/>
-                <br/>
-              </span>
-              <span class="s1">这种情况大多是操作系统不完整导致，推荐安装原版</span>
-              <span class="s5">Windos
-              </span>
-              <span class="s1">各种精简版或破解版操作系统会缺失某些必要系统文件。钢铁侠支持</span>
-              <span class="s5">Windos 7
-              </span>
-              <span class="s1">及以上版本操作系统</span>
-              <span class="s5"><br/>
-              </span>
+            <p>&nbsp;</p>
+            <p>
+              <strong>
+                <br />{" "}
+              </strong>
+              <strong>三、初次使用钢铁侠可能遇到的问题及解决方法</strong>
+              <strong>?</strong>
             </p>
-            <p class="p3">
-              <span class="s1">
-                <strong>情况</strong>
-              </span>
-              <span class="s5">
-                <strong>3</strong>
-              </span>
-              <span class="s1">
-                <strong>、如果初始排名数据显示为</strong>
-              </span>
-              <span class="s5">
-                <strong>120+
-                </strong>
-              </span>
-              <span class="s1">
-                <strong>，状态显示停止怎么办？</strong>
-              </span>
+            <p>
+              登录软件后，在&ldquo;<strong>排名监控</strong>
+              &rdquo;界面，点击左上方的&ldquo;<strong>新建</strong>
+              &rdquo;，提交关键词和对应的网址就可以。
             </p>
-            <p class="p4">
-              <span class="s1">表明当前关键词排名位置过于靠后，系统暂不进行优化处理</span>
+            <p>
+              <br />{" "}
+              提交后，最小化，保持软件处在连网挂机状态，系统会自动运行优化任务。
+              <br /> <br /> <strong>特别说明：</strong>
+              <br /> <em>搜索引擎（以百度为例）自然搜索结果每页收录</em>
+              <em>10</em>
+              <em>个页面，目标网站网页出现在</em>
+              <em>10</em>
+              <em>页以后也就是排名在</em>
+              <em>100</em>
+              <em>
+                以上的网页默认质量相对较低。当前钢铁侠默认规则，只针对初始排名在
+              </em>
+              <em>120</em>
+              <em>名以内的关键词进行优化。</em>
+              <br /> <br />{" "}
+              正常情况下，关键词提交后，保持软件运行状态，两分钟内会出现初始排名数据。如果一次提交关键词数量过多，时间会相对延长。
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>解决思路</strong>
-              </span>
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">先做相关的长尾关键词，以保障提交的关键词初始排名在</span>
-              <span class="s5">120</span>
-              <span class="s1">以内，系统能够执行优化。长尾关键词优化一段时间，对应的主关键词也会自动往前提升排名，直到排名进入</span>
-              <span class="s5">120</span>
-              <span class="s1">以内，再专门进行优化这个主关键词。</span>
-              <span class="s5"><br/>
-                <br/>
-              </span>
-              <span class="s1">
-                <strong>解决方法</strong>
-              </span>
-              <span class="s5">
-                <strong>A&nbsp;</strong><br/>
-              </span>
-              <span class="s1">直接输入关键词和域名这样作为组合关键词使用，这样在搜索里就可以确保排名靠前。优化处理一段时后，关键词的对应排名就会往前排。如果进入</span>
-              <span class="s5">120</span>
-              <span class="s1">以内，就可以按常规操作方法优化处理。</span>
-              <span class="s5"><br/>
-                <br/>
-                <em>*
-                </em>
-              </span>
-              <span class="s1">收录较少的新网站，可采取这种方式，快速增进收录。</span>
-              <span class="s5">
-                <em>&nbsp;</em><br/>
-                <br/>
-              </span>
-              <span class="s1">
-                <strong>解决方法</strong>
-              </span>
-              <span class="s5">
-                <strong>B&nbsp;</strong><br/>
-              </span>
-              <span class="s1">可以根据这个关键词，先做对应的长尾词，使用多个长尾词进行优化。相关长尾词的排名提升的同时，主关键词的排名也会自动往上提升。等主关键词的排名进入</span>
-              <span class="s5">120</span>
-              <span class="s1">内，就可以按常规方式操作了。</span>
+            <p>
+              <strong>情况</strong>
+              <strong>1</strong>
+              <strong>、初始排名在</strong>
+              <strong>1-120</strong>
+              <strong>以内</strong>
             </p>
-            <p class="p6">&nbsp;</p>
-            <p class="p5">
-              <span class="s6">
-                <strong>名词解释</strong>
-              </span>
+            <p>
+              表明系统正常工作，关键词处在有效状态。
+              <br /> 只须保持软件连网挂机状态即可，系统会自动安排执行优化工作。
+              <br /> 钢铁侠最小化到系统托盘，占用资源极小，不影响使用电脑办公。
             </p>
-            <p class="p4">
-              <span class="s1">
-                <strong>关键词排名</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">在搜索引擎搜索某个关键词时，目标网站出现的排列位置。一般，搜索引擎自然搜索结果每个页面会提供</span>
-              <span class="s5">10</span>
-              <span class="s1">个页面信息。</span>
+            <p>
+              <strong>情况</strong>
+              <strong>2</strong>
+              <strong>、初始排名数据长时间为</strong>
+              <strong>0</strong>
+              <strong>，即排名数据一个也没出来</strong>
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">注意，各网站排名位置会经常变动，且某些关键词同一时间在不同地区，排名位置也可能不同。</span>
+            <p>
+              提交关键词后，最小化并保持挂机状态，正常情况几分钟后有排名数据出来。如果提交多个关键词，只要有一个排名数据出现，即说明系统正常检测了。
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>初始排名</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">即关键词提交时，目标网站在搜索引擎的排列位置；</span>
+            <p>如果关键词排名数据长时间为0，那就可能是系统没有正常检测了。</p>
+            <p>
+              有两个主要可能情况，一是有其它软件干扰，比如360；再就是操作系统不完整导致，比如有些精简版的操作系统可能缺少某个钢铁侠需要调用的系统文件。
             </p>
-          
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>最新排名</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">即关键词在最近一次查询时，目标网站在搜索引擎的排列位置。钢铁侠的排名查询一天内会进行多次查询。</span>
+            <p>
+              如果电脑装有360安全软件，请退出后，再重启钢铁侠进行尝试。
+              <br /> <br /> 如果还不行，可以尝试以下方式解决。
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>收录量</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">指搜索引擎根据查询关键词找到的相关结果页数量。钢铁侠工具提供的收录量以万为单。</span>
+            <p>1）重新安装钢铁侠最新版本；</p>
+            <p>2）确保操作系统为win 7或以上版本</p>
+            <p>3）升级操作系统到win10或安装原版操作系统</p>
+            <p>4）换一台电脑尝试</p>
+            <p>
+              部分用户的电脑上安装的可能并非微软原版操作系统，系统文件不完整，或因安装其它厂家的软件删除或限制了部分系统文件导致钢铁侠不能正常运行。
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>关键词商业热度</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">钢铁侠对关键词商业价值共识进行判断的一种评价体系，从</span>
-              <span class="s5">0~9</span>
-              <span class="s1">共</span>
-              <span class="s5">10</span>
-              <span class="s1">个等级，数值越大，商业价值共识度越高，相应的竞争程度越激烈。关键词商业热度为</span>
-              <span class="s5">0</span>
-              <span class="s1">，只说明该关键词的商业价值尚未得到认可，并不代表其本身不具备商业价值。</span>
+            <p>&nbsp;</p>
+            <p>
+              <strong>情况</strong>
+              <strong>3</strong>
+              <strong>、如果初始排名数据显示为</strong>
+              <strong>120+</strong>
+              <strong>，状态显示停止怎么办？</strong>
             </p>
-            <p class="p4">
-              <span class="s5"><br/>
-              </span>
-              <span class="s1">
-                <strong>关键词排名走势</strong>
-              </span>
-              <span class="s5">&mdash;&mdash;</span>
-              <span class="s1">从关键词提交时起到当前，对关键词排名变化进行统计，以折线图的方式展现出来，以方便用户更直观地分析排名变化。</span>
+            <p>
+              此处存在两种可能：
+              <br />{" "}
+              1）你提交的网站已经绑定熊掌号，但你提交的是网站域名，导致系统查询不到。此种情况，请删除后，重新提交正确的熊掌号名称即可。
+              <br />{" "}
+              2）当前关键词排名位置确实在120名之后，为相应网页质量较弱原因。
+              <br /> <br /> <strong>解决思路</strong>
+              <br />{" "}
+              先自行查询下网站收录情况，所提交的关键词是否有对应的网页收录。如果没有收录或收录较少，请针对已经收录网页进行优化操作，加速网站收录。
+              <br /> <br /> 比如，先提交网站名称，公司名称或品牌名称等等关键词。
+              <br /> <br />{" "}
+              如果关键词有相应的目标网站的网页收录，初始排名仍为120+，那就是这个关键词对应的网页质量较低，排名过于靠后。
+              <br /> <br />{" "}
+              建议先做相关的长尾关键词，以保障提交的关键词初始排名在120以内，系统能够执行优化。长尾关键词优化一段时间，对应的主关键词也会自动往前提升排名，直到排名进入120以内，再专门进行优化这个主关键词。
+              <br /> <br /> <strong>解决方法</strong>
+              <strong>A&nbsp;</strong>
+              <br />{" "}
+              直接输入关键词和域名这样作为组合关键词使用，这样在搜索里就可以确保排名靠前。优化处理一段时后，关键词的对应排名就会往前排。如果进入120以内，就可以按常规操作方法优化处理。
+              <br /> <br /> <strong>解决方法</strong>
+              <strong>B&nbsp;</strong>
+              <br />{" "}
+              可以根据这个关键词，先优化相应的长尾词，使用多个长尾词进行优化。相关长尾词的排名提升的同时，主关键词的排名也会自动往上提升。等主关键词的排名进入120内，就可以按常规方式操作了。
+              <br /> <br /> <strong>关键词筛选</strong>
+              &mdash;&mdash;在关键词过滤输入框内分别输入
+              +、-、120+，可以快速筛选出排名上升、下降、或120+的关键词。
+              <br /> <br /> <strong>【标签】使用</strong>
+              &mdash;&mdash;标签功能可以对关键词进行分类管理，可以进行项目管理。
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              <strong>四、名词解释</strong>
+            </p>
+            <p>
+              <strong>关键词排名</strong>
+              &mdash;&mdash;在搜索引擎搜索某个关键词时，目标网站出现的排序位置。一般，搜索引擎自然搜索结果每个页面会提供10个页面信息。
+            </p>
+            <p>
+              <br />{" "}
+              注意，各网站排名位置会经常变动，且某些关键词同一时间在不同地区，排名位置也可能不同。
+            </p>
+            <p>
+              <strong>初始排名</strong>
+              &mdash;&mdash;即关键词提交时，目标网站在搜索引擎的排序位置；
+            </p>
+            <p>
+              <strong>最新排名</strong>
+              &mdash;&mdash;即关键词在最近一次查询时，目标网站在搜索引擎的排序位置。
+            </p>
+            <p>
+              <strong>收录量</strong>
+              &mdash;&mdash;指搜索引擎根据查询关键词找到的相关结果页数量。钢铁侠提供的收录量数据以万为单位。
+            </p>
+            <p>
+              <strong>关键词商业热度</strong>
+              &mdash;&mdash;钢铁侠对关键词商业价值共识进行判断的一种评价体系，从0~9共10个等级，数值越大，商业价值共识度越高，相应的竞争程度越激烈。关键词商业热度为0，只说明该关键词的商业价值尚未得到认可，并不代表其本身不具备商业价值。
+            </p>
+            <p>
+              <strong>关键词排名走势</strong>
+              &mdash;&mdash;从关键词提交时起，对关键词排名变化进行统计，以折线图的方式展现出来，以方便用户更直观地分析排名变化。
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              注1：钢铁侠【初始排名】为本地查询结果，【最新排名】为系统查询结果，若认为系统查询排名数据与实际不符，可通过【重置】，重新获取【初始排名】，此时的【初始排名】数据应与你在本地查询结果一致。
+              <br /> <br />{" "}
+              注2：排名变化为【最新排名】与【初始排名】之差别，若排名变化较大幅度变化，可点击【跟踪】查看对应的排名走势，进行分析，并针对性解决。
+              <br /> <br />{" "}
+              注3：搜索引擎原理相通，基本逻辑类似，所以，钢铁侠只以中英搜索引擎为区分。中文搜索引擎以百度为代表，英文搜索引擎以Google为代表。面向百度的SEO，效果同样支持其它中文搜索引擎，如360好搜，搜狗，神马&hellip;&hellip;
             </p>
           </div>
         </div>
-      </div>
+    
     );
   }
 }

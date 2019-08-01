@@ -9,7 +9,7 @@ export default class Price extends Component {
     return (
       <div className="">
         <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-          <p className="lead">升级为付费会员优先排.</p>
+          <p className="lead">升级VIP,更多优化更划算.</p>
         </div>
         <div>
           <div className="card-deck mb-3 text-center">
@@ -23,8 +23,7 @@ export default class Price extends Component {
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>优化5个关键词</li>
-                  <li>优化1网站</li>
+                  <li>同时优化词量限制5个以内</li>
                   <li>需安装客户端</li>
                   <li>远程技术支持</li>
                   <li>&nbsp;</li>
@@ -46,11 +45,13 @@ export default class Price extends Component {
               <div className="card-body">
                 <h1 className="card-title pricing-card-title">
                   ¥199
-                  <small className="text-muted">/ 月</small>
+                  <small className="text-muted">/ 月</small>{' '}
+                  ¥1999
+                  <small className="text-muted">/ 年</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>关键词不限</li>
-                  <li>网站不限</li>
+                  <li>可以同时优化上万关键词</li>
+                  <li>多个网站操作效率更高</li>
                   <li>需安装客户端</li>
                   <li>远程技术支持</li>
                   <li>&nbsp;</li>

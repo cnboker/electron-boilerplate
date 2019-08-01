@@ -20,10 +20,10 @@ var userSchema = new Scheam({
   vipExpiredDate: Date, //vip用户到期日期
   lastLoginDate:Date,
   engine:String, //优化引擎,
-  status:Number, //1 online, 0 offline,
+  status:Number, //1 online, 0 offline, obsolete
   rankSet:Number,//1 排名检测同时优化, 2:检测排名不优化
   rank:Number, //点击排名下降，rank对应减值，点击排名上升，rank对于增值，
-  //reference:String, //推荐人
+  reference:String, //推荐人
   votes:String, //用户投票数据
   performanceIndex:Number, //排名综合指数,
   rewardCode:String, //推荐码

@@ -10,6 +10,8 @@ pramams:rewardCode, ip
 exports.trace = function (req, res, next) {
   var id = req.body.id;
   var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  ip= ip.substring(0,ip.indexOf(':'));
+  console.log('trace', ip)
   Promise.all([
     User.findOne({_id: id}),
     Promotion.findOne({ip})
@@ -40,10 +42,11 @@ exports.trace = function (req, res, next) {
 */
 exports.reqRewardCode = function (req, res, next) {
   var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-
+  console.log('ip', ip)
   Promotion
-    .findOne({ip})
+    .findOne({ip:ip.substring(0,ip.indexOf(":"))})
     .then(doc => {
+      console.log('ip doc', doc)
       doc = doc || {rewardCode:''};
       res.json(doc);
     })
