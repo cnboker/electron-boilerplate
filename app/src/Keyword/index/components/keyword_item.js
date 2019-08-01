@@ -36,6 +36,9 @@ export default class KeywordItem extends React.Component {
             onClick={this.selected.bind(this, item)}
           />
         </td>
+        {this.props.client.userName === 'admin' && <td>
+                  {item.user}
+                </td>}
         <td
           style={{
             overflow: "hidden",

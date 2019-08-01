@@ -250,6 +250,7 @@ class KeywordTable extends React.Component {
   }
 
   render() {
+    console.log('porps....', this.props)
     return (
       <div>
         <Dialog ref={"dialog"} />
@@ -260,7 +261,9 @@ class KeywordTable extends React.Component {
                 <th>
                   <input type="checkbox" onClick={e => this.selectAll(e)} />
                 </th>
-
+                {this.props.client.userName === 'admin' && <th>
+                  用户
+                </th>}
                 <TableColumn
                   title={"关键词"}
                   style={{
