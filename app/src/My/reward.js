@@ -98,7 +98,7 @@ class Reward extends Component {
             title='钢铁侠-提升网站排名好帮手'
             disabled={['google', 'facebook', 'twitter']}></Share>
         </div>
-        <h3>点击下面图标上传收款码，方便给您返还奖励</h3>
+        <h3>点击下面图标上传微信收款码，方便给您返还奖励</h3>
 
         <div className="mt-3 mb-3">
           <ImageUploader

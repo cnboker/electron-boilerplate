@@ -28,13 +28,13 @@ class KeywordCreate extends Component {
     let {tags, link} = this.state;
     link = extractRootDomain(link).substring(0, 20);
     if(link === ''){
-      this.setState({error:'网站域名/熊掌ID名称不能为空'});
+      this.setState({error:'网站域名/熊掌号不能为空'});
       return;
     }else{
       this.setState({error:''});
     }
     if(keyword === ''){
-      this.setState({error:'网站域名/熊掌ID名称不能为空'});
+      this.setState({error:'网站域名/熊掌号不能为空'});
       return;
     }else{
       this.setState({error:''});
@@ -78,15 +78,16 @@ class KeywordCreate extends Component {
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div className="alert alert-danger center-block">
-          禁止添加黄赌毒诈骗等国家明令禁止的非法关键词，一经发现关停账号处理。
-          <br />
-          免费版用户默认只优化关键词数量为5个。你也可以通过升级VIP，马上就能优化更多关键词。
+        禁示添加黄赌毒诈骗等涉及违法或灰色项目类的网站，一经发现进行关停账号处理。<br/>
+免费版用户同样可以提交上万个关键词，不限网站数量，同时有效优化词量限额5个。<br/>
+如需优化更多关键词，请升级VIP，SEO效率加倍增速。
+
         </div>
        
-        <RowContainer label="网站域名/熊掌ID名称">
+        <RowContainer label="网站域名/熊掌号">
           <AutoSuggestBox suggestions={this.props.websites.map(x=>x._id)} 
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)} 
-          placeholder="如果网站已绑定熊掌ID，请在此输入熊掌ID名称。否则，输入网站域名，不加http://"
+          placeholder="如果网站已绑定熊掌号，请在此输入熊掌号名称。否则，输入网站域名，不加http://"
           required
           />
            {this.state.error && <span className="help-block ">{this.state.error}</span>}

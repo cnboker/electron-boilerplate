@@ -15,7 +15,7 @@ export default class Price extends Component {
           <div className="card-deck mb-3 text-center">
             <div className="card mb-6 box-shadow">
               <div className="card-header">
-                <h4 className="my-0 font-weight-normal">免费帐户</h4>
+                <h4 className="my-0 font-weight-normal">免费用户</h4>
               </div>
               <div className="card-body">
                 <h1 className="card-title pricing-card-title">
@@ -23,10 +23,11 @@ export default class Price extends Component {
                   <small className="text-muted">/ 月</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>同时优化词量限制5个以内</li>
-                  <li>需安装客户端</li>
-                  <li>远程技术支持</li>
-                  <li>&nbsp;</li>
+                  <li>排名监控关键词数量不限</li>
+                  <li>网站数量不限</li>
+                  <li>同时优化词量限5个</li>
+                  <li>须安装客户端</li>
+                  <li>Q群统一服务</li>
                 </ul>
                 {!authenticated && (
                   <Link
@@ -40,7 +41,7 @@ export default class Price extends Component {
             </div>
             <div className="card mb-6 box-shadow">
               <div className="card-header">
-                <h4 className="my-0 font-weight-normal">VIP帐户</h4>
+                <h4 className="my-0 font-weight-normal">VIP用户</h4>
               </div>
               <div className="card-body">
                 <h1 className="card-title pricing-card-title">
@@ -50,11 +51,11 @@ export default class Price extends Component {
                   <small className="text-muted">/ 年</small>
                 </h1>
                 <ul className="list-unstyled mt-3 mb-4">
-                  <li>可以同时优化上万关键词</li>
-                  <li>多个网站操作效率更高</li>
-                  <li>需安装客户端</li>
-                  <li>远程技术支持</li>
-                  <li>&nbsp;</li>
+                  <li>关键词词量不限</li>
+                  <li>网站数量不限</li>
+                  <li>同时优化词量不限</li>
+                  <li>须安装客户端</li>
+                  <li>有专职客服支持</li>
                 </ul>
                 {linkAction && (
                   <Link to="/pay" className="btn btn-lg btn-block btn-primary">

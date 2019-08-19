@@ -47,7 +47,7 @@ class PolishJober {
     doc.state = "origin";
     var task = {
       doc,
-      action: jobAction.Polish,
+      action: doc.jobAction||jobAction.Polish,
       end: this.taskFinishedCallback
     };
     jobContext.addTask(task);

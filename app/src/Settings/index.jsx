@@ -10,7 +10,7 @@ class Index extends Component {
     super(props);
     this.state = {
       engine: props.client.engine || "baidu",
-      rankSet: props.client.rankSet || 1
+      rankSet: props.client.rankSet || 2
     };
     this.rankSetChange = this.rankSetChange.bind(this);
     this.engineChange = this.engineChange.bind(this);

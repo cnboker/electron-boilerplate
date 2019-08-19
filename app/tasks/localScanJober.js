@@ -46,8 +46,6 @@ class LocalScanJober {
       console.log("pagerefresh");
       ipc.sendToFront("pageRefresh");
     }
-
-    
   }
 
   static async taskFinishedCallback(doc) {

@@ -321,7 +321,7 @@ exports.signup = async function (req, res, next) {
         access_token: createAccessToken(userName),
         userName,
         engine: 'baidu',
-        rankSet: 1,
+        rankSet: 2, //只监测不优化
         role: "user"
       };
       //console.log("jwtJson", jwtJson);
