@@ -5,8 +5,6 @@ import React, {
 import ProfileComponent from './profile'
 import Price from './price'
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
-import axiox from "axios";
 import {fetchProfile} from '~/src/Profile/action'
 
 class Index extends Component {

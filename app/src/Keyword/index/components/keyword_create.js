@@ -78,9 +78,8 @@ class KeywordCreate extends Component {
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div className="alert alert-danger center-block">
-        禁示添加黄赌毒诈骗等涉及违法或灰色项目类的网站，一经发现进行关停账号处理。<br/>
-免费版用户同样可以提交上万个关键词，不限网站数量，同时有效优化词量限额5个。<br/>
-如需优化更多关键词，请升级VIP，SEO效率加倍增速。
+        禁止添加涉黄赌毒诈骗等国家明令禁止的非法关键词或网站，如有违反做关停账号处理。<br/>
+        如需优化更多关键词，请升级VIP，SEO效率加倍增速。
 
         </div>
        
@@ -96,7 +95,7 @@ class KeywordCreate extends Component {
         <RowContainer label="关键词">
           <TextareaAutosize
             rows={1}
-            placeholder="输入要优化的关键词。批量添加关键词，请敲回车键，每个关键词单独一行"
+            placeholder="输入要优化的关键词。批量添加关键词，请敲Enter键，每个关键词单独一行"
             className="form-control"
             defaultValue={newKeywords}
             innerRef={ref => (this.textarea = ref)} required

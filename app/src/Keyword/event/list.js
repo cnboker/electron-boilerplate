@@ -62,10 +62,10 @@ class List extends Component {
     return this.props.events.map(item => {
       return (
         <tr key={item._id}>
+          <td>{moment(item.createDate).format("YYYY-MM-DD HH:mm")}</td>
           <td>
-            {item.text + "," + moment(item.createDate).format("YYYY-MM-DD")}
+            {item.text}
           </td>
-
           <td>
             <button
               className="btn btn-danger"
@@ -90,7 +90,7 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
         <div className="alert alert-success">
-        可以在此记录你对当前关键词的优化操作事项，以方便后续跟踪优化事项对排名变化的影响
+        在此记录你对当前网站的优化操作事项，可以配合【排名跟踪】，分析相应优化操作对排名变化的影响，及为后续优化方向提供决策参考。
         </div>
         <AddItem
           className="info"
@@ -103,9 +103,9 @@ class List extends Component {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>内容</th>
-
-                <th />
+                <th style={{"width":'15%'}}>日期</th>
+                <th>事项</th>
+                <th style={{"width":'5%'}}/>
               </tr>
             </thead>
             <tbody>{this.renderList()}</tbody>

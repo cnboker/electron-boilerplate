@@ -1,5 +1,4 @@
 import {connect} from 'react-redux'
-import React from 'react'
 import {requestwxPay, postwxPay} from './action'
 import Index from './index';
 

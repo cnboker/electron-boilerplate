@@ -5,17 +5,15 @@ import {faImages, faImage, faAward} from '@fortawesome/free-solid-svg-icons'
 export default class Buttons extends React.Component {
   singleImage() {
     return (
-      <div className='button'>
-        <label htmlFor='single'>
-          <FontAwesomeIcon icon={faAward} color='red' size='8x'/>
-        </label>
+      <div>
+        <label htmlFor='single'><img src="public/images/wx.png" style={{width:"120px"}}/></label>
         <input type='file' id='single' name="file" onChange={this.props.onChange}/>
       </div>
     )
   }
   multiImages() {
     return (
-      <div className='button'>
+      <div>
         <label htmlFor='multi'>
           <FontAwesomeIcon icon={faImages} color='#6d84b4' size='10x'/>
         </label>
@@ -36,7 +34,7 @@ export default class Buttons extends React.Component {
       button = this.multiImages()
     }
     return (
-      <div className='buttons fadein'>
+      <div className='buttons'>
 
         {button}
 

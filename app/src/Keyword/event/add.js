@@ -63,7 +63,7 @@ class AddItem extends Component {
 
     return (
       <div>
-        <div className="span_row">
+        <div>
           <a href="#" onClick={this.toggle} alt="添加事件">
            
             <FontAwesomeIcon icon={faPenSquare} size="3x"/>

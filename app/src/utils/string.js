@@ -62,6 +62,15 @@ export function customSplit(value) {
   return tokens;
 }
 
+/*
+var a = moment('2016-06-06T21:03:55');//now
+var b = moment('2016-05-06T20:03:55');
+
+console.log(a.diff(b, 'minutes')) // 44700
+console.log(a.diff(b, 'hours')) // 745
+console.log(a.diff(b, 'days')) // 31
+console.log(a.diff(b, 'weeks')) // 4
+*/
 export function timeDuration(startTime,endTime){
   if(startTime === '' || !startTime)return '';
   if(endTime === '' || !endTime)return '';

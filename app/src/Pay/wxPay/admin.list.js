@@ -72,7 +72,7 @@ export default class AdminList extends React.Component {
         <td>{getStatus(item.status)}</td>
         <td>
           <span>
-            {(item.status === 1) &&<button
+            {(item.status === 0 ||item.status === 1) &&<button
             title = "确认收款"
             className = "btn btn-primary btn-sm"
             onClick = {

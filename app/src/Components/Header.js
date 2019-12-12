@@ -53,7 +53,7 @@ export default class Header extends Component {
             设置
           </Link>
           <Link className="p-2 text-dark" to="/my">
-            用户
+            用户中心
           </Link>
           <Link className="p-2 text-dark" to="/start">
             帮助

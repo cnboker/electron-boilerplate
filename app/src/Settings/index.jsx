@@ -68,7 +68,7 @@ class Index extends Component {
   render() {
     return (
       <div className="bd-panel">
-        <div className="alert alert-info">参数修改后，需重新登录生效!</div>
+        <div className="alert alert-info">系统设置更改后，需重新登录生效!</div>
         <p>系统规则设定</p>
         <div className="form-group">
           <input
@@ -77,7 +77,7 @@ class Index extends Component {
             checked={this.state.rankSet == 2}
             onChange={this.rankSetChange.bind(this)}
           />
-          仅检测排名
+          排名监控模式-自动检测排名变化
         </div>
         <div className="form-group">
           <input
@@ -86,12 +86,12 @@ class Index extends Component {
             checked={this.state.rankSet == 1}
             onChange={this.rankSetChange.bind(this)}
           />
-          检测排名同时执行优化
+          智能优化模式-检测排名且智能优化
         </div>
       
         <hr />
         <p>
-          切换引擎->切换后,关键词统计数据将重置,请谨慎操作,切换到google确保网络通畅.
+          切换引擎->注意，更改搜索引擎会导致原有关键字排名数据清零，请谨慎操作。如果选择google.com需要确保你本地网络能够正常访问
         </p>
 
         <div className="form-group">
@@ -101,7 +101,7 @@ class Index extends Component {
             checked={this.state.engine === "baidu"}
             onChange={this.engineChange.bind(this)}
           />
-          baidu
+          baidu.com
         </div>
         <div className="form-group">
           <input
@@ -110,7 +110,7 @@ class Index extends Component {
             checked={this.state.engine === "google"}
             onChange={this.engineChange.bind(this)}
           />
-          google
+          google.com
         </div>
       </div>
     );

@@ -274,7 +274,7 @@ class KeywordTable extends React.Component {
                   sort={this.columnOrderBy.bind(this, "keyword")}
                 />
                 <TableColumn
-                  title={"匹配网址"}
+                  title={"网站"}
                   sort={this.columnOrderBy.bind(this, "link")}
                 />
                 <TableColumn
@@ -288,7 +288,7 @@ class KeywordTable extends React.Component {
                 <th>变化</th>
                 <th>商业热度</th>
                 <TableColumn
-                  title={"收录量"}
+                  title={"收录量(万)"}
                   sort={this.columnOrderBy.bind(this, "resultIndexer")}
                 />
                 {this.props.client.userName === "admin" && <th>点击</th>}

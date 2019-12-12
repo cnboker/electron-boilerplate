@@ -16,7 +16,7 @@ export default class CVSExport extends React.Component {
         label: "关键词",
         key: "keyword"
       }, {
-        label: "匹配网址",
+        label: "网站",
         key: "link"
       }, {
         label: "初始排名",

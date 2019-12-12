@@ -58,7 +58,7 @@ class KeywordIndex extends React.Component {
         <Dialog ref={"dialog"}/>
         <div className="row">
           <div className="col-md-12">
-            <EventNotify  profile={profile}/>
+            <EventNotify  {...this.props}/>
           </div>
         </div>
         <div className="d-flex justify-content-between">
