@@ -6,6 +6,7 @@ import Buttons from './Buttons'
 import WakeUp from './WakeUp'
 import './index.css'
 import axios from 'axios'
+
 const toastColor = {
   background: '#505050',
   text: '#fff'

@@ -15,7 +15,7 @@ export default class EventNotify extends React.Component {
   componentDidMount() {
     this.timer = setInterval(() => {
       this.messageLoop();
-    }, 6000);
+    }, 60000);
   }
 
   componentWillUnmount() {
@@ -63,7 +63,7 @@ export default class EventNotify extends React.Component {
         message: "多上词，自动优化，流量增长快起来",
         className: "alert alert-success"
       });
-    } else if (rankIssue(keywords)) {
+    } else if (this.rankIssue(keywords)) {
       this.setState({
         message: "排名异常情况，可查看【排名跟踪】及【记录】排查问题",
         className: "alert alert-success"
@@ -74,10 +74,13 @@ export default class EventNotify extends React.Component {
   //VIP到期前10天，开始提醒
   expired10Days() {
     const { profile } = this.props;
-    if (profile.gradeValue !== 2) return false;
+    if (profile.gradeValue !== 2) return {
+      less10: false,
+      value: -1
+    };
     var less10 = moment(profile.expiredDate).diff(moment(), "days");
     return {
-      less10: less10 < 10 && less10 >= 0,
+      less10: less10 < 10,
       value: less10
     };
   }

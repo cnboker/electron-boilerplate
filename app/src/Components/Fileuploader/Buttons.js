@@ -1,12 +1,13 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faImages, faImage, faAward} from '@fortawesome/free-solid-svg-icons'
+import wxpic from './wx.png';
 
 export default class Buttons extends React.Component {
   singleImage() {
     return (
       <div>
-        <label htmlFor='single'><img src="public/images/wx.png" style={{width:"120px"}}/></label>
+        <label htmlFor='single'><img src={wxpic} style={{width:"120px"}}/></label>
         <input type='file' id='single' name="file" onChange={this.props.onChange}/>
       </div>
     )

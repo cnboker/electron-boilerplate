@@ -11,7 +11,7 @@ export default class RankDifferenceFormatter extends React.Component {
     } else {
       var diff = originRank - dynamicRank;
       if(originRank === -1){
-        diff = dynamicRank;
+        diff = 121 - dynamicRank;
       }
       if (diff > 0) {
         diffText = "+" + diff;
