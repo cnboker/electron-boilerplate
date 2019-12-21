@@ -12,7 +12,7 @@ var io = require("socket.io-client");
 exports.main = function main(token) {
   console.log("begin run socket client");
   var socket = io(
-    `${process.env.REACT_APP_AUTH_URL}?token=${token.access_token}`.replace('http://','ws://'),
+    `${process.env.REACT_APP_SOCKET_URL}?token=${token.access_token}`,
     {
       //forceNew: true,
       autoConnect: true,

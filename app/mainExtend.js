@@ -1,11 +1,13 @@
 
 module.exports = {
+	
 	enableAuto: function () {
+		var pjson = require('./package.json');
 		var AutoLaunch = require('auto-launch');
 		var minecraftAutoLauncher = new AutoLaunch({
-			name: '钢铁侠',
+			name: pjson.productName,
 			//isHidden:true,
-			path: (process.platform === 'darwin' ? '/Applications/钢铁侠.app' : `${process.env.ApplicationPath}\\钢铁侠.exe`),
+			path: (process.platform === 'darwin' ? `/Applications/${pjson.productName}.app` : `${process.env.ApplicationPath}\\${pjson.productName}.exe`),
 		});
 
 		minecraftAutoLauncher.enable();

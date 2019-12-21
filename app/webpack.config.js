@@ -163,7 +163,11 @@ var taskConfig = Object.assign({}, config, {
     libraryTarget: "var",
     library: "PageJob"
   },
-
+  plugins:[
+    new Dotenv({
+      path: mode === "production"? "./.env.production": "./.env"
+    })
+  ],
   optimization: {
     minimize: process.env.NODE_ENV === "production",
     minimizer: [new UglifyJsPlugin({})]

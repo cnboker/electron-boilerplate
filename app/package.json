@@ -1,6 +1,6 @@
 {
 	"name": "app",
-	"productName": "钢铁侠",
+	"productName": "钢铁侠7",
 	"version": "0.7.0",
 	"private": true,
 	"description": "",
@@ -19,7 +19,7 @@
 		"test": "jest",
 		"start": "cross-env APP=web webpack-dev-server",
 		"build": "cross-env NODE_ENV=development webpack",
-		"publish": "cross-env NODE_ENV=development webpack&&build",
+		"publish": "cross-env NODE_ENV=production webpack",
 		"ship": "cross-env NODE_ENV=production webpack&&build -w",
 		"ship32": "cross-env NODE_ENV=production webpack&&build --win --ia32 "
 	},
@@ -153,7 +153,7 @@
 		"webpack-shell-plugin": "^0.5.0"
 	},
 	"build": {
-		"appId": "com.ioliz.kwPolish",
+		"appId": "com.kwpolish",
 		"asar": true,
 		"win": {
 			"icon": "assets/icons/win/icon.ico"
