@@ -25,15 +25,15 @@ const renderSuggestion = suggestion => (
 );
 
 export default class AutoSuggestBox extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     // Autosuggest is a controlled component. This means that you need to provide an
     // input value and an onChange handler that updates this value (see below).
     // Suggestions also need to be provided to the Autosuggest, and they are
     // initially empty because the Autosuggest is closed.
     this.state = {
-      value: '',
+      value: props.value || '',
       suggestions: []
     };
   }

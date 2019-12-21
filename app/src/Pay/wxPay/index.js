@@ -33,20 +33,21 @@ export default class Index extends React.Component {
       <div>
         <p>
           本次付款的对账码是<kbd>{wxpay.payCode}</kbd>
-          。付款时，请将本次对账码添加到
-          <a href="#" onClick={this.reanderRemarkImage.bind(this)}>
-            微信付款的备注栏
-          </a>
-          内，以方便平台客服人员及时确认。
         </p>
-        <h4>用微信扫描下方二维码付款</h4>
+        <h5>第一步，请用微信扫描下方二维码付款</h5>
         <p>
           <img src={process.env.REACT_APP_AUTH_URL + wxpay.keeperQR} alt="" />
         </p>
-        <p className="text-left" style={{ color: "red" }}>
-          微信支付成功后，请点击下方按钮“完成支付确认"
-        </p>
-        <br />
+        <h5>
+          第二步，请将本次对账码添加到
+          <a href="#" onClick={this.reanderRemarkImage.bind(this)}>
+            微信付款时的备注
+          </a>
+          里，以方便平台客服人员及时确认
+        </h5>
+        <h5 className="text-left">
+          第三步，微信支付成功后，请点击下方按钮完成支付确认
+        </h5>
         <button className="btn btn-primary" onClick={this.wxPayPost.bind(this)}>
           完成支付确认
         </button>
@@ -64,7 +65,6 @@ export default class Index extends React.Component {
           <br />{" "}
         </p>
         <p>工作时间：周一至周六 9：00-12：00 14：00-17：00 （节假日除外）</p>
-       
       </div>
     );
   }

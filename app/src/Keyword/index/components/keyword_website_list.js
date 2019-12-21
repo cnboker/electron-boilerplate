@@ -35,7 +35,7 @@ class WebsiteList extends React.Component {
   }
 
   render() {
-    const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
+    const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""} scrollable-menu`;
     return (
       <div className="btn-group">
         <button
@@ -49,7 +49,7 @@ class WebsiteList extends React.Component {
          {this.getCloseBtn()}
          {this.state.selectedMenuItem.label} 
         </button>
-        <div className="dropdown-menu" className={menuClass}>
+        <div  className={menuClass}>
        
           {this.getItems().map(x => {
             return (

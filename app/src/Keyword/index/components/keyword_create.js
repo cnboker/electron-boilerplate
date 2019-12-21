@@ -73,8 +73,8 @@ class KeywordCreate extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    const { newKeywords } = this.props.location.state || "";
-
+    const { newKeywords,link } = this.props.location.state || {newKeywords:'',link:''};
+    
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div className="alert alert-danger center-block">
@@ -85,6 +85,7 @@ class KeywordCreate extends Component {
        
         <RowContainer label="网站域名/熊掌号">
           <AutoSuggestBox suggestions={this.props.websites.map(x=>x._id)} 
+          value={link}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)} 
           placeholder="如果网站已绑定熊掌号，请在此输入熊掌号名称。否则，输入网站域名，不加http://"
           required
