@@ -9,7 +9,7 @@ var User = require("../User/Model");
 
 var logger = require("../../logger");
 var time = require("../../utils/time");
-const dayMaxKeywords = 200;
+const dayMaxKeywords = 500;
 
 exports.taskPool = function(req, res) {
   var data = req.taskPool.stats();
@@ -114,6 +114,7 @@ exports.list = function list(req, res, next) {
   };
   console.log(query);
   Keyword.find(query, null, {
+    limit:1000,
     sort: {
       createDate: -1
     }
@@ -161,7 +162,7 @@ exports.create = function(req, res, next) {
         throw "重复或无效关键字";
       }
       if (keywords.length > dayMaxKeywords) {
-        throw "为保证更好的优好效果，系统当前规则设置用户每日提交关键词数量最高为200个，如果你需要优化更多关键词，请分批进行提交.";
+        throw `保证更好的优好效果，系统当前规则设置用户每日提交关键词数量最高为${dayMaxKeywords}个，如果你需要优化更多关键词，请分批进行提交.`;
       }
 
       var newKeywords = [];

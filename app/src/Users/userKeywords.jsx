@@ -4,7 +4,13 @@ import {findAllKeywords, createKeyword, updateKeyword, deleteKeyword,findToday} 
 import KeywordTable from '~/src/Keyword/index/components/keyword_table'
 
 class UserKeywordsContainer extends React.Component{
- 
+  componentDidMount(){
+    var id = this.props.match.params.id || "";
+    this
+      .props
+      .findAllKeywords({id});
+  }
+  
   render(){
     return(
       <React.Fragment>
