@@ -31,11 +31,12 @@ async function execute(task) {
 
   const page = await browser.newPage();
   //
-  await page.setViewport({ width: 1600, height: 600 });
+  //await page.setViewport({ width: 1600, height: 600 });
   await page.setCacheEnabled(false);
   // 无痕窗口 page.setExtraHTTPHeaders({ DNT: "1" }); await
-  // page._client.send("Network.clearBrowserCookies");
-  await pageRedirectAbort(page);
+  await page._client.send("Network.clearBrowserCookies");
+  //不加载图片会导致排名数据查询不准确
+  //await pageRedirectAbort(page);
 
   singleTaskProcess(page, task)
     .then(() => {
@@ -54,7 +55,7 @@ async function execute(task) {
       } else {
         jobContext.busy = false;
       }
-      ipc.sendToFront("message", `新的关键词优化完成`);
+      //ipc.sendToFront("message", `新的关键词优化完成`);
     })
     .catch(e => {
       jobContext.busy = false;
@@ -119,11 +120,7 @@ async function singleTaskProcess(page, task) {
         selector => document.querySelector(selector).click(),
         nextpageSelector
       );
-      if (task.action == jobAction.Polish) {
-        await sleep(random(10000, 20000));
-      } else {
-        await sleep(random(3000, 10000));
-      }
+      await sleep(random(1000, 5000));
       pageIndex++;
     }
   } catch (e) {

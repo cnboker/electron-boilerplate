@@ -138,7 +138,11 @@ class History extends Component {
     print_filter(grp1);
     print_filter(grp2);
     //print_filter(grp2);
-    var minDate = dim.bottom(1)[0].date;
+    var minDate = new Date();
+    if(dim.bottom(1)[0]){
+      minDate = dim.bottom(1)[0].date;
+    }
+    
     //var maxDate = dim.top(1)[0].date;
     var maxDate = new Date();
     console.log("hits", minDate, maxDate);

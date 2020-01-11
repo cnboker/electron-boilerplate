@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
-import classnames from 'classnames'
+import classnames from "classnames";
 import { connect } from "react-redux";
 
 import Event from "../Event/list";
 import Extender from "./keywordExtender";
 import Rank from "./rankChart";
 
-
- class Index extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: "1"
     };
   }
 
@@ -40,6 +39,13 @@ import Rank from "./rankChart";
   render() {
     return (
       <div>
+        <a className="btn btn-info"
+          href="#"
+          onClick={e => {
+            e.preventDefault();
+            this.props.history.goBack()
+          }}
+        >返回</a>
         <Nav tabs>
           <NavItem>
             <NavLink
@@ -74,13 +80,13 @@ import Rank from "./rankChart";
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Rank {...this.props}/>
+            <Rank {...this.props} />
           </TabPane>
           <TabPane tabId="2">
             <Event {...this.props} />{" "}
           </TabPane>
           <TabPane tabId="3">
-            <Extender keyword={this.getKeyword()} displaySearchBtn={true}/>{" "}
+            <Extender keyword={this.getKeyword()} displaySearchBtn={true} />{" "}
           </TabPane>
         </TabContent>
       </div>
@@ -93,4 +99,3 @@ const mapStateToProps = (state, ownProps) => {
 };
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(Index);
-

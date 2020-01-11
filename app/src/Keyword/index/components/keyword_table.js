@@ -250,7 +250,7 @@ class KeywordTable extends React.Component {
   }
 
   render() {
-    console.log('porps....', this.props)
+    //console.log('porps....', this.props)
     return (
       <div>
         <Dialog ref={"dialog"} />
