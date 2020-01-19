@@ -16,26 +16,27 @@ class List extends Component {
   }
   componentDidMount() {
     //mock()
-    this.fetch();
+    //this.fetch();
   }
 
   fetch() {
+    if(this.props.analysisId === '')return; 
     const action = crudActions.fetch(
       0,
       0,
       true,
       this.props.client,
-      this.props.match.params.id
+      this.props.analysisId
     );
     this.dispatch(action);
   }
 
-  get dispatch() {
+  get dispatch() { 
     return this.props.dispatch;
   }
 
   onAdd() {
-    console.log("onadd run...");
+    console.log("onadd run...",this.props.analysisId);
     this.fetch();
   }
 
@@ -117,7 +118,8 @@ class List extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { events: state.events, client: state.client };
+  return { events: state.events, client: state.client,analysisId:state.keywordState.analysisId };
 };
 //state表示reducer, combineReducer包含state和dispatch
 export default connect(mapStateToProps)(List);
+

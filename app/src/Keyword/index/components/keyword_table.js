@@ -192,7 +192,7 @@ class KeywordTable extends React.Component {
   }
 
   getFilterData() {
-    console.log("getFilterData", this.props);
+   // console.log("getFilterData", this.props);
     var arr = Object.values(this.props.keywords);
     const { website, keyInput, tag } = this.props;
     //order by

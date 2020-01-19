@@ -11,7 +11,7 @@ import {
 import classnames from 'classnames';
 import WXPay from './wxPay/indexContainer'
 import SNPay from './snPay/snActive'
-import Price from "~/src/my/price";
+import Price from "~/src/My/price";
 
 export default class Index extends React.Component {
   constructor(props) {

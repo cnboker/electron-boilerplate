@@ -73,14 +73,13 @@ export default class KeywordItem extends React.Component {
         <td>{statusFormat(item.status)}</td>
 
         <td>
-          <Link
+          <button
             title="排名历史"
-            to={`/analysis/${item._id}`}
-            role="button"
+            onClick={()=>this.props.detailView(item._id)}
             className="btn btn-info btn-sm"
           >
             <FontAwesomeIcon icon={faSignal} size="1x" />
-          </Link>
+          </button>
         </td>
         <td>
           <button

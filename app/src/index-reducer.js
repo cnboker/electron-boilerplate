@@ -3,8 +3,8 @@ import { reducer as form } from 'redux-form'
 import signup from './Signup/reducer'
 import client from './Client/reducer'
 import login from './Login/reducer'
-import {websiteReducer,keywordReducer} from './Keyword/index/reducers/keyword_reducer'
-import eventReducer from './Keyword/Event/reducer'
+import keywordReducer from './Keyword/index/reducers/keyword_reducer'
+import eventReducer from './Keyword/event/reducer'
 import userReducer from './Users/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 import snReducer from './Pay/snPay/reducer'
@@ -21,8 +21,7 @@ const appReducer = combineReducers({
   signup,
   client,
   login,
-  keywords: keywordReducer,
-  websites: websiteReducer,
+  keywordState: keywordReducer,
   loadingBar: loadingBarReducer,
   users:userReducer,
   events: eventReducer,

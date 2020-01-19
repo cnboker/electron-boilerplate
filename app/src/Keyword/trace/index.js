@@ -3,18 +3,18 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import { connect } from "react-redux";
 
-import Event from "../Event/list";
+import Event from "../event/list";
 import Extender from "./keywordExtender";
 import Rank from "./rankChart";
 
-class Index extends Component {
+export default class Index extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: "1"
-    };
+    }; 
   }
 
   toggle(tab) {
@@ -26,9 +26,9 @@ class Index extends Component {
   }
 
   getKeyword() {
-    var id = "";
-    if (this.props.match) {
-      id = this.props.match.params.id;
+    var id = '';
+    if (this.props.analysisId !== '') {
+      id = this.props.analysisId;
       const { keywords } = this.props;
       return keywords[id];
     }
@@ -37,13 +37,14 @@ class Index extends Component {
   }
 
   render() {
-    return (
+    if(this.props.analysisId === '')return null
+    return ( 
       <div>
         <a className="btn btn-info"
           href="#"
           onClick={e => {
             e.preventDefault();
-            this.props.history.goBack()
+            this.props.detailView('')
           }}
         >返回</a>
         <Nav tabs>
@@ -94,8 +95,4 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return { keywords: state.keywords, client: state.client };
-};
-//state表示reducer, combineReducer包含state和dispatch
-export default connect(mapStateToProps)(Index);
+

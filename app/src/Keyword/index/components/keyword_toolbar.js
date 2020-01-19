@@ -7,7 +7,7 @@ export default  (props) => {
     <React.Fragment>
      
     {" "}
-      <Link to={"/keyword/new"} role="button" className="btn btn-success  btn-sm" style={{"margin-right":"36px"}}>
+      <Link to={"/keyword/new"} role="button" className="btn btn-success  btn-sm" style={{"marginRight":"36px"}}>
         新建
       </Link>
       <button

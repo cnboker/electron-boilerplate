@@ -89,12 +89,19 @@ var appConfig = Object.assign({}, config, {
     extensions: ["*", ".js", ".jsx", ".css"]
   },
   devServer: {
-    contentBase: path.join(__dirname, "output"),
+    //contentBase: [path.join(__dirname,'/output/')],
     port: 3000,
     publicPath: "http://localhost:3000/index.html",
     historyApiFallback: true, //解决页面刷新404问题,
     compress: false,
-    hot: true
+    hot: true,
+    inline:true,
+    // 'Live-reloading' happens when you make changes to code
+    // dependency pointed to by 'entry' parameter explained earlier.
+    // To make live-reloading happen even when changes are made
+    // to the static html pages in 'contentBase', add 
+    // 'watchContentBase'
+    watchContentBase: true,
   },
   plugins: [
     new WebpackShellPlugin({
