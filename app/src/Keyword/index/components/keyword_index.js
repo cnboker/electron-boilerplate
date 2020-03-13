@@ -13,9 +13,10 @@ class KeywordIndex extends React.Component {
     super(props);
     this.state = {
       website: "",
-      keyInput: "",
+      
       tag:""
     };
+    this.keyInput =''
   }
 
   componentDidMount() {
@@ -41,8 +42,16 @@ class KeywordIndex extends React.Component {
     this.setState({website: value});
   }
 
-  textChange(e) {
-    this.setState({keyInput: e.target.value});
+  handleKeyPress(event) {
+    //this.setState({keyInput: e.target.value});
+    var id = this.props.match.params.id || "";
+    
+    if(event.key === 'Enter'){
+      var keyword = `${this.keyInput}`;
+      this
+      .props
+      .findAllKeywords({id,keyword});
+    }
   }
 
   tagSelect({tag}) {
@@ -77,10 +86,9 @@ class KeywordIndex extends React.Component {
           <div className="col-md-6  d-inline-flex ">
             <Input
               type="text"
-              onChange={this
-              .textChange
-              .bind(this)}
-              placeholder="关键词过滤" className="form-control-sm" style={{width:'240px'}} />
+              onKeyPress={this.handleKeyPress.bind(this)}
+              onChange={(e)=>this.keyInput = e.target.value}
+              placeholder="输入关键字敲回车键" className="form-control-sm" style={{width:'240px'}} />
             <WebsiteList
               websites={this.props.websites}
               onFliter={this

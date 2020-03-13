@@ -105,16 +105,20 @@ exports.unRankKeywords = function(req, res) {
 };
 
 exports.list = function list(req, res, next) {
-  console.log("req.query", req.query);
   if (req.query.id === "__today__") {
     return today(req, res);
   }
   var query = {
     user: req.query.id || req.user.sub
   };
+  if (req.query.keyword) {
+    query.keyword = {
+      $regex: ".*" + req.query.keyword + ".*"
+    };
+  }
   console.log(query);
   Keyword.find(query, null, {
-    limit:2000,
+    limit: 1000,
     sort: {
       createDate: -1
     }
@@ -189,7 +193,7 @@ exports.create = function(req, res, next) {
         var tirmArray = newKeywords;
         if (leftCount > 0) {
           tirmArray = newKeywords.slice(leftCount);
-        } 
+        }
         tirmArray.map(x => {
           x.shield = 1;
           x.status = 2;
@@ -266,25 +270,25 @@ exports.update = function(req, res, next) {
           console.log("emit keyword_pause");
           //notify cmd,data in order to send an event to everyone
           req.socketServer.keywordPause(req.user.sub, req.params.id);
-        }else{
-          if(obj.shield === 1){ //开启
+        } else {
+          if (obj.shield === 1) {
+            //开启
             //非vip会员检查是否小于5个词，如果是小于则开启优化
             return Keyword.count({
-              user:req.user.sub,
-              status:1,
+              user: req.user.sub,
+              status: 1,
               originRank: {
                 $gt: 0
               }
-            }).then(count=>{
-              console.log('count',count)
-               if(count >= 5){
-                throw '非VIP会员开启失败'
-               }else{
-                 obj.status = 1;
-                 return obj.save();
-               }
-            })
-           
+            }).then(count => {
+              console.log("count", count);
+              if (count >= 5) {
+                throw "非VIP会员开启失败";
+              } else {
+                obj.status = 1;
+                return obj.save();
+              }
+            });
           }
           //
         }
@@ -295,11 +299,10 @@ exports.update = function(req, res, next) {
       res.json(doc);
     })
     .catch(e => {
-      logger.error(e + 'test');
+      logger.error(e + "test");
       return next(boom.badRequest(e));
     });
 };
-
 
 exports.delete = function(req, res) {
   console.log("delete", req.params.id);
