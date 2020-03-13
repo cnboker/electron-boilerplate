@@ -12,22 +12,20 @@ var dc = require("dc");
 
 class History extends Component {
   componentDidMount() {
-    console.log("this.props.match.params", this.props.match.params.id);
-    var id = this.props.match.params.id;
     var client = this.props.client;
-    const { dispatch } = this.props;
-    var that = this;
+    const { dispatch,analysisId } = this.props;
+    if(analysisId === '')return;
     dispatch(showLoading());
     Promise.all([
       axios({
-        url: `${process.env.REACT_APP_API_URL}/analysis/${id}`,
+        url: `${process.env.REACT_APP_API_URL}/analysis/${analysisId}`,
         method: "get",
         headers: {
           Authorization: `Bearer ${client.access_token}`
         }
       }),
       axios({
-        url: `${process.env.REACT_APP_API_URL}/event/${id}`,
+        url: `${process.env.REACT_APP_API_URL}/event/${analysisId}`,
         method: "get",
         headers: {
           Authorization: `Bearer ${client.access_token}`
@@ -37,7 +35,7 @@ class History extends Component {
       .then(results => {
         dispatch(hideLoading());
         console.log(results);
-        that.draw(results);
+        this.draw(results);
       })
       .catch(e => {
         console.log(e);
@@ -45,9 +43,9 @@ class History extends Component {
   }
 
   getKeyword() {
-    var id = this.props.match.params.id;
     const { keywords } = this.props;
-    return keywords[id];
+    if(!keywords || this.props.analysisId === '')return{keyword:''}
+    return keywords[this.props.analysisId];
   }
 
   draw(results) {
@@ -135,8 +133,8 @@ class History extends Component {
         return { count: 0, total: 0, text: [] };
       }
     );
-    print_filter(grp1);
-    print_filter(grp2);
+    //print_filter(grp1);
+    //print_filter(grp2);
     //print_filter(grp2);
     var minDate = new Date();
     if(dim.bottom(1)[0]){
@@ -147,9 +145,13 @@ class History extends Component {
     var maxDate = new Date();
     console.log("hits", minDate, maxDate);
     //var chart = dc.lineChart(that.chart);
-    var chart = dc.compositeChart(this.chart);
-    chart
+    var width = this.chart.offsetWidth;
+    var chartx = dc.compositeChart(this.chart);
+    
+    console.log('dc width', width)
+    chartx
       .height(500)
+      .width(width)
       .brushOn(false)
       .yAxisLabel("排名位置")
       .x(d3.scaleTime().domain([new Date(minDate), new Date(maxDate)]))
@@ -167,7 +169,7 @@ class History extends Component {
       .shareTitle(false)
       .compose([
         dc
-          .bubbleChart(chart)
+          .bubbleChart(chartx)
           .transitionDuration(1500)
           //.margins({ top: 10, right: 50, bottom: 30, left: 40 })
           .dimension(dim1)
@@ -199,7 +201,7 @@ class History extends Component {
           }),
         //.xAxis().tickFormat(d3.format('.3s'))
         dc
-          .lineChart(chart)
+          .lineChart(chartx)
           .dimension(dim)
           .elasticY(true)
           .group(grp1, "排名")
@@ -222,6 +224,7 @@ class History extends Component {
   }
 
   render() {
+    
     return (
       <div >
         <div className="row">
@@ -232,7 +235,7 @@ class History extends Component {
         <div className="row">{`关键词:${this.getKeyword().keyword}`}</div>
         <div className="row">
         <div className="col-md-8">
-          <div
+          <div 
             ref={chart => (this.chart = chart)}
             style={{
               width: "100%"
@@ -264,7 +267,7 @@ class History extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { keywords: state.keywords, client: state.client };
+  return { keywords: state.keywordState.keywords, client: state.client,analysisId: state.keywordState.analysisId };
 };
 
 //state表示reducer, combineReducer包含state和dispatch

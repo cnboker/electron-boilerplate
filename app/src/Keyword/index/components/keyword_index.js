@@ -23,9 +23,10 @@ class KeywordIndex extends React.Component {
     if (Object.keys(this.props.profile).length == 0) {
       this
         .props
-        .fetchProfile();
+        .fetchProfile(); 
     }
     var id = this.props.match.params.id || "";
+   
     this
       .props
       .findAllKeywords({id});

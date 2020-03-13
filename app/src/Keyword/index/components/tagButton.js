@@ -100,13 +100,13 @@ class TagButton extends React.Component {
     return (
       <React.Fragment>
         <Dialog ref={"dialog"}/>
-        <Link
+        <a
           className="btn btn-secondary btn-sm"
           onClick={this
           .onTag
           .bind(this)}>
           {this.props.name || '标签'}
-        </Link>
+        </a>
       </React.Fragment>
 
     )

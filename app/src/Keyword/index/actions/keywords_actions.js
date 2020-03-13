@@ -8,7 +8,11 @@ export const RECEIVE_KEYWORD = "RECEIVE_KEYWORD";
 export const REMOVE_KEYWORD = "REMOVE_KEYWORD";
 export const RECEIVE_WEBSITES = "RECEIVE_WEBSITES";
 export const RECEIVE_TAGS_UPDATE = "RECEIVE_TAGS_UPDATE";
+export const RECEIVE_DETAIL_VIEW = "RECEIVE_DETAIL_VIEW"
 
+export const receiveDetailView = (payload)=>{
+  return {type:RECEIVE_DETAIL_VIEW,payload}
+}
 export const receiveTagsUpdate = payload => {
   return {type: RECEIVE_TAGS_UPDATE, payload}
 }
@@ -26,6 +30,10 @@ export const removeKeyword = ids => {
 export const receiveKeyword = keyword => {
   return {type: RECEIVE_KEYWORD, keyword};
 };
+
+export const detailView =(id)=>dispatch=>{
+  dispatch(receiveDetailView(id))
+}
 
 export const findWebsites = () => dispatch => {
   api

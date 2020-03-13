@@ -38,7 +38,7 @@ class AddItem extends Component {
     var entity = {
       createDate: this.state.date,
       text,
-      keyword_id:  this.props.match.params.id
+      keyword_id:  this.props.analysisId
     };
 
     console.log(entity);

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchQuestion, fetchAllQuestions, createQuestion } from '../../actions/questions_actions';
-import { fetchTopicCloud as fetchTopic } from '../../actions/topic_actions';
+//import { fetchTopicCloud as fetchTopic } from '../../actions/topic_actions';
 import TopicShow from './topic_show';
 
 const mapStateToProps = (state, ownProps) => {

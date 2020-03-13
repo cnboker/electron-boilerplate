@@ -17,7 +17,7 @@
 	"scripts": {
 		"node": "cross-env NODE_ENV=development node ./test.js",
 		"test": "jest",
-		"start": "cross-env APP=web webpack-dev-server",
+		"start": "cross-env APP=web webpack-dev-server --hot",
 		"build": "cross-env NODE_ENV=development webpack",
 		"publish": "cross-env NODE_ENV=production webpack",
 		"ship": "cross-env NODE_ENV=production webpack&&build -w",
