@@ -118,7 +118,7 @@ exports.list = function list(req, res, next) {
   }
   console.log(query);
   Keyword.find(query, null, {
-    limit: 1000,
+    limit: 1500,
     sort: {
       createDate: -1
     }

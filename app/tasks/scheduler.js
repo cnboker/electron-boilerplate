@@ -30,7 +30,7 @@ function doTask(puppeteerCreator) {
       auth.waitUtilGetToken(main);
     } else {
       logger.info("downloader failure,retry doTask start ...");
-      ipc.sendToFront("message", "离线包下载失败,正在重试..");
+      //ipc.sendToFront("message", "离线包下载失败,正在重试..");
       window.setTimeout(doTask.bind(null, puppeteerCreator), 30000);
     }
   });

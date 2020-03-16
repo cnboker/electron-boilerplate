@@ -150,8 +150,8 @@ KeywordCreate = reduxForm({
 const mapStateToProps = (state, ownProps) => {
   return {
     tags: state.tagReducer["keyword"],
-    keywords: state.keywords,
-    websites: state.websites, 
+    keywords: state.keywordState.keywords,
+    websites: state.keywordState.websites, 
   };
 };
 
