@@ -4,7 +4,7 @@ import KeywordCreate from './keyword_create'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    keywords: state.keywords, 
+    keywords: state.keywordState.keywords, 
     client: state.client,
   }
 }

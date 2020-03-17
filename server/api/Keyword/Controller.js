@@ -111,11 +111,30 @@ exports.list = function list(req, res, next) {
   var query = {
     user: req.query.id || req.user.sub
   };
-  if (req.query.keyword) {
-    query.keyword = {
-      $regex: ".*" + req.query.keyword + ".*"
+  const { keyword } = req.query;
+
+  if (keyword === "120+") {
+    query.$or =[{ 'originRank': {$eq:-1}  }, { 'dynamicRank': {$eq:-1}  }];
+  } else if (keyword === "+") {
+    //字段比较
+    query.$expr = {
+      $lt: ["$dynamicRank", "$originRank"]
     };
+    query.dynamicRank = {
+      $gt: 0
+    };
+  } else if (keyword === "-") {
+    query.$expr = {
+      $gt: ["$dynamicRank", "$originRank"]
+    };
+  } else {
+    if (keyword) {
+      query.keyword = {
+        $regex: ".*" + keyword + ".*"
+      };
+    }
   }
+
   console.log(query);
   Keyword.find(query, null, {
     limit: 1500,

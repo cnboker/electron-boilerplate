@@ -40,8 +40,8 @@ module.exports = function (callback) {
         return;
     }
     if (fs.existsSync(dest)) {
-        logger.info(`${pupeteerFileName}  exist`, dest)
-
+        logger.info(`${pupeteerFileName}  exist`, dest,output)
+        
         unrar(dest, output, function (success) {
             var result = fs.existsSync(path.join(output,'node_modules'));
             if (callback) callback(result);
