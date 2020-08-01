@@ -1,0 +1,24 @@
+version: '3'
+services:
+  # defining a service called kwpolish
+  kwpolish:
+    #adding a container name for the app service as giving the container 
+    container_name: kwpolish
+    # instrctings Docker to restart the container automatically if it fails
+    restart: always
+    #buiding the app image using the Dockfile in the current directory
+    build: .
+    #mapping the host port to the container post
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+      # run cmd 
+      #docker-compose up

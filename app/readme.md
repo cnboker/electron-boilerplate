@@ -1,38 +1,13 @@
-# app [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+# Hello Markdown in VS Code!
 
-> My superb app
+This is a simple introduction to compiling Markdown in VS Code.
 
+Things you'll need:
 
-## Dev
+* [Node.js](https://nodejs.org)
+* [markdown-it](https://www.npmjs.com/package/markdown-it)
+* [tasks.json](/docs/editor/tasks)
 
-```
-$ npm install
-```
+## Section Title
 
-### Run
-
-```
-$ npm start
-```
-
-### Build
-
-```
-$ npm run build
-```
-
-Builds the app for macOS, Linux, and Windows, using [electron-packager](https://github.com/electron-userland/electron-packager).
-
-
-## License
-
-MIT © [<%= name %>](<%= website %>)
-
-
-install webpack
-npm install --save-dev webpack webpack-dev-server babel-core babel-loader bebel-preset-env
-
-npm install -g webpack-cli --save-dev
-
-gernerate icon
-https://github.com/jaretburkett/electron-icon-maker
+> This block quote is here for your information

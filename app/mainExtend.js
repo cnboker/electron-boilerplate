@@ -44,8 +44,8 @@ module.exports = {
 		mainWindow.setMenuBarVisibility(false)
 		//fix White loading screens belong in browser
 		mainWindow.on('ready-to-show', function () {
-			mainWindow.show();
-			mainWindow.focus();
+			//mainWindow.show();
+			//mainWindow.focus();
 		});
 
 		// Restore maximised state if it is set. 
@@ -58,22 +58,22 @@ module.exports = {
 			mainWindow.minimize();
 		}
 
-		['resize', 'move', 'close', 'minimize'].forEach(function (e) {
-			mainWindow.on(e, function () {
-				storeWindowState();
-			});
-		});
+		// ['resize', 'move', 'close', 'minimize'].forEach(function (e) {
+		// 	mainWindow.on(e, function () {
+		// 		storeWindowState();
+		// 	});
+		// });
 
-		var storeWindowState = function () {
-			windowState.isMaximized = mainWindow.isMaximized();
-			windowState.isMinimized = mainWindow.isMinimized();
-			if (!windowState.isMaximized) {
-				// only update bounds if the window isn’t currently maximized    
-				windowState.bounds = mainWindow.getBounds();
-			}
+		// var storeWindowState = function () {
+		// 	windowState.isMaximized = mainWindow.isMaximized();
+		// 	windowState.isMinimized = mainWindow.isMinimized();
+		// 	if (!windowState.isMaximized) {
+		// 		// only update bounds if the window isn’t currently maximized    
+		// 		windowState.bounds = mainWindow.getBounds();
+		// 	}
 
-			global.nodeStorage.setItem('windowstate', windowState);
-		}
+		// 	global.nodeStorage.setItem('windowstate', windowState);
+		// }
 		return mainWindow;
 	}
 }

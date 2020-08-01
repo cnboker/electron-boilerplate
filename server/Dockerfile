@@ -1,15 +1,16 @@
 # Specifies where to get the base image (Node v12 in our case) and creates a new container for it
-FROM node:10
+FROM node:latest
 
+RUN mkdir -p /usr/src/kwpolish
 # Set working directory. Paths will be relative this WORKDIR.
-WORKDIR /usr/src/app
+WORKDIR /usr/src/kwpolish
 
 # Install dependencies
-COPY package*.json ./
+COPY package.json /usr/src/kwpolish/
 RUN npm install
 
 # Copy source files from host computer to the container
-COPY . .
+COPY . ./usr/src/kwpolish
 
 # Build the app
 RUN npm run build
