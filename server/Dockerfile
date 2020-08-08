@@ -1,5 +1,5 @@
 # Specifies where to get the base image (Node v12 in our case) and creates a new container for it
-FROM node:latest
+FROM node:12
 
 RUN mkdir -p /usr/src/kwpolish
 # Set working directory. Paths will be relative this WORKDIR.
@@ -10,10 +10,7 @@ COPY package.json /usr/src/kwpolish/
 RUN npm install
 
 # Copy source files from host computer to the container
-COPY . ./usr/src/kwpolish
-
-# Build the app
-RUN npm run build
+COPY . /usr/src/kwpolish
 
 # Specify port app runs on
 EXPOSE 3000

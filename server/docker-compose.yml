@@ -1,7 +1,7 @@
 version: '3'
 services:
   # defining a service called kwpolish
-  kwpolish:
+  app:
     #adding a container name for the app service as giving the container 
     container_name: kwpolish
     # instrctings Docker to restart the container automatically if it fails
@@ -21,4 +21,5 @@ services:
     ports:
       - "27017:27017"
       # run cmd 
+      #docker-compose build
       #docker-compose up
