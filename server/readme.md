@@ -32,6 +32,7 @@ EXPOSE 3000
 CMD [ "npm", "start" ]
 
 #To build the docker image
+#docker build [username]/[tag] [dockerfile location]
 #docker build -t szsong100/kwpolish:v1 .
 #docker run -d -p 3333:3000 szsong100/kwpolish:v1
 ```
